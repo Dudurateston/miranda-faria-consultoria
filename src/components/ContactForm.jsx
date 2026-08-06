@@ -161,6 +161,7 @@ export default function ContactForm() {
 
       <button
         type="submit"
+        data-cursor="link"
         disabled={submitting}
         style={{
           fontFamily: "'Inter', sans-serif",

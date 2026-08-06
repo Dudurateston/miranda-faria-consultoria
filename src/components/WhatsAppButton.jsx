@@ -33,6 +33,7 @@ export default function WhatsAppButton({
       href={WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
+      data-cursor="link"
       className={className}
       style={{ ...base, ...look, ...style }}
       onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.82")}

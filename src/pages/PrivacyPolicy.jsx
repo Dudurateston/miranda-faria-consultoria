@@ -33,6 +33,7 @@ export default function PrivacyPolicy() {
         <div className="mx-auto" style={{ maxWidth: 680 }}>
           <Link
             to="/"
+            data-cursor="link"
             style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: 10,

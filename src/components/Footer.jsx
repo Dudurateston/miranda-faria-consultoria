@@ -21,8 +21,8 @@ export default function Footer() {
           Miranda Faria · Consultoria &amp; Tecnologia · Minas Gerais
         </p>
         <div className="flex gap-6">
-          <Link to="/privacidade" style={linkStyle}>Política de Privacidade</Link>
-          <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" style={linkStyle}>LinkedIn</a>
+          <Link to="/privacidade" data-cursor="link" style={linkStyle}>Política de Privacidade</Link>
+          <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" data-cursor="link" style={linkStyle}>LinkedIn</a>
         </div>
       </div>
     </footer>

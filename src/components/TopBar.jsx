@@ -43,6 +43,7 @@ export default function TopBar({ heroVh = 1 }) {
     >
       <a
         href="#topo"
+        data-cursor="link"
         style={{
           fontFamily: "'Playfair Display', Georgia, serif",
           fontWeight: 400,
@@ -57,6 +58,7 @@ export default function TopBar({ heroVh = 1 }) {
       </a>
       <a
         href="#conversar"
+        data-cursor="link"
         style={{
           fontFamily: "'Inter', sans-serif",
           fontWeight: 400,
