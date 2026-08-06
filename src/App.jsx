@@ -15,6 +15,7 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import OAuthConsent from "@/pages/OAuthConsent";
 import SmoothScroll from "@/components/SmoothScroll";
+import ValueBackground from "@/components/ValueBackground";
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -62,6 +63,7 @@ function App() {
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <SmoothScroll>
+          <ValueBackground />
           <Router>
             <ScrollToTop />
             <AuthenticatedApp />
