@@ -1,0 +1,148 @@
+/* ============================================================
+   MIRANDA FARIA — DESIGN TOKENS
+   Editorial arquitetônico. Uma cor de destaque. Contraste por
+   valor, não por saturação.
+   ============================================================ */
+
+:root {
+  /* NEUTROS */
+  --ink: #1A1A18;
+  --bone: #F5F1EA;
+  --stone: #8A8578;
+  --paper: #FFFFFF;
+
+  /* DESTAQUE — único, usado com moderação */
+  --copper: #B5502E;
+
+  /* SUPORTE */
+  --ink-dim: rgba(26, 26, 24, 0.62);
+  --ink-ghost: rgba(26, 26, 24, 0.38);
+  --bone-dim: rgba(245, 241, 234, 0.62);
+  --hairline: rgba(138, 133, 120, 0.28);
+  --hairline-invert: rgba(245, 241, 234, 0.22);
+
+  /* FUNDOS DE SEÇÃO — o passeio de valor */
+  --bg-light: #F5F1EA;
+  --bg-dark: #1A1A18;
+
+  /* MAPEAMENTO */
+  --color-bg: var(--bone);
+  --color-text-primary: var(--ink);
+  --color-text-secondary: var(--ink-dim);
+  --color-text-ghost: var(--ink-ghost);
+  --color-accent: var(--copper);
+  --color-divider: var(--hairline);
+  --color-whatsapp: #25D366;
+
+  /* TIPOGRAFIA */
+  --font-display: 'Playfair Display', Didot, 'Bodoni MT', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+  /* ESCALA FLUIDA — a tese precisa ser colossal */
+  --text-display-hero: clamp(3rem, 13vw, 13rem);
+  --text-display-xl: clamp(2.5rem, 11vw, 11rem);
+  --text-display-lg: clamp(2rem, 7vw, 6rem);
+  --text-display-md: clamp(1.5rem, 3.4vw, 3rem);
+  --text-body-lg: clamp(1.0625rem, 1.5vw, 1.3125rem);
+  --text-body-md: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  --text-label: clamp(0.625rem, 0.75vw, 0.6875rem);
+
+  /* MEDIDAS TIPOGRÁFICAS */
+  --tracking-display: 0.02em;
+  --tracking-label: 0.34em;
+  --tracking-wordmark: 0.2em;
+  --leading-display: 1.02;
+  --leading-body: 1.8;
+
+  /* ANIMAÇÃO */
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+  --duration-slow: 800ms;
+  --duration-crawl: 1400ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* LAYOUT */
+  --max-width-body: 62ch;
+  --max-width-page: 1180px;
+  --section-gap: clamp(6rem, 14vh, 13rem);
+  --gutter: clamp(1.5rem, 7vw, 6.5rem);
+  --nav-height: 64px;
+  --radius: 2px;
+}
+
+/* Seções escuras invertem os neutros sem trocar de paleta */
+[data-theme="dark"] {
+  --color-text-primary: var(--bone);
+  --color-text-secondary: var(--bone-dim);
+  --color-divider: var(--hairline-invert);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+    --duration-crawl: 0ms;
+  }
+}
+
+/* ============================================================
+   PRIMITIVAS
+   ============================================================ */
+
+.mf-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--color-text-ghost);
+}
+
+.mf-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-text-primary);
+}
+
+.mf-body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: var(--text-body-md);
+  line-height: var(--leading-body);
+  color: var(--color-text-secondary);
+  max-width: var(--max-width-body);
+}
+
+/* Régua que se desenha ao entrar na viewport */
+.mf-rule {
+  height: 1px;
+  background: var(--color-divider);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-crawl) var(--ease-out-expo);
+}
+.mf-rule.is-in { transform: scaleX(1); }
+
+/* Revelação de texto linha a linha */
+.mf-reveal-line { overflow: hidden; }
+.mf-reveal-line > * {
+  display: block;
+  transform: translateY(110%);
+  transition: transform var(--duration-slow) var(--ease-out-expo);
+}
+.mf-reveal-line.is-in > * { transform: translateY(0); }
+
+/* Textura de prancha, quase invisível */
+.mf-blueprint::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--blueprint-url);
+  background-size: 900px;
+  opacity: 0.05;
+  pointer-events: none;
+}
