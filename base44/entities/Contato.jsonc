@@ -1,0 +1,47 @@
+{
+  "name": "Contato",
+  "type": "object",
+  "properties": {
+    "nome": {
+      "type": "string"
+    },
+    "contato": {
+      "type": "string"
+    },
+    "empresa": {
+      "type": "string"
+    },
+    "mensagem": {
+      "type": "string"
+    },
+    "consentimento": {
+      "type": "boolean"
+    },
+    "origem": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nome",
+    "contato",
+    "mensagem",
+    "consentimento"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
