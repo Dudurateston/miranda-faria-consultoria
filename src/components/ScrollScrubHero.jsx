@@ -1,4 +1,16 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
+
+/**
+ * ScrollScrubHero — hero do site Miranda Faria.
+ *
+ * Sequência de imagens pintada em <canvas>, com o quadro exibido
+ * determinado pela posição do scroll. Técnica usada pela Apple.
+ * Não usa <video>: vídeo não permite scrub confiável no iOS Safari.
+ *
+ * Aceita as imagens de duas formas:
+ *  a) frames = ["url1", "url2", ...]  (lista explícita — recomendado)
+ *  b) baseUrl + frameCount + ext      (padrão numerado)
+ */
 
 const BONE = "#F5F1EA";
 const INK = "#1A1A18";
@@ -8,6 +20,7 @@ const pad3 = (n) => String(n).padStart(3, "0");
 const clamp = (v, a = 0, b = 1) => (v < a ? a : v > b ? b : v);
 
 export default function ScrollScrubHero({
+  frames,
   baseUrl,
   frameCount = 65,
   ext = "jpg",
@@ -26,6 +39,17 @@ export default function ScrollScrubHero({
   const [reduced, setReduced] = useState(false);
   const [progress, setProgress] = useState(0);
 
+  const urls = useMemo(() => {
+    if (Array.isArray(frames) && frames.length > 0) return frames;
+    if (!baseUrl) return [];
+    return Array.from(
+      { length: frameCount },
+      (_, i) => `${baseUrl}${pad3(i + 1)}.${ext}`
+    );
+  }, [frames, baseUrl, frameCount, ext]);
+
+  const total = urls.length;
+
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReduced(mq.matches);
@@ -35,39 +59,44 @@ export default function ScrollScrubHero({
   }, []);
 
   useEffect(() => {
-    if (!baseUrl) {
+    if (total === 0) {
       setFailed(true);
       return;
     }
+    setFailed(false);
+    setReady(false);
+    setLoaded(0);
+    currentFrame.current = -1;
+
     let cancelled = false;
     let done = 0;
     let errors = 0;
-    const imgs = new Array(frameCount);
+    const imgs = new Array(total);
 
-    for (let i = 0; i < frameCount; i++) {
+    urls.forEach((src, i) => {
       const img = new Image();
       img.decoding = "async";
-      img.src = `${baseUrl}${pad3(i + 1)}.${ext}`;
+      img.src = src;
       img.onload = () => {
         if (cancelled) return;
         done += 1;
         setLoaded(done);
-        if (done + errors === frameCount) setReady(true);
+        if (done + errors === total) setReady(true);
       };
       img.onerror = () => {
         if (cancelled) return;
         errors += 1;
-        if (errors > frameCount * 0.2) setFailed(true);
-        if (done + errors === frameCount) setReady(done > 0);
+        if (errors > total * 0.2) setFailed(true);
+        if (done + errors === total) setReady(done > 0);
       };
       imgs[i] = img;
-    }
+    });
     imagesRef.current = imgs;
 
     return () => {
       cancelled = true;
     };
-  }, [baseUrl, frameCount, ext]);
+  }, [urls, total]);
 
   const draw = useCallback((index) => {
     const canvas = canvasRef.current;
@@ -96,25 +125,25 @@ export default function ScrollScrubHero({
   const update = useCallback(() => {
     rafPending.current = false;
     const el = trackRef.current;
-    if (!el) return;
+    if (!el || total === 0) return;
 
     const rect = el.getBoundingClientRect();
-    const total = el.offsetHeight - window.innerHeight;
-    const p = total > 0 ? clamp(-rect.top / total) : 0;
+    const span = el.offsetHeight - window.innerHeight;
+    const p = span > 0 ? clamp(-rect.top / span) : 0;
     setProgress(p);
 
-    const index = Math.min(frameCount - 1, Math.floor(p * (frameCount - 1)));
+    const index = Math.min(total - 1, Math.floor(p * (total - 1)));
     if (index !== currentFrame.current) {
       currentFrame.current = index;
       draw(index);
     }
-  }, [draw, frameCount]);
+  }, [draw, total]);
 
   useEffect(() => {
     if (!ready) return;
 
     if (reduced) {
-      draw(frameCount - 1);
+      draw(total - 1);
       setProgress(1);
       return;
     }
@@ -138,14 +167,14 @@ export default function ScrollScrubHero({
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
     };
-  }, [ready, reduced, update, draw, frameCount]);
+  }, [ready, reduced, update, draw, total]);
 
-  const pct = frameCount > 0 ? Math.round((loaded / frameCount) * 100) : 0;
+  const pct = total > 0 ? Math.round((loaded / total) * 100) : 0;
   const wordP = clamp((progress - 0.78) / 0.18);
   const hintP = 1 - clamp((progress - 0.02) / 0.22);
 
   return (
-    <section
+    <div
       ref={trackRef}
       aria-label="Miranda Faria — Consultoria e Tecnologia"
       style={{
@@ -169,8 +198,28 @@ export default function ScrollScrubHero({
       >
         {failed ? (
           <div style={{ textAlign: "center", padding: "0 24px" }}>
-            <p style={{ color: STONE, fontSize: 13, letterSpacing: "0.1em" }}>
+            <p
+              style={{
+                fontFamily: "'Playfair Display', Didot, Georgia, serif",
+                fontSize: "clamp(24px, 4.8vw, 52px)",
+                letterSpacing: "0.2em",
+                textIndent: "0.2em",
+                color: INK,
+                margin: 0,
+              }}
+            >
               MIRANDA FARIA
+            </p>
+            <p
+              style={{
+                fontSize: 11,
+                letterSpacing: "0.42em",
+                textIndent: "0.42em",
+                color: STONE,
+                marginTop: 16,
+              }}
+            >
+              CONSULTORIA &amp; TECNOLOGIA
             </p>
           </div>
         ) : (
@@ -283,6 +332,6 @@ export default function ScrollScrubHero({
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 }
