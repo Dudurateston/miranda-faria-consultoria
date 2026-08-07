@@ -34,7 +34,7 @@ export default function ScrollScrubHero({
   scrollHeight = "500vh",
   showWordmark = true,
   fit = "cover",
-  smoothing = 0.12,
+  smoothing = 0.16,
 }) {
   const trackRef = useRef(null);
   const canvasRef = useRef(null);
@@ -90,18 +90,25 @@ export default function ScrollScrubHero({
       const img = new Image();
       img.decoding = "async";
       img.src = src;
-      img.onload = () => {
+      const finish = (ok) => {
         if (cancelled) return;
-        done += 1;
+        if (ok) done += 1;
+        else errors += 1;
         setLoaded(done);
-        if (done + errors === total) setReady(true);
-      };
-      img.onerror = () => {
-        if (cancelled) return;
-        errors += 1;
         if (errors > total * 0.2) setFailed(true);
         if (done + errors === total) setReady(done > 0);
       };
+      // Forca o decode do JPEG no carregamento, nao durante o scroll.
+      // E o que elimina a travada: sem isso o navegador decodifica
+      // cada quadro na hora de desenhar, engasgando a cada frame.
+      img.onload = () => {
+        if (typeof img.decode === "function") {
+          img.decode().then(() => finish(true)).catch(() => finish(true));
+        } else {
+          finish(true);
+        }
+      };
+      img.onerror = () => finish(false);
       imgs[i] = img;
     });
     imagesRef.current = imgs;
@@ -144,6 +151,8 @@ export default function ScrollScrubHero({
         canvas.height = ch * dpr;
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
       ctx.fillStyle = BONE;
       ctx.fillRect(0, 0, cw, ch);
 
