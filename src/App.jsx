@@ -16,7 +16,7 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import OAuthConsent from "@/pages/OAuthConsent";
 import SmoothScroll from "@/components/SmoothScroll";
-import ValueBackground from "@/components/ValueBackground";
+import AmbientDepth from "@/components/AmbientDepth";
 import CopperCursor from "@/components/CopperCursor";
 
 const AuthenticatedApp = () => {
@@ -66,7 +66,7 @@ function App() {
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <SmoothScroll>
-          <ValueBackground />
+          <AmbientDepth />
           <CopperCursor />
           <Router>
             <ScrollToTop />
