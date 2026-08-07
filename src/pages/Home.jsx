@@ -1,4 +1,5 @@
 import React from "react";
+import BrandAssembly from "@/components/BrandAssembly";
 import ScrollScrubHero from "@/components/ScrollScrubHero";
 import StaticHero from "@/components/StaticHero";
 import TopBar from "@/components/TopBar";
@@ -22,6 +23,7 @@ export default function Home() {
   const useScrub = Boolean(HERO_BASE_URL);
   return (
     <div id="topo">
+      <BrandAssembly />
       <TopBar heroVh={useScrub ? 4 : 1} />
       {useScrub ? <ScrollScrubHero baseUrl={HERO_BASE_URL} /> : <StaticHero />}
 
