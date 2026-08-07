@@ -136,6 +136,12 @@
 }
 .mf-reveal-line.is-in > * { transform: translateY(0); }
 
+/* Revelação linha a linha via GSAP (LineReveal) */
+.lr { position: relative; }
+.lr__line { display: block; overflow: hidden; padding: 0.08em 0; margin: -0.08em 0; }
+.lr__inner { display: block; will-change: transform; }
+.lr__word { display: inline-block; }
+
 /* Textura de prancha, quase invisível */
 .mf-blueprint::before {
   content: "";

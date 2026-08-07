@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
 import Reveal from "@/components/Reveal";
+import LineReveal from "@/components/LineReveal";
+import { useScrollStagger } from "@/hooks/useScrollStagger";
 
 // Layout: quatro passos em linha, separados por linha vertical.
 const passos = [
@@ -10,6 +12,9 @@ const passos = [
 ];
 
 export default function ComoFunciona() {
+  const stepsRef = useRef(null);
+  useScrollStagger(stepsRef, { selector: ".mf-como__step", stagger: 0.1, y: 30 });
+
   return (
     <>
       <section className="mf-como" data-bg="#F5F1EA" id="como-funciona">
@@ -17,10 +22,8 @@ export default function ComoFunciona() {
           <Reveal>
             <p className="mf-label">Como funciona</p>
           </Reveal>
-          <Reveal delay={80}>
-            <h2 className="mf-como__lead">Quatro passos.</h2>
-          </Reveal>
-          <ol className="mf-como__steps">
+          <LineReveal className="mf-como__lead">Quatro passos.</LineReveal>
+          <ol ref={stepsRef} className="mf-como__steps">
             {passos.map((p, i) => (
               <li className="mf-como__step" key={i}>
                 <span className="mf-como__num">

@@ -1,5 +1,6 @@
 import React from "react";
 import Reveal from "@/components/Reveal";
+import LineReveal from "@/components/LineReveal";
 
 // Layout: duas colunas — retrato à esquerda, texto à direita.
 export default function Sobre() {
@@ -19,9 +20,9 @@ export default function Sobre() {
               <Reveal>
                 <p className="mf-label">Quem faz</p>
               </Reveal>
-              <Reveal delay={80}>
-                <h2 className="mf-sobre__lead">Tecnologia aplicada a negócio real.</h2>
-              </Reveal>
+              <LineReveal className="mf-sobre__lead">
+                Tecnologia aplicada a negócio real.
+              </LineReveal>
               <Reveal delay={140}>
                 <div className="mf-sobre__body">
                   <p>

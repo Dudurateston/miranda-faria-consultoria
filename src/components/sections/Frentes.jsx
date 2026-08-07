@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
 import Reveal from "@/components/Reveal";
+import LineReveal from "@/components/LineReveal";
+import { useScrollStagger } from "@/hooks/useScrollStagger";
 
 // Layout: grade de duas colunas, separação por linha horizontal.
 const frentes = [
@@ -22,6 +24,9 @@ const frentes = [
 ];
 
 export default function Frentes() {
+  const gridRef = useRef(null);
+  useScrollStagger(gridRef, { selector: ".mf-frentes__cell", stagger: 0.1, y: 30 });
+
   return (
     <>
       <section className="mf-frentes" data-bg="#F5F1EA" id="frentes">
@@ -29,10 +34,8 @@ export default function Frentes() {
           <Reveal>
             <p className="mf-label">Frentes</p>
           </Reveal>
-          <Reveal delay={80}>
-            <h2 className="mf-frentes__lead">O que entrego.</h2>
-          </Reveal>
-          <div className="mf-frentes__grid">
+          <LineReveal className="mf-frentes__lead">O que entrego.</LineReveal>
+          <div ref={gridRef} className="mf-frentes__grid">
             {frentes.map((f, i) => (
               <article className="mf-frentes__cell" key={i}>
                 <span className="mf-frentes__num">

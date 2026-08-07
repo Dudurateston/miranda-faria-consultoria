@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
 import Reveal from "@/components/Reveal";
+import LineReveal from "@/components/LineReveal";
+import { useScrollStagger } from "@/hooks/useScrollStagger";
 
 // Layout: lista com régua — cada dor numa linha separada por linha de cabelo.
 const dores = [
@@ -10,6 +12,9 @@ const dores = [
 ];
 
 export default function OndeDoi() {
+  const listRef = useRef(null);
+  useScrollStagger(listRef, { selector: ".mf-doi__item", stagger: 0.1, y: 30 });
+
   return (
     <>
       <section
@@ -22,12 +27,10 @@ export default function OndeDoi() {
           <Reveal>
             <p className="mf-label">Onde isso dói</p>
           </Reveal>
-          <Reveal delay={80}>
-            <h2 className="mf-doi__lead">
-              O sistema começa onde a planilha trava.
-            </h2>
-          </Reveal>
-          <ul className="mf-doi__list">
+          <LineReveal className="mf-doi__lead">
+            O sistema começa onde a planilha trava.
+          </LineReveal>
+          <ul ref={listRef} className="mf-doi__list">
             {dores.map((d, i) => (
               <li className="mf-doi__item" key={i}>
                 <span className="mf-doi__num">

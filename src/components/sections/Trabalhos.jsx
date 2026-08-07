@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
 import Reveal from "@/components/Reveal";
+import LineReveal from "@/components/LineReveal";
+import { useScrollStagger } from "@/hooks/useScrollStagger";
 
 // Layout: lista em coluna única, nome em destaque + setor à direita.
 const cases = [
@@ -26,6 +28,9 @@ const cases = [
 ];
 
 export default function Trabalhos() {
+  const listRef = useRef(null);
+  useScrollStagger(listRef, { selector: ".mf-trab__item", stagger: 0.1, y: 30 });
+
   return (
     <>
       <section
@@ -38,10 +43,8 @@ export default function Trabalhos() {
           <Reveal>
             <p className="mf-label">Trabalhos</p>
           </Reveal>
-          <Reveal delay={80}>
-            <h2 className="mf-trab__lead">Projetos em campo.</h2>
-          </Reveal>
-          <ul className="mf-trab__list">
+          <LineReveal className="mf-trab__lead">Projetos em campo.</LineReveal>
+          <ul ref={listRef} className="mf-trab__list">
             {cases.map((c, i) => (
               <li className="mf-trab__item" key={i}>
                 <div className="mf-trab__head">

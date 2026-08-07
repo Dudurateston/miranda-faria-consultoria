@@ -1,5 +1,6 @@
 import React from "react";
 import Reveal from "@/components/Reveal";
+import LineReveal from "@/components/LineReveal";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ContactForm from "@/components/ContactForm";
 
@@ -17,9 +18,9 @@ export default function Conversar() {
           <Reveal>
             <p className="mf-label">Conversar</p>
           </Reveal>
-          <Reveal delay={80}>
-            <h2 className="mf-conversar__lead">Me conta onde está travando.</h2>
-          </Reveal>
+          <LineReveal className="mf-conversar__lead">
+            Me conta onde está travando.
+          </LineReveal>
           <Reveal delay={140}>
             <p className="mf-conversar__sub">Respondo no mesmo dia.</p>
           </Reveal>

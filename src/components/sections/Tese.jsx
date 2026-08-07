@@ -1,5 +1,6 @@
 import React from "react";
 import Reveal from "@/components/Reveal";
+import LineReveal from "@/components/LineReveal";
 
 // Layout: frase principal à esquerda, quase toda a largura.
 export default function Tese() {
@@ -10,11 +11,9 @@ export default function Tese() {
           <Reveal>
             <p className="mf-label">O que eu faço</p>
           </Reveal>
-          <Reveal delay={80}>
-            <h2 className="mf-tese__lead">
-              Estruturo a base que sustenta o negócio.
-            </h2>
-          </Reveal>
+          <LineReveal className="mf-tese__lead">
+            Estruturo a base que sustenta o negócio.
+          </LineReveal>
           <Reveal delay={160}>
             <p className="mf-tese__body">
               Catálogos, painéis e processos que funcionam sem depender de mim
