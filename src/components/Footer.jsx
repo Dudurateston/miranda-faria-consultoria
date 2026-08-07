@@ -23,6 +23,7 @@ export default function Footer() {
         <div className="flex gap-6">
           <Link to="/privacidade" data-cursor="link" style={linkStyle}>Política de Privacidade</Link>
           <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" data-cursor="link" style={linkStyle}>LinkedIn</a>
+          <Link to="/connect" data-cursor="link" style={linkStyle}>Conectar IA</Link>
         </div>
       </div>
     </footer>
