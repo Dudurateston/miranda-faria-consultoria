@@ -13,6 +13,7 @@
 
   /* DESTAQUE — único, usado com moderação */
   --copper: #B5502E;
+  --copper-light: #E08A5F;
 
   /* SUPORTE */
   --ink-dim: rgba(26, 26, 24, 0.62);
@@ -76,6 +77,10 @@
 [data-theme="dark"] {
   --color-text-primary: var(--bone);
   --color-text-secondary: var(--bone-dim);
+  /* Sobre grafite o cobre original cai para ~2,7:1 de contraste e some.
+     A variante clara sobe para ~5,7:1 e volta a ser legivel. */
+  --color-accent: var(--copper-light);
+  --color-text-ghost: rgba(245, 241, 234, 0.58);
   --color-divider: var(--hairline-invert);
 }
 
