@@ -21,8 +21,8 @@ const frentes = [
     d: "Fluxos que rodam sem ninguém apertar botão: atendimento na API do WhatsApp, qualificação de lead, agendamento, relatório pronto no e-mail.",
   },
   {
-    t: "Marca e design com IA",
-    d: "Identidade visual, site e material de aplicação — construídos com IA e refinados à mão.",
+    t: "Marca e identidade visual",
+    d: "Logotipo, paleta, site e as peças de aplicação. Nasce rápido porque uso IA no processo, e sai bom porque cada peça passa pela minha mão antes de chegar em você.",
   },
 ];
 
