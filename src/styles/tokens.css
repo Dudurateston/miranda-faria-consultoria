@@ -40,20 +40,20 @@
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
 
-  /* ESCALA FLUIDA — a tese precisa ser colossal */
-  --text-display-hero: clamp(3rem, 13vw, 13rem);
-  --text-display-xl: clamp(2.5rem, 11vw, 11rem);
-  --text-display-lg: clamp(2rem, 7vw, 6rem);
-  --text-display-md: clamp(1.5rem, 3.4vw, 3rem);
-  --text-body-lg: clamp(1.0625rem, 1.5vw, 1.3125rem);
-  --text-body-md: clamp(0.9375rem, 1.1vw, 1.0625rem);
-  --text-label: clamp(0.625rem, 0.75vw, 0.6875rem);
+  /* ESCALA FLUIDA — presente, mas em perspectiva de site, não de pôster */
+  --text-display-hero: clamp(2.5rem, 7vw, 5.5rem);
+  --text-display-xl: clamp(2rem, 5.5vw, 4.5rem);
+  --text-display-lg: clamp(1.75rem, 4vw, 3.25rem);
+  --text-display-md: clamp(1.25rem, 2.2vw, 1.9rem);
+  --text-body-lg: clamp(1.0625rem, 1.4vw, 1.25rem);
+  --text-body-md: clamp(0.9375rem, 1.05vw, 1.0625rem);
+  --text-label: clamp(0.625rem, 0.72vw, 0.6875rem);
 
   /* MEDIDAS TIPOGRÁFICAS */
   --tracking-display: 0.02em;
   --tracking-label: 0.34em;
   --tracking-wordmark: 0.2em;
-  --leading-display: 1.02;
+  --leading-display: 1.08;
   --leading-body: 1.8;
 
   /* ANIMAÇÃO */
@@ -67,7 +67,7 @@
   /* LAYOUT */
   --max-width-body: 62ch;
   --max-width-page: 1180px;
-  --section-gap: clamp(6rem, 14vh, 13rem);
+  --section-gap: clamp(4.5rem, 10vh, 8rem);
   --gutter: clamp(1.5rem, 7vw, 6.5rem);
   --nav-height: 64px;
   --radius: 2px;
