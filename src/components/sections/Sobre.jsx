@@ -37,9 +37,11 @@ export default function Sobre() {
                     saber que planilha solta não escala mais.
                   </p>
                   <p>
-                    Uso IA como ferramenta central do trabalho, tanto na
-                    construção dos sistemas quanto na criação visual. Isso
-                    encurta prazo e derruba custo.
+                    Trabalho sozinho e entrego rápido. Uso IA em boa parte do
+                    processo — na construção dos sistemas e na criação visual —,
+                    e é por isso que consigo fazer sob medida por um preço que
+                    agência não alcança. O que sai daqui passa pela minha mão
+                    antes de chegar em você.
                   </p>
                 </div>
               </Reveal>
