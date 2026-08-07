@@ -1,14 +1,7 @@
-import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
 import Reveal from "@/components/Reveal";
-import LineReveal from "@/components/LineReveal";
 
-gsap.registerPlugin(ScrollTrigger);
-
-// Uma linha vertical de 1px que se desenha de cima para baixo conforme
-// a rolagem, com quatro nós. Cada nó tem um ponto em cobre e o texto
-// ao lado, alternando lados. Sem caixas, sem números grandes.
+// Índice numerado, editorial. Sem timeline, sem bolinhas.
 const passos = [
   { t: "Diagnóstico", d: "Uma conversa para entender onde o processo trava. Sem custo." },
   { t: "Escopo fechado", d: "Proposta com entrega, prazo e valor definidos. Sem surpresa depois." },
@@ -17,30 +10,6 @@ const passos = [
 ];
 
 export default function ComoFunciona() {
-  const tlRef = useRef(null);
-  const lineRef = useRef(null);
-
-  useEffect(() => {
-    const tl = tlRef.current;
-    const line = lineRef.current;
-    if (!tl || !line) return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) {
-      gsap.set(line, { scaleY: 1 });
-      return;
-    }
-    gsap.set(line, { scaleY: 0, transformOrigin: "top center" });
-    const tween = gsap.to(line, {
-      scaleY: 1,
-      ease: "none",
-      scrollTrigger: { trigger: tl, start: "top 72%", end: "bottom 72%", scrub: true },
-    });
-    return () => {
-      if (tween.scrollTrigger) tween.scrollTrigger.kill();
-      tween.kill();
-    };
-  }, []);
-
   return (
     <>
       <section className="mf-como" data-bg="#F5F1EA" id="como-funciona">
