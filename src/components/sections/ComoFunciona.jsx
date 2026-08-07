@@ -48,16 +48,10 @@ export default function ComoFunciona() {
           <Reveal>
             <p className="mf-label">Como funciona</p>
           </Reveal>
-          <LineReveal className="mf-como__lead">Quatro passos.</LineReveal>
-          <div ref={tlRef} className="mf-como__timeline">
-            <span ref={lineRef} className="mf-como__line" aria-hidden="true" />
+          <div className="mf-como__list">
             {passos.map((p, i) => (
-              <div
-                className="mf-como__node"
-                data-side={i % 2 === 0 ? "right" : "left"}
-                key={i}
-              >
-                <span className="mf-como__dot" />
+              <div className="mf-como__row" key={i}>
+                <span className="mf-como__num">{String(i + 1).padStart(2, "0")}</span>
                 <div className="mf-como__text">
                   <h3 className="mf-como__title">{p.t}</h3>
                   <p className="mf-como__desc">{p.d}</p>
@@ -70,25 +64,15 @@ export default function ComoFunciona() {
       <style>{`
 .mf-como{padding:var(--section-gap) var(--gutter);background:transparent}
 .mf-como__inner{width:100%;max-width:var(--max-width-page);margin:0 auto}
-.mf-como__lead{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-xl);line-height:var(--leading-display);letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:1.25rem 0 4rem;width:100%}
-.mf-como__timeline{position:relative;padding:1rem 0}
-.mf-como__line{position:absolute;left:50%;top:0;width:1px;height:100%;background:var(--color-divider);transform-origin:top center;z-index:1}
-.mf-como__node{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;min-height:150px}
-.mf-como__dot{position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;background:var(--color-accent);transform:translate(-50%,-50%);z-index:2}
-.mf-como__text{display:flex;flex-direction:column;gap:0.5rem}
-.mf-como__node[data-side="right"] .mf-como__text{grid-column:2;padding-left:3rem;text-align:left}
-.mf-como__node[data-side="left"] .mf-como__text{grid-column:1;padding-right:3rem;text-align:right}
+.mf-como__list{margin-top:3rem;border-top:1px solid var(--color-divider)}
+.mf-como__row{display:grid;grid-template-columns:auto 1fr;gap:clamp(1.5rem,5vw,4.5rem);align-items:baseline;padding:2.2rem 0;border-bottom:1px solid var(--color-divider)}
+.mf-como__num{font-family:var(--font-mono);font-size:var(--text-body-md);color:var(--color-accent);letter-spacing:0.1em;padding-top:0.4rem}
+.mf-como__text{display:flex;flex-direction:column;gap:0.6rem}
 .mf-como__title{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-md);line-height:1.1;letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:0}
-.mf-como__desc{font-family:var(--font-body);font-weight:300;font-size:var(--text-body-md);line-height:var(--leading-body);color:var(--color-text-secondary);margin:0;max-width:38ch}
-.mf-como__node[data-side="right"] .mf-como__desc{margin-left:0}
-.mf-como__node[data-side="left"] .mf-como__desc{margin-left:auto}
+.mf-como__desc{font-family:var(--font-body);font-weight:300;font-size:var(--text-body-md);line-height:var(--leading-body);color:var(--color-text-secondary);margin:0;max-width:46ch}
 @media(max-width:767px){
-  .mf-como__line{left:18px}
-  .mf-como__dot{left:18px}
-  .mf-como__node{grid-template-columns:1fr;min-height:auto;padding:1.4rem 0 1.4rem 3.5rem}
-  .mf-como__node[data-side="right"] .mf-como__text,
-  .mf-como__node[data-side="left"] .mf-como__text{grid-column:1;padding:0;text-align:left}
-  .mf-como__node[data-side="left"] .mf-como__desc{margin-left:0}
+  .mf-como__row{grid-template-columns:1fr;gap:0.5rem;padding:1.7rem 0}
+  .mf-como__num{padding-top:0}
 }
       `}</style>
     </>
