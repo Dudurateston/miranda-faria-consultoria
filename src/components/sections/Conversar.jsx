@@ -8,12 +8,7 @@ import ContactForm from "@/components/ContactForm";
 export default function Conversar() {
   return (
     <>
-      <section
-        className="mf-conversar"
-        data-bg="#1A1A18"
-        data-theme="dark"
-        id="conversar"
-      >
+      <section className="mf-conversar" data-bg="#F5F1EA" id="conversar">
         <div className="mf-conversar__inner">
           <Reveal>
             <p className="mf-label">Conversar</p>

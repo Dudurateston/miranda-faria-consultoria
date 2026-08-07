@@ -17,6 +17,7 @@ export default function ValueBackground() {
           const rect = el.getBoundingClientRect();
           return {
             center: rect.top + window.scrollY + rect.height / 2,
+            height: rect.height,
             color: el.getAttribute("data-bg"),
           };
         })
@@ -39,6 +40,10 @@ export default function ValueBackground() {
       gsap.set("body", { backgroundColor: best.color });
     };
 
+    const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+
+    // A transição é centrada na fronteira entre as duas seções e leva
+    // 60% da altura da menor seção para completar — curva suave, sem corte seco.
     const interpolate = () => {
       const secs = sectionsRef.current;
       if (!secs.length) return;
@@ -48,12 +53,19 @@ export default function ValueBackground() {
       while (i < secs.length - 1 && secs[i + 1].center <= vpCenter) i++;
       const prev = secs[i];
       const next = secs[Math.min(i + 1, secs.length - 1)];
-      const span = next.center - prev.center;
-      const progress = span > 0
-        ? Math.min(1, Math.max(0, (vpCenter - prev.center) / span))
-        : 0;
 
-      const color = gsap.utils.interpolate(prev.color, next.color, progress);
+      if (!next || next === prev) {
+        gsap.set("body", { backgroundColor: prev.color });
+        return;
+      }
+
+      const boundary = (prev.center + next.center) / 2;
+      const span = 0.6 * Math.min(prev.height || 0, next.height || 0);
+      const half = span / 2;
+      let t = half > 0 ? (vpCenter - (boundary - half)) / span : 1;
+      t = Math.min(1, Math.max(0, t));
+      const e = easeInOut(t);
+      const color = gsap.utils.interpolate(prev.color, next.color, e);
       gsap.set("body", { backgroundColor: color });
     };
 

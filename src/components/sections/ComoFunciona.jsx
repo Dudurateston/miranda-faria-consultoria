@@ -1,9 +1,14 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
-import { useScrollStagger } from "@/hooks/useScrollStagger";
 
-// Layout: quatro passos em linha, separados por linha vertical.
+gsap.registerPlugin(ScrollTrigger);
+
+// Uma linha vertical de 1px que se desenha de cima para baixo conforme
+// a rolagem, com quatro nós. Cada nó tem um ponto em cobre e o texto
+// ao lado, alternando lados. Sem caixas, sem números grandes.
 const passos = [
   { t: "Diagnóstico", d: "Uma conversa para entender onde o processo trava. Sem custo." },
   { t: "Escopo fechado", d: "Proposta com entrega, prazo e valor definidos. Sem surpresa depois." },
@@ -12,8 +17,29 @@ const passos = [
 ];
 
 export default function ComoFunciona() {
-  const stepsRef = useRef(null);
-  useScrollStagger(stepsRef, { selector: ".mf-como__step", stagger: 0.1, y: 30 });
+  const tlRef = useRef(null);
+  const lineRef = useRef(null);
+
+  useEffect(() => {
+    const tl = tlRef.current;
+    const line = lineRef.current;
+    if (!tl || !line) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) {
+      gsap.set(line, { scaleY: 1 });
+      return;
+    }
+    gsap.set(line, { scaleY: 0, transformOrigin: "top center" });
+    const tween = gsap.to(line, {
+      scaleY: 1,
+      ease: "none",
+      scrollTrigger: { trigger: tl, start: "top 72%", end: "bottom 72%", scrub: true },
+    });
+    return () => {
+      if (tween.scrollTrigger) tween.scrollTrigger.kill();
+      tween.kill();
+    };
+  }, []);
 
   return (
     <>
@@ -23,36 +49,47 @@ export default function ComoFunciona() {
             <p className="mf-label">Como funciona</p>
           </Reveal>
           <LineReveal className="mf-como__lead">Quatro passos.</LineReveal>
-          <ol ref={stepsRef} className="mf-como__steps">
+          <div ref={tlRef} className="mf-como__timeline">
+            <span ref={lineRef} className="mf-como__line" aria-hidden="true" />
             {passos.map((p, i) => (
-              <li className="mf-como__step" key={i}>
-                <span className="mf-como__num">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mf-como__title">{p.t}</h3>
-                <p className="mf-como__desc">{p.d}</p>
-              </li>
+              <div
+                className="mf-como__node"
+                data-side={i % 2 === 0 ? "right" : "left"}
+                key={i}
+              >
+                <span className="mf-como__dot" />
+                <div className="mf-como__text">
+                  <h3 className="mf-como__title">{p.t}</h3>
+                  <p className="mf-como__desc">{p.d}</p>
+                </div>
+              </div>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
       <style>{`
 .mf-como{padding:var(--section-gap) var(--gutter);background:transparent}
 .mf-como__inner{width:100%;max-width:var(--max-width-page);margin:0 auto}
-.mf-como__lead{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-xl);line-height:var(--leading-display);letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:1.25rem 0 3rem;width:100%}
-.mf-como__steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:0}
-.mf-como__step{padding:1.8rem 0;border-top:1px solid var(--color-divider)}
-.mf-como__step:last-child{border-bottom:1px solid var(--color-divider)}
-@media(min-width:768px){
-  .mf-como__steps{grid-template-columns:repeat(4,1fr);border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider)}
-  .mf-como__step{padding:2.4rem 1.5rem;border-top:none;border-bottom:none}
-  .mf-como__step:not(:first-child){border-left:1px solid var(--color-divider)}
-  .mf-como__step:first-child{padding-left:0}
-  .mf-como__step:last-child{padding-right:0}
+.mf-como__lead{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-xl);line-height:var(--leading-display);letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:1.25rem 0 4rem;width:100%}
+.mf-como__timeline{position:relative;padding:1rem 0}
+.mf-como__line{position:absolute;left:50%;top:0;width:1px;height:100%;background:var(--color-divider);transform-origin:top center;z-index:1}
+.mf-como__node{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;min-height:150px}
+.mf-como__dot{position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;background:var(--color-accent);transform:translate(-50%,-50%);z-index:2}
+.mf-como__text{display:flex;flex-direction:column;gap:0.5rem}
+.mf-como__node[data-side="right"] .mf-como__text{grid-column:2;padding-left:3rem;text-align:left}
+.mf-como__node[data-side="left"] .mf-como__text{grid-column:1;padding-right:3rem;text-align:right}
+.mf-como__title{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-md);line-height:1.1;letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:0}
+.mf-como__desc{font-family:var(--font-body);font-weight:300;font-size:var(--text-body-md);line-height:var(--leading-body);color:var(--color-text-secondary);margin:0;max-width:38ch}
+.mf-como__node[data-side="right"] .mf-como__desc{margin-left:0}
+.mf-como__node[data-side="left"] .mf-como__desc{margin-left:auto}
+@media(max-width:767px){
+  .mf-como__line{left:18px}
+  .mf-como__dot{left:18px}
+  .mf-como__node{grid-template-columns:1fr;min-height:auto;padding:1.4rem 0 1.4rem 3.5rem}
+  .mf-como__node[data-side="right"] .mf-como__text,
+  .mf-como__node[data-side="left"] .mf-como__text{grid-column:1;padding:0;text-align:left}
+  .mf-como__node[data-side="left"] .mf-como__desc{margin-left:0}
 }
-.mf-como__num{font-family:var(--font-mono);font-size:var(--text-label);letter-spacing:var(--tracking-label);color:var(--color-text-ghost)}
-.mf-como__title{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-md);line-height:1.1;letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:1rem 0 0.7rem}
-.mf-como__desc{font-family:var(--font-body);font-weight:300;font-size:var(--text-body-md);line-height:var(--leading-body);color:var(--color-text-secondary);margin:0}
       `}</style>
     </>
   );
