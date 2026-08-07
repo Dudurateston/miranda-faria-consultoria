@@ -11,6 +11,7 @@ import Trabalhos from "@/components/sections/Trabalhos";
 import ComoFunciona from "@/components/sections/ComoFunciona";
 import Sobre from "@/components/sections/Sobre";
 import Conversar from "@/components/sections/Conversar";
+import SectorTicker from "@/components/SectorTicker";
 
 export default function Home() {
   return (
@@ -24,7 +25,7 @@ export default function Home() {
         <OndeDoi />
         <MfRule />
         <Frentes />
-        <MfRule />
+        <SectorTicker />
         <Trabalhos />
         <MfRule />
         <ComoFunciona />
