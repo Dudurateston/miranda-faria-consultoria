@@ -1,9 +1,7 @@
 import React from "react";
 import Reveal from "@/components/Reveal";
-import Section, { Container } from "@/components/Section";
-import SectionLabel from "@/components/SectionLabel";
-import SectionTitle from "@/components/SectionTitle";
 
+// Layout: lista em coluna única, nome em destaque + setor à direita.
 const cases = [
   {
     nome: "MotorMoura",
@@ -27,60 +25,47 @@ const cases = [
   },
 ];
 
-function Case({ nome, setor, d, last }) {
-  return (
-    <div
-      style={{
-        padding: "32px 0",
-        borderTop: "1px solid rgba(138,133,120,0.28)",
-        borderBottom: last ? "1px solid rgba(138,133,120,0.28)" : "none",
-      }}
-    >
-      <h3
-        style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
-          fontWeight: 400,
-          fontSize: "clamp(20px, 2.4vw, 26px)",
-          letterSpacing: "0.02em",
-          color: "#1A1A18",
-          margin: 0,
-        }}
-      >
-        {nome}
-      </h3>
-      <p
-        style={{
-          fontFamily: "'Inter', sans-serif",
-          fontSize: 10,
-          letterSpacing: "0.3em",
-          textTransform: "uppercase",
-          color: "#8A8578",
-          margin: "10px 0 14px",
-        }}
-      >
-        {setor}
-      </p>
-      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, lineHeight: 1.8, color: "#8A8578", margin: 0 }}>
-        {d}
-      </p>
-    </div>
-  );
-}
-
 export default function Trabalhos() {
   return (
-    <Section id="trabalhos">
-      <Container>
-        <Reveal><SectionLabel>Trabalhos</SectionLabel></Reveal>
-        <Reveal delay={60}><SectionTitle style={{ marginBottom: 48 }}>Projetos em campo</SectionTitle></Reveal>
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          {cases.map((c, i) => (
-            <Reveal key={i} delay={(i % 2) * 80}>
-              <Case {...c} last={i === cases.length - 1} />
-            </Reveal>
-          ))}
+    <>
+      <section
+        className="mf-trab"
+        data-bg="#1A1A18"
+        data-theme="dark"
+        id="trabalhos"
+      >
+        <div className="mf-trab__inner">
+          <Reveal>
+            <p className="mf-label">Trabalhos</p>
+          </Reveal>
+          <Reveal delay={80}>
+            <h2 className="mf-trab__lead">Projetos em campo.</h2>
+          </Reveal>
+          <ul className="mf-trab__list">
+            {cases.map((c, i) => (
+              <li className="mf-trab__item" key={i}>
+                <div className="mf-trab__head">
+                  <h3 className="mf-trab__name">{c.nome}</h3>
+                  <span className="mf-label mf-trab__setor">{c.setor}</span>
+                </div>
+                <p className="mf-trab__desc">{c.d}</p>
+              </li>
+            ))}
+          </ul>
         </div>
-      </Container>
-    </Section>
+      </section>
+      <style>{`
+.mf-trab{padding:var(--section-gap) var(--gutter);background:transparent}
+.mf-trab__inner{width:100%;max-width:var(--max-width-page);margin:0 auto}
+.mf-trab__lead{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-xl);line-height:var(--leading-display);letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:1.25rem 0 3rem;width:100%}
+.mf-trab__list{list-style:none;margin:0;padding:0}
+.mf-trab__item{padding:2.2rem 0;border-top:1px solid var(--color-divider)}
+.mf-trab__item:last-child{border-bottom:1px solid var(--color-divider)}
+.mf-trab__head{display:flex;align-items:baseline;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.mf-trab__name{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-md);line-height:1.1;letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:0}
+.mf-trab__setor{text-transform:uppercase}
+.mf-trab__desc{font-family:var(--font-body);font-weight:300;font-size:var(--text-body-md);line-height:var(--leading-body);color:var(--color-text-secondary);margin:1rem 0 0;max-width:60ch}
+      `}</style>
+    </>
   );
 }

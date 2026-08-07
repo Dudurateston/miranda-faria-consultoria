@@ -1,9 +1,7 @@
 import React from "react";
 import Reveal from "@/components/Reveal";
-import Section, { Container } from "@/components/Section";
-import SectionLabel from "@/components/SectionLabel";
-import SectionTitle from "@/components/SectionTitle";
 
+// Layout: grade de duas colunas, separação por linha horizontal.
 const frentes = [
   {
     t: "Sistemas sob medida",
@@ -15,7 +13,7 @@ const frentes = [
   },
   {
     t: "Automação",
-    d: "Fluxos que rodam sem ninguém apertar botão: atendimento no WhatsApp pela API oficial, qualificação de lead, agendamento, relatório pronto no e-mail.",
+    d: "Fluxos que rodam sem ninguém apertar botão: atendimento na API do WhatsApp, qualificação de lead, agendamento, relatório pronto no e-mail.",
   },
   {
     t: "Marca e design com IA",
@@ -23,59 +21,41 @@ const frentes = [
   },
 ];
 
-function Frente({ n, t, d, last }) {
-  return (
-    <div
-      className="md:col-span-1"
-      style={{
-        padding: "32px 0",
-        borderTop: "1px solid rgba(138,133,120,0.28)",
-        borderBottom: last ? "1px solid rgba(138,133,120,0.28)" : "none",
-      }}
-    >
-      <span
-        style={{
-          fontFamily: "'Inter', sans-serif",
-          fontSize: 10,
-          letterSpacing: "0.3em",
-          color: "#8A8578",
-        }}
-      >
-        {String(n).padStart(2, "0")}
-      </span>
-      <h3
-        style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
-          fontWeight: 400,
-          fontSize: "clamp(20px, 2.4vw, 26px)",
-          letterSpacing: "0.02em",
-          color: "#1A1A18",
-          margin: "14px 0 14px",
-        }}
-      >
-        {t}
-      </h3>
-      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, lineHeight: 1.8, color: "#8A8578", margin: 0 }}>
-        {d}
-      </p>
-    </div>
-  );
-}
-
 export default function Frentes() {
   return (
-    <Section id="frentes">
-      <Container>
-        <Reveal><SectionLabel>Frentes</SectionLabel></Reveal>
-        <Reveal delay={60}><SectionTitle style={{ marginBottom: 48 }}>O que entrego</SectionTitle></Reveal>
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          {frentes.map((f, i) => (
-            <Reveal key={i} delay={(i % 2) * 80}>
-              <Frente n={i + 1} t={f.t} d={f.d} last={i === frentes.length - 1} />
-            </Reveal>
-          ))}
+    <>
+      <section className="mf-frentes" data-bg="#F5F1EA" id="frentes">
+        <div className="mf-frentes__inner">
+          <Reveal>
+            <p className="mf-label">Frentes</p>
+          </Reveal>
+          <Reveal delay={80}>
+            <h2 className="mf-frentes__lead">O que entrego.</h2>
+          </Reveal>
+          <div className="mf-frentes__grid">
+            {frentes.map((f, i) => (
+              <article className="mf-frentes__cell" key={i}>
+                <span className="mf-frentes__num">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mf-frentes__title">{f.t}</h3>
+                <p className="mf-frentes__desc">{f.d}</p>
+              </article>
+            ))}
+          </div>
         </div>
-      </Container>
-    </Section>
+      </section>
+      <style>{`
+.mf-frentes{padding:var(--section-gap) var(--gutter);background:transparent}
+.mf-frentes__inner{width:100%;max-width:var(--max-width-page);margin:0 auto}
+.mf-frentes__lead{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-xl);line-height:var(--leading-display);letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:1.25rem 0 3rem;width:100%}
+.mf-frentes__grid{display:grid;grid-template-columns:1fr;gap:0;border-bottom:1px solid var(--color-divider)}
+@media(min-width:768px){.mf-frentes__grid{grid-template-columns:1fr 1fr;column-gap:4rem}}
+.mf-frentes__cell{padding:2rem 0;border-top:1px solid var(--color-divider)}
+.mf-frentes__num{font-family:var(--font-mono);font-size:var(--text-label);letter-spacing:var(--tracking-label);color:var(--color-text-ghost)}
+.mf-frentes__title{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-md);line-height:1.15;letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:1rem 0 0.8rem}
+.mf-frentes__desc{font-family:var(--font-body);font-weight:300;font-size:var(--text-body-md);line-height:var(--leading-body);color:var(--color-text-secondary);margin:0;max-width:38ch}
+      `}</style>
+    </>
   );
 }

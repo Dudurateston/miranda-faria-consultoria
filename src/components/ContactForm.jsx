@@ -6,10 +6,10 @@ const inputStyle = {
   fontFamily: "'Inter', sans-serif",
   fontWeight: 400,
   fontSize: 15,
-  color: "#1A1A18",
+  color: "var(--color-text-primary)",
   background: "transparent",
   border: "none",
-  borderBottom: "1px solid rgba(138,133,120,0.28)",
+  borderBottom: "1px solid var(--color-divider)",
   padding: "14px 0",
   outline: "none",
 };
@@ -20,7 +20,7 @@ const labelStyle = {
   fontSize: 10,
   letterSpacing: "0.3em",
   textTransform: "uppercase",
-  color: "#8A8578",
+  color: "var(--color-text-secondary)",
   marginBottom: 6,
 };
 
@@ -96,7 +96,7 @@ export default function ContactForm() {
           style={{
             fontFamily: "'Playfair Display', Georgia, serif",
             fontSize: 22,
-            color: "#1A1A18",
+            color: "var(--color-text-primary)",
             margin: 0,
           }}
         >
@@ -148,7 +148,7 @@ export default function ContactForm() {
           onChange={set("consentimento")}
           style={{ marginTop: 6, width: 18, height: 18, accentColor: "#B5502E" }}
         />
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#8A8578", lineHeight: 1.6 }}>
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "var(--color-text-secondary)", lineHeight: 1.6 }}>
           Autorizo o contato sobre esta solicitação.
         </span>
       </label>
@@ -171,8 +171,8 @@ export default function ContactForm() {
           textTransform: "uppercase",
           padding: "16px 28px",
           minHeight: 44,
-          background: "#1A1A18",
-          color: "#F5F1EA",
+          background: "var(--copper)",
+          color: "var(--bone)",
           border: "none",
           borderRadius: 2,
           cursor: submitting ? "wait" : "pointer",
