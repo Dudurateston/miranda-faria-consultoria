@@ -1,3 +1,233 @@
-# See AGENTS.md
+# CLAUDE.md — Contexto do projeto Miranda Faria
 
-Follow the instructions in `AGENTS.md`.
+Este arquivo é lido automaticamente pelo Claude Code no início de cada
+sessão. Contém tudo que já foi decidido — não redecidir do zero.
+
+## Quem é o cliente
+
+Eduardo Miranda Faria, brasileiro (Piumhi/MG). Constrói sistemas web, BI,
+automação e identidade visual, sozinho, usando IA como parte do método.
+Site pessoal para atrair clientes internacionais de projeto remoto E
+recrutadores/vagas no exterior.
+
+**Título profissional:** Design Engineer & Creative Technologist
+**Uma linha:** I design and build complete web systems — brand, product
+and data as one — solo, using an orchestrated AI workflow.
+**Vantagem de localização:** Based in Brazil (UTC-3) — full working-day
+overlap with US hours, partial with Europe.
+
+## Identidade visual — FECHADA, não redesenhar
+
+- Grafite `#1A1A18` · Branco-osso `#F5F1EA` · Cobre queimado `#B5502E`
+  (único acento, usar com moderação) · Cinza-pedra `#8A8578`
+- Tipografia: Playfair Display (serifada, títulos, versalete, tracking
+  largo) + Inter (corpo) + JetBrains Mono (labels, caixa alta)
+- Tom: editorial, minimalista, referência de escritório de arquitetura.
+  Nunca estética de startup/SaaS genérico. Sem gradiente raso, sem ícone
+  colorido, sem emoji, sem card com borda pesada.
+
+Tudo isso já está implementado em `src/styles/tokens.css` (`--ink`,
+`--bone`, `--copper`, `--stone`, `--font-display`, `--font-body`,
+`--font-mono`). Use os tokens, não hardcode os valores.
+
+## Motivo visual central: ESTRATOS / CAMADAS GEOLÓGICAS
+
+Metáfora de marca: profundidade revelada — superfície → sistema → dados
+→ base/fundação. Isso é o fio condutor do site inteiro, não só da hero.
+Deve aparecer como: fundo generativo, divisor entre seções, textura de
+card, transição entre páginas — sempre variando a implementação, nunca
+repetindo o efeito idêntico duas vezes.
+
+**Rejeitado e não retomar:** motivos pontiagudos (estalactite/estalagmite
+— risco de leitura como ameaça, validado por pesquisa de UX). Referência
+literal a agro/interior/regional (público agora é internacional).
+
+## O logotipo — restrição técnica crítica
+
+Monograma "M" de planos geométricos translúcidos sobrepostos, GERADO
+POR IA (Lovart). É uma imagem raster, não um vetor limpo.
+
+- Vetorização automática **falhou**: perdeu a transparência, virou
+  manchas opacas chapadas. Não tentar de novo sem supervisão manual forte.
+- Existe versão com fundo transparente (alpha real) e versão com fundo
+  bege sólido.
+- Existe uma versão secundária "M sólido" — geométrico, chapado, sem
+  transparência — para favicon/ícone/avatar/tamanhos pequenos.
+- **NÃO redesenhar a logo tentando imitar o original em vetor à mão** —
+  já foi tentado, ficou "geométrico demais, longe do original", e o
+  cliente rejeitou.
+
+## Histórico técnico — erros já cometidos, não repetir
+
+1. **Sequência de 65 quadros de vídeo/imagem para hero com scroll-scrub**
+   → travou, pixelou, pesado (~2MB+), dependência frágil de hospedagem
+   externa. Abandonado.
+2. **Shader de metal líquido (`@paper-design/shaders-react`,
+   `LiquidMetal`) usando a logo como máscara de imagem remota** →
+   quebrou por **CORS**: o componente precisa `crossOrigin="anonymous"`
+   para ler pixels da imagem via canvas, e a imagem estava hospedada em
+   domínio/app diferente do app do site, sem cabeçalho CORS liberado.
+   Resultado: shader caiu no fallback e preencheu um quadrado inteiro
+   sem usar a máscara. **Lição: qualquer efeito que precise LER pixels
+   de uma imagem (getImageData, canvas, WebGL textura) exige a imagem
+   no MESMO domínio/origem do app, com CORS correto — ou gerar a forma
+   proceduralmente em vez de depender de imagem externa.**
+3. **PNG em 8K para hero** → peso excessivo, descartado antes de testar.
+4. **Bug de ambiente Base44:** comandos `npm install` falhavam com erro
+   "Tracker idealTree already exists" porque o `cwd` do terminal
+   apontava para `/` (raiz) em vez de `/app`. Corrigido prefixando
+   `cd /app && <comando>`. Não deve ocorrer no Claude Code (cwd correto
+   por padrão), mas registrar caso apareça em ambiente similar.
+5. **Efeitos puramente reativos ao cursor (parallax magnético, tilt 3D
+   em hover, ponto pulsante) foram considerados "batidos" e
+   insuficientes pelo cliente.** A direção atual é ELEMENTOS VIVOS E
+   AUTÔNOMOS — que se movem sozinhos, sem depender de interação — não
+   apenas mais reatividade a mouse/scroll.
+
+## Direção criativa atual — elementos vivos/autônomos
+
+Buscar sistemas que evoluem em tempo real por conta própria (referência:
+UntilLabs/basement.studio, "living particle system", Codrops dez/2025).
+Ideias já aprovadas conceitualmente, em ordem de prioridade sugerida:
+
+1. **Sedimentação de partículas** — sistema de partículas (fBm + curl
+   noise) formando o wordmark/motivo de camadas, respirando
+   continuamente, nunca parado. WebGL/Three.js/R3F. Sem imagem externa
+   (gera a forma proceduralmente ou usa texto como referência de forma).
+2. **Núcleo de estratos** — reaction-diffusion (Gray-Scott) na paleta da
+   marca, confinado a uma faixa, simulando organismo/sedimentação.
+3. **Campo de fluxo geológico** — flow field de ruído Perlin como
+   textura de transição entre páginas.
+4. **Estratos que se acomodam** — física leve (matter.js/Verlet) em
+   cards de projeto assentando ao revelar a seção.
+5. **Testemunho de sondagem (core sample)** — coluna vertical animada
+   mostrando métricas/KPIs por camada, na seção de BI/dados.
+
+**Regras de segurança de qualquer elemento novo:**
+- Nunca depender de imagem hospedada fora do domínio do app.
+- Pausar quando fora da viewport (IntersectionObserver).
+- Respeitar `prefers-reduced-motion` com fallback estático.
+- Cap de partículas/resolução em mobile; medir FPS antes de aprovar.
+- UM elemento "vivo" pesado por página, não vários simultâneos.
+
+## Arquitetura do site — ALVO
+
+Home-resumo + abas profundas independentes (não scroll único, não hub
+raso). Nav, paleta, tipografia e grid ficam fixos entre páginas; cada
+página ganha no máximo 1–2 "assinaturas" visuais próprias (ex.: um
+fundo generativo diferente por aba).
+
+```
+/                  Home — resume tudo para quem só visita uma página
+/work              Índice de projetos
+/work/:slug        Case individual (Problema → Processo → Decisões → Resultado)
+/how-i-work        Quatro camadas narrativas + como a IA é usada
+/about             Quem sou (foto ainda pendente — usar fallback tipográfico "EMF")
+/contact           Contato
+```
+
+Texto completo de cada página, seção por seção, está em
+`arquitetura-copy-final.md` — use como fonte da verdade do conteúdo,
+mas ele precisa ser ATUALIZADO nos pontos abaixo antes de implementar.
+
+## Estado REAL do repositório hoje — leia antes de assumir qualquer coisa
+
+A seção acima descreve o **alvo**. O código neste repositório ainda é a
+versão anterior, em português, feita no Base44. A distância entre os dois
+é grande e é o trabalho que resta. Verificado no código:
+
+| Decisão | Alvo | Repositório hoje |
+|---|---|---|
+| Rotas de conteúdo | `/work`, `/how-i-work`, `/about`, `/contact` | Só `/` (single page) + `/privacidade` + rotas de auth Base44 (`src/App.jsx`) |
+| Idioma | EN padrão, PT alternativo, `/en` e `/pt` | Só PT-BR, hardcoded. Não existe `LanguageProvider.jsx` no repo |
+| Formulário de contato | **Não existe em lugar nenhum** | **AINDA EXISTE** — `sections/Conversar.jsx` renderiza `<ContactForm />`, com a entidade `base44/entities/Contato.jsonc` por trás |
+| Hero | Elemento vivo/autônomo | `sections/Hero.jsx` → `StaticHero.jsx` (só tipografia, sem a imagem do M) |
+| Hospedagem da logo | Dentro do próprio app | Aponta para outro app Base44 — ver abaixo |
+
+**Seções que existem hoje** (`src/pages/Home.jsx`, todas em PT):
+Hero → Tese → OndeDoi → Frentes → SectorTicker → Trabalhos → ComoFunciona
+→ Sobre → Conversar, separadas por `MfRule`.
+
+**Código morto da saga da hero** — presente no repo, importado por
+ninguém: `LiquidMarkHero.jsx`, `ScrollScrubHero.jsx`, `heroFrames.js`,
+`lib/hero-frames.js`, `BrandAssembly.jsx`. A dependência
+`@paper-design/shaders-react` continua no `package.json` mesmo com o
+shader morto. Decidir se isso fica como referência histórica ou sai.
+
+**A dependência frágil da logo é maior do que só a logo.** Não é um PNG
+solto: são o M translúcido *e* 26+ quadros da sequência antiga, todos em
+`base44.app/api/apps/69d13abf1923f13a0fcdbf60/...` — um app Base44
+diferente deste site. É exatamente a causa do erro de CORS do item 2 do
+histórico técnico. Resolver isso (trazer os assets para dentro do repo)
+é pré-requisito de qualquer efeito novo que leia pixels.
+
+**Já instalado e disponível:** `gsap` + `@gsap/react`, `lenis`, `three`,
+`framer-motion`, `react-router-dom`, `@tanstack/react-query`, shadcn/ui
+completo em `src/components/ui/`. Não precisa instalar esses de novo.
+
+## Mudanças de decisão MAIS RECENTES (sobrepõem o documento de copy anterior)
+
+- **SEM formulário de contato, em lugar nenhum do site.** Removido por
+  decisão do cliente. Atenção: essa remoção **ainda não foi feita no
+  código** (ver tabela acima).
+- **CTA de contato = sempre um link direto**, nunca campo para
+  preencher:
+  - Versão PT: link direto para WhatsApp
+  - Versão EN (internacional): Calendly (`calendly.com/edumirandamf`)
+    ou método equivalente de agendamento — não WhatsApp como primário
+- **Diagnóstico interativo no lugar do formulário como ferramenta de
+  engajamento:** "Raio-X de Sistema" — 5–7 perguntas sobre a operação
+  do visitante, resposta visual em camadas de estrato preenchendo,
+  score final com CTA de agendar conversa. Ver a seção correspondente
+  em `research/RESEARCH.md` para detalhamento completo.
+- **Cada aba deve funcionar como experiência independente e completa**,
+  não apenas uma continuação visual da Home.
+
+## Idioma
+
+Bilíngue EN (padrão)/PT, sem trava por IP — decisão por
+`navigator.language` + toggle manual persistido em `localStorage`. Não
+usar geolocalização por IP (quebra para VPN/viagem e prejudica SEO).
+Rotas reais `/en` e `/pt` (não hash) para indexação correta com
+`hreflang`.
+
+## Stack técnico
+
+React + Vite. Preferir CSS nativo e View Transitions API/scroll-driven
+animations onde suficiente (leve, sem dependência); reservar
+GSAP+ScrollTrigger para coreografia de scroll complexa; WebGL/R3F só
+para os elementos vivos que exigem (partículas, reaction-diffusion).
+Lenis para smooth scroll, se mantido — sincronizar em um único
+`requestAnimationFrame`/`gsap.ticker`, nunca dois loops concorrentes.
+
+## Documentos deste repositório (ler antes de codar)
+
+- `DECISIONS.md` — estado final de cada decisão, em tabela. Se conflitar
+  com qualquer outro documento, **DECISIONS.md vence**.
+- `RECAP.md` — a história completa: todo caminho tentado e por que foi
+  abandonado. Consultar antes de propor qualquer direção visual, para
+  não ressuscitar algo já rejeitado.
+- `ASSETS.md` — links, contatos, apps Base44, hospedagem das imagens.
+  *(ainda não commitado)*
+- `arquitetura-copy-final.md` — copy completo por página e seção. Ver as
+  ressalvas de "mudanças mais recentes" acima, que sobrepõem partes dele
+  — especialmente a seção de Contact, que ainda tinha formulário.
+  *(ainda não commitado)*
+- `research/RESEARCH.md` — as sete pesquisas técnicas condensadas ao que
+  é acionável. **Aviso: a pesquisa de semiótica sobre "o que o leigo
+  entende" não vale mais** — foi feita quando o público era PME local, e
+  o público mudou para mercado internacional. Não aplicar.
+  *(ainda não commitado)*
+
+Para convenções de Base44/CLI, workflow de `base44 dev` e publicação,
+ver `AGENTS.md` e `README.md`.
+
+## Como trabalhar comigo (Eduardo)
+
+- Já tivemos uma sessão longa e cansativa tentando resolver a hero por
+  tentativa e erro. Não repita esse padrão — teste hipóteses técnicas
+  (CORS, performance, compatibilidade) ANTES de apresentar como pronto.
+- Prefiro ver algo funcionando de verdade a uma descrição bonita do que
+  vai funcionar.
+- Seja direto sobre trade-offs e riscos técnicos antes de implementar,
+  não depois.
