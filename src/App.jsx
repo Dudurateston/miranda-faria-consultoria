@@ -1,13 +1,18 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes, useParams } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
 // Add page imports here
 import Home from "@/pages/Home";
+import Work from "@/pages/Work";
+import WorkCase from "@/pages/WorkCase";
+import HowIWork from "@/pages/HowIWork";
+import About from "@/pages/About";
+import Contact from "@/pages/Contact";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import Connect from "@/pages/Connect";
 import Login from "@/pages/Login";
@@ -18,6 +23,23 @@ import OAuthConsent from "@/pages/OAuthConsent";
 import SmoothScroll from "@/components/SmoothScroll";
 import AmbientDepth from "@/components/AmbientDepth";
 import CopperCursor from "@/components/CopperCursor";
+import SiteLayout from "@/components/layout/SiteLayout";
+import { LanguageProvider, detectLang, isLang } from "@/lib/i18n";
+
+/**
+ * Casca das rotas de conteudo. O idioma vem do primeiro segmento da
+ * URL — `/en/work`, `/pt/work` — e nao de hash nem de IP, para o
+ * hreflang apontar para paginas reais (DECISIONS.md).
+ */
+const LangShell = () => {
+  const { lang } = useParams();
+  if (!isLang(lang)) return <Navigate to={`/${detectLang()}`} replace />;
+  return (
+    <LanguageProvider lang={lang}>
+      <SiteLayout />
+    </LanguageProvider>
+  );
+};
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -45,8 +67,21 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      {/* Add your page Route elements here */}
-      <Route path="/" element={<Home />} />
+      {/* Raiz decide o idioma uma vez e redireciona para a rota real. */}
+      <Route path="/" element={<Navigate to={`/${detectLang()}`} replace />} />
+
+      {/* Conteudo, por idioma. Segmentos estaticos como /login vencem
+          o dinamico /:lang no ranking do React Router. */}
+      <Route path="/:lang" element={<LangShell />}>
+        <Route index element={<Home />} />
+        <Route path="work" element={<Work />} />
+        <Route path="work/:slug" element={<WorkCase />} />
+        <Route path="how-i-work" element={<HowIWork />} />
+        <Route path="about" element={<About />} />
+        <Route path="contact" element={<Contact />} />
+      </Route>
+
+      {/* Paginas de infraestrutura Base44 — sem prefixo de idioma. */}
       <Route path="/privacidade" element={<PrivacyPolicy />} />
       <Route path="/connect" element={<Connect />} />
       <Route path="/login" element={<Login />} />

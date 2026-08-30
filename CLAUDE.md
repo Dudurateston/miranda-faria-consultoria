@@ -132,27 +132,41 @@ mas ele precisa ser ATUALIZADO nos pontos abaixo antes de implementar.
 
 ## Estado REAL do repositório hoje — leia antes de assumir qualquer coisa
 
-A seção acima descreve o **alvo**. O código neste repositório ainda é a
-versão anterior, em português, feita no Base44. A distância entre os dois
-é grande e é o trabalho que resta. Verificado no código:
+A fundação do alvo já está construída. O que falta é o acabamento de
+alto impacto. Verificado no código:
 
-| Decisão | Alvo | Repositório hoje |
-|---|---|---|
-| Rotas de conteúdo | `/work`, `/how-i-work`, `/about`, `/contact` | Só `/` (single page) + `/privacidade` + rotas de auth Base44 (`src/App.jsx`) |
-| Idioma | EN padrão, PT alternativo, `/en` e `/pt` | Só PT-BR, hardcoded. Não existe `LanguageProvider.jsx` no repo |
-| Formulário de contato | **Não existe em lugar nenhum** | **AINDA EXISTE** — `sections/Conversar.jsx` renderiza `<ContactForm />`, com a entidade `base44/entities/Contato.jsonc` por trás |
-| Hero | Elemento vivo/autônomo | `sections/Hero.jsx` → `StaticHero.jsx` (só tipografia, sem a imagem do M) |
-| Hospedagem da logo | Dentro do próprio app | Aponta para outro app Base44 — ver abaixo |
+| Decisão | Estado |
+|---|---|
+| Rotas de conteúdo | **Feito.** `/:lang`, `/:lang/work`, `/:lang/work/:slug`, `/:lang/how-i-work`, `/:lang/about`, `/:lang/contact` (`src/App.jsx`) |
+| Idioma | **Feito.** EN padrão, rotas reais `/en` e `/pt`, `hreflang` por rota, `navigator.language` + `localStorage`, sem trava por IP (`src/lib/i18n.jsx`) |
+| Formulário de contato | **Removido.** `ContactForm.jsx` e `sections/Conversar.jsx` apagados. CTA é link direto: WhatsApp no PT, Calendly no EN |
+| Conteúdo | **Feito.** Tudo em `src/content/copy.js`. EN e PT não são traduções: EN vende para o mercado internacional, PT para o cliente nacional |
+| Hero | **Pendente.** `StaticHero.jsx` é tipográfica e estável; o elemento vivo/autônomo ainda não foi construído |
+| Mídia dos cases | **Pendente.** `WorkCase.jsx` tem o espaço reservado, sem print nem vídeo ainda |
+| Coreografia de scroll | **Pendente.** Hoje só entradas com `Reveal`/`LineReveal`/stagger. Falta pin, revelação em etapas e transição entre páginas |
+| Hospedagem da logo | **Pendente.** Aponta para outro app Base44 — ver abaixo |
 
-**Seções que existem hoje** (`src/pages/Home.jsx`, todas em PT):
-Hero → Tese → OndeDoi → Frentes → SectorTicker → Trabalhos → ComoFunciona
-→ Sobre → Conversar, separadas por `MfRule`.
+**Páginas em `src/pages/`:** `Home` (resumo), `Work` (índice),
+`WorkCase` (Problema → Processo → Decisões → Resultado), `HowIWork`
+(as quatro camadas + o bloco sobre IA), `About`, `Contact`. O shell
+comum é `components/layout/SiteLayout.jsx` (nav + rodapé + `hreflang`).
 
-**Código morto da saga da hero** — presente no repo, importado por
-ninguém: `LiquidMarkHero.jsx`, `ScrollScrubHero.jsx`, `heroFrames.js`,
-`lib/hero-frames.js`, `BrandAssembly.jsx`. A dependência
+**Título por página:** cada página chama `usePageTitle`. O `<title>`
+não pode ser definido no `SiteLayout` — efeito de filho roda antes de
+efeito de pai, então o layout sobrescreveria o da página.
+
+**Código morto acumulado** — presente no repo, importado por ninguém:
+`LiquidMarkHero.jsx`, `ScrollScrubHero.jsx`, `heroFrames.js`,
+`lib/hero-frames.js`, `BrandAssembly.jsx`, `TopBar.jsx` (substituído
+por `layout/SiteNav.jsx`) e as seções PT antigas `sections/Tese.jsx`,
+`OndeDoi.jsx`, `Frentes.jsx`, `Trabalhos.jsx`, `ComoFunciona.jsx`,
+`Sobre.jsx`, `Hero.jsx`. **Atenção antes de apagar as seções:** a copy
+de `Frentes` (4 frentes de serviço) e de `ComoFunciona` (4 passos) NÃO
+foi portada para `copy.js` — apagar perde esse texto. A dependência
 `@paper-design/shaders-react` continua no `package.json` mesmo com o
-shader morto. Decidir se isso fica como referência histórica ou sai.
+shader morto. A entidade `base44/entities/Contato.jsonc` continua de pé:
+o formulário saiu, mas apagar a entidade destruiria os contatos já
+recebidos.
 
 **A dependência frágil da logo é maior do que só a logo.** Não é um PNG
 solto: são o M translúcido *e* 26+ quadros da sequência antiga, todos em
@@ -168,8 +182,7 @@ completo em `src/components/ui/`. Não precisa instalar esses de novo.
 ## Mudanças de decisão MAIS RECENTES (sobrepõem o documento de copy anterior)
 
 - **SEM formulário de contato, em lugar nenhum do site.** Removido por
-  decisão do cliente. Atenção: essa remoção **ainda não foi feita no
-  código** (ver tabela acima).
+  decisão do cliente, e já removido do código.
 - **CTA de contato = sempre um link direto**, nunca campo para
   preencher:
   - Versão PT: link direto para WhatsApp
