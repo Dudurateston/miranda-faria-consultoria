@@ -1,5 +1,5 @@
 import React from "react";
-import MarkHero from "@/components/MarkHero";
+import StaticHero from "@/components/StaticHero";
 
 // Hero temporária e estável enquanto a versão de alto impacto é
 // desenhada no Claude Design. Revelação por máscara sobre a imagem
@@ -7,7 +7,7 @@ import MarkHero from "@/components/MarkHero";
 export default function Hero() {
   return (
     <section className="mf-hero" data-bg="#F5F1EA" id="topo">
-      <MarkHero />
+      <StaticHero />
       <style>{`.mf-hero{position:relative;background:transparent}`}</style>
     </section>
   );
