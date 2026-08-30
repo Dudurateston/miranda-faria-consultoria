@@ -153,11 +153,25 @@ Cada aba é uma experiência completa, não continuação visual da Home
 | Rota | Trabalho | Público primário |
 |---|---|---|
 | `/` | Responder em 40 segundos: quem, o quê, prova, próximo passo | Escaneador |
-| `/work` | Evidência. Índice legível em 15 segundos | Ambos |
+| `/systems` | Sites e sistemas no Base44 — a disciplina em profundidade | Cliente |
+| `/design` | Design com Lovart e IA — como a marca nasce | Ambos |
+| `/business` | Gestão, BI e IA para negócios | Cliente |
+| `/work` | Evidência. Índice de **todos** os projetos, transversal às três verticais | Ambos |
 | `/work/:slug` | Profundidade: Problema → Processo → **Decisões** → Resultado | Avaliador |
 | `/how-i-work` | Redução de risco: as quatro camadas + o enquadramento da IA | Cliente |
 | `/about` | Confiança: a pessoa por trás | Ambos |
 | `/contact` | Conversão. Link direto, sem formulário | Ambos |
+
+**As três verticais e o `/work` convivem.** Cada vertical aprofunda uma
+disciplina e fecha com os cases dela, filtrados pelo campo `practice`;
+o `/work` continua listando todos, para quem quer varrer rápido. As três
+compartilham a mesma página (`src/pages/Practice.jsx`), dirigida pelo
+slug — variam em conteúdo e assinatura visual, não em estrutura.
+
+**A navegação tem seis itens** (Systems · Design · Business · Work ·
+About · Contact) e é o limite. `/how-i-work` saiu do topo e vive no
+rodapé — acrescentar um sétimo item quebra a nav no desktop e vira
+faixa rolável longa demais no celular.
 
 O bloco **Decisões** é o que separa isto de portfólio comum. É onde o
 julgamento fica visível.
@@ -196,6 +210,7 @@ Deve aparecer variando a implementação, nunca repetindo idêntico:
 | Fundo da página | Rampa contínua de valor | Feito |
 | Divisor de seção | `MfRule` — faixas que se desenham | Feito |
 | Conteúdo | As quatro camadas de `/how-i-work` | Feito |
+| Assinatura de vertical | `ArtSlot` — estrato procedural em SVG, trocado pela arte quando ela carrega | Feito |
 | Hero | Partículas sedimentando, procedural | A fazer |
 | Transição de página | Campo de fluxo / Flip | A fazer |
 

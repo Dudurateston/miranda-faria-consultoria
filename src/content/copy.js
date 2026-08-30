@@ -29,6 +29,9 @@ export const copy = {
     },
     nav: {
       home: "Home",
+      systems: "Systems",
+      design: "Design",
+      business: "Business",
       work: "Work",
       howIWork: "How I work",
       about: "About",
@@ -152,6 +155,9 @@ export const copy = {
     },
     nav: {
       home: "Início",
+      systems: "Sistemas",
+      design: "Design",
+      business: "Gestão",
       work: "Trabalhos",
       howIWork: "Como funciona",
       about: "Quem faz",
@@ -277,6 +283,7 @@ export const cases = {
   en: [
     {
       slug: "motormoura",
+      practice: "systems",
       name: "MotorMoura",
       sector: "Auto parts distribution",
       year: "2026",
@@ -293,6 +300,7 @@ export const cases = {
     },
     {
       slug: "1000-pecas",
+      practice: "systems",
       name: "1000 Peças Truck Center",
       sector: "Heavy vehicle parts",
       year: "2026",
@@ -308,6 +316,7 @@ export const cases = {
     },
     {
       slug: "rota-forte",
+      practice: "business",
       name: "Rota Forte Logística",
       sector: "Logistics and transport",
       year: "2026",
@@ -323,6 +332,7 @@ export const cases = {
     },
     {
       slug: "dj-jotave",
+      practice: "design",
       name: "DJ Jotavê",
       sector: "Artist",
       year: "2025",
@@ -338,6 +348,7 @@ export const cases = {
     },
     {
       slug: "miranda-faria",
+      practice: "design",
       name: "This site",
       sector: "Miranda Faria",
       year: "2026",
@@ -356,6 +367,7 @@ export const cases = {
   pt: [
     {
       slug: "motormoura",
+      practice: "systems",
       name: "MotorMoura",
       sector: "Distribuidora de autopeças",
       year: "2026",
@@ -372,6 +384,7 @@ export const cases = {
     },
     {
       slug: "1000-pecas",
+      practice: "systems",
       name: "1000 Peças Truck Center",
       sector: "Peças para caminhão",
       year: "2026",
@@ -387,6 +400,7 @@ export const cases = {
     },
     {
       slug: "rota-forte",
+      practice: "business",
       name: "Rota Forte Logística",
       sector: "Logística e transporte",
       year: "2026",
@@ -402,6 +416,7 @@ export const cases = {
     },
     {
       slug: "dj-jotave",
+      practice: "design",
       name: "DJ Jotavê",
       sector: "Artista",
       year: "2025",
@@ -417,6 +432,7 @@ export const cases = {
     },
     {
       slug: "miranda-faria",
+      practice: "design",
       name: "Este site",
       sector: "Miranda Faria",
       year: "2026",
@@ -433,6 +449,234 @@ export const cases = {
     },
   ],
 };
+
+/**
+ * As tres verticais de pratica. Cada uma e uma aba profunda e
+ * independente, com assinatura visual propria — nao uma secao rolada da
+ * Home. Os cases sao transversais: /work lista todos, e cada vertical
+ * lista os seus, pelo campo `practice`.
+ *
+ * A copy de `deliverables` resgata as quatro frentes de servico e a de
+ * `process` os quatro passos que viviam em sections/Frentes.jsx e
+ * sections/ComoFunciona.jsx — as duas secoes antigas que nunca tinham
+ * sido portadas.
+ */
+export const PRACTICE_SLUGS = ["systems", "design", "business"];
+
+export const practices = {
+  en: {
+    systems: {
+      slug: "systems",
+      label: "Systems",
+      lead: "Software the owner runs, not me.",
+      intro:
+        "Catalogues, inventory, ordering and admin panels, built on a real database with an interface the client operates without calling me. Shipped on Base44, which is why the unit of delivery is weeks instead of months.",
+      artAlt: "Blueprint linework resolving into built structure",
+      deliverablesLabel: "What I deliver",
+      deliverables: [
+        {
+          t: "Catalogue and inventory",
+          d: "Products, categories, brands and images modelled as real entities, not spreadsheet rows. Searchable, filterable, and editable by the person who owns the business.",
+        },
+        {
+          t: "Ordering and workflow",
+          d: "Orders that stop dying inside a message thread. Status, history and a record of who did what, in one place.",
+        },
+        {
+          t: "Admin panel",
+          d: "The client registers, edits and publishes without me. No maintenance contract disguised as a feature.",
+        },
+        {
+          t: "Ownership",
+          d: "Hosting and infrastructure end up in the client's name. I leave, the system keeps running.",
+        },
+      ],
+      casesLabel: "Built this way",
+      cta: "Start a project",
+    },
+    design: {
+      slug: "design",
+      label: "Design",
+      lead: "Brand and interface, made fast without looking fast.",
+      intro:
+        "Identity, design system and the applied pieces. AI generates the first drafts — Lovart for imagery, code for the system — and every piece passes through my hands before it ships. That is the difference between leverage and a shortcut.",
+      artAlt: "Translucent planes composing, some still finding position",
+      deliverablesLabel: "What I deliver",
+      deliverables: [
+        {
+          t: "Identity",
+          d: "Logotype, palette, typography and the applied pieces. Decided once, documented, and then held to across every surface.",
+        },
+        {
+          t: "Design system",
+          d: "Tokens, a fluid type scale, spacing and motion rules. Not a style guide PDF — the actual variables the code reads.",
+        },
+        {
+          t: "AI-assisted exploration",
+          d: "Dozens of directions generated in hours instead of days. The generation is cheap; the selection is the work, and the selection is mine.",
+        },
+        {
+          t: "Design that ships",
+          d: "It arrives as running code, not as a file handed to someone else to interpret. Nothing is lost in translation because there is no translation.",
+        },
+      ],
+      casesLabel: "Built this way",
+      cta: "Start a project",
+    },
+    business: {
+      slug: "business",
+      label: "Business",
+      lead: "Numbers that update themselves.",
+      intro:
+        "BI, dashboards and automation. Sales, inventory, margin and productivity on one screen that refreshes on its own, plus the flows that run without anyone pressing a button.",
+      artAlt: "A geological core sample sectioned into layers of data",
+      deliverablesLabel: "What I deliver",
+      deliverables: [
+        {
+          t: "Dashboards",
+          d: "Your numbers leave the manual spreadsheet and become a panel that updates itself. One screen, and a number the team actually trusts.",
+        },
+        {
+          t: "Automation",
+          d: "Flows that run unattended: qualification, scheduling, the report that arrives by email already built.",
+        },
+        {
+          t: "AI in the operation",
+          d: "Applied where it removes repetitive work with a verifiable result — not sprinkled on so the deck can say the word.",
+        },
+        {
+          t: "The data model",
+          d: "The layer underneath: what is stored, what is derived, and how the pieces relate. Where most reporting projects quietly break.",
+        },
+      ],
+      casesLabel: "Built this way",
+      cta: "Start a project",
+    },
+  },
+
+  pt: {
+    systems: {
+      slug: "systems",
+      label: "Sistemas",
+      lead: "Sistema que o dono opera, não eu.",
+      intro:
+        "Catálogo, estoque, cadastro e pedidos, com banco de dados de verdade e um painel que o cliente usa sem me chamar. Construído no Base44, e é por isso que a entrega se mede em semanas, não em meses.",
+      artAlt: "Linhas de prancha virando estrutura construída",
+      deliverablesLabel: "O que entrego",
+      deliverables: [
+        {
+          t: "Catálogo e estoque",
+          d: "Produto, categoria, marca e imagem como entidades de verdade, não linhas de planilha. Consultável, filtrável e editável por quem é dono do negócio.",
+        },
+        {
+          t: "Pedidos e fluxo",
+          d: "O pedido para de morrer na conversa. Status, histórico e registro de quem fez o quê, num lugar só.",
+        },
+        {
+          t: "Painel administrativo",
+          d: "O cliente cadastra, edita e publica sem mim. Sem contrato de manutenção disfarçado de funcionalidade.",
+        },
+        {
+          t: "Titularidade",
+          d: "Hospedagem e infraestrutura ficam no seu nome. Eu saio, o sistema continua.",
+        },
+      ],
+      casesLabel: "Feitos assim",
+      cta: "Começar um projeto",
+    },
+    design: {
+      slug: "design",
+      label: "Design",
+      lead: "Marca e interface, rápido sem parecer apressado.",
+      intro:
+        "Identidade, design system e as peças de aplicação. A IA gera os primeiros rascunhos — Lovart para imagem, código para o sistema — e cada peça passa pela minha mão antes de sair. É essa a diferença entre alavanca e atalho.",
+      artAlt: "Planos translúcidos se compondo, alguns ainda assentando",
+      deliverablesLabel: "O que entrego",
+      deliverables: [
+        {
+          t: "Identidade",
+          d: "Logotipo, paleta, tipografia e as peças de aplicação. Decidido uma vez, documentado, e sustentado em toda superfície depois.",
+        },
+        {
+          t: "Design system",
+          d: "Tokens, escala tipográfica fluida, espaçamento e regras de movimento. Não é PDF de manual — são as variáveis que o código lê.",
+        },
+        {
+          t: "Exploração com IA",
+          d: "Dezenas de direções geradas em horas, não em dias. Gerar é barato; escolher é o trabalho, e a escolha é minha.",
+        },
+        {
+          t: "Design que vira código",
+          d: "Chega funcionando, não como arquivo para outra pessoa interpretar. Nada se perde na tradução porque não existe tradução.",
+        },
+      ],
+      casesLabel: "Feitos assim",
+      cta: "Começar um projeto",
+    },
+    business: {
+      slug: "business",
+      label: "Gestão",
+      lead: "Número que se atualiza sozinho.",
+      intro:
+        "BI, painéis e automação. Venda, estoque, margem e produtividade numa tela só, que atualiza sozinha — mais os fluxos que rodam sem ninguém apertar botão.",
+      artAlt: "Testemunho de sondagem seccionado em camadas de dado",
+      deliverablesLabel: "O que entrego",
+      deliverables: [
+        {
+          t: "Painéis",
+          d: "Seus números saem da planilha manual e viram painel que atualiza sozinho. Uma tela, e um número em que a equipe confia de verdade.",
+        },
+        {
+          t: "Automação",
+          d: "Fluxos que rodam sem ninguém apertar botão: qualificação, agendamento, o relatório que chega pronto no e-mail.",
+        },
+        {
+          t: "IA na operação",
+          d: "Aplicada onde tira trabalho repetitivo com resultado verificável — não polvilhada por cima para a proposta poder citar a palavra.",
+        },
+        {
+          t: "O modelo de dados",
+          d: "A camada de baixo: o que é guardado, o que é calculado e como as peças se relacionam. Onde a maioria dos projetos de relatório quebra em silêncio.",
+        },
+      ],
+      casesLabel: "Feitos assim",
+      cta: "Começar um projeto",
+    },
+  },
+};
+
+/**
+ * Os quatro passos sao os mesmos nas tres verticais, e isso e o
+ * argumento: o processo nao muda conforme o que voce compra.
+ */
+export const processSteps = {
+  en: {
+    label: "How it runs",
+    steps: [
+      { t: "Diagnosis", d: "One conversation to find where the process jams. No cost." },
+      { t: "Fixed scope", d: "A proposal with deliverable, deadline and price set. No surprise later." },
+      { t: "Build", d: "You follow along during, not only at the end." },
+      { t: "Handover", d: "System live, you trained to operate it. The infrastructure is in your name." },
+    ],
+  },
+  pt: {
+    label: "Como funciona",
+    steps: [
+      { t: "Diagnóstico", d: "Uma conversa para entender onde o processo trava. Sem custo." },
+      { t: "Escopo fechado", d: "Proposta com entrega, prazo e valor definidos. Sem surpresa depois." },
+      { t: "Construção", d: "Você acompanha durante, não só no final." },
+      { t: "Entrega e autonomia", d: "Sistema no ar, você treinado para operar. A infraestrutura fica no seu nome." },
+    ],
+  },
+};
+
+export function getPractice(lang, slug) {
+  return practices[lang]?.[slug] ?? null;
+}
+
+export function casesOfPractice(lang, slug) {
+  return (cases[lang] ?? []).filter((c) => c.practice === slug);
+}
 
 export function getCase(lang, slug) {
   return cases[lang]?.find((c) => c.slug === slug) ?? null;

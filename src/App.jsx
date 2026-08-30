@@ -9,6 +9,7 @@ import ScrollToTop from './components/ScrollToTop';
 // Add page imports here
 import Home from "@/pages/Home";
 import Work from "@/pages/Work";
+import Practice from "@/pages/Practice";
 import WorkCase from "@/pages/WorkCase";
 import HowIWork from "@/pages/HowIWork";
 import About from "@/pages/About";
@@ -25,6 +26,7 @@ import AmbientDepth from "@/components/AmbientDepth";
 import CopperCursor from "@/components/CopperCursor";
 import SiteLayout from "@/components/layout/SiteLayout";
 import { LanguageProvider, detectLang, isLang } from "@/lib/i18n";
+import { PRACTICE_SLUGS } from "@/content/copy";
 
 /**
  * Casca das rotas de conteudo. O idioma vem do primeiro segmento da
@@ -74,6 +76,13 @@ const AuthenticatedApp = () => {
           o dinamico /:lang no ranking do React Router. */}
       <Route path="/:lang" element={<LangShell />}>
         <Route index element={<Home />} />
+
+        {/* As tres verticais de pratica compartilham a mesma pagina,
+            dirigida pelo slug. */}
+        {PRACTICE_SLUGS.map((slug) => (
+          <Route key={slug} path={slug} element={<Practice slug={slug} />} />
+        ))}
+
         <Route path="work" element={<Work />} />
         <Route path="work/:slug" element={<WorkCase />} />
         <Route path="how-i-work" element={<HowIWork />} />

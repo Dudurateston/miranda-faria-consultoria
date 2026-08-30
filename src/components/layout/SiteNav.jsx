@@ -34,8 +34,10 @@ export default function SiteNav({ revealAfterHero = false }) {
   }, [revealAfterHero]);
 
   const links = [
+    { to: path("systems"), label: t.systems },
+    { to: path("design"), label: t.design },
+    { to: path("business"), label: t.business },
     { to: path("work"), label: t.work },
-    { to: path("how-i-work"), label: t.howIWork },
     { to: path("about"), label: t.about },
     { to: path("contact"), label: t.contact },
   ];

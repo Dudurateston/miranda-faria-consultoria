@@ -119,12 +119,21 @@ fundo generativo diferente por aba).
 
 ```
 /                  Home — resume tudo para quem só visita uma página
-/work              Índice de projetos
+/systems           Sites e sistemas no Base44
+/design            Design com Lovart e IA
+/business          Gestão, BI e IA para negócios
+/work              Índice de TODOS os projetos (transversal às três verticais)
 /work/:slug        Case individual (Problema → Processo → Decisões → Resultado)
-/how-i-work        Quatro camadas narrativas + como a IA é usada
+/how-i-work        Quatro camadas narrativas + como a IA é usada (fora da nav, no rodapé)
 /about             Quem sou (foto ainda pendente — usar fallback tipográfico "EMF")
 /contact           Contato
 ```
+
+As três verticais compartilham `src/pages/Practice.jsx`, dirigida pelo
+slug. Cada case declara sua vertical no campo `practice` em `copy.js`.
+**Nunca renderizar moldura vazia esperando imagem** — use `ArtSlot`,
+que desenha um estrato procedural e só troca pela arte depois que ela
+confirma carregamento.
 
 Texto completo de cada página, seção por seção, está em
 `arquitetura-copy-final.md` — use como fonte da verdade do conteúdo,
