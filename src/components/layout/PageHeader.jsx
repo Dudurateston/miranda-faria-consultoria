@@ -10,7 +10,7 @@ import LineReveal from "@/components/LineReveal";
 export default function PageHeader({ label, lead, intro }) {
   return (
     <>
-      <header className="mf-ph">
+      <header className="mf-ph" data-depth="0.02">
         <div className="mf-ph__inner">
           <Reveal>
             <p className="mf-label">{label}</p>

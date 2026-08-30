@@ -33,7 +33,7 @@ export default function Home() {
       <MfRule />
 
       {/* Tese */}
-      <section className="mf-home__sec">
+      <section className="mf-home__sec" data-depth="0.10">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.thesis.label}</p>
@@ -48,7 +48,7 @@ export default function Home() {
       <MfRule />
 
       {/* Argumento — tres blocos */}
-      <section className="mf-home__sec">
+      <section className="mf-home__sec" data-depth="0.26">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.pitch.label}</p>
@@ -69,7 +69,7 @@ export default function Home() {
       <SectorTicker />
 
       {/* Trabalhos em destaque — a lista completa vive em /work */}
-      <section className="mf-home__sec mf-home__sec--dark" data-theme="dark">
+      <section className="mf-home__sec" data-depth="0.58">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.workTeaser.label}</p>
@@ -100,7 +100,7 @@ export default function Home() {
       <MfRule />
 
       {/* Contato — link direto, nunca formulario */}
-      <section className="mf-home__sec">
+      <section className="mf-home__sec" data-depth="0.80">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.contactTeaser.label}</p>
@@ -116,7 +116,6 @@ export default function Home() {
 
       <style>{`
 .mf-home__sec{padding:var(--section-gap) var(--gutter)}
-.mf-home__sec--dark{background:var(--bg-dark)}
 .mf-home__inner{max-width:var(--max-width-page);margin:0 auto}
 .mf-home__lead{
   font-family:var(--font-display);font-weight:400;
@@ -133,7 +132,7 @@ export default function Home() {
   display:inline-block;margin-top:2.75rem;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-accent);text-decoration:none;
+  color:var(--color-text-primary);text-decoration:none;
   border-bottom:1px solid var(--color-accent);padding-bottom:4px;
   transition:opacity var(--duration-fast) var(--ease-in-out);
 }

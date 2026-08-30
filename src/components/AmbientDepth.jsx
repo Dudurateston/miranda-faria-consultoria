@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import gsap from "gsap";
 
 /**
@@ -26,7 +27,8 @@ const FLIP_AT = 0.55;
 export default function AmbientDepth() {
   const sectionsRef = useRef([]);
   const rafRef = useRef(0);
-  const flippedRef = useRef(false);
+  const flippedRef = useRef(null);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -65,7 +67,9 @@ export default function AmbientDepth() {
 
     const interpolate = () => {
       const secs = sectionsRef.current;
-      if (!secs.length) return;
+      // Pagina sem marcacao de profundidade volta a superficie em vez
+      // de manter a cor herdada da rota anterior.
+      if (!secs.length) return paint(0);
       const vpCenter = window.scrollY + window.innerHeight / 2;
 
       if (vpCenter <= secs[0].center) return paint(secs[0].depth);
@@ -90,7 +94,7 @@ export default function AmbientDepth() {
         if (mq.matches) {
           // Sem preferência de movimento: aplica direto, sem easing.
           const secs = sectionsRef.current;
-          if (!secs.length) return;
+          if (!secs.length) return paint(0);
           const vpCenter = window.scrollY + window.innerHeight / 2;
           let best = secs[0];
           let dist = Infinity;
@@ -128,7 +132,7 @@ export default function AmbientDepth() {
       window.removeEventListener("resize", onResize);
       window.clearInterval(interval);
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

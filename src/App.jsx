@@ -101,10 +101,13 @@ function App() {
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <SmoothScroll>
-          <AmbientDepth />
           <CopperCursor />
           <Router>
             <ScrollToTop />
+            {/* Dentro do Router: a rampa de fundo precisa recalcular na
+                troca de rota, senao a pagina nova herda a profundidade
+                da anterior ate o proximo tick. */}
+            <AmbientDepth />
             <AuthenticatedApp />
           </Router>
           <Toaster />

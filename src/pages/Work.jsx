@@ -21,7 +21,7 @@ export default function Work() {
       <PageHeader label={t.label} lead={t.lead} intro={t.intro} />
       <MfRule />
 
-      <section className="mf-work">
+      <section className="mf-work" data-depth="0.30">
         <div ref={listRef} className="mf-work__list">
           {list.map((c, i) => (
             <Link

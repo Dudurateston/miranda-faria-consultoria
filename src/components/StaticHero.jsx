@@ -17,7 +17,7 @@ export default function StaticHero() {
 
   return (
     <>
-      <section className="mf-hero" id="topo" aria-label={`${t.wordmark} — ${t.role}`}>
+      <section className="mf-hero" id="topo" data-depth="0" aria-label={`${t.wordmark} — ${t.role}`}>
         <div className="mf-hero__center">
           <h1 className="mf-hero__mark">{t.wordmark}</h1>
           <p className="mf-hero__role">{t.role}</p>
@@ -31,7 +31,7 @@ export default function StaticHero() {
 .mf-hero{
   min-height:100vh;min-height:100svh;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:var(--bone);position:relative;padding:0 var(--gutter);
+  background:transparent;position:relative;padding:0 var(--gutter);
 }
 .mf-hero__center{text-align:center}
 .mf-hero__mark{

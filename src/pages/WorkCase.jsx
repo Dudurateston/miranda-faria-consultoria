@@ -33,7 +33,7 @@ export default function WorkCase() {
   return (
     <>
       <article className="mf-case">
-        <header className="mf-case__head">
+        <header className="mf-case__head" data-depth="0.08">
           <div className="mf-case__inner">
             <Reveal>
               <Link to={path("work")} className="mf-label mf-case__back" data-cursor="link">
@@ -67,7 +67,7 @@ export default function WorkCase() {
 
         <MfRule />
 
-        <div className="mf-case__body">
+        <div className="mf-case__body" data-depth="0.34">
           <div className="mf-case__inner">
             {blocks.map((b, i) => (
               <Reveal key={b.k} delay={i * 60}>
@@ -82,7 +82,7 @@ export default function WorkCase() {
 
         <MfRule />
 
-        <nav className="mf-case__next">
+        <nav className="mf-case__next" data-depth="0.62">
           <div className="mf-case__inner">
             <p className="mf-label">{t.nextCase}</p>
             <Link to={path(`work/${next.slug}`)} className="mf-case__nextlink" data-cursor="link">
@@ -111,7 +111,7 @@ export default function WorkCase() {
 
 .mf-case__media{
   margin:0 var(--gutter) clamp(2rem,5vh,3.5rem);
-  aspect-ratio:16/9;background:var(--paper);
+  aspect-ratio:16/9;background:rgba(255,255,255,0.10);
   border:1px solid var(--color-divider);
   display:flex;align-items:flex-end;padding:1.25rem;
 }

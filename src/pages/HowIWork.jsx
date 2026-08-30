@@ -27,7 +27,7 @@ export default function HowIWork() {
       <PageHeader label={t.label} lead={t.lead} intro={t.intro} />
       <MfRule />
 
-      <section className="mf-hiw">
+      <section className="mf-hiw" data-depth="0.34">
         <div ref={layersRef} className="mf-hiw__stack">
           {t.layers.map((l, i) => (
             <article
@@ -45,7 +45,7 @@ export default function HowIWork() {
         </div>
       </section>
 
-      <section className="mf-hiw__ai" data-theme="dark">
+      <section className="mf-hiw__ai" data-depth="0.76">
         <div className="mf-hiw__aiinner">
           <Reveal>
             <p className="mf-label">{t.ai.label}</p>
@@ -93,10 +93,7 @@ export default function HowIWork() {
   .mf-hiw__layer{grid-template-columns:1fr;gap:0.6rem}
 }
 
-.mf-hiw__ai{
-  background:var(--bg-dark);
-  padding:var(--section-gap) var(--gutter);
-}
+.mf-hiw__ai{padding:var(--section-gap) var(--gutter)}
 .mf-hiw__aiinner{max-width:var(--max-width-page);margin:0 auto}
 .mf-hiw__ailead{
   font-family:var(--font-display);font-weight:400;

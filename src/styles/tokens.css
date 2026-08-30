@@ -73,6 +73,43 @@
   --radius: 2px;
 }
 
+/* ------------------------------------------------------------
+   DESCIDA DE VALOR — a rampa do AmbientDepth
+
+   A pagina inteira desce continuamente do branco-osso (superficie)
+   ate o cobre queimado (a camada mineral funda). O AmbientDepth pinta
+   o fundo do body interpolando entre as duas cores e marca o <html>
+   com on-bone / on-copper conforme cruza o ponto de virada.
+
+   Sobre cobre, texto grafite cai para ~2,4:1 e some. Acima do ponto de
+   virada os neutros invertem: texto vira osso e o acento vira grafite,
+   reservado a tracos finos — nunca a texto corrido.
+   ------------------------------------------------------------ */
+[data-theme="on-copper"] {
+  --color-text-primary: var(--bone);
+  --color-text-secondary: rgba(245, 241, 234, 0.78);
+  --color-text-ghost: rgba(245, 241, 234, 0.60);
+  --color-accent: var(--ink);
+  --color-divider: rgba(245, 241, 234, 0.30);
+}
+
+/* Estado inicial explicito: sem ele a primeira pintura pisca. */
+[data-theme="on-bone"] {
+  --color-text-primary: var(--ink);
+  --color-text-secondary: var(--ink-dim);
+  --color-text-ghost: var(--ink-ghost);
+  --color-accent: var(--copper);
+  --color-divider: var(--hairline);
+}
+
+/* A troca acompanha a rampa em vez de estalar na fronteira. */
+body,
+.mf-label,
+.mf-display,
+.mf-body {
+  transition: color var(--duration-slow) var(--ease-in-out);
+}
+
 /* Seções escuras invertem os neutros sem trocar de paleta */
 [data-theme="dark"] {
   --color-text-primary: var(--bone);

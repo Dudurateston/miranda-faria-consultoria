@@ -78,36 +78,40 @@ export default function SiteNav({ revealAfterHero = false }) {
   height:var(--nav-height);
   display:flex;align-items:center;justify-content:space-between;
   padding:0 var(--gutter);
+  /* Acompanha a rampa de fundo: uma faixa cor-de-osso fixa viraria um
+     corte claro assim que a pagina desce para o cobre. */
   background:rgba(245,241,234,0.88);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--hairline);
+  border-bottom:1px solid var(--color-divider);
   transition:opacity var(--duration-base) var(--ease-in-out),
-             transform var(--duration-base) var(--ease-in-out);
+             transform var(--duration-base) var(--ease-in-out),
+             background-color var(--duration-slow) var(--ease-in-out);
 }
+[data-theme="on-copper"] .mf-nav{background:rgba(150,64,36,0.90)}
 .mf-nav[data-show="false"]{opacity:0;transform:translateY(-100%);pointer-events:none}
 .mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}
 
 .mf-nav__mark{
   font-family:var(--font-display);font-weight:400;font-size:13px;
   letter-spacing:var(--tracking-wordmark);text-transform:uppercase;
-  color:var(--ink);text-decoration:none;white-space:nowrap;
+  color:var(--color-text-primary);text-decoration:none;white-space:nowrap;
 }
 .mf-nav__links{display:flex;align-items:center;gap:clamp(1rem,2.4vw,2.2rem)}
 .mf-nav__link{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--ink-dim);text-decoration:none;
+  color:var(--color-text-secondary);text-decoration:none;
   padding-bottom:2px;border-bottom:1px solid transparent;
   transition:color var(--duration-fast) var(--ease-in-out),
              border-color var(--duration-fast) var(--ease-in-out);
 }
-.mf-nav__link:hover{color:var(--ink)}
-.mf-nav__link.is-active{color:var(--ink);border-bottom-color:var(--copper)}
+.mf-nav__link:hover{color:var(--color-text-primary)}
+.mf-nav__link.is-active{color:var(--color-text-primary);border-bottom-color:var(--color-accent)}
 
 .mf-nav__lang{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--copper);background:none;border:0;padding:0;cursor:pointer;
+  color:var(--color-accent);background:none;border:0;padding:0;cursor:pointer;
   white-space:nowrap;
 }
 .mf-nav__lang:hover{text-decoration:underline;text-underline-offset:4px}
