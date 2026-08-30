@@ -2,14 +2,43 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://base44.com/logo_v2.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Marca propria. Antes apontava para o logo do Base44, o que fazia
+         o site exibir a marca da plataforma na aba do navegador. -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
     <link rel="manifest" href="/manifest.json" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Inter:wght@300;400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
-    <meta name="description" content="Miranda Faria — Consultoria & Tecnologia. Sistemas sob medida, BI, automação e marca com IA para negócios reais." />
-    <title>Miranda Faria — Consultoria & Tecnologia</title>
+
+    <!-- A arte da hero e o maior elemento da primeira tela; pre-carregar
+         tira o atraso entre a fonte pintar e a imagem aparecer. -->
+    <link
+      rel="preload"
+      as="image"
+      href="/art/hero.webp"
+      imagesrcset="/art/hero@800.webp 800w, /art/hero.webp 1600w"
+      imagesizes="(max-width: 900px) 92vw, 1100px"
+    />
+
+    <meta name="description" content="I design and build complete web systems — brand, product and data as one — solo, using an orchestrated AI workflow." />
+    <meta name="theme-color" content="#F5F1EA" />
+    <title>Miranda Faria — Design Engineer &amp; Creative Technologist</title>
+
+    <!-- Cartao de link: e a primeira impressao quando o portfolio e
+         colado no LinkedIn ou no WhatsApp, antes do site abrir. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Miranda Faria" />
+    <meta property="og:title" content="Miranda Faria — Design Engineer &amp; Creative Technologist" />
+    <meta property="og:description" content="Brand, product and data as one system — designed and shipped by one person." />
+    <meta property="og:image" content="/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/og.png" />
   </head>
   <body>
     <div id="root"></div>

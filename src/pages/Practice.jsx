@@ -48,7 +48,7 @@ export default function Practice({ slug: slugProp }) {
     <>
       <PageHeader label={p.label} lead={p.lead} intro={p.intro} />
 
-      <ArtSlot variant={slug} src={`/art/${slug}.png`} alt={p.artAlt} />
+      <ArtSlot variant={slug} name={slug} alt={p.artAlt} />
 
       <MfRule />
 

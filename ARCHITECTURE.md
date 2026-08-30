@@ -14,8 +14,13 @@ de classe mundial**. Tire a imagem do apple.com e sobra uma página de
 texto centralizado. Oitenta por cento do impacto daqueles sites é mídia
 que custou muito dinheiro para existir.
 
-Hoje nós temos **zero mídia**. As molduras vazias nas páginas de case do
-build atual são a prova literal disso.
+**Atualizado (30/08):** a restrição mudou de natureza. A arte generativa
+foi produzida na Lovart e está servida do próprio domínio, em
+`public/art` — abertura, as três assinaturas de vertical, moldura de
+case, texturas, OG e favicon. O que **ainda** falta é a mídia que
+nenhuma arte gerada substitui: o print real de cada sistema, a captura
+em movimento e a foto do Eduardo. É essa que responde a pergunta
+silenciosa do visitante — *isso é real?*
 
 Isso não é um detalhe de produção — é a restrição arquitetural central.
 Ela determina que o impacto deste site **não pode vir de fotografia**.

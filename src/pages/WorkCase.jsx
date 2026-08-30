@@ -55,12 +55,22 @@ export default function WorkCase() {
           </div>
         </header>
 
-        {/* Espaco reservado para print ou video do sistema. Nunca link
-            para o app do cliente (DECISIONS.md). */}
+        {/* A moldura existe; o print do sistema entra dentro dela quando
+            for produzido. Nunca link para o app do cliente
+            (DECISIONS.md). */}
         <div className="mf-case__inner">
           <Reveal delay={120}>
-            <figure className="mf-case__media" aria-hidden="true">
-              <span className="mf-label">{item.name}</span>
+            <figure className="mf-case__media">
+              <img
+                className="mf-case__frame"
+                src="/art/case-frame.webp"
+                srcSet="/art/case-frame@800.webp 800w, /art/case-frame.webp 1600w"
+                sizes="(max-width: 900px) 100vw, 1180px"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption className="mf-label mf-case__caption">{item.name}</figcaption>
             </figure>
           </Reveal>
         </div>
@@ -111,10 +121,10 @@ export default function WorkCase() {
 
 .mf-case__media{
   margin:0 var(--gutter) clamp(2rem,5vh,3.5rem);
-  aspect-ratio:16/9;background:rgba(255,255,255,0.10);
-  border:1px solid var(--color-divider);
-  display:flex;align-items:flex-end;padding:1.25rem;
+  position:relative;
 }
+.mf-case__frame{display:block;width:100%;height:auto}
+.mf-case__caption{position:absolute;left:0;bottom:-1.6rem}
 
 .mf-case__body{padding:clamp(2.5rem,6vh,4.5rem) var(--gutter)}
 .mf-case__block{

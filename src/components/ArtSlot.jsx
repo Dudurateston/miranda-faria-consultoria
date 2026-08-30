@@ -119,8 +119,13 @@ const VARIANTS = {
   ),
 };
 
-export default function ArtSlot({ variant = "systems", src, alt = "" }) {
+/**
+ * `name` e o nome base em /public/art, sem extensao. O componente monta
+ * o srcset de duas larguras a partir dele: nome.webp e nome@800.webp.
+ */
+export default function ArtSlot({ variant = "systems", name, alt = "" }) {
   const [art, setArt] = useState(null);
+  const src = name ? `/art/${name}.webp` : null;
 
   useEffect(() => {
     if (!src) return;
@@ -140,7 +145,15 @@ export default function ArtSlot({ variant = "systems", src, alt = "" }) {
     <>
       <figure className="mf-art">
         {art ? (
-          <img className="mf-art__img" src={art} alt={alt} loading="lazy" decoding="async" />
+          <img
+            className="mf-art__img"
+            src={art}
+            srcSet={`/art/${name}@800.webp 800w, /art/${name}.webp 1600w`}
+            sizes="(max-width: 900px) 100vw, 1180px"
+            alt={alt}
+            loading="lazy"
+            decoding="async"
+          />
         ) : (
           <svg
             className="mf-art__svg"

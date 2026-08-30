@@ -5,11 +5,14 @@ import { copy } from "@/content/copy";
 /**
  * Hero estavel enquanto o elemento vivo/autonomo nao entra.
  *
- * Deliberadamente sem imagem: a arte do M vive hoje num app Base44
- * diferente deste site, e foi exatamente essa dependencia externa que
- * quebrou o shader de metal liquido por CORS (CLAUDE.md, historico
- * tecnico 2). Enquanto os assets nao vierem para dentro do repositorio,
- * a abertura e tipografica.
+ * A arte agora e servida do proprio dominio, em /public/art — nao mais
+ * de um app Base44 externo, que foi o que quebrou o shader por CORS
+ * (CLAUDE.md, historico tecnico 2). Como e imagem local, qualquer
+ * efeito futuro que precise ler pixels dela ja esta liberado.
+ *
+ * Isto ainda nao e o elemento vivo/autonomo que a direcao criativa
+ * pede — e uma abertura estatica forte enquanto o sistema de particulas
+ * nao existe.
  */
 export default function StaticHero() {
   const { lang } = useLang();
@@ -19,6 +22,15 @@ export default function StaticHero() {
     <>
       <section className="mf-hero" id="topo" data-depth="0" aria-label={`${t.wordmark} — ${t.role}`}>
         <div className="mf-hero__center">
+          <img
+            className="mf-hero__art"
+            src="/art/hero.webp"
+            srcSet="/art/hero@800.webp 800w, /art/hero.webp 1600w"
+            sizes="(max-width: 900px) 92vw, 1100px"
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+          />
           <h1 className="mf-hero__mark">{t.wordmark}</h1>
           <p className="mf-hero__role">{t.role}</p>
         </div>
@@ -33,7 +45,22 @@ export default function StaticHero() {
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   background:transparent;position:relative;padding:0 var(--gutter);
 }
-.mf-hero__center{text-align:center}
+.mf-hero__center{text-align:center;display:flex;flex-direction:column;align-items:center;
+  width:100%;max-width:1100px}
+.mf-hero__art{
+  display:block;width:100%;height:auto;max-height:52vh;object-fit:contain;
+  margin-bottom:clamp(1.5rem,4vh,3rem);
+  /* A arte entra sozinha na carga, sem depender de scroll: e o unico
+     momento da pagina em que o visitante ainda nao rolou nada. */
+  animation:mf-hero-settle 1400ms var(--ease-out-expo) both;
+}
+@keyframes mf-hero-settle{
+  from{opacity:0;transform:translateY(18px) scale(0.985)}
+  to{opacity:1;transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .mf-hero__art{animation:none}
+}
 .mf-hero__mark{
   font-family:var(--font-display);font-weight:400;
   font-size:clamp(1.75rem,5vw,3.5rem);

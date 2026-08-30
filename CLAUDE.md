@@ -150,8 +150,10 @@ alto impacto. Verificado no código:
 | Idioma | **Feito.** EN padrão, rotas reais `/en` e `/pt`, `hreflang` por rota, `navigator.language` + `localStorage`, sem trava por IP (`src/lib/i18n.jsx`) |
 | Formulário de contato | **Removido.** `ContactForm.jsx` e `sections/Conversar.jsx` apagados. CTA é link direto: WhatsApp no PT, Calendly no EN |
 | Conteúdo | **Feito.** Tudo em `src/content/copy.js`. EN e PT não são traduções: EN vende para o mercado internacional, PT para o cliente nacional |
-| Hero | **Pendente.** `StaticHero.jsx` é tipográfica e estável; o elemento vivo/autônomo ainda não foi construído |
-| Mídia dos cases | **Pendente.** `WorkCase.jsx` tem o espaço reservado, sem print nem vídeo ainda |
+| Arte generativa | **Feito.** Gerada na Lovart, servida de `public/art` — abertura, três assinaturas de vertical, moldura de case, texturas, OG e favicon. `scripts/optimize-art.mjs` recorta o fundo, redimensiona e converte para WebP; os originais ficam em `assets-source/` |
+| Hero | **Parcial.** Usa a arte de abertura, servida do próprio domínio. O elemento vivo/autônomo (partículas) ainda não existe |
+| Mídia dos cases | **Pendente.** A moldura existe e está no lugar; falta o print e o vídeo reais de cada sistema |
+| Favicon | **Feito.** Era o logo do Base44; agora é o M sólido da marca |
 | Coreografia de scroll | **Pendente.** Hoje só entradas com `Reveal`/`LineReveal`/stagger. Falta pin, revelação em etapas e transição entre páginas |
 | Hospedagem da logo | **Pendente.** Aponta para outro app Base44 — ver abaixo |
 
@@ -177,7 +179,12 @@ shader morto. A entidade `base44/entities/Contato.jsonc` continua de pé:
 o formulário saiu, mas apagar a entidade destruiria os contatos já
 recebidos.
 
-**A dependência frágil da logo é maior do que só a logo.** Não é um PNG
+**A dependência externa da logo foi RESOLVIDA.** Os assets vieram para
+`assets-source/` e são servidos de `public/`, no próprio domínio — o que
+libera qualquer efeito futuro que precise ler pixels. O texto abaixo fica
+como registro do que era o problema.
+
+**Era assim:** Não é um PNG
 solto: são o M translúcido *e* 26+ quadros da sequência antiga, todos em
 `base44.app/api/apps/69d13abf1923f13a0fcdbf60/...` — um app Base44
 diferente deste site. É exatamente a causa do erro de CORS do item 2 do
