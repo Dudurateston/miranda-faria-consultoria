@@ -26,6 +26,12 @@
   --bg-light: #F5F1EA;
   --bg-dark: #1A1A18;
 
+  /* Fundo da rampa de profundidade. Contraste por VALOR, no eixo
+     neutro — o cobre e acento e nunca vira campo de fundo. Trocar
+     estes dois valores muda a descida inteira do site. */
+  --depth-top: #F5F1EA;
+  --depth-bottom: #2A2621;
+
   /* MAPEAMENTO */
   --color-bg: var(--bone);
   --color-text-primary: var(--ink);
@@ -76,21 +82,23 @@
 /* ------------------------------------------------------------
    DESCIDA DE VALOR — a rampa do AmbientDepth
 
-   A pagina inteira desce continuamente do branco-osso (superficie)
-   ate o cobre queimado (a camada mineral funda). O AmbientDepth pinta
-   o fundo do body interpolando entre as duas cores e marca o <html>
-   com on-bone / on-copper conforme cruza o ponto de virada.
+   A pagina inteira desce continuamente da superficie cor-de-osso ate a
+   camada funda, no eixo NEUTRO. O AmbientDepth pinta o fundo do body
+   interpolando entre --depth-top e --depth-bottom e marca o <html> com
+   on-bone / on-deep conforme cruza o ponto de virada.
 
-   Sobre cobre, texto grafite cai para ~2,4:1 e some. Acima do ponto de
-   virada os neutros invertem: texto vira osso e o acento vira grafite,
-   reservado a tracos finos — nunca a texto corrido.
+   O cobre nao entra aqui: ele e o unico acento da marca e vive em
+   texto de destaque, tracos e no ponteiro. Fundo se resolve por valor,
+   nao por saturacao.
    ------------------------------------------------------------ */
-[data-theme="on-copper"] {
+[data-theme="on-deep"] {
   --color-text-primary: var(--bone);
-  --color-text-secondary: rgba(245, 241, 234, 0.78);
-  --color-text-ghost: rgba(245, 241, 234, 0.60);
-  --color-accent: var(--ink);
-  --color-divider: rgba(245, 241, 234, 0.30);
+  --color-text-secondary: rgba(245, 241, 234, 0.74);
+  --color-text-ghost: rgba(245, 241, 234, 0.52);
+  /* Sobre fundo escuro o cobre original cai para ~2,7:1 e some; a
+     variante clara sobe para ~5,7:1 e continua legivel como acento. */
+  --color-accent: var(--copper-light);
+  --color-divider: rgba(245, 241, 234, 0.22);
 }
 
 /* Estado inicial explicito: sem ele a primeira pintura pisca. */

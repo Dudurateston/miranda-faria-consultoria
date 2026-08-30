@@ -87,7 +87,7 @@ export default function SiteNav({ revealAfterHero = false }) {
              transform var(--duration-base) var(--ease-in-out),
              background-color var(--duration-slow) var(--ease-in-out);
 }
-[data-theme="on-copper"] .mf-nav{background:rgba(150,64,36,0.90)}
+[data-theme="on-deep"] .mf-nav{background:rgba(30,27,23,0.86)}
 .mf-nav[data-show="false"]{opacity:0;transform:translateY(-100%);pointer-events:none}
 .mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}
 

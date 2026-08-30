@@ -6,22 +6,25 @@ import gsap from "gsap";
  * AmbientDepth — substitui o ValueBackground.
  *
  * Metáfora de estratos: a página inteira é uma única descida contínua
- * de valor, do branco-osso (superfície) até o cobre queimado (a cor
- * de identidade, a "camada mineral" mais funda). Nunca alterna, nunca
- * corta seco — é uma rampa só, do topo ao fim da página.
+ * de valor, da superfície cor-de-osso até a camada mais funda. Nunca
+ * alterna, nunca corta seco — é uma rampa só, do topo ao fim da página.
+ * A descida é NEUTRA: o cobre é o único acento da marca e não vira
+ * campo de fundo.
  *
  * Cada seção declara sua profundidade via `data-depth` (0 a 1). O
  * fundo do body interpola continuamente entre as duas cores conforme
  * o centro da viewport avança pelas seções.
  *
- * Contraste: acima de depth 0.55 o texto principal e o traço vertical
- * de dwell viram --bone (a superfície do cobre é escura demais para
- * texto grafite). O acento passa a ser --ink, usado só em elementos
- * gráficos finos (linhas, pontos) — não em texto corrido.
+ * Contraste: acima de depth 0.55 os neutros invertem — texto vira
+ * --bone e o acento passa para --copper-light, que sobre fundo escuro
+ * mantém legibilidade onde o cobre original sumiria.
  */
 
-const BONE = "#F5F1EA";
-const COPPER = "#B5502E";
+// As duas pontas da rampa vivem no tokens.css (--depth-top /
+// --depth-bottom), para a descida inteira mudar num lugar so.
+const readToken = (name, fallback) =>
+  getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+
 const FLIP_AT = 0.55;
 
 export default function AmbientDepth() {
@@ -52,15 +55,18 @@ export default function AmbientDepth() {
         flippedRef.current = shouldFlip;
         document.documentElement.setAttribute(
           "data-theme",
-          shouldFlip ? "on-copper" : "on-bone"
+          shouldFlip ? "on-deep" : "on-bone"
         );
       }
     };
 
     const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 
+    const top = readToken("--depth-top", "#F5F1EA");
+    const bottom = readToken("--depth-bottom", "#2A2621");
+
     const paint = (depth) => {
-      const color = gsap.utils.interpolate(BONE, COPPER, depth);
+      const color = gsap.utils.interpolate(top, bottom, depth);
       gsap.set("body", { backgroundColor: color });
       applyTheme(depth);
     };
