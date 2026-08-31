@@ -42,10 +42,36 @@ repetindo o efeito idêntico duas vezes.
 — risco de leitura como ameaça, validado por pesquisa de UX). Referência
 literal a agro/interior/regional (público agora é internacional).
 
-## O logotipo — restrição técnica crítica
+## A MARCA — testemunho de sondagem, gerada em código
+
+**A marca do site NÃO é mais o monograma M.** O M montado em planos 3D
+foi rejeitado pelo cliente: ficava feio e, pior, não dizia nada — era
+uma letra chegando.
+
+No lugar está **o testemunho de sondagem** (`src/components/CoreSample.jsx`,
+dados em `src/content/coreSample.js`): a coluna que se extrai do solo
+para ler as camadas na ordem em que assentaram. É a metáfora da marca
+virada objeto, e diz o que o Eduardo faz antes de qualquer texto.
+
+Ela tem **duas vidas**, e isso é a decisão central:
+- `variant="opening"` — a extração, no centro da Home, camada por
+  camada conforme o scroll, com as quatro zonas nomeadas na régua.
+- `variant="rail"` — terminada a extração ela **não some**: encolhe e
+  estaciona no trilho esquerdo, marcando a profundidade da página.
+  De enfeite a instrumento. É por isso que faz sentido ela ficar.
+
+O trilho só entra quando a abertura sai (`timeline-scope: --mf-open` no
+`:root`). Ver as duas ao mesmo tempo quebra a ilusão de que é a mesma
+marca se transformando.
+
+Zero imagem: as densidades são gradiente repetido. Acrescentar uma
+camada é editar `coreSample.js`, sem tocar em CSS.
+
+## O logotipo antigo — restrição técnica, mantida como registro
 
 Monograma "M" de planos geométricos translúcidos sobrepostos, GERADO
-POR IA (Lovart). É uma imagem raster, não um vetor limpo.
+POR IA (Lovart). É uma imagem raster, não um vetor limpo. Segue em
+`public/brand/` e no favicon, mas **não é mais a marca do site**.
 
 - Vetorização automática **falhou**: perdeu a transparência, virou
   manchas opacas chapadas. Não tentar de novo sem supervisão manual forte.
@@ -119,8 +145,8 @@ fundo generativo diferente por aba).
 
 ```
 /                  Home — resume tudo para quem só visita uma página
-/systems           Sites e sistemas no Base44
-/design            Design com Lovart e IA
+/systems           Sites e sistemas sob medida
+/design            Marca e design com auxílio de IA
 /business          Gestão, BI e IA para negócios
 /work              Índice de TODOS os projetos (transversal às três verticais)
 /work/:slug        Case individual (Problema → Processo → Decisões → Resultado)
@@ -158,7 +184,7 @@ alto impacto. Verificado no código:
 | Favicon | **Feito.** Era o logo do Base44; agora é o M sólido da marca |
 | Coreografia de scroll | **Feito.** `src/styles/motion.css` — animações dirigidas pelo scroll em CSS nativo (`animation-timeline: view()`), no thread do compositor. Entrada em etapas, hero que recua ao sair, mídia de case que assenta, barra de progresso |
 | Transição entre páginas | **Feito.** View Transitions API via `TransitionLink.jsx`. Nav e rodapé nomeados ficam parados; o conteúdo afunda e emerge. Degrada para navegação normal sem suporte |
-| Hospedagem da logo | **Pendente.** Aponta para outro app Base44 — ver abaixo |
+| Hospedagem de assets | **Resolvido.** Tudo servido de `public/`, no próprio domínio. A dependência externa que causava o CORS acabou |
 
 **Páginas em `src/pages/`:** `Home` (resumo), `Work` (índice),
 `WorkCase` (Problema → Processo → Decisões → Resultado), `HowIWork`
@@ -253,6 +279,44 @@ Lenis para smooth scroll, se mantido — sincronizar em um único
 
 Para convenções de Base44/CLI, workflow de `base44 dev` e publicação,
 ver `AGENTS.md` e `README.md`.
+
+## Regras aprendidas nesta fase — não desfazer
+
+**A rampa de cor vive só em `/how-i-work`.** Ela era igual em todas as
+páginas e cansava; o momento da troca incomodava. Sobreviveu onde
+carrega sentido: as quatro camadas *são* a descida. Nas outras páginas
+o fundo é estável, e o destaque vem de um elemento próprio.
+
+**Cada página tem um elemento que só faz sentido nela.** Não decoração:
+`/systems` desenha o modelo de dados, `/design` compõe planos
+translúcidos, `/business` enche barras de leitura, `/about` mostra o
+diagrama de passagem de bastão. Ver `PracticeSignature.jsx` e
+`HandoffDiagram.jsx`.
+
+**Nunca citar Base44 na copy do site.** Citar a plataforma desloca o
+posicionamento de "eu construo sistemas" para "eu uso um construtor".
+Quando precisar falar do método, dizer "auxílio de IA" — e sempre com a
+ressalva de que modelo, estados e casos de borda são decisão humana.
+
+**Os links das verticais na Home não saem da Home.** As três frentes
+abrem num acordeão (`PracticeAccordion.jsx`) com o que entregam e os
+cases de cada uma; o CTA para aprofundar vem depois. Mandar embora no
+primeiro clique custa o visitante que ainda não entendeu o todo.
+
+**O cobre não é cor de texto pequeno.** Medido: 4,49:1 sobre osso,
+reprova AA por 0,01. Só traço, borda e marca gráfica. Documentado com
+os números em `tokens.css`.
+
+**A função de cada página:**
+| Rota | O que ela resolve |
+|---|---|
+| `/` | Responder em 40s e deixar escolher a profundidade sem sair |
+| `/systems` `/design` `/business` | A disciplina a fundo, com os cases dela |
+| `/work` | Evidência: o índice de todos os projetos |
+| `/work/:slug` | Problema → Processo → **Decisões** → Resultado |
+| `/how-i-work` | Redução de risco: as quatro camadas e o papel da IA |
+| `/about` | Confiança: quem é, por que sozinho, o alcance, **e os limites** |
+| `/contact` | Conversão: o que acontece depois, e para quem serve |
 
 ## Como trabalhar comigo (Eduardo)
 
