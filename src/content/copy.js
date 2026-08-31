@@ -143,6 +143,31 @@ export const copy = {
         "I work solo and ship fast, using an orchestrated AI workflow through the mechanical parts of the build. Everything that leaves here passes through my hands before it reaches you.",
       ],
       location: "Based in Brazil (UTC−3) — full working-day overlap with US hours, partial with Europe.",
+
+      // O argumento central, mostrado em vez de afirmado.
+      spanLabel: "Where the work usually breaks",
+      spanLead: "Three teams, two handoffs.",
+      spanSplit: ["Design", "Front-end", "Data"],
+      spanWhole: "One person",
+      spanSeam: "intent leaks",
+      spanBody:
+        "A normal build splits across a designer, a front-end developer and whoever owns the database. Intent leaks at each seam: the layout survives, the reason for it does not. I carry all three, so there is no seam to leak through.",
+
+      rangeLabel: "Range",
+      range: [
+        { t: "Brand", d: "Identity, palette, type, the applied pieces, and the token system the code actually reads." },
+        { t: "Interface", d: "React, design systems, motion, accessibility measured rather than assumed." },
+        { t: "Data", d: "Entity modelling, relationships, what is stored versus derived, migrations." },
+        { t: "Delivery", d: "Deployment, hosting, ownership transfer. The infrastructure ends up in the client's name." },
+      ],
+
+      // Nomear o limite constrói mais confiança do que esconder.
+      limitsLabel: "What I don't do",
+      limits: [
+        "Native mobile apps. If the answer is iOS and Android, I am the wrong call.",
+        "Long-term staffing. I build, hand over, and leave the system running without me.",
+        "Work I can't sign. If the brief needs my name off it, it isn't a fit.",
+      ],
     },
     contact: {
       label: "Contact",
@@ -151,6 +176,17 @@ export const copy = {
       primary: "Book a call",
       secondary: "Send an email",
       response: "I answer the same day.",
+
+      expectLabel: "What happens next",
+      expect: [
+        { t: "You write", d: "One paragraph is enough. What is jamming, and who it is jamming for." },
+        { t: "We talk, 30 minutes", d: "No cost, no deck. I ask about the operation, not about the feature list." },
+        { t: "You get a scope", d: "Deliverable, deadline and price, in writing, before anything is built." },
+      ],
+
+      fitLabel: "Good fit / bad fit",
+      fitYes: "An operation that outgrew its spreadsheets. A brand that has to ship as a product, not a PDF. A number nobody trusts.",
+      fitNo: "A pixel-for-pixel copy of another site. A team hire disguised as a project. A deadline that was already impossible last month.",
     },
     footer: {
       tagline: "Miranda Faria · Design Engineer & Creative Technologist",
@@ -277,6 +313,29 @@ export const copy = {
         "Trabalho sozinho e entrego rápido. Uso IA em boa parte do processo — na construção dos sistemas e na criação visual —, e é por isso que consigo fazer sob medida por um preço que agência não alcança. O que sai daqui passa pela minha mão antes de chegar em você.",
       ],
       location: "Atendimento remoto para todo o Brasil.",
+
+      spanLabel: "Onde o trabalho costuma quebrar",
+      spanLead: "Três times, duas passagens de bastão.",
+      spanSplit: ["Design", "Front-end", "Dados"],
+      spanWhole: "Uma pessoa",
+      spanSeam: "a intenção vaza",
+      spanBody:
+        "Um projeto normal se divide entre quem desenha, quem programa a tela e quem cuida do banco. A intenção vaza em cada emenda: o layout sobrevive, o motivo dele não. Eu carrego as três pontas, então não existe emenda por onde vazar.",
+
+      rangeLabel: "Alcance",
+      range: [
+        { t: "Marca", d: "Identidade, paleta, tipografia, peças de aplicação e o sistema de tokens que o código lê de fato." },
+        { t: "Interface", d: "React, design system, movimento, acessibilidade medida em vez de suposta." },
+        { t: "Dados", d: "Modelagem de entidades, relações, o que é guardado e o que é calculado, migrações." },
+        { t: "Entrega", d: "Publicação, hospedagem, transferência de titularidade. A infraestrutura fica no seu nome." },
+      ],
+
+      limitsLabel: "O que eu não faço",
+      limits: [
+        "Aplicativo nativo. Se a resposta é iOS e Android, eu sou a ligação errada.",
+        "Alocação de longo prazo. Eu construo, entrego e saio com o sistema rodando sem mim.",
+        "Trabalho que eu não assinaria. Se o projeto precisa do meu nome fora, não serve.",
+      ],
     },
     contact: {
       label: "Conversar",
@@ -285,6 +344,17 @@ export const copy = {
       primary: "Chamar no WhatsApp",
       secondary: "Mandar e-mail",
       response: "Respondo no mesmo dia.",
+
+      expectLabel: "O que acontece depois",
+      expect: [
+        { t: "Você escreve", d: "Um parágrafo basta. O que está travando, e para quem está travando." },
+        { t: "Conversamos, 30 minutos", d: "Sem custo, sem apresentação. Pergunto da operação, não da lista de funcionalidades." },
+        { t: "Você recebe um escopo", d: "Entrega, prazo e valor, por escrito, antes de qualquer construção." },
+      ],
+
+      fitLabel: "Serve / não serve",
+      fitYes: "Operação que não cabe mais na planilha. Marca que precisa sair como produto, não como PDF. Um número em que ninguém confia.",
+      fitNo: "Cópia pixel a pixel de outro site. Contratação disfarçada de projeto. Prazo que já era impossível mês passado.",
     },
     footer: {
       tagline: "Miranda Faria · Consultoria & Tecnologia · Brasil",
