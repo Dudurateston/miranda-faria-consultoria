@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import Link from "@/components/TransitionLink";
 
-import StaticHero from "@/components/StaticHero";
+import OpeningSequence from "@/components/OpeningSequence";
 import MfRule from "@/components/MfRule";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
@@ -30,7 +30,7 @@ export default function Home() {
 
   return (
     <>
-      <StaticHero />
+      <OpeningSequence />
       <MfRule />
 
       {/* Tese */}

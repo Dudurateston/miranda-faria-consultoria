@@ -50,6 +50,8 @@
       to   { opacity: 0; transform: translateY(-8%) scale(0.94); filter: blur(3px); }
     }
 
+    /* A OpeningSequence tem coreografia propria; esta regra sobra
+       para o StaticHero, que segue disponivel como fallback. */
     .mf-hero__center {
       animation: mf-recede linear both;
       animation-timeline: view();
