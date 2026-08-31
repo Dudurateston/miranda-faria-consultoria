@@ -4,6 +4,7 @@ import { Navigate, useParams } from "react-router-dom";
 import PageHeader from "@/components/layout/PageHeader";
 import MfRule from "@/components/MfRule";
 import ArtSlot from "@/components/ArtSlot";
+import PracticeSignature from "@/components/PracticeSignature";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useScrollStagger } from "@/hooks/useScrollStagger";
@@ -69,6 +70,15 @@ export default function Practice({ slug: slugProp }) {
             ))}
           </div>
         </div>
+      </section>
+
+      <MfRule />
+
+      {/* A assinatura desta vertical: um objeto que so faz sentido
+          aqui. Substitui a rampa de cor, que era igual em toda pagina
+          e por isso cansava. */}
+      <section className="mf-pr mf-pr--sig">
+        <PracticeSignature variant={slug} caption={p.sigCaption} />
       </section>
 
       <MfRule />
@@ -140,6 +150,7 @@ export default function Practice({ slug: slugProp }) {
 
       <style>{`
 .mf-pr{padding:var(--section-gap) var(--gutter)}
+.mf-pr--sig{padding-left:0;padding-right:0}
 .mf-pr__inner{max-width:var(--max-width-page);margin:0 auto}
 
 .mf-pr__grid{display:grid;grid-template-columns:1fr;gap:0;margin-top:2.5rem;

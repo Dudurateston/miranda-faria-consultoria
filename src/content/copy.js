@@ -600,6 +600,7 @@ export const practices = {
       intro:
         "Catalogues, inventory, ordering and admin panels, built on a real database with an interface the client operates without calling me. An AI-assisted build is why the unit of delivery is weeks instead of months — the schema, the states and the edge cases are still mine to decide.",
       artAlt: "Blueprint linework resolving into built structure",
+      sigCaption: "The data model underneath — entities and how they relate",
       deliverablesLabel: "What I deliver",
       deliverables: [
         {
@@ -629,6 +630,7 @@ export const practices = {
       intro:
         "Identity, design system and the applied pieces. AI generates the first drafts — Lovart for imagery, code for the system — and every piece passes through my hands before it ships. That is the difference between leverage and a shortcut.",
       artAlt: "Translucent planes composing, some still finding position",
+      sigCaption: "Composition in progress — some planes settled, some still moving",
       deliverablesLabel: "What I deliver",
       deliverables: [
         {
@@ -658,6 +660,7 @@ export const practices = {
       intro:
         "BI, dashboards and automation. Sales, inventory, margin and productivity on one screen that refreshes on its own, plus the flows that run without anyone pressing a button.",
       artAlt: "A geological core sample sectioned into layers of data",
+      sigCaption: "A panel being read — each bar a figure the owner checks daily",
       deliverablesLabel: "What I deliver",
       deliverables: [
         {
@@ -690,6 +693,7 @@ export const practices = {
       intro:
         "Catálogo, estoque, cadastro e pedidos, com banco de dados de verdade e um painel que o cliente usa sem me chamar. A construção com auxílio de IA é o que faz a entrega se medir em semanas, não em meses — o modelo, os estados e os casos de borda continuam sendo decisão minha.",
       artAlt: "Linhas de prancha virando estrutura construída",
+      sigCaption: "O modelo de dados por baixo — entidades e como se relacionam",
       deliverablesLabel: "O que entrego",
       deliverables: [
         {
@@ -719,6 +723,7 @@ export const practices = {
       intro:
         "Identidade, design system e as peças de aplicação. A IA gera os primeiros rascunhos — Lovart para imagem, código para o sistema — e cada peça passa pela minha mão antes de sair. É essa a diferença entre alavanca e atalho.",
       artAlt: "Planos translúcidos se compondo, alguns ainda assentando",
+      sigCaption: "Composição em andamento — alguns planos assentados, outros ainda em movimento",
       deliverablesLabel: "O que entrego",
       deliverables: [
         {
@@ -748,6 +753,7 @@ export const practices = {
       intro:
         "BI, painéis e automação. Venda, estoque, margem e produtividade numa tela só, que atualiza sozinha — mais os fluxos que rodam sem ninguém apertar botão.",
       artAlt: "Testemunho de sondagem seccionado em camadas de dado",
+      sigCaption: "Um painel sendo lido — cada barra é um número que o dono confere todo dia",
       deliverablesLabel: "O que entrego",
       deliverables: [
         {
