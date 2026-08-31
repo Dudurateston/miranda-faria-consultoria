@@ -1,0 +1,160 @@
+/* ============================================================
+   COREOGRAFIA DE SCROLL — animações dirigidas pelo scroll, em CSS
+
+   Nativo em vez de biblioteca, por três motivos concretos:
+   roda no thread do compositor (não engasga com o scroll suave do
+   Lenis), não depende de JavaScript executar antes de pintar, e não
+   soma um segundo laço de animação — que é justamente o erro que
+   travou a primeira tentativa de hero deste projeto.
+
+   Progressive enhancement: sem suporte, o conteúdo simplesmente
+   aparece. Nada aqui é necessário para ler a página.
+   ============================================================ */
+
+@supports (animation-timeline: view()) and (animation-range: 0% 100%) {
+  @media (prefers-reduced-motion: no-preference) {
+
+    /* --------------------------------------------------------
+       1. ENTRADA EM ETAPAS
+       O elemento sobe e ganha nitidez conforme ENTRA na viewport,
+       e a animação termina antes de ele chegar ao centro — assim o
+       visitante lê o conteúdo parado, não em movimento.
+       -------------------------------------------------------- */
+    @keyframes mf-rise {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .mf-stage > * {
+      animation: mf-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 34%;
+    }
+
+    /* Escalonamento por posição: cada filho entra um pouco depois do
+       anterior, deslocando a faixa de animação em vez de usar delay —
+       delay não existe em linha do tempo de scroll. */
+    .mf-stage > *:nth-child(2) { animation-range: entry 14% cover 40%; }
+    .mf-stage > *:nth-child(3) { animation-range: entry 20% cover 46%; }
+    .mf-stage > *:nth-child(4) { animation-range: entry 26% cover 52%; }
+    .mf-stage > *:nth-child(5) { animation-range: entry 30% cover 56%; }
+
+    /* --------------------------------------------------------
+       2. A ABERTURA QUE SE AFASTA
+       A hero não corta: ela recua e desbota conforme a página desce
+       por cima. É a "profundidade revelada" da marca, aplicada ao
+       gesto de sair da primeira tela.
+       -------------------------------------------------------- */
+    @keyframes mf-recede {
+      from { opacity: 1; transform: none; filter: blur(0); }
+      to   { opacity: 0; transform: translateY(-8%) scale(0.94); filter: blur(3px); }
+    }
+
+    .mf-hero__center {
+      animation: mf-recede linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 90%;
+    }
+
+    /* --------------------------------------------------------
+       3. AS RÉGUAS DE ESTRATO SE DESENHAM COM O SCROLL
+       O MfRule já se desenha ao entrar, uma vez. Aqui a régua de
+       seção acompanha o scroll continuamente, o que amarra o motivo
+       ao gesto em vez de a um gatilho.
+       -------------------------------------------------------- */
+    @keyframes mf-draw {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    .mf-scrollrule {
+      transform-origin: left center;
+      animation: mf-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 28%;
+    }
+
+    /* --------------------------------------------------------
+       4. A MÍDIA DO CASE GANHA PROFUNDIDADE
+       Escala levemente enquanto atravessa a tela. Movimento pequeno
+       de propósito: em captura de tela, exagero vira distração.
+       -------------------------------------------------------- */
+    @keyframes mf-settle {
+      from { transform: scale(1.04) translateY(14px); opacity: 0.55; }
+      50%  { transform: none; opacity: 1; }
+      to   { transform: scale(1.01) translateY(-8px); opacity: 0.9; }
+    }
+
+    .mf-cm {
+      animation: mf-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+
+    /* --------------------------------------------------------
+       5. PROGRESSO DE LEITURA
+       Uma linha fina de cobre no topo, dirigida pelo scroll do
+       documento. É o único lugar do site onde o cobre se move.
+       -------------------------------------------------------- */
+    @keyframes mf-progress {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    .mf-progress {
+      animation: mf-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+/* Sem suporte a linha do tempo de scroll, ou com movimento reduzido:
+   tudo visível e parado. O conteúdo nunca depende da animação. */
+@supports not ((animation-timeline: view()) and (animation-range: 0% 100%)) {
+  .mf-progress { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mf-progress { display: none; }
+}
+
+/* ============================================================
+   TRANSIÇÃO ENTRE PÁGINAS — View Transitions API
+
+   Não é um cross-fade genérico: a página que sai afunda um pouco e
+   desbota, a que entra emerge de baixo. É o motivo de estratos
+   aplicado ao gesto de trocar de camada.
+
+   A nav e o rodapé são nomeados, então permanecem parados enquanto o
+   conteúdo troca — o que faz a navegação parecer uma casca estável em
+   vez de a página inteira piscar.
+   ============================================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: mf-vt-out 320ms cubic-bezier(0.4, 0, 1, 1) both;
+  }
+  ::view-transition-new(root) {
+    animation: mf-vt-in 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes mf-vt-out {
+    to { opacity: 0; transform: translateY(-1.5%) scale(0.985); }
+  }
+  @keyframes mf-vt-in {
+    from { opacity: 0; transform: translateY(2.5%); }
+  }
+
+  /* Casca estável: a nav e o rodapé não participam da troca. */
+  .mf-nav { view-transition-name: mf-shell-nav; }
+  .mf-foot { view-transition-name: mf-shell-foot; }
+  ::view-transition-group(mf-shell-nav),
+  ::view-transition-group(mf-shell-foot) {
+    animation-duration: 0ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none; }
+}

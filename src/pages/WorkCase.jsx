@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import Link from "@/components/TransitionLink";
+import { Navigate, useParams } from "react-router-dom";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import MfRule from "@/components/MfRule";

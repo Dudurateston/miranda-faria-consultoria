@@ -70,6 +70,10 @@ export default function SiteLayout() {
 
   return (
     <div className="mf-shell">
+      {/* Progresso de leitura — dirigido pelo scroll do documento em
+          CSS puro, sem laco de animacao proprio. */}
+      <div className="mf-progress" aria-hidden="true" />
+
       {/* A nav so espera a hero passar na home; nas internas aparece de cara. */}
       <SiteNav revealAfterHero={isHome} />
       <main id="conteudo" className={isHome ? undefined : "mf-shell__main"}>
@@ -80,6 +84,11 @@ export default function SiteLayout() {
       {lang === "pt" && <div className="h-20 md:hidden" />}
 
       <style>{`
+.mf-progress{
+  position:fixed;top:0;left:0;right:0;height:2px;z-index:70;
+  background:var(--copper);transform:scaleX(0);transform-origin:left center;
+}
+
 /* Paginas internas comecam abaixo da nav fixa; a home nao, porque a
    hero ocupa a viewport inteira e a nav so aparece depois dela. */
 .mf-shell__main{padding-top:var(--nav-height)}

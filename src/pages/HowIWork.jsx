@@ -28,7 +28,7 @@ export default function HowIWork() {
       <MfRule />
 
       <section className="mf-hiw" data-depth="0.30">
-        <div ref={layersRef} className="mf-hiw__stack">
+        <div ref={layersRef} className="mf-hiw__stack mf-stage">
           {t.layers.map((l, i) => (
             <article
               className="mf-hiw__layer"

@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import Link from "@/components/TransitionLink";
+
 import PageHeader from "@/components/layout/PageHeader";
 import MfRule from "@/components/MfRule";
 import { useScrollStagger } from "@/hooks/useScrollStagger";
@@ -22,7 +23,7 @@ export default function Work() {
       <MfRule />
 
       <section className="mf-work" data-depth="0.26">
-        <div ref={listRef} className="mf-work__list">
+        <div ref={listRef} className="mf-work__list mf-stage">
           {list.map((c, i) => (
             <Link
               key={c.slug}

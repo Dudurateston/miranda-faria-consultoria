@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "@/components/TransitionLink";
+
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import MfRule from "@/components/MfRule";

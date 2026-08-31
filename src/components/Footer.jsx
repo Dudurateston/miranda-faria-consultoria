@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "@/components/TransitionLink";
+
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { LINKEDIN_URL } from "@/lib/site";

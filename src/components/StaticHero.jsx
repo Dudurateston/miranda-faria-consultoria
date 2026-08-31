@@ -1,6 +1,7 @@
 import React from "react";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
+import LivingHero from "@/components/LivingHero";
 
 /**
  * Hero estavel enquanto o elemento vivo/autonomo nao entra.
@@ -21,6 +22,8 @@ export default function StaticHero() {
   return (
     <>
       <section className="mf-hero" id="topo" data-depth="0" aria-label={`${t.wordmark} — ${t.role}`}>
+        <LivingHero />
+
         <div className="mf-hero__center">
           <img
             className="mf-hero__art"
@@ -46,7 +49,7 @@ export default function StaticHero() {
   background:transparent;position:relative;padding:0 var(--gutter);
 }
 .mf-hero__center{text-align:center;display:flex;flex-direction:column;align-items:center;
-  width:100%;max-width:1100px}
+  width:100%;max-width:1100px;position:relative;z-index:1}
 .mf-hero__art{
   display:block;width:100%;height:auto;max-height:52vh;object-fit:contain;
   margin-bottom:clamp(1.5rem,4vh,3rem);

@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import Link from "@/components/TransitionLink";
+
 import StaticHero from "@/components/StaticHero";
 import MfRule from "@/components/MfRule";
 import Reveal from "@/components/Reveal";
@@ -54,7 +55,7 @@ export default function Home() {
             <p className="mf-label">{t.pitch.label}</p>
           </Reveal>
           <LineReveal className="mf-home__lead">{t.pitch.lead}</LineReveal>
-          <div ref={pitchRef} className="mf-pitch">
+          <div ref={pitchRef} className="mf-pitch mf-stage">
             {t.pitch.items.map((item, i) => (
               <article className="mf-pitch__item" key={item.t}>
                 <span className="mf-pitch__num">{String(i + 1).padStart(2, "0")}</span>
@@ -75,7 +76,7 @@ export default function Home() {
             <p className="mf-label">{t.workTeaser.label}</p>
           </Reveal>
           <LineReveal className="mf-home__lead">{t.workTeaser.lead}</LineReveal>
-          <div ref={workRef} className="mf-teaser">
+          <div ref={workRef} className="mf-teaser mf-stage">
             {featured.map((c, i) => (
               <Link
                 key={c.slug}

@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import Link from "@/components/TransitionLink";
+import { Navigate, useParams } from "react-router-dom";
 import PageHeader from "@/components/layout/PageHeader";
 import MfRule from "@/components/MfRule";
 import ArtSlot from "@/components/ArtSlot";
@@ -58,7 +59,7 @@ export default function Practice({ slug: slugProp }) {
           <Reveal>
             <p className="mf-label">{p.deliverablesLabel}</p>
           </Reveal>
-          <div ref={deliverRef} className="mf-pr__grid">
+          <div ref={deliverRef} className="mf-pr__grid mf-stage">
             {p.deliverables.map((d, i) => (
               <article className="mf-pr__item" key={d.t}>
                 <span className="mf-pr__num">{String(i + 1).padStart(2, "0")}</span>
@@ -78,7 +79,7 @@ export default function Practice({ slug: slugProp }) {
           <Reveal>
             <p className="mf-label">{steps.label}</p>
           </Reveal>
-          <div ref={stepsRef} className="mf-pr__steps">
+          <div ref={stepsRef} className="mf-pr__steps mf-stage">
             {steps.steps.map((st, i) => (
               <div className="mf-pr__step" key={st.t}>
                 <span className="mf-pr__stepnum">{String(i + 1).padStart(2, "0")}</span>
