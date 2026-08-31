@@ -15,9 +15,11 @@ import gsap from "gsap";
  * fundo do body interpola continuamente entre as duas cores conforme
  * o centro da viewport avança pelas seções.
  *
- * Contraste: acima de depth 0.55 os neutros invertem — texto vira
- * --bone e o acento passa para --copper-light, que sobre fundo escuro
- * mantém legibilidade onde o cobre original sumiria.
+ * Contraste: acima de FLIP_AT os neutros invertem — texto vira --bone e
+ * o acento passa para --copper-light. Entre 0,45 e 0,80 existe uma faixa
+ * cega em que nenhuma das duas cores alcanca 4,5:1; por isso as secoes
+ * so descansam em <= 0,35 ou >= 0,85 e a travessia do meio e acelerada.
+ * A medicao esta documentada no tokens.css.
  */
 
 // As duas pontas da rampa vivem no tokens.css (--depth-top /
@@ -25,7 +27,12 @@ import gsap from "gsap";
 const readToken = (name, fallback) =>
   getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
 
-const FLIP_AT = 0.55;
+// A virada fica no meio da faixa cega documentada no tokens.css.
+const FLIP_AT = 0.62;
+
+// Expoente da travessia. Mantem a cor perto das pontas na maior parte do
+// percurso e cruza o tom medio depressa, porque e la que o texto some.
+const CROSS = 7;
 
 export default function AmbientDepth() {
   const sectionsRef = useRef([]);
@@ -60,7 +67,10 @@ export default function AmbientDepth() {
       }
     };
 
-    const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+    const easeInOut = (t) =>
+      t < 0.5
+        ? 0.5 * Math.pow(2 * t, CROSS)
+        : 1 - 0.5 * Math.pow(2 * (1 - t), CROSS);
 
     const top = readToken("--depth-top", "#F5F1EA");
     const bottom = readToken("--depth-bottom", "#2A2621");

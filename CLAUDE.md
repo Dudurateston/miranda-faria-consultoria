@@ -152,7 +152,9 @@ alto impacto. Verificado no código:
 | Conteúdo | **Feito.** Tudo em `src/content/copy.js`. EN e PT não são traduções: EN vende para o mercado internacional, PT para o cliente nacional |
 | Arte generativa | **Feito.** Gerada na Lovart, servida de `public/art` — abertura, três assinaturas de vertical, moldura de case, texturas, OG e favicon. `scripts/optimize-art.mjs` recorta o fundo, redimensiona e converte para WebP; os originais ficam em `assets-source/` |
 | Hero | **Parcial.** Usa a arte de abertura, servida do próprio domínio. O elemento vivo/autônomo (partículas) ainda não existe |
-| Mídia dos cases | **Pendente.** A moldura existe e está no lugar; falta o print e o vídeo reais de cada sistema |
+| Mídia dos cases | **Parcial.** Queijos Santana, Roda de Agronegócios e Paulo Henrique têm print e vídeo reais (`public/work/`, via `scripts/optimize-work.mjs`). Os cinco cases antigos ainda usam a moldura |
+| Contraste | **Auditado.** 336 medições em 7 páginas × 6 posições de scroll, todas passando em WCAG AA. **O cobre reprova como texto pequeno** (4,49:1 sobre osso) — é traço e marca, nunca rótulo ou número. A rampa tem faixa cega entre 0,45 e 0,80: seções só descansam em ≤0,35 ou ≥0,85. Regras medidas e documentadas em `tokens.css` |
+| Lançamento | **Feito.** `robots.txt`, `sitemap.xml` (gerado no build, nunca desatualiza), `manifest.json`, canonical por rota, OG card |
 | Favicon | **Feito.** Era o logo do Base44; agora é o M sólido da marca |
 | Coreografia de scroll | **Pendente.** Hoje só entradas com `Reveal`/`LineReveal`/stagger. Falta pin, revelação em etapas e transição entre páginas |
 | Hospedagem da logo | **Pendente.** Aponta para outro app Base44 — ver abaixo |

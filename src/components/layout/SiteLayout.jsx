@@ -35,6 +35,17 @@ function useDocumentHead(lang, pathname) {
     existing.forEach((el) => el.remove());
 
     const origin = window.location.origin;
+
+    // Canonical: sem ele, a mesma pagina alcancada por URLs diferentes
+    // (com query de campanha, por exemplo) e indexada como duplicata.
+    let canon = document.querySelector('link[rel="canonical"]');
+    if (!canon) {
+      canon = document.createElement("link");
+      canon.setAttribute("rel", "canonical");
+      document.head.appendChild(canon);
+    }
+    canon.setAttribute("href", origin + pathname);
+
     const alternates = [
       ...LANGS.map((l) => ({ hreflang: l, href: origin + swapLangInPath(pathname, l) })),
       { hreflang: "x-default", href: origin + swapLangInPath(pathname, "en") },

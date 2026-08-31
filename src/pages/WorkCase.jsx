@@ -3,6 +3,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import MfRule from "@/components/MfRule";
+import CaseMedia from "@/components/CaseMedia";
 import { useLang } from "@/lib/i18n";
 import { copy, cases, getCase } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
@@ -55,29 +56,17 @@ export default function WorkCase() {
           </div>
         </header>
 
-        {/* A moldura existe; o print do sistema entra dentro dela quando
-            for produzido. Nunca link para o app do cliente
-            (DECISIONS.md). */}
-        <div className="mf-case__inner">
+        {/* Capturas reais do sistema. Nunca link para o app do cliente
+            (DECISIONS.md) — so imagem e video. */}
+        <div className="mf-case__inner mf-case__mediawrap">
           <Reveal delay={120}>
-            <figure className="mf-case__media">
-              <img
-                className="mf-case__frame"
-                src="/art/case-frame.webp"
-                srcSet="/art/case-frame@800.webp 800w, /art/case-frame.webp 1600w"
-                sizes="(max-width: 900px) 100vw, 1180px"
-                alt=""
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption className="mf-label mf-case__caption">{item.name}</figcaption>
-            </figure>
+            <CaseMedia media={item.media} name={item.name} />
           </Reveal>
         </div>
 
         <MfRule />
 
-        <div className="mf-case__body" data-depth="0.34">
+        <div className="mf-case__body" data-depth="0.28">
           <div className="mf-case__inner">
             {blocks.map((b, i) => (
               <Reveal key={b.k} delay={i * 60}>
@@ -92,7 +81,7 @@ export default function WorkCase() {
 
         <MfRule />
 
-        <nav className="mf-case__next" data-depth="0.62">
+        <nav className="mf-case__next" data-depth="0.88">
           <div className="mf-case__inner">
             <p className="mf-label">{t.nextCase}</p>
             <Link to={path(`work/${next.slug}`)} className="mf-case__nextlink" data-cursor="link">
@@ -119,12 +108,7 @@ export default function WorkCase() {
   color:var(--color-text-secondary);max-width:var(--max-width-body);margin:2rem 0 0;
 }
 
-.mf-case__media{
-  margin:0 var(--gutter) clamp(2rem,5vh,3.5rem);
-  position:relative;
-}
-.mf-case__frame{display:block;width:100%;height:auto}
-.mf-case__caption{position:absolute;left:0;bottom:-1.6rem}
+.mf-case__mediawrap{padding:0 var(--gutter);margin-bottom:clamp(2rem,5vh,3.5rem)}
 
 .mf-case__body{padding:clamp(2.5rem,6vh,4.5rem) var(--gutter)}
 .mf-case__block{

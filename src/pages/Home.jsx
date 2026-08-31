@@ -33,7 +33,7 @@ export default function Home() {
       <MfRule />
 
       {/* Tese */}
-      <section className="mf-home__sec" data-depth="0.10">
+      <section className="mf-home__sec" data-depth="0.08">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.thesis.label}</p>
@@ -48,7 +48,7 @@ export default function Home() {
       <MfRule />
 
       {/* Argumento — tres blocos */}
-      <section className="mf-home__sec" data-depth="0.26">
+      <section className="mf-home__sec" data-depth="0.22">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.pitch.label}</p>
@@ -69,7 +69,7 @@ export default function Home() {
       <SectorTicker />
 
       {/* Trabalhos em destaque — a lista completa vive em /work */}
-      <section className="mf-home__sec" data-depth="0.58">
+      <section className="mf-home__sec" data-depth="0.88">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.workTeaser.label}</p>
@@ -100,7 +100,7 @@ export default function Home() {
       <MfRule />
 
       {/* Contato — link direto, nunca formulario */}
-      <section className="mf-home__sec" data-depth="0.80">
+      <section className="mf-home__sec" data-depth="0.94">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.contactTeaser.label}</p>

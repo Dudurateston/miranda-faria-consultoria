@@ -54,7 +54,7 @@ export default function About() {
 
       <MfRule />
 
-      <section className="mf-about__cta" data-depth="0.42">
+      <section className="mf-about__cta" data-depth="0.30">
         <div className="mf-about__inner">
           <Link to={path("contact")} className="mf-about__ctalink" data-cursor="link">
             {nav.contact} →

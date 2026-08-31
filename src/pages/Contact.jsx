@@ -21,7 +21,7 @@ export default function Contact() {
 
   return (
     <>
-      <section className="mf-contact" data-depth="0.72">
+      <section className="mf-contact" data-depth="0.90">
         <div className="mf-contact__inner">
           <Reveal>
             <p className="mf-label">{t.label}</p>

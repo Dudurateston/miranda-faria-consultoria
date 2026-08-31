@@ -31,7 +31,7 @@ function Group() {
 export default function SectorTicker() {
   return (
     <>
-      <div className="mf-ticker" aria-hidden="true">
+      <div className="mf-ticker" data-depth="0.30" aria-hidden="true">
         <div className="mf-ticker__track">
           <Group />
           <Group />
@@ -43,7 +43,7 @@ export default function SectorTicker() {
 .mf-ticker__group{display:inline-flex;flex-wrap:nowrap;align-items:center;flex-shrink:0}
 .mf-ticker__item{display:inline-flex;align-items:center}
 .mf-ticker__word{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.34em;color:var(--color-text-ghost)}
-.mf-ticker__dot{color:var(--color-accent);font-size:10px;margin:0 0.9rem}
+.mf-ticker__dot{color:var(--color-text-ghost);font-size:10px;margin:0 0.9rem}
 @keyframes mf-ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.mf-ticker__track{animation-play-state:paused}}
       `}</style>

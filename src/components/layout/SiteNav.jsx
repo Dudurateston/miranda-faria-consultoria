@@ -113,10 +113,12 @@ export default function SiteNav({ revealAfterHero = false }) {
 .mf-nav__lang{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-accent);background:none;border:0;padding:0;cursor:pointer;
+  color:var(--color-text-primary);background:none;border:0;padding:0 0 2px;cursor:pointer;
   white-space:nowrap;
+  /* O acento vive no traco, nunca no texto pequeno — ver tokens.css. */
+  border-bottom:1px solid var(--color-accent);
 }
-.mf-nav__lang:hover{text-decoration:underline;text-underline-offset:4px}
+.mf-nav__lang:hover{opacity:0.68}
 
 /* Em telas estreitas a nav vira duas linhas: marca e idioma em cima,
    os rotulos numa faixa propria embaixo. Nada some — num portfolio,

@@ -65,18 +65,18 @@ export default function StaticHero() {
   font-family:var(--font-display);font-weight:400;
   font-size:clamp(1.75rem,5vw,3.5rem);
   letter-spacing:var(--tracking-wordmark);text-transform:uppercase;
-  line-height:1;color:var(--ink);margin:0;
+  line-height:1;color:var(--color-text-primary);margin:0;
 }
 .mf-hero__role{
   font-family:var(--font-mono);font-weight:400;
   font-size:var(--text-label);letter-spacing:0.42em;text-transform:uppercase;
-  color:var(--stone);margin:1.25rem 0 0;
+  color:var(--color-text-secondary);margin:1.25rem 0 0;
 }
 .mf-hero__scroll{
   position:absolute;bottom:2.25rem;left:50%;transform:translateX(-50%);
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--stone);
+  color:var(--color-text-ghost);
   animation:mf-hero-breathe 3.2s var(--ease-in-out) infinite;
 }
 @keyframes mf-hero-breathe{

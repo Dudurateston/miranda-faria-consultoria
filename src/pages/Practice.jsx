@@ -53,7 +53,7 @@ export default function Practice({ slug: slugProp }) {
       <MfRule />
 
       {/* O que entrego */}
-      <section className="mf-pr" data-depth="0.28">
+      <section className="mf-pr" data-depth="0.22">
         <div className="mf-pr__inner">
           <Reveal>
             <p className="mf-label">{p.deliverablesLabel}</p>
@@ -73,7 +73,7 @@ export default function Practice({ slug: slugProp }) {
       <MfRule />
 
       {/* Processo — igual nas tres verticais, e esse e o argumento */}
-      <section className="mf-pr" data-depth="0.52">
+      <section className="mf-pr" data-depth="0.34">
         <div className="mf-pr__inner">
           <Reveal>
             <p className="mf-label">{steps.label}</p>
@@ -96,7 +96,7 @@ export default function Practice({ slug: slugProp }) {
       {list.length > 0 && (
         <>
           <MfRule />
-          <section className="mf-pr" data-depth="0.68">
+          <section className="mf-pr" data-depth="0.88">
             <div className="mf-pr__inner">
               <Reveal>
                 <p className="mf-label">{p.casesLabel}</p>
@@ -126,7 +126,7 @@ export default function Practice({ slug: slugProp }) {
 
       <MfRule />
 
-      <section className="mf-pr" data-depth="0.84">
+      <section className="mf-pr" data-depth="0.94">
         <div className="mf-pr__inner">
           <LineReveal className="mf-pr__closing">{t.contact.lead}</LineReveal>
           <Reveal delay={140}>
@@ -161,7 +161,7 @@ export default function Practice({ slug: slugProp }) {
 .mf-pr__step{display:grid;grid-template-columns:3.5rem 1fr;gap:0 clamp(1rem,3vw,2.5rem);
   align-items:baseline;padding:1.6rem 0;border-bottom:1px solid var(--color-divider)}
 .mf-pr__stepnum{font-family:var(--font-mono);font-size:var(--text-label);
-  letter-spacing:var(--tracking-label);color:var(--color-accent)}
+  letter-spacing:var(--tracking-label);color:var(--color-text-ghost)}
 .mf-pr__steptitle{font-family:var(--font-display);font-weight:400;
   font-size:var(--text-display-md);line-height:1.14;margin:0 0 0.5rem;
   color:var(--color-text-primary)}

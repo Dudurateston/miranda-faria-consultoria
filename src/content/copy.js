@@ -7,12 +7,16 @@
  * WhatsApp como canal. As duas versoes vendem coisas diferentes com a
  * mesma identidade.
  *
- * TODO(metricas): os campos `impact` de cada case estao com o resultado
- * qualitativo real, sem numero. As metricas reais sao pendencia aberta
- * no RECAP.md — preencher antes de publicar.
+ * TODO(metricas): os campos `impact` trazem o resultado qualitativo
+ * real, sem numero. As metricas reais seguem como pendencia aberta no
+ * RECAP.md — sao o que falta para o argumento passar de plausivel a
+ * verificavel.
  */
 
 export const CASE_SLUGS = [
+  "queijos-santana",
+  "roda-agro",
+  "paulo-henrique",
   "motormoura",
   "1000-pecas",
   "rota-forte",
@@ -80,7 +84,7 @@ export const copy = {
       label: "Work",
       lead: "Systems in the field.",
       intro:
-        "Five projects, each shipped end to end — brand, interface, data model and deployment. Screens and recordings only: client systems are not linked publicly.",
+        "Eight projects, each shipped end to end — brand, interface, data model and deployment. Screens and recordings only: client systems are never linked publicly.",
       viewCase: "Read the case",
       sections: {
         problem: "Problem",
@@ -206,7 +210,7 @@ export const copy = {
       label: "Trabalhos",
       lead: "Projetos em campo.",
       intro:
-        "Cinco projetos entregues de ponta a ponta — marca, interface, banco de dados e publicação. Só imagem e vídeo: os sistemas dos clientes não são linkados publicamente.",
+        "Oito projetos entregues de ponta a ponta — marca, interface, banco de dados e publicação. Só imagem e vídeo: os sistemas dos clientes nunca são linkados publicamente.",
       viewCase: "Ler o case",
       sections: {
         problem: "Problema",
@@ -281,6 +285,60 @@ export const copy = {
  */
 export const cases = {
   en: [
+    {
+      slug: "queijos-santana",
+      practice: "business",
+      name: "Queijos Santana",
+      sector: "Artisanal cheese production",
+      year: "2026",
+      media: { dir: "queijos-santana", shots: 3, video: true },
+      summary:
+        "Lot-level inventory with FEFO priority and tiered expiry alerts, for a product that spoils.",
+      problem:
+        "A cheese producer tracking lots on paper and in memory. With a perishable product the cost of losing track is not an inconvenience — it is stock thrown away, and the loss is usually discovered only once the batch is already past date.",
+      process:
+        "Modelled the inventory around the lot rather than the product: each entry carries its own code, expiry date, quantity, unit cost and physical location — display case or cold room. The dashboard came after the data model, not before it, so every number on it is derived rather than typed in.",
+      decisions:
+        "Chose FEFO — first expired, first out — over FIFO as the ordering rule. For perishable goods the arrival order is irrelevant; what matters is what dies first. Expiry alerts are tiered by urgency (under 3 days, 4 to 7, 8 to 14, 15 to 30) so the owner sees priority instead of a flat list. Added an audit trail, because for food knowing who moved what is a traceability requirement, not a nicety.",
+      impact:
+        "Stock left paper and became queryable by lot. Product near expiry surfaces on its own instead of being found after the fact.",
+    },
+    {
+      slug: "roda-agro",
+      practice: "systems",
+      name: "Roda de Agronegócios",
+      sector: "Agribusiness trade fair",
+      year: "2026",
+      media: { dir: "roda-agro", shots: 3, video: false },
+      summary:
+        "Exhibition space sold from an interactive floor map, across five pricing tiers.",
+      problem:
+        "A regional agribusiness fair in its 22nd edition selling exhibition space by phone and spreadsheet. Every enquiry needed someone to check by hand which booths were still free, and two salespeople could promise the same spot.",
+      process:
+        "Built the floor as data rather than as a picture: each booth is a record with tier, position and status. The public map reads that state, so availability is the system's answer instead of a person's memory.",
+      decisions:
+        "Five pricing tiers instead of one price, each tied to a physical zone with its own characteristics — external grass, external paved, interior under structure, premium interior. That mirrors how the fair actually sells: position is the product. Payment terms and included promotion are stated on the page, because in this market the negotiation always reaches them anyway.",
+      impact:
+        "Availability is visible instead of asked for, and the spot a buyer picks is the spot the system holds.",
+    },
+    {
+      slug: "paulo-henrique",
+      practice: "design",
+      name: "Paulo Henrique",
+      sector: "Athlete and performance coach",
+      year: "2026",
+      media: { dir: "paulo-henrique", shots: 3, video: true },
+      summary:
+        "Presentation site with a performance lab the visitor actually uses.",
+      problem:
+        "A competing athlete and coach whose credibility lived on social media and disappeared into the feed. A prospective client had nowhere to see the method, the results, and the way to start.",
+      process:
+        "Identity and site built together, in a dark register that suits the subject without collapsing into the generic dark-mode gym template. Added a performance lab: body mass index and waist-to-height ratio, each with an explanation of what it is, what it is for, and where it stops being useful.",
+      decisions:
+        "Made the calculators do real work instead of decorating. A visitor who has measured something has already started, and that is a better first step than a contact form. Kept the refusal to over-promise in the copy — method, not magic — because in a market full of shortcuts, declining to sell one is the differentiator.",
+      impact:
+        "One address where the method, the results and the way to start finally sit together.",
+    },
     {
       slug: "motormoura",
       practice: "systems",
@@ -365,6 +423,60 @@ export const cases = {
     },
   ],
   pt: [
+    {
+      slug: "queijos-santana",
+      practice: "business",
+      name: "Queijos Santana",
+      sector: "Produção de queijo artesanal",
+      year: "2026",
+      media: { dir: "queijos-santana", shots: 3, video: true },
+      summary:
+        "Estoque rastreado por lote, com prioridade FEFO e alertas escalonados de validade.",
+      problem:
+        "Produtor de queijo controlando lote no papel e na memória. Com produto perecível, perder o controle não é transtorno — é mercadoria no lixo, e a perda quase sempre só aparece quando o lote já venceu.",
+      process:
+        "Modelei o estoque em torno do lote, não do produto: cada entrada carrega código próprio, validade, quantidade, custo unitário e localização física — expositor ou câmara fria. O painel veio depois do modelo de dados, não antes, então todo número nele é calculado e não digitado.",
+      decisions:
+        "Escolhi FEFO — primeiro a vencer, primeiro a sair — em vez de FIFO como regra de ordenação. Em perecível a ordem de chegada não importa; o que importa é o que morre primeiro. Os alertas de validade são escalonados por urgência (menos de 3 dias, 4 a 7, 8 a 14, 15 a 30), para o dono ver prioridade em vez de uma lista chapada. Incluí trilha de auditoria: em alimento, saber quem movimentou o quê é exigência de rastreabilidade, não luxo.",
+      impact:
+        "O estoque saiu do papel e virou consultável por lote. Produto perto do vencimento aparece sozinho, em vez de ser descoberto depois.",
+    },
+    {
+      slug: "roda-agro",
+      practice: "systems",
+      name: "Roda de Agronegócios",
+      sector: "Feira de agronegócio",
+      year: "2026",
+      media: { dir: "roda-agro", shots: 3, video: false },
+      summary:
+        "Venda de estande por mapa interativo, em cinco faixas de cota.",
+      problem:
+        "Feira regional de agronegócio na 22ª edição vendendo espaço por telefone e planilha. Cada consulta exigia alguém conferir na mão quais estandes ainda estavam livres, e dois vendedores podiam prometer o mesmo ponto.",
+      process:
+        "Construí a planta como dado, não como imagem: cada estande é um registro com cota, posição e status. O mapa público lê esse estado, então a disponibilidade é resposta do sistema e não memória de pessoa.",
+      decisions:
+        "Cinco faixas de cota em vez de preço único, cada uma amarrada a uma zona física com características próprias — área externa em grama, externa asfaltada, interna sob estrutura, interna premium. É assim que a feira vende de fato: a posição é o produto. Condições de pagamento e divulgação incluída ficam na página, porque nesse mercado a negociação chega nelas de qualquer jeito.",
+      impact:
+        "A disponibilidade fica visível em vez de ser perguntada, e o ponto que o expositor escolhe é o ponto que o sistema segura.",
+    },
+    {
+      slug: "paulo-henrique",
+      practice: "design",
+      name: "Paulo Henrique",
+      sector: "Atleta e coach de performance",
+      year: "2026",
+      media: { dir: "paulo-henrique", shots: 3, video: true },
+      summary:
+        "Site de apresentação com um laboratório de performance que o visitante usa de verdade.",
+      problem:
+        "Atleta competidor e coach com a credibilidade morando em rede social e sumindo no feed. Quem queria contratar não tinha onde ver o método, os resultados e o caminho para começar.",
+      process:
+        "Identidade e site construídos juntos, num registro escuro que combina com o assunto sem cair no template genérico de academia. Somei um laboratório de performance: índice de massa corporal e relação cintura-estatura, cada um com explicação do que é, para que serve e onde deixa de servir.",
+      decisions:
+        "Fiz as calculadoras trabalharem de verdade, em vez de decorarem. Quem mediu alguma coisa já começou, e isso é um primeiro passo melhor que um formulário de contato. Mantive na copy a recusa de prometer demais — método, não mágica — porque num mercado cheio de atalho, não vender um é o diferencial.",
+      impact:
+        "Um endereço só, onde método, resultado e caminho para começar finalmente ficam juntos.",
+    },
     {
       slug: "motormoura",
       practice: "systems",
