@@ -104,7 +104,7 @@
 [data-theme="on-deep"] {
   --color-text-primary: var(--bone);
   --color-text-secondary: rgba(245, 241, 234, 0.84);
-  --color-text-ghost: rgba(245, 241, 234, 0.70);
+  --color-text-ghost: rgba(245, 241, 234, 0.82);
   /* Sobre fundo escuro o cobre original cai para ~2,7:1 e some; a
      variante clara sobe para ~5,7:1 e continua legivel como acento. */
   --color-accent: var(--copper-light);

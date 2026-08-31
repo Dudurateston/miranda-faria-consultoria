@@ -102,6 +102,11 @@ export const copy = {
       },
       backToIndex: "All work",
       nextCase: "Next project",
+      filterLabel: "Filter by discipline",
+      filterAll: "Everything",
+      counted: "projects",
+      hasMedia: "Screens and recording",
+      noMedia: "Written case",
     },
     howIWork: {
       label: "How I work",
@@ -126,6 +131,18 @@ export const copy = {
           d: "Hosting, deployment, ownership. The infrastructure ends up in the client's name — I leave, it keeps running.",
         },
       ],
+      handover: {
+        label: "The question nobody asks out loud",
+        lead: "What happens if I disappear?",
+        body:
+          "It is the real risk of hiring one person, and it deserves a straight answer instead of reassurance. The answer is structural: I build so that my absence is survivable, and the handover is part of the work rather than a favour at the end.",
+        items: [
+          { t: "The infrastructure is in your name", d: "Hosting, domain and database accounts are yours from day one, not mine with your logo on them. You can revoke my access and nothing stops." },
+          { t: "The data model is documented", d: "Entities, relationships and what is derived versus stored — written down, so the next developer reads instead of guesses." },
+          { t: "The owner operates it", d: "The admin panel is built for your team, not for me. If registering a product needs a developer, I built it wrong." },
+          { t: "The decisions are written", d: "Not just what was built — why, and what was rejected. That record is what makes a system maintainable by someone who was not there." },
+        ],
+      },
       ai: {
         label: "On AI",
         lead: "Leverage, directed by judgment.",
@@ -272,6 +289,11 @@ export const copy = {
       },
       backToIndex: "Todos os trabalhos",
       nextCase: "Próximo projeto",
+      filterLabel: "Filtrar por disciplina",
+      filterAll: "Tudo",
+      counted: "projetos",
+      hasMedia: "Telas e gravação",
+      noMedia: "Case escrito",
     },
     howIWork: {
       label: "Como funciona",
@@ -296,6 +318,18 @@ export const copy = {
           d: "Hospedagem, publicação, titularidade. A infraestrutura fica no seu nome — eu saio, o sistema continua.",
         },
       ],
+      handover: {
+        label: "A pergunta que ninguém faz em voz alta",
+        lead: "E se eu sumir?",
+        body:
+          "É o risco real de contratar uma pessoa só, e merece resposta direta em vez de tranquilização. A resposta é estrutural: eu construo de um jeito que a minha ausência seja sobrevivível, e a passagem faz parte do trabalho em vez de ser um favor no fim.",
+        items: [
+          { t: "A infraestrutura fica no seu nome", d: "Hospedagem, domínio e banco de dados são contas suas desde o primeiro dia, não minhas com a sua logo. Você pode revogar meu acesso e nada para de funcionar." },
+          { t: "O modelo de dados fica documentado", d: "Entidades, relações e o que é calculado em vez de guardado — escrito, para o próximo desenvolvedor ler em vez de adivinhar." },
+          { t: "Quem opera é o dono", d: "O painel é feito para a sua equipe, não para mim. Se cadastrar um produto exige um desenvolvedor, eu construí errado." },
+          { t: "As decisões ficam registradas", d: "Não só o que foi feito — por quê, e o que foi descartado. É esse registro que torna um sistema sustentável por quem não estava lá." },
+        ],
+      },
       ai: {
         label: "Sobre IA",
         lead: "Alavanca dirigida por julgamento.",

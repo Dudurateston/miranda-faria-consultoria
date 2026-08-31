@@ -32,7 +32,7 @@ const FLIP_AT = 0.62;
 
 // Expoente da travessia. Mantem a cor perto das pontas na maior parte do
 // percurso e cruza o tom medio depressa, porque e la que o texto some.
-const CROSS = 7;
+const CROSS = 11;
 
 export default function AmbientDepth() {
   const sectionsRef = useRef([]);
