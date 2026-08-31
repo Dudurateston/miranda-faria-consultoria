@@ -31,7 +31,7 @@ function Group() {
 export default function SectorTicker() {
   return (
     <>
-      <div className="mf-ticker" data-depth="0.30" aria-hidden="true">
+      <div className="mf-ticker" aria-hidden="true">
         <div className="mf-ticker__track">
           <Group />
           <Group />

@@ -54,7 +54,7 @@ export default function Practice({ slug: slugProp }) {
       <MfRule />
 
       {/* O que entrego */}
-      <section className="mf-pr" data-depth="0.22">
+      <section className="mf-pr">
         <div className="mf-pr__inner">
           <Reveal>
             <p className="mf-label">{p.deliverablesLabel}</p>
@@ -74,7 +74,7 @@ export default function Practice({ slug: slugProp }) {
       <MfRule />
 
       {/* Processo — igual nas tres verticais, e esse e o argumento */}
-      <section className="mf-pr" data-depth="0.34">
+      <section className="mf-pr">
         <div className="mf-pr__inner">
           <Reveal>
             <p className="mf-label">{steps.label}</p>
@@ -97,7 +97,7 @@ export default function Practice({ slug: slugProp }) {
       {list.length > 0 && (
         <>
           <MfRule />
-          <section className="mf-pr" data-depth="0.88">
+          <section className="mf-pr">
             <div className="mf-pr__inner">
               <Reveal>
                 <p className="mf-label">{p.casesLabel}</p>
@@ -127,7 +127,7 @@ export default function Practice({ slug: slugProp }) {
 
       <MfRule />
 
-      <section className="mf-pr" data-depth="0.94">
+      <section className="mf-pr">
         <div className="mf-pr__inner">
           <LineReveal className="mf-pr__closing">{t.contact.lead}</LineReveal>
           <Reveal delay={140}>

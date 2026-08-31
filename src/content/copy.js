@@ -69,6 +69,14 @@ export const copy = {
           },
         ],
       },
+      practices: {
+        label: "Three fronts",
+        lead: "One person, three disciplines.",
+        intro:
+          "Most projects need more than one of these. They are separated here so you can find yourself, not because they are sold apart.",
+        open: "Open",
+        deepen: "Go deeper",
+      },
       workTeaser: {
         label: "Selected work",
         lead: "Systems in the field.",
@@ -194,6 +202,14 @@ export const copy = {
             d: "Todo mês, montado na mão. E ainda assim ninguém confia inteiramente no número.",
           },
         ],
+      },
+      practices: {
+        label: "Três frentes",
+        lead: "Uma pessoa, três disciplinas.",
+        intro:
+          "A maioria dos projetos precisa de mais de uma delas. Estão separadas aqui para você se encontrar, não porque sejam vendidas em separado.",
+        open: "Abrir",
+        deepen: "Ver a fundo",
       },
       workTeaser: {
         label: "Trabalhos",
@@ -582,7 +598,7 @@ export const practices = {
       label: "Systems",
       lead: "Software the owner runs, not me.",
       intro:
-        "Catalogues, inventory, ordering and admin panels, built on a real database with an interface the client operates without calling me. Shipped on Base44, which is why the unit of delivery is weeks instead of months.",
+        "Catalogues, inventory, ordering and admin panels, built on a real database with an interface the client operates without calling me. An AI-assisted build is why the unit of delivery is weeks instead of months — the schema, the states and the edge cases are still mine to decide.",
       artAlt: "Blueprint linework resolving into built structure",
       deliverablesLabel: "What I deliver",
       deliverables: [
@@ -672,7 +688,7 @@ export const practices = {
       label: "Sistemas",
       lead: "Sistema que o dono opera, não eu.",
       intro:
-        "Catálogo, estoque, cadastro e pedidos, com banco de dados de verdade e um painel que o cliente usa sem me chamar. Construído no Base44, e é por isso que a entrega se mede em semanas, não em meses.",
+        "Catálogo, estoque, cadastro e pedidos, com banco de dados de verdade e um painel que o cliente usa sem me chamar. A construção com auxílio de IA é o que faz a entrega se medir em semanas, não em meses — o modelo, os estados e os casos de borda continuam sendo decisão minha.",
       artAlt: "Linhas de prancha virando estrutura construída",
       deliverablesLabel: "O que entrego",
       deliverables: [

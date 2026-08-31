@@ -35,7 +35,7 @@ export default function WorkCase() {
   return (
     <>
       <article className="mf-case">
-        <header className="mf-case__head" data-depth="0.08">
+        <header className="mf-case__head">
           <div className="mf-case__inner">
             <Reveal>
               <Link to={path("work")} className="mf-label mf-case__back" data-cursor="link">
@@ -67,7 +67,7 @@ export default function WorkCase() {
 
         <MfRule />
 
-        <div className="mf-case__body" data-depth="0.28">
+        <div className="mf-case__body">
           <div className="mf-case__inner">
             {blocks.map((b, i) => (
               <Reveal key={b.k} delay={i * 60}>
@@ -82,7 +82,7 @@ export default function WorkCase() {
 
         <MfRule />
 
-        <nav className="mf-case__next" data-depth="0.88">
+        <nav className="mf-case__next">
           <div className="mf-case__inner">
             <p className="mf-label">{t.nextCase}</p>
             <Link to={path(`work/${next.slug}`)} className="mf-case__nextlink" data-cursor="link">

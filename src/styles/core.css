@@ -1,0 +1,193 @@
+/* ============================================================
+   O TESTEMUNHO — a marca em código
+
+   Duas vidas, um só elemento:
+   `--opening`  a extração, no centro da abertura, camada por camada
+   `--rail`     o instrumento estacionado, marcando a profundidade da
+                página no canto esquerdo
+
+   Nenhuma imagem. As densidades são geradas com gradiente repetido, o
+   que mantém a coluna nítida em qualquer resolução e custa zero
+   requisição.
+   ============================================================ */
+
+.mf-core{ --tube-w: 92px; position: relative; }
+.mf-core__tube{
+  position: relative;
+  width: var(--tube-w);
+  height: 100%;
+  border: 1px solid var(--color-divider);
+  background: transparent;
+  overflow: hidden;
+}
+
+.mf-core__band{
+  position: absolute; left: 0; right: 0;
+  top: var(--top); height: var(--h);
+  opacity: 0;
+}
+
+/* As densidades. Cada uma é uma leitura diferente de material —
+   maciço, hachurado, granular, vazio — como numa prancha de sondagem. */
+.mf-core__band.is-solid{
+  background: rgb(26 26 24 / calc(var(--tone) * 1));
+}
+.mf-core__band.is-hatch{
+  background: repeating-linear-gradient(
+    -52deg,
+    rgb(26 26 24 / calc(var(--tone) * 1.15)) 0 1px,
+    transparent 1px 5px
+  );
+}
+.mf-core__band.is-dot{
+  background-image: radial-gradient(rgb(26 26 24 / calc(var(--tone) * 1.4)) 0.9px, transparent 1px);
+  background-size: 6px 6px;
+}
+.mf-core__band.is-sparse{
+  background-image: radial-gradient(rgb(26 26 24 / calc(var(--tone) * 1.6)) 0.7px, transparent 1px);
+  background-size: 11px 11px;
+}
+.mf-core__band.is-void{ background: transparent; }
+.mf-core__band.is-copper{ background: var(--copper); }
+
+/* Sobre fundo escuro os grafites somem: inverte para osso. */
+[data-theme="on-deep"] .mf-core__band.is-solid{
+  background: rgb(245 241 234 / calc(var(--tone) * 0.92));
+}
+[data-theme="on-deep"] .mf-core__band.is-hatch{
+  background: repeating-linear-gradient(
+    -52deg, rgb(245 241 234 / calc(var(--tone) * 1.05)) 0 1px, transparent 1px 5px);
+}
+[data-theme="on-deep"] .mf-core__band.is-dot{
+  background-image: radial-gradient(rgb(245 241 234 / calc(var(--tone) * 1.3)) 0.9px, transparent 1px);
+}
+[data-theme="on-deep"] .mf-core__band.is-sparse{
+  background-image: radial-gradient(rgb(245 241 234 / calc(var(--tone) * 1.5)) 0.7px, transparent 1px);
+}
+
+/* A régua de zonas ao lado da coluna. */
+.mf-core__ruler{ position: absolute; inset: 0 auto 0 calc(var(--tube-w) + 14px); width: 12rem; }
+.mf-core__mark{
+  position: absolute; top: var(--top); left: 0;
+  display: flex; align-items: center; gap: .6rem;
+  opacity: 0;
+}
+.mf-core__mark i{
+  display: block; width: 16px; height: 1px; background: var(--color-divider);
+}
+.mf-core__mark em{
+  font-family: var(--font-mono); font-style: normal;
+  font-size: var(--text-label); letter-spacing: var(--tracking-label);
+  text-transform: uppercase; color: var(--color-text-ghost); white-space: nowrap;
+}
+
+/* O marcador de posição: só existe na vida de instrumento. */
+.mf-core__marker{
+  position: absolute; left: -4px; right: -4px; height: 2px;
+  background: var(--copper); opacity: 0; top: 0;
+}
+
+/* ------------------------------------------------------------
+   VIDA 1 — a extração
+   ------------------------------------------------------------ */
+.mf-core--opening{
+  height: min(62vh, 520px);
+  display: block;
+}
+
+/* ------------------------------------------------------------
+   VIDA 2 — o instrumento estacionado
+   Fixo na borda esquerda, estreito, discreto. Fica em todas as
+   páginas: é a constante que diz "você está dentro do mesmo sistema".
+   ------------------------------------------------------------ */
+.mf-core--rail{
+  --tube-w: 10px;
+  position: fixed;
+  left: clamp(.75rem, 2.2vw, 1.75rem);
+  top: 50%; transform: translateY(-50%);
+  height: min(46vh, 380px);
+  z-index: 40;
+  pointer-events: none;
+}
+.mf-core--rail .mf-core__band{ opacity: 1; }
+.mf-core--rail .mf-core__ruler{ display: none; }
+.mf-core--rail .mf-core__tube{ border-color: var(--color-divider); }
+
+/* Abaixo de 1100px o trilho brigaria com o texto; some. A marca
+   continua no topo, na nav. */
+@media (max-width: 1099px){
+  .mf-core--rail{ display: none; }
+}
+
+/* O trilho NAO pode dividir a tela com a coluna grande da abertura —
+   sao a mesma marca, e ve-la duplicada quebra a ilusao de que ela se
+   transformou. Ele so entra quando a extracao termina.
+   `timeline-scope` no :root porque o trilho e fixo e vive fora do DOM
+   da Home, onde a linha do tempo e declarada. */
+:root{ timeline-scope: --mf-open; }
+
+@supports (animation-timeline: view()) and (animation-range: 0% 100%){
+  @media (prefers-reduced-motion: no-preference){
+
+    /* Cada faixa entra de baixo, na ordem em que sedimentou. O
+       escalonamento vem do índice, então acrescentar camada no
+       coreSample.js não exige tocar em CSS. */
+    @keyframes mf-core-deposit{
+      from{ opacity: 0; transform: translateY(26px) scaleY(.2); }
+      to  { opacity: 1; transform: none; }
+    }
+    .mf-core--opening .mf-core__band{
+      transform-origin: 50% 100%;
+      animation: mf-core-deposit linear both;
+      animation-timeline: --mf-open;
+      animation-range:
+        contain calc(4% + var(--i) / var(--n) * 62%)
+        contain calc(20% + var(--i) / var(--n) * 62%);
+    }
+
+    @keyframes mf-core-mark{
+      from{ opacity: 0; transform: translateX(-12px); }
+      to  { opacity: 1; transform: none; }
+    }
+    .mf-core--opening .mf-core__mark{
+      animation: mf-core-mark linear both;
+      animation-timeline: --mf-open;
+      animation-range: contain 34% contain 88%;
+    }
+
+    /* A entrega: o trilho surge conforme a abertura sai. Em paginas
+       sem abertura a linha do tempo nao existe, a animacao nao se
+       aplica, e o trilho aparece direto — que e o certo. */
+    @keyframes mf-core-arrive{
+      0%,64%{ opacity: 0; transform: translateY(-50%) translateX(-14px); }
+      100%  { opacity: 1; transform: translateY(-50%) translateX(0); }
+    }
+    .mf-core--rail{
+      animation: mf-core-arrive linear both;
+      animation-timeline: --mf-open;
+      animation-range: contain 0% contain 100%;
+    }
+
+    /* O marcador do trilho percorre a coluna com o scroll da página:
+       a marca vira indicador de profundidade. */
+    @keyframes mf-core-travel{ from{ top: 0%; } to{ top: calc(100% - 2px); } }
+    .mf-core--rail .mf-core__marker{
+      opacity: 1;
+      animation: mf-core-travel linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+/* Sem linha do tempo de scroll, ou com movimento reduzido: a coluna
+   aparece inteira e parada. Continua legível e continua sendo a marca. */
+@supports not ((animation-timeline: view()) and (animation-range: 0% 100%)){
+  .mf-core--opening .mf-core__band,
+  .mf-core--opening .mf-core__mark{ opacity: 1; transform: none; }
+  .mf-core--rail .mf-core__marker{ display: none; }
+}
+@media (prefers-reduced-motion: reduce){
+  .mf-core--opening .mf-core__band,
+  .mf-core--opening .mf-core__mark{ opacity: 1; transform: none; animation: none; }
+  .mf-core--rail .mf-core__marker{ display: none; }
+}

@@ -6,6 +6,7 @@ import MfRule from "@/components/MfRule";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import SectorTicker from "@/components/SectorTicker";
+import PracticeAccordion from "@/components/PracticeAccordion";
 import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { copy, cases } from "@/content/copy";
@@ -34,7 +35,7 @@ export default function Home() {
       <MfRule />
 
       {/* Tese */}
-      <section className="mf-home__sec" data-depth="0.08">
+      <section className="mf-home__sec">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.thesis.label}</p>
@@ -49,7 +50,7 @@ export default function Home() {
       <MfRule />
 
       {/* Argumento — tres blocos */}
-      <section className="mf-home__sec" data-depth="0.22">
+      <section className="mf-home__sec">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.pitch.label}</p>
@@ -67,10 +68,24 @@ export default function Home() {
         </div>
       </section>
 
+      <MfRule />
+
+      {/* As tres frentes, abertas AQUI. O visitante escolhe aprofundar
+          depois de entender, em vez de ser mandado embora no clique. */}
+      <section className="mf-home__sec">
+        <div className="mf-home__inner">
+          <Reveal>
+            <p className="mf-label">{t.practices.label}</p>
+          </Reveal>
+          <LineReveal className="mf-home__lead">{t.practices.lead}</LineReveal>
+          <PracticeAccordion />
+        </div>
+      </section>
+
       <SectorTicker />
 
       {/* Trabalhos em destaque — a lista completa vive em /work */}
-      <section className="mf-home__sec" data-depth="0.88">
+      <section className="mf-home__sec">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.workTeaser.label}</p>
@@ -101,7 +116,7 @@ export default function Home() {
       <MfRule />
 
       {/* Contato — link direto, nunca formulario */}
-      <section className="mf-home__sec" data-depth="0.94">
+      <section className="mf-home__sec">
         <div className="mf-home__inner">
           <Reveal>
             <p className="mf-label">{t.contactTeaser.label}</p>

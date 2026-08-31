@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Outlet, useLocation, useMatch } from "react-router-dom";
 import SiteNav from "@/components/layout/SiteNav";
+import CoreSample from "@/components/CoreSample";
 import Footer from "@/components/Footer";
 import MobileWhatsAppBar from "@/components/MobileWhatsAppBar";
 import { LANGS, useLang, swapLangInPath } from "@/lib/i18n";
@@ -73,6 +74,10 @@ export default function SiteLayout() {
       {/* Progresso de leitura — dirigido pelo scroll do documento em
           CSS puro, sem laco de animacao proprio. */}
       <div className="mf-progress" aria-hidden="true" />
+
+      {/* A marca estacionada. Nao e enfeite: marca a profundidade da
+          pagina e e a constante que diz "mesmo sistema" entre abas. */}
+      <CoreSample variant="rail" />
 
       {/* A nav so espera a hero passar na home; nas internas aparece de cara. */}
       <SiteNav revealAfterHero={isHome} />

@@ -21,7 +21,7 @@ export default function StaticHero() {
 
   return (
     <>
-      <section className="mf-hero" id="topo" data-depth="0" aria-label={`${t.wordmark} — ${t.role}`}>
+      <section className="mf-hero" id="topo" aria-label={`${t.wordmark} — ${t.role}`}>
         <LivingHero />
 
         <div className="mf-hero__center">
