@@ -1,32 +1,44 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import gsap from "gsap";
 
 /**
  * AmbientDepth — substitui o ValueBackground.
  *
  * Metáfora de estratos: a página inteira é uma única descida contínua
- * de valor, do branco-osso (superfície) até o cobre queimado (a cor
- * de identidade, a "camada mineral" mais funda). Nunca alterna, nunca
- * corta seco — é uma rampa só, do topo ao fim da página.
+ * de valor, da superfície cor-de-osso até a camada mais funda. Nunca
+ * alterna, nunca corta seco — é uma rampa só, do topo ao fim da página.
+ * A descida é NEUTRA: o cobre é o único acento da marca e não vira
+ * campo de fundo.
  *
  * Cada seção declara sua profundidade via `data-depth` (0 a 1). O
  * fundo do body interpola continuamente entre as duas cores conforme
  * o centro da viewport avança pelas seções.
  *
- * Contraste: acima de depth 0.55 o texto principal e o traço vertical
- * de dwell viram --bone (a superfície do cobre é escura demais para
- * texto grafite). O acento passa a ser --ink, usado só em elementos
- * gráficos finos (linhas, pontos) — não em texto corrido.
+ * Contraste: acima de FLIP_AT os neutros invertem — texto vira --bone e
+ * o acento passa para --copper-light. Entre 0,45 e 0,80 existe uma faixa
+ * cega em que nenhuma das duas cores alcanca 4,5:1; por isso as secoes
+ * so descansam em <= 0,35 ou >= 0,85 e a travessia do meio e acelerada.
+ * A medicao esta documentada no tokens.css.
  */
 
-const BONE = "#F5F1EA";
-const COPPER = "#B5502E";
-const FLIP_AT = 0.55;
+// As duas pontas da rampa vivem no tokens.css (--depth-top /
+// --depth-bottom), para a descida inteira mudar num lugar so.
+const readToken = (name, fallback) =>
+  getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+
+// A virada fica no meio da faixa cega documentada no tokens.css.
+const FLIP_AT = 0.62;
+
+// Expoente da travessia. Mantem a cor perto das pontas na maior parte do
+// percurso e cruza o tom medio depressa, porque e la que o texto some.
+const CROSS = 7;
 
 export default function AmbientDepth() {
   const sectionsRef = useRef([]);
   const rafRef = useRef(0);
-  const flippedRef = useRef(false);
+  const flippedRef = useRef(null);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -50,22 +62,30 @@ export default function AmbientDepth() {
         flippedRef.current = shouldFlip;
         document.documentElement.setAttribute(
           "data-theme",
-          shouldFlip ? "on-copper" : "on-bone"
+          shouldFlip ? "on-deep" : "on-bone"
         );
       }
     };
 
-    const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+    const easeInOut = (t) =>
+      t < 0.5
+        ? 0.5 * Math.pow(2 * t, CROSS)
+        : 1 - 0.5 * Math.pow(2 * (1 - t), CROSS);
+
+    const top = readToken("--depth-top", "#F5F1EA");
+    const bottom = readToken("--depth-bottom", "#2A2621");
 
     const paint = (depth) => {
-      const color = gsap.utils.interpolate(BONE, COPPER, depth);
+      const color = gsap.utils.interpolate(top, bottom, depth);
       gsap.set("body", { backgroundColor: color });
       applyTheme(depth);
     };
 
     const interpolate = () => {
       const secs = sectionsRef.current;
-      if (!secs.length) return;
+      // Pagina sem marcacao de profundidade volta a superficie em vez
+      // de manter a cor herdada da rota anterior.
+      if (!secs.length) return paint(0);
       const vpCenter = window.scrollY + window.innerHeight / 2;
 
       if (vpCenter <= secs[0].center) return paint(secs[0].depth);
@@ -90,7 +110,7 @@ export default function AmbientDepth() {
         if (mq.matches) {
           // Sem preferência de movimento: aplica direto, sem easing.
           const secs = sectionsRef.current;
-          if (!secs.length) return;
+          if (!secs.length) return paint(0);
           const vpCenter = window.scrollY + window.innerHeight / 2;
           let best = secs[0];
           let dist = Infinity;
@@ -128,7 +148,7 @@ export default function AmbientDepth() {
       window.removeEventListener("resize", onResize);
       window.clearInterval(interval);
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

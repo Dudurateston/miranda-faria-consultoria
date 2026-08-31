@@ -1,0 +1,13 @@
+{
+  "name": "Miranda Faria",
+  "short_name": "Miranda Faria",
+  "description": "Design Engineer & Creative Technologist",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F1EA",
+  "theme_color": "#F5F1EA",
+  "icons": [
+    { "src": "/favicon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Rotas de infraestrutura do Base44 nao tem valor de busca
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /oauth/
+Disallow: /connect
+
+Sitemap: https://mirandafaria.com.br/sitemap.xml

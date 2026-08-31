@@ -16,15 +16,24 @@
   --copper-light: #E08A5F;
 
   /* SUPORTE */
-  --ink-dim: rgba(26, 26, 24, 0.62);
-  --ink-ghost: rgba(26, 26, 24, 0.38);
-  --bone-dim: rgba(245, 241, 234, 0.62);
+  /* Alfas medidos contra o fundo mais escuro em que cada um pode
+     aparecer. 0.62/0.38 reprovavam em WCAG AA: os labels ficavam em
+     2,3:1. */
+  --ink-dim: rgba(26, 26, 24, 0.80);
+  --ink-ghost: rgba(26, 26, 24, 0.76);
+  --bone-dim: rgba(245, 241, 234, 0.82);
   --hairline: rgba(138, 133, 120, 0.28);
   --hairline-invert: rgba(245, 241, 234, 0.22);
 
   /* FUNDOS DE SEÇÃO — o passeio de valor */
   --bg-light: #F5F1EA;
   --bg-dark: #1A1A18;
+
+  /* Fundo da rampa de profundidade. Contraste por VALOR, no eixo
+     neutro — o cobre e acento e nunca vira campo de fundo. Trocar
+     estes dois valores muda a descida inteira do site. */
+  --depth-top: #F5F1EA;
+  --depth-bottom: #2A2621;
 
   /* MAPEAMENTO */
   --color-bg: var(--bone);
@@ -71,6 +80,52 @@
   --gutter: clamp(1.5rem, 7vw, 6.5rem);
   --nav-height: 64px;
   --radius: 2px;
+}
+
+/* ------------------------------------------------------------
+   DESCIDA DE VALOR — a rampa do AmbientDepth
+
+   A pagina inteira desce continuamente da superficie cor-de-osso ate a
+   camada funda, no eixo NEUTRO. O AmbientDepth pinta o fundo do body
+   interpolando entre --depth-top e --depth-bottom e marca o <html> com
+   on-bone / on-deep conforme cruza o ponto de virada.
+
+   O cobre nao entra aqui: ele e o unico acento da marca e vive em
+   texto de destaque, tracos e no ponteiro. Fundo se resolve por valor,
+   nao por saturacao.
+
+   FAIXA CEGA — medida, nao estimada. Entre as profundidades 0,45 e 0,80
+   o fundo fica em tom medio e NENHUMA das duas cores de texto alcanca
+   4,5:1: a tinta cai para 3,4 e o osso ainda esta em 3,4. Por isso as
+   secoes so descansam em dois patamares, <= 0,35 ou >= 0,85, e a rampa
+   atravessa o meio depressa, com aceleracao propria. Ao mexer em
+   `data-depth`, respeitar essa regra ou o texto some.
+   ------------------------------------------------------------ */
+[data-theme="on-deep"] {
+  --color-text-primary: var(--bone);
+  --color-text-secondary: rgba(245, 241, 234, 0.84);
+  --color-text-ghost: rgba(245, 241, 234, 0.70);
+  /* Sobre fundo escuro o cobre original cai para ~2,7:1 e some; a
+     variante clara sobe para ~5,7:1 e continua legivel como acento. */
+  --color-accent: var(--copper-light);
+  --color-divider: rgba(245, 241, 234, 0.22);
+}
+
+/* Estado inicial explicito: sem ele a primeira pintura pisca. */
+[data-theme="on-bone"] {
+  --color-text-primary: var(--ink);
+  --color-text-secondary: var(--ink-dim);
+  --color-text-ghost: var(--ink-ghost);
+  --color-accent: var(--copper);
+  --color-divider: var(--hairline);
+}
+
+/* A troca acompanha a rampa em vez de estalar na fronteira. */
+body,
+.mf-label,
+.mf-display,
+.mf-body {
+  transition: color var(--duration-slow) var(--ease-in-out);
 }
 
 /* Seções escuras invertem os neutros sem trocar de paleta */
@@ -121,6 +176,17 @@
   color: var(--color-text-secondary);
   max-width: var(--max-width-body);
 }
+
+/* ------------------------------------------------------------
+   O COBRE NAO E COR DE TEXTO PEQUENO — regra medida, nao opiniao.
+   #B5502E sobre branco-osso da 4,49:1 e reprova WCAG AA por 0,01; no
+   patamar escuro o cobre-claro da 4,03:1 e tambem reprova. Ele passa
+   apenas em texto grande (min 3:1), o que cobre os estados de hover
+   sobre titulos.
+   Use --color-accent em traco, borda, sublinhado e marca grafica.
+   Para rotulo, numero e qualquer texto pequeno, use
+   --color-text-ghost.
+   ------------------------------------------------------------ */
 
 /* Régua que se desenha ao entrar na viewport */
 .mf-rule {
