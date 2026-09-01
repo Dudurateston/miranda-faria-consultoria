@@ -11,5 +11,3 @@ Disallow: /connect
 
 # Comparacao temporaria de intensidade do terreno — nao e conteudo
 Disallow: /lab/
-
-Sitemap: https://mirandafaria.com.br/sitemap.xml
