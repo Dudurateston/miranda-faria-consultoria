@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "@/components/TransitionLink";
 
-import OpeningSequence from "@/components/OpeningSequence";
+import HeroStage from "@/components/sections/HeroStage";
 import MfRule from "@/components/MfRule";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <>
-      <OpeningSequence />
+      <HeroStage />
       <MfRule />
 
       {/* Tese */}
