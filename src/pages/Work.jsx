@@ -1,18 +1,58 @@
-import React, { useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "@/components/TransitionLink";
 
 import PageHeader from "@/components/layout/PageHeader";
 import MfRule from "@/components/MfRule";
+import { scheduleStageMark } from "@/hooks/useStageFirstScreen";
 import { useLang } from "@/lib/i18n";
-import { copy, cases } from "@/content/copy";
+import { copy, cases, PRACTICE_SLUGS } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
 
+/**
+ * Indice do portfolio.
+ *
+ * O que esta pagina resolve, e /how-i-work nao: QUAL projeto ver. Ate
+ * aqui as duas eram o mesmo molde — rotulo, titulo em Playfair,
+ * paragrafo, regua com ponto, lista numerada — e nenhuma das duas fazia
+ * nada que a outra nao fizesse. O indice agora filtra por frente, que e
+ * a pergunta que um cliente traz ("voce faz o meu tipo de coisa?") e um
+ * recrutador tambem ("ele e de design ou de dados?").
+ *
+ * O campo `practice` ja existia em todo case desde o inicio e nunca
+ * tinha sido usado em lugar nenhum do site.
+ */
 export default function Work() {
   const { lang, path } = useLang();
   const t = copy[lang].work;
-  const list = cases[lang];
+  const nav = copy[lang].nav;
+  const all = cases[lang];
   const listRef = useRef(null);
   usePageTitle(t.label);
+
+  const [frente, setFrente] = useState("all");
+  const list = useMemo(
+    () => (frente === "all" ? all : all.filter((c) => c.practice === frente)),
+    [all, frente]
+  );
+
+  // Filtrar troca o conjunto inteiro sem mexer na URL. Sem remarcar, os
+  // itens novos que caem na primeira tela nascem desbotados pela
+  // animacao de entrada — o mesmo texto fantasma de antes, por outra
+  // porta.
+  useEffect(() => scheduleStageMark(), [frente]);
+
+  // A contagem sai dos dados, nunca escrita a mao: um case novo em
+  // copy.js aparece no filtro certo sozinho.
+  const contagem = useMemo(() => {
+    const c = { all: all.length };
+    for (const s of PRACTICE_SLUGS) c[s] = all.filter((x) => x.practice === s).length;
+    return c;
+  }, [all]);
+
+  const frentes = [
+    { id: "all", label: t.filterAll },
+    ...PRACTICE_SLUGS.map((s) => ({ id: s, label: nav[s] })),
+  ];
 
   return (
     <>
@@ -20,6 +60,24 @@ export default function Work() {
       <MfRule />
 
       <section className="mf-work" data-depth="0.26">
+        {/* Botao, nao link: filtrar nao muda de pagina. `aria-pressed`
+            diz ao leitor de tela qual esta ativo — cor sozinha nao diz. */}
+        <div className="mf-work__filter" role="group" aria-label={t.filterLabel}>
+          {frentes.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              className={`mf-work__fbtn${frente === f.id ? " is-on" : ""}`}
+              data-cursor="link"
+              aria-pressed={frente === f.id}
+              onClick={() => setFrente(f.id)}
+            >
+              {f.label}
+              <span className="mf-work__fnum">{contagem[f.id]}</span>
+            </button>
+          ))}
+        </div>
+
         <div ref={listRef} className="mf-work__list mf-stage">
           {list.map((c, i) => (
             <Link
@@ -58,11 +116,44 @@ export default function Work() {
             </Link>
           ))}
         </div>
+
+        {!list.length && <p className="mf-work__empty">{t.empty}</p>}
       </section>
 
       <style>{`
 .mf-work{padding:0 var(--gutter) var(--section-gap)}
-.mf-work__list{max-width:var(--max-width-page);margin:0 auto;border-top:1px solid var(--color-divider)}
+
+.mf-work__filter{
+  max-width:var(--max-width-page);margin:0 auto 0.5rem;
+  display:flex;flex-wrap:wrap;gap:0 clamp(1.25rem,3vw,2.4rem);
+}
+.mf-work__fbtn{
+  display:inline-flex;align-items:baseline;gap:0.45rem;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-secondary);
+  background:none;border:0;padding:0 0 4px;cursor:pointer;
+  border-bottom:1px solid transparent;
+  transition:color var(--duration-fast) var(--ease-in-out),
+             border-color var(--duration-fast) var(--ease-in-out);
+}
+.mf-work__fbtn:hover{color:var(--color-text-primary)}
+/* O ativo se marca por COR e por TRACO, nunca so por cor: quem nao
+   distingue o cobre ainda ve a linha. E o cobre fica no traco, nunca no
+   rotulo — como texto pequeno ele mede 4,49:1 e reprova AA. */
+.mf-work__fbtn.is-on{color:var(--color-text-primary);border-bottom-color:var(--copper)}
+.mf-work__fnum{
+  font-size:0.68em;color:var(--color-text-ghost);
+  font-variant-numeric:tabular-nums;
+}
+.mf-work__fbtn.is-on .mf-work__fnum{color:var(--color-text-secondary)}
+
+.mf-work__empty{
+  max-width:var(--max-width-page);margin:2.5rem auto 0;
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);color:var(--color-text-secondary);
+}
+.mf-work__list{max-width:var(--max-width-page);margin:1.5rem auto 0;border-top:1px solid var(--color-divider)}
 
 .mf-work__item{
   display:grid;grid-template-columns:3rem 15rem 1fr auto;
@@ -87,11 +178,10 @@ export default function Work() {
 .mf-work__item:focus-visible .mf-work__thumb{filter:saturate(1)}
 /* Case ainda sem captura: o espaco fica reservado e silencioso, sem
    moldura desenhada anunciando o vazio. */
-.mf-work__thumb--none{
-  aspect-ratio:16/9;border:0;
-  border-top:1px solid var(--color-divider);
-  align-self:start;
-}
+/* Reserva o espaco e nao desenha nada: um traco solto na coluna da
+   captura lia como linha perdida, anunciando a falta em vez de
+   silenciar. */
+.mf-work__thumb--none{aspect-ratio:16/9;border:0}
 @media(hover:none){
   .mf-work__thumb{filter:none}
 }

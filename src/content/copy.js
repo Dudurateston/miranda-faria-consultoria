@@ -87,6 +87,12 @@ export const copy = {
         label: "Selected work",
         lead: "Systems in the field.",
         cta: "See all work",
+        // A gravacao de um sistema real, que parte sozinha ao ser
+        // alcancada. Descrever um sistema pede confianca; mostrar um
+        // rodando da prova.
+        reelCase: "queijos-santana",
+        reelLabel: "Queijos Santana — lot inventory, running",
+        reelCaption: "Queijos Santana · lot-level inventory, recorded in use",
       },
       contactTeaser: {
         label: "Contact",
@@ -100,6 +106,9 @@ export const copy = {
       intro:
         "Eight projects, each shipped end to end — brand, interface, data model and deployment. Screens and recordings only: client systems are never linked publicly.",
       viewCase: "Read the case",
+      filterAll: "All",
+      filterLabel: "Filter by practice",
+      empty: "No projects in this practice yet.",
       sections: {
         problem: "Problem",
         process: "Process",
@@ -114,6 +123,10 @@ export const copy = {
       lead: "Four layers, one person.",
       intro:
         "Every project moves through the same four layers. They are the reason a single person can carry a whole system without it falling apart in the middle.",
+      // A linha do horizonte: cai entre System e Data, que e onde o
+      // projeto deixa de ser visivel para o cliente. O fundo escurece
+      // exatamente ali.
+      horizon: "Below this line is everything the client never sees — and where most projects quietly break.",
       layers: [
         {
           t: "Surface",
@@ -222,6 +235,9 @@ export const copy = {
         label: "Trabalhos",
         lead: "Projetos em campo.",
         cta: "Ver todos os trabalhos",
+        reelCase: "queijos-santana",
+        reelLabel: "Queijos Santana — controle de lotes, em funcionamento",
+        reelCaption: "Queijos Santana · controle de estoque por lote, gravado em uso",
       },
       contactTeaser: {
         label: "Conversar",
@@ -235,6 +251,9 @@ export const copy = {
       intro:
         "Oito projetos entregues de ponta a ponta — marca, interface, banco de dados e publicação. Só imagem e vídeo: os sistemas dos clientes nunca são linkados publicamente.",
       viewCase: "Ler o case",
+      filterAll: "Todos",
+      filterLabel: "Filtrar por frente",
+      empty: "Nenhum projeto nesta frente ainda.",
       sections: {
         problem: "Problema",
         process: "Processo",
@@ -249,6 +268,7 @@ export const copy = {
       lead: "Quatro camadas, uma pessoa.",
       intro:
         "Todo projeto passa pelas mesmas quatro camadas. É por isso que uma pessoa só consegue carregar o sistema inteiro sem ele desmontar no meio.",
+      horizon: "Abaixo desta linha está tudo o que o cliente nunca vê — e onde a maioria dos projetos quebra em silêncio.",
       layers: [
         {
           t: "Superfície",

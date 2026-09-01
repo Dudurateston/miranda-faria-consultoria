@@ -23,28 +23,36 @@ import { useEffect } from "react";
  * Roda uma vez por rota e nao observa scroll: o que entra depois deve
  * mesmo animar — e esse o proposito do gesto.
  */
-export function useStageFirstScreen(pathname) {
-  useEffect(() => {
-    // Dois quadros: um para o React montar, outro para o layout assentar
-    // com as fontes e as imagens ja medidas. Marcar cedo demais mediria
-    // posicoes que ainda vao mudar.
-    let raf2 = 0;
-    const raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(() => {
-        const vh = window.innerHeight;
-        for (const el of document.querySelectorAll(".mf-stage > *")) {
-          const r = el.getBoundingClientRect();
-          // Qualquer parte visivel conta: e o pedaco visivel que aparece
-          // desbotado, entao e ele que decide.
-          if (r.top < vh && r.bottom > 0) el.setAttribute("data-instant", "");
-          else el.removeAttribute("data-instant");
-        }
-      });
-    });
+/** Marca agora quem esta na tela. Exportado a parte porque trocar a rota
+ *  nao e o unico jeito de mudar o que esta visivel: filtrar uma lista
+ *  troca o conjunto inteiro sem mexer na URL, e sem remarcar os itens
+ *  novos que caem na primeira tela nascem desbotados de novo. */
+export function markStageFirstScreen() {
+  const vh = window.innerHeight;
+  for (const el of document.querySelectorAll(".mf-stage > *")) {
+    const r = el.getBoundingClientRect();
+    // Qualquer parte visivel conta: e o pedaco visivel que aparece
+    // desbotado, entao e ele que decide.
+    if (r.top < vh && r.bottom > 0) el.setAttribute("data-instant", "");
+    else el.removeAttribute("data-instant");
+  }
+}
 
-    return () => {
-      cancelAnimationFrame(raf1);
-      cancelAnimationFrame(raf2);
-    };
-  }, [pathname]);
+/** Agenda a marcacao para depois do layout assentar. Devolve o cancelador. */
+export function scheduleStageMark() {
+  // Dois quadros: um para o React montar, outro para o layout assentar
+  // com as fontes e as imagens ja medidas. Marcar cedo demais mediria
+  // posicoes que ainda vao mudar.
+  let raf2 = 0;
+  const raf1 = requestAnimationFrame(() => {
+    raf2 = requestAnimationFrame(markStageFirstScreen);
+  });
+  return () => {
+    cancelAnimationFrame(raf1);
+    cancelAnimationFrame(raf2);
+  };
+}
+
+export function useStageFirstScreen(key) {
+  useEffect(() => scheduleStageMark(), [key]);
 }

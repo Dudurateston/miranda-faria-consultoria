@@ -6,6 +6,7 @@ import MfRule from "@/components/MfRule";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import SectorTicker from "@/components/SectorTicker";
+import ScrollVideo from "@/components/ScrollVideo";
 import { useLang } from "@/lib/i18n";
 import { copy, cases } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
@@ -65,6 +66,33 @@ export default function Home() {
       </section>
 
       <SectorTicker />
+
+      {/* Um sistema real rodando, que parte sozinho ao ser alcancado.
+          Vem ANTES da lista de proposito: a lista nomeia os projetos, a
+          gravacao prova que existem.
+
+          SECAO PROPRIA, e nao um bloco dentro dos trabalhos, por um
+          motivo medido: a rampa de fundo interpola entre os CENTROS das
+          secoes, e ela precisa atravessar depressa a faixa cega entre
+          0,45 e 0,80, onde nenhuma cor de texto alcanca 4,5:1
+          (tokens.css). Com o video dentro da secao de trabalhos, o
+          centro dela desceu ~300px, a travessia dobrou de comprimento e
+          o ticker e o rotulo "Trabalhos" passaram a ficar parados no meio
+          da faixa — medidos em 4,43:1. Com ancora propria a travessia
+          volta a ser curta, e o que fica na tela durante ela e a imagem,
+          nao texto pequeno. */}
+      <section className="mf-home__sec mf-home__reelsec" data-depth="0.88">
+        <div className="mf-home__inner">
+          <div className="mf-home__reel">
+            <ScrollVideo
+              src={`/work/${t.workTeaser.reelCase}/video.mp4`}
+              poster={`/work/${t.workTeaser.reelCase}/poster.webp`}
+              label={t.workTeaser.reelLabel}
+              caption={t.workTeaser.reelCaption}
+            />
+          </div>
+        </div>
+      </section>
 
       {/* Trabalhos em destaque — a lista completa vive em /work */}
       <section className="mf-home__sec" data-depth="0.88">
@@ -157,6 +185,15 @@ export default function Home() {
   font-size:var(--text-body-md);line-height:var(--leading-body);
   color:var(--color-text-secondary);margin:0;
 }
+
+/* Inserida dentro da largura de pagina, nao ate a borda: o video e
+   prova, nao espetaculo, e um bloco sangrado brigaria com a coluna de
+   texto que vem logo abaixo. */
+/* Inserida dentro da largura de pagina, nao ate a borda: o video e
+   prova, nao espetaculo, e um bloco sangrado brigaria com a coluna de
+   texto em volta. */
+.mf-home__reel{max-width:62rem}
+.mf-home__reelsec{padding-bottom:0}
 
 .mf-teaser{margin-top:3.5rem;border-top:1px solid var(--color-divider)}
 .mf-teaser__item{
