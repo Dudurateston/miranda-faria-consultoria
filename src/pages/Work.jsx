@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "@/components/TransitionLink";
 
 import PageHeader from "@/components/layout/PageHeader";
@@ -26,7 +26,6 @@ export default function Work() {
   const t = copy[lang].work;
   const nav = copy[lang].nav;
   const all = cases[lang];
-  const listRef = useRef(null);
   usePageTitle(t.label);
 
   const [frente, setFrente] = useState("all");
@@ -78,7 +77,7 @@ export default function Work() {
           ))}
         </div>
 
-        <div ref={listRef} className="mf-work__list mf-stage">
+        <div className="mf-work__list mf-stage">
           {list.map((c, i) => (
             <Link
               key={c.slug}
@@ -176,9 +175,7 @@ export default function Work() {
 }
 .mf-work__item:hover .mf-work__thumb,
 .mf-work__item:focus-visible .mf-work__thumb{filter:saturate(1)}
-/* Case ainda sem captura: o espaco fica reservado e silencioso, sem
-   moldura desenhada anunciando o vazio. */
-/* Reserva o espaco e nao desenha nada: um traco solto na coluna da
+/* Case ainda sem captura: reserva o espaco e nao desenha nada. Um traco solto na coluna da
    captura lia como linha perdida, anunciando a falta em vez de
    silenciar. */
 .mf-work__thumb--none{aspect-ratio:16/9;border:0}

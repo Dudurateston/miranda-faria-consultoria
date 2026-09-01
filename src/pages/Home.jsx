@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Link from "@/components/TransitionLink";
 
 import OpeningSequence from "@/components/OpeningSequence";
@@ -22,9 +22,6 @@ export default function Home() {
   const t = copy[lang].home;
   const featured = cases[lang].slice(0, 3);
   usePageTitle(null); // Home usa o titulo institucional inteiro
-
-  const pitchRef = useRef(null);
-  const workRef = useRef(null);
 
   return (
     <>
@@ -53,7 +50,7 @@ export default function Home() {
             <p className="mf-label">{t.pitch.label}</p>
           </Reveal>
           <LineReveal className="mf-home__lead">{t.pitch.lead}</LineReveal>
-          <div ref={pitchRef} className="mf-pitch mf-stage">
+          <div className="mf-pitch mf-stage">
             {t.pitch.items.map((item, i) => (
               <article className="mf-pitch__item" key={item.t}>
                 <span className="mf-pitch__num">{String(i + 1).padStart(2, "0")}</span>
@@ -101,7 +98,7 @@ export default function Home() {
             <p className="mf-label">{t.workTeaser.label}</p>
           </Reveal>
           <LineReveal className="mf-home__lead">{t.workTeaser.lead}</LineReveal>
-          <div ref={workRef} className="mf-teaser mf-stage">
+          <div className="mf-teaser mf-stage">
             {featured.map((c, i) => (
               <Link
                 key={c.slug}
@@ -186,9 +183,6 @@ export default function Home() {
   color:var(--color-text-secondary);margin:0;
 }
 
-/* Inserida dentro da largura de pagina, nao ate a borda: o video e
-   prova, nao espetaculo, e um bloco sangrado brigaria com a coluna de
-   texto que vem logo abaixo. */
 /* Inserida dentro da largura de pagina, nao ate a borda: o video e
    prova, nao espetaculo, e um bloco sangrado brigaria com a coluna de
    texto em volta. */

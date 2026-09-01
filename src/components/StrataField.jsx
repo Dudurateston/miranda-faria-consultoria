@@ -29,8 +29,23 @@ import React, { useEffect, useRef } from "react";
  * - `prefers-reduced-motion`: desenha um quadro parado e nao abre laco.
  * - Um unico requestAnimationFrame.
  * - Teto de resolucao por area de tela, e densidade menor no celular.
+ *
+ * A INTENSIDADE e um preset, nao um numero solto no meio do codigo. O
+ * terreno esta discreto de proposito — o cliente rejeitou duas vezes um
+ * elemento gerado que virou protagonista —, mas "discreto demais" e
+ * "forte demais" so se decidem vendo rodar. Os presets existem para
+ * essa escolha ser feita com o site na frente, em /lab, e nao no
+ * escuro. `discreto` e o que esta no ar; trocar o padrao daqui muda a
+ * home inteira de uma vez.
  */
-export default function StrataField() {
+export const INTENSIDADES = {
+  // repouso, pico, intervalo entre sondagens (ms), meio-raio do halo (px)
+  discreto: { base: 0.13, pico: 0.86, esperaMin: 7000, esperaVar: 12000, halo: 190 },
+  medio:    { base: 0.22, pico: 0.95, esperaMin: 4500, esperaVar: 6500,  halo: 250 },
+  forte:    { base: 0.34, pico: 1.00, esperaMin: 2800, esperaVar: 3800,  halo: 320 },
+};
+
+export default function StrataField({ intensidade = "discreto" }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -61,8 +76,9 @@ export default function StrataField() {
     // a revelacao interpola sozinha e nao existe borda nenhuma.
     const SAMPLES = 40;
 
-    const BASE = 0.13;      // presenca do terreno em repouso: um sussurro
-    const PEAK = 0.86;      // presenca onde a leitura passa
+    const preset = INTENSIDADES[intensidade] ?? INTENSIDADES.discreto;
+    const BASE = preset.base;   // presenca do terreno em repouso: um sussurro
+    const PEAK = preset.pico;   // presenca onde a leitura passa
 
     /** Desenha as camadas uma vez, em contraste cheio, fora da tela. */
     const buildGround = () => {
@@ -297,7 +313,7 @@ export default function StrataField() {
       if (elapsed > nextSweep && sweepX < -40) {
         sweepX = -30;
         elapsed = 0;
-        nextSweep = 7000 + Math.random() * 12000;
+        nextSweep = preset.esperaMin + Math.random() * preset.esperaVar;
       }
       if (sweepX > -40) {
         sweepX += dt * 0.62;
@@ -322,8 +338,8 @@ export default function StrataField() {
         }
         if (pointerOn > 0) {
           const d = Math.abs(x - pointerX);
-          if (d < 190) {
-            const k = 1 - d / 190;
+          if (d < preset.halo) {
+            const k = 1 - d / preset.halo;
             target = Math.max(target, k * k * (3 - 2 * k) * 0.9);
           }
         }
@@ -367,7 +383,7 @@ export default function StrataField() {
       window.removeEventListener("pointerleave", onLeave);
       window.removeEventListener("pointercancel", onLeave);
     };
-  }, []);
+  }, [intensidade]);
 
   return (
     <canvas

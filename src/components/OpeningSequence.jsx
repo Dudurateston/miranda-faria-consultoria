@@ -33,7 +33,7 @@ import StrataField from "@/components/StrataField";
  * instante, e as duas tentativas anteriores de por a forma gerada como
  * protagonista foram rejeitadas. Aqui a tipografia e a protagonista.
  */
-export default function OpeningSequence() {
+export default function OpeningSequence({ intensidade }) {
   const { lang, path } = useLang();
   const t = copy[lang].home;
   const o = t.opening;
@@ -68,7 +68,7 @@ export default function OpeningSequence() {
 
           {/* O terreno: metade de baixo da tela, abaixo do texto. */}
           <div className="mf-open__ground">
-            <StrataField />
+            <StrataField intensidade={intensidade} />
           </div>
 
           <span className="mf-open__hint" aria-hidden="true">{t.scrollHint}</span>

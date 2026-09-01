@@ -6,6 +6,4 @@ export const MARCA = "Miranda Faria";
 // CTA internacional: agendamento em vez de WhatsApp (DECISIONS.md).
 export const CALENDLY_URL = "https://calendly.com/edumirandamf";
 
-// TODO(pendencia): confirmar a URL real do perfil. Registrado como
-// pendencia aberta no RECAP.md — hoje aponta para a home do LinkedIn.
-export const LINKEDIN_URL = "https://www.linkedin.com";
+export const LINKEDIN_URL = "https://www.linkedin.com/in/edumirandamf/";

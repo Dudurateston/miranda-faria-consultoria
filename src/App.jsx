@@ -15,6 +15,7 @@ import HowIWork from "@/pages/HowIWork";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import Lab from "@/pages/Lab";
 import Connect from "@/pages/Connect";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -89,6 +90,12 @@ const AuthenticatedApp = () => {
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
       </Route>
+
+      {/* DESCARTAVEL: comparacao das intensidades do terreno. Fora do
+          sitemap, no Disallow do robots.txt, nao linkada de lugar
+          nenhum. Sai junto com src/pages/Lab.jsx assim que a
+          intensidade for escolhida. */}
+      <Route path="/lab/:variant" element={<Lab />} />
 
       {/* Paginas de infraestrutura Base44 — sem prefixo de idioma. */}
       <Route path="/privacidade" element={<PrivacyPolicy />} />
