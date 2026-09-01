@@ -58,12 +58,16 @@ export default function WorkCase() {
         </header>
 
         {/* Capturas reais do sistema. Nunca link para o app do cliente
-            (DECISIONS.md) — so imagem e video. */}
-        <div className="mf-case__inner mf-case__mediawrap">
-          <Reveal delay={120}>
-            <CaseMedia media={item.media} name={item.name} />
-          </Reveal>
-        </div>
+            (DECISIONS.md) — so imagem e video. Sem captura, o bloco
+            inteiro sai: o texto do case abre no lugar, em vez de uma
+            moldura vazia ocupando a primeira dobra. */}
+        {item.media && (
+          <div className="mf-case__inner mf-case__mediawrap">
+            <Reveal delay={120}>
+              <CaseMedia media={item.media} name={item.name} />
+            </Reveal>
+          </div>
+        )}
 
         <MfRule />
 

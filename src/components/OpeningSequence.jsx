@@ -1,72 +1,74 @@
 import React from "react";
+import Link from "@/components/TransitionLink";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
-import LivingHero from "@/components/LivingHero";
+import StrataField from "@/components/StrataField";
 
 /**
- * Abertura — o monograma se monta em 3D conforme o visitante rola.
+ * A ABERTURA.
  *
- * Por que NÃO é vídeo nem sequência de quadros, apesar de o gesto ser
- * parecido: essa foi a primeira tentativa deste projeto e ela morreu
- * (RECAP.md) — 65 quadros travaram, pixelaram, pesaram e dependiam de
- * hospedagem externa. Aqui os planos são elementos de verdade em
- * espaço 3D: zero imagem, zero decode, zero CORS, e a resolução é a do
- * dispositivo em vez de a do arquivo.
+ * O QUE MUDOU, e por que:
  *
- * É também mais fiel à marca do que um vídeo seria: o logotipo JÁ é
- * planos translúcidos sobrepostos. Montá-los em profundidade é mostrar
- * o objeto que o desenho sempre foi.
+ * A versao anterior media 480vh — 4,8 telas de monograma se montando,
+ * numa home de 7,5 telas. Medido no primeiro quadro, antes de qualquer
+ * scroll, a tela inteira continha UM elemento de texto legivel: a
+ * palavra "Scroll", em 10px. O h1 existia no HTML mas em opacity 0 ate
+ * 72% da animacao, e a nav so aparecia depois de 72% da altura da tela.
+ * Um recrutador varrendo portfolios da a uma home algo entre 10 e 15
+ * segundos de atencao real; essa abertura gastava a conta inteira sem
+ * dizer o nome de quem assina o site.
  *
- * A coreografia inteira é dirigida pelo scroll em CSS
- * (`animation-timeline`), no thread do compositor — presa ao gesto, sem
- * laço de animação próprio, sem dessincronizar do scroll suave.
+ * Agora a primeira tela traz, sem exigir um pixel de scroll: a pergunta,
+ * o nome, o cargo, a localizacao e os dois caminhos. O scroll continua
+ * tendo um gesto — a RESPOSTA da pergunta resolve conforme se desce —
+ * mas ele revela o desenvolvimento, nunca a identidade.
+ *
+ * A ordem e deliberada: pergunta primeiro, assinatura depois. A pergunta
+ * e o unico elemento que faz alguem parar; o nome sozinho nao faz. Mas
+ * os dois cabem na mesma tela, entao nao ha por que escolher.
+ *
+ * O elemento vivo (StrataField) vive ABAIXO do texto, como o chao
+ * abaixo de uma linha de horizonte — e nao atras dele. Duas razoes: a
+ * legibilidade nunca depende do que o canvas esta pintando naquele
+ * instante, e as duas tentativas anteriores de por a forma gerada como
+ * protagonista foram rejeitadas. Aqui a tipografia e a protagonista.
  */
-export default function OpeningSequence() {
-  const { lang } = useLang();
+export default function OpeningSequence({ intensidade }) {
+  const { lang, path } = useLang();
   const t = copy[lang].home;
+  const o = t.opening;
 
   return (
     <>
       <section className="mf-open" id="topo" data-depth="0" aria-label={`${t.wordmark} — ${t.role}`}>
         <div className="mf-open__sticky">
-          <div className="mf-open__wrap">
-            {/* Campo de partículas por trás: dá matéria ao espaço em
-                que os planos se montam. */}
-            <div className="mf-open__field" aria-hidden="true">
-              <LivingHero />
+          <div className="mf-open__type">
+            <h1 className="mf-open__q">{o.question}</h1>
+
+            {/* A resposta resolve com o scroll. Ela nasce visivel e o
+                scroll so a acentua: sem suporte a linha do tempo de
+                scroll, ou com movimento reduzido, ela simplesmente ja
+                esta la. Nenhuma informacao depende do gesto. */}
+            <p className="mf-open__a">{o.answer}</p>
+
+            <div className="mf-open__sig">
+              <span className="mf-open__name">{t.wordmark}</span>
+              <span className="mf-open__role">{t.role}</span>
             </div>
 
-            <div className="mf-open__assembly" aria-hidden="true">
-              {/* A prancha: linhas de construção que aparecem antes dos
-                  planos e se retiram quando a marca fecha. O desenho
-                  virando objeto. */}
-              <svg className="mf-open__bp" viewBox="0 0 100 100">
-                <line x1="12" y1="0" x2="12" y2="100" />
-                <line x1="88" y1="0" x2="88" y2="100" />
-                <line x1="26" y1="0" x2="26" y2="100" />
-                <line x1="74" y1="0" x2="74" y2="100" />
-                <line x1="0" y1="16" x2="100" y2="16" />
-                <line x1="0" y1="84" x2="100" y2="84" />
-                <line x1="0" y1="62" x2="100" y2="62" />
-                <line x1="12" y1="16" x2="50" y2="62" />
-                <line x1="88" y1="16" x2="50" y2="62" />
-                <line className="ac" x1="50" y1="0" x2="50" y2="100" />
-              </svg>
-
-              <div className="mf-pl a" />
-              <div className="mf-pl b" />
-              <div className="mf-pl c" />
-              <div className="mf-pl l" />
-              <div className="mf-pl r" />
-              <div className="mf-pl dl" />
-              <div className="mf-pl dr" />
-              <span className="mf-open__dot" />
+            <div className="mf-open__cta">
+              <Link to={path("work")} className="mf-open__btn" data-cursor="link">
+                {o.primary} →
+              </Link>
+              <Link to={path("contact")} className="mf-open__btn is-quiet" data-cursor="link">
+                {o.secondary}
+              </Link>
             </div>
+          </div>
 
-            <div className="mf-open__word">
-              <h1>{t.wordmark}</h1>
-              <p>{t.role}</p>
-            </div>
+          {/* O terreno: metade de baixo da tela, abaixo do texto. */}
+          <div className="mf-open__ground">
+            <StrataField intensidade={intensidade} />
           </div>
 
           <span className="mf-open__hint" aria-hidden="true">{t.scrollHint}</span>
@@ -74,164 +76,139 @@ export default function OpeningSequence() {
       </section>
 
       <style>{`
-.mf-open{height:480vh;position:relative}
+/* Duas telas, nao cinco. A primeira ja diz tudo; a segunda e o gesto. */
+.mf-open{height:200vh;position:relative}
 .mf-open__sticky{
   position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;
-  display:grid;place-items:center;
-  perspective:1400px;perspective-origin:50% 45%;
-}
-.mf-open__wrap{position:relative;display:grid;place-items:center;
-  transform-style:preserve-3d}
-.mf-open__field{position:absolute;inset:-40vh -50vw;pointer-events:none;opacity:.85}
-
-.mf-open__assembly{
-  position:relative;width:min(56vmin,400px);height:min(56vmin,400px);
-  transform-style:preserve-3d;
+  display:flex;flex-direction:column;justify-content:flex-start;
 }
 
-.mf-open__bp{position:absolute;inset:-18%;opacity:0;transform:translateZ(-160px)}
-.mf-open__bp line{stroke:var(--stone);stroke-width:.5;opacity:.5}
-.mf-open__bp .ac{stroke:var(--copper);stroke-width:.7;opacity:.75}
-
-/* Os planos do monograma. Recortados por clip-path: são faces chapadas
-   em espaço 3D, não geometria — o navegador compõe na GPU. */
-.mf-pl{position:absolute;inset:0;background:var(--ink);opacity:0;
-  transform-style:preserve-3d;will-change:transform,opacity}
-.mf-pl.l  {clip-path:polygon(12% 16%, 26% 16%, 26% 84%, 12% 84%)}
-.mf-pl.r  {clip-path:polygon(74% 16%, 88% 16%, 88% 84%, 74% 84%)}
-.mf-pl.dl {clip-path:polygon(24% 16%, 38% 16%, 54% 62%, 46% 62%)}
-.mf-pl.dr {clip-path:polygon(62% 16%, 76% 16%, 54% 62%, 46% 62%)}
-.mf-pl.a  {clip-path:polygon(18% 30%, 82% 30%, 82% 46%, 18% 46%)}
-.mf-pl.b  {clip-path:polygon(28% 52%, 72% 52%, 72% 66%, 28% 66%)}
-.mf-pl.c  {clip-path:polygon(10% 70%, 90% 70%, 90% 80%, 10% 80%)}
-
-.mf-open__dot{
-  position:absolute;left:50%;top:58%;width:11px;height:11px;
-  margin:-5.5px 0 0 -5.5px;border-radius:50%;background:var(--copper);
-  opacity:0;transform:translateZ(90px) scale(0);will-change:transform,opacity;
+.mf-open__type{
+  position:relative;z-index:2;
+  width:100%;max-width:var(--max-width-page);
+  margin:0 auto;padding:calc(var(--nav-height) + 9vh) var(--gutter) 0;
 }
 
-.mf-open__word{
-  position:absolute;left:50%;top:calc(50% + min(33vmin,236px));
-  transform:translate(-50%,0);text-align:center;white-space:nowrap;opacity:0;
-}
-.mf-open__word h1{
+.mf-open__q{
   font-family:var(--font-display);font-weight:400;margin:0;
-  font-size:clamp(1.4rem,4.2vw,2.9rem);letter-spacing:var(--tracking-wordmark);
-  text-transform:uppercase;line-height:1;color:var(--color-text-primary);
+  font-size:clamp(2.1rem,5.4vw,4.6rem);line-height:1.04;
+  letter-spacing:var(--tracking-display);
+  color:var(--color-text-primary);
+  max-width:19ch;
 }
-.mf-open__word p{
+
+.mf-open__a{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-lg);line-height:var(--leading-body);
+  color:var(--color-text-secondary);
+  max-width:46ch;margin:1.75rem 0 0;
+}
+
+.mf-open__sig{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:0.5rem 1.15rem;
+  margin:3rem 0 0;
+  padding-top:1.15rem;border-top:1px solid var(--color-divider);
+  max-width:46ch;
+}
+.mf-open__name{
+  font-family:var(--font-display);font-weight:400;font-size:1rem;
+  letter-spacing:var(--tracking-wordmark);text-transform:uppercase;
+  color:var(--color-text-primary);
+}
+.mf-open__role{
   font-family:var(--font-mono);font-size:var(--text-label);
-  letter-spacing:0.42em;text-transform:uppercase;
-  color:var(--color-text-secondary);margin:1rem 0 0;
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-secondary);
+}
+
+.mf-open__cta{display:flex;flex-wrap:wrap;gap:1.5rem 2.25rem;margin:2.1rem 0 0}
+.mf-open__btn{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-primary);text-decoration:none;
+  border-bottom:1px solid var(--copper);padding-bottom:4px;
+  transition:opacity var(--duration-fast) var(--ease-in-out);
+}
+.mf-open__btn.is-quiet{border-bottom-color:var(--color-divider)}
+.mf-open__btn:hover{opacity:0.65}
+
+/* O chao. Fica embaixo do texto — nao atras — para a legibilidade nunca
+   depender do que o canvas esta pintando naquele instante. */
+.mf-open__ground{
+  position:absolute;left:0;right:0;bottom:0;height:46vh;
+  z-index:1;pointer-events:none;
+}
+/* A juncao entre o texto e o chao: uma linha de horizonte, nao um corte. */
+.mf-open__ground::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:var(--color-divider);
 }
 
 .mf-open__hint{
-  position:absolute;bottom:2.25rem;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);
+  z-index:2;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-ghost);
 }
 
+@media(max-width:640px){
+  .mf-open__type{padding-top:calc(var(--nav-height) + 5vh)}
+  .mf-open__q{max-width:none}
+  .mf-open__ground{height:34vh}
+}
+
 /* ============================================================
-   A MONTAGEM, dirigida pelo scroll
+   O GESTO DE SCROLL
+
+   REGRA DURA: nenhum texto desta abertura anima OPACIDADE. Texto em
+   opacidade parcial e a classe de falha que ja custou 1,02:1 de
+   contraste neste projeto, e o npm run verify NAO a pega — ele le a
+   cor calculada do elemento, nao a opacidade herdada, entao um
+   paragrafo fantasma passa na auditoria e some para o leitor. Aqui o
+   texto ou esta inteiro na tela ou saiu dela por transform, cortado
+   pelo overflow do sticky. Nunca meio visivel.
+
+   O gesto, entao, e do terreno: descer abre o chao ate a tela inteira,
+   e as camadas que estavam sussurradas aparecem. A pergunta e engolida
+   pela profundidade que ela mesma anuncia — depois o site comeca.
    ============================================================ */
 @supports (animation-timeline: view()) and (animation-range: 0% 100%) {
   @media (prefers-reduced-motion: no-preference) {
     .mf-open{view-timeline:--mf-open block}
 
-    .mf-open__bp,.mf-pl,.mf-open__dot,.mf-open__word,.mf-open__wrap{
+    .mf-open__type,.mf-open__ground,.mf-open__hint{
       animation-timeline:--mf-open;
       animation-fill-mode:both;
       animation-timing-function:linear;
       animation-range:contain 0% contain 100%;
     }
 
-    @keyframes mf-bp{
-      0%{opacity:0;transform:translateZ(-260px) scale(1.15)}
-      14%{opacity:.9;transform:translateZ(-160px) scale(1)}
-      44%{opacity:.55}
-      62%{opacity:0;transform:translateZ(-120px) scale(.96)}
-      100%{opacity:0}
+    /* So transform: sobe e sai de cena pelo corte do sticky. */
+    @keyframes mf-type-out{
+      0%,58%{transform:none}
+      100%{transform:translateY(-58vh)}
     }
-    .mf-open__bp{animation-name:mf-bp}
+    .mf-open__type{animation-name:mf-type-out}
 
-    /* Cada plano vem de uma profundidade, um giro e um tempo próprios.
-       É o escalonamento que faz parecer montagem em vez de um bloco só
-       surgindo. */
-    @keyframes mf-fly{
-      0%{opacity:0;transform:translate3d(var(--x),var(--y),var(--z))
-                              rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--s))}
-      18%{opacity:var(--o)}
-      100%{opacity:var(--o);transform:none}
+    /* O chao abre. */
+    @keyframes mf-ground-open{
+      0%{height:46vh}
+      100%{height:100vh}
     }
-    .mf-pl{animation-name:mf-fly}
-    .mf-pl.l {--x:-46vw;--y:-8vh;--z:-620px;--rx:-24deg;--ry:52deg;--s:1.5;--o:.13;
-              animation-range:contain 2% contain 52%}
-    .mf-pl.r {--x:48vw;--y:10vh;--z:-520px;--rx:18deg;--ry:-58deg;--s:1.4;--o:.13;
-              animation-range:contain 6% contain 58%}
-    .mf-pl.dl{--x:-22vw;--y:30vh;--z:-760px;--rx:34deg;--ry:26deg;--s:1.6;--o:.16;
-              animation-range:contain 12% contain 64%}
-    .mf-pl.dr{--x:26vw;--y:-28vh;--z:-700px;--rx:-30deg;--ry:-22deg;--s:1.6;--o:.16;
-              animation-range:contain 16% contain 68%}
-    .mf-pl.a {--x:0vw;--y:-42vh;--z:-420px;--rx:62deg;--ry:0deg;--s:1.3;--o:.07;
-              animation-range:contain 22% contain 72%}
-    .mf-pl.b {--x:-30vw;--y:18vh;--z:-340px;--rx:0deg;--ry:44deg;--s:1.25;--o:.06;
-              animation-range:contain 26% contain 76%}
-    .mf-pl.c {--x:34vw;--y:34vh;--z:-280px;--rx:-16deg;--ry:-34deg;--s:1.2;--o:.05;
-              animation-range:contain 30% contain 80%}
+    .mf-open__ground{animation-name:mf-ground-open}
 
-    /* O ponto de cobre fecha a marca — último a chegar, e sozinho. */
-    @keyframes mf-dot{
-      0%,58%{opacity:0;transform:translateZ(90px) scale(0)}
-      76%{opacity:1;transform:translateZ(90px) scale(1.5)}
-      86%,100%{opacity:1;transform:translateZ(90px) scale(1)}
-    }
-    .mf-open__dot{animation-name:mf-dot}
-
-    /* A assinatura vem depois do objeto, nunca junto. */
-    @keyframes mf-word{
-      0%,72%{opacity:0;transform:translate(-50%,18px)}
-      92%,100%{opacity:1;transform:translate(-50%,0)}
-    }
-    .mf-open__word{animation-name:mf-word}
-
-    /* E o conjunto cede lugar ao site. */
-    @keyframes mf-handoff{
-      0%,88%{transform:none;opacity:1}
-      100%{transform:translateY(-6%) scale(.9);opacity:0}
-    }
-    .mf-open__wrap{animation-name:mf-handoff}
-
-    .mf-open__hint{
-      animation:mf-hint linear both;
-      animation-timeline:--mf-open;
-      animation-range:contain 0% contain 22%;
-    }
-    @keyframes mf-hint{0%{opacity:1}100%{opacity:0}}
+    @keyframes mf-hint{0%{opacity:1}18%,100%{opacity:0}}
+    .mf-open__hint{animation-name:mf-hint}
   }
 }
 
-/* Sem suporte a linha do tempo de scroll, ou com movimento reduzido:
-   a marca aparece montada, parada, numa tela só. A abertura é gesto —
-   o site nunca depende dela para ser lido. */
-@supports not ((animation-timeline: view()) and (animation-range: 0% 100%)) {
-  .mf-open{height:100vh;height:100svh}
-  .mf-pl{opacity:.13}
-  .mf-pl.dl,.mf-pl.dr{opacity:.16}
-  .mf-pl.a{opacity:.07}.mf-pl.b{opacity:.06}.mf-pl.c{opacity:.05}
-  .mf-open__dot{opacity:1;transform:translateZ(90px) scale(1)}
-  .mf-open__word{opacity:1}
-  .mf-open__bp{opacity:.4}
-}
-@media (prefers-reduced-motion: reduce){
-  .mf-open{height:100vh;height:100svh}
-  .mf-pl{opacity:.13;animation:none}
-  .mf-pl.dl,.mf-pl.dr{opacity:.16}
-  .mf-pl.a{opacity:.07}.mf-pl.b{opacity:.06}.mf-pl.c{opacity:.05}
-  .mf-open__dot{opacity:1;transform:translateZ(90px) scale(1);animation:none}
-  .mf-open__word{opacity:1;animation:none}
-  .mf-open__bp{opacity:.4;animation:none}
+@media(max-width:640px){
+  @supports (animation-timeline: view()){
+    @media (prefers-reduced-motion: no-preference){
+      @keyframes mf-ground-open{0%{height:34vh}100%{height:100vh}}
+    }
+  }
 }
       `}</style>
     </>

@@ -9,4 +9,5 @@ Disallow: /reset-password
 Disallow: /oauth/
 Disallow: /connect
 
-Sitemap: https://mirandafaria.com.br/sitemap.xml
+# Comparacao temporaria de intensidade do terreno — nao e conteudo
+Disallow: /lab/

@@ -37,25 +37,12 @@ export default function CaseMedia({ media, name }) {
     return () => obs.disconnect();
   }, [media]);
 
-  // Sem midia: a moldura da marca segura o lugar de forma intencional.
-  if (!media) {
-    return (
-      <>
-        <figure className="mf-cm">
-          <img
-            className="mf-cm__img"
-            src="/art/case-frame.webp"
-            srcSet="/art/case-frame@800.webp 800w, /art/case-frame.webp 1600w"
-            sizes="(max-width: 900px) 100vw, 1180px"
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-        </figure>
-        <style>{mediaCss}</style>
-      </>
-    );
-  }
+  // Sem midia: nao desenha nada. A moldura da marca que ficava aqui era
+  // um retangulo vazio de 550px no topo do case — exatamente a "moldura
+  // vazia esperando imagem" que o CLAUDE.md proibe, e pior do que nao
+  // ter imagem nenhuma: anuncia a falta em vez de deixar o texto abrir.
+  // Quando a captura real chegar, ela aparece aqui sozinha.
+  if (!media) return null;
 
   const { dir, shots = 0, video = false } = media;
   const poster = `/work/${dir}/poster.webp`;

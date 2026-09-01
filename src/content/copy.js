@@ -33,6 +33,8 @@ export const copy = {
     },
     nav: {
       home: "Home",
+      practice: "What I do",
+      practiceHint: "Three ways in. Same person on all three.",
       systems: "Systems",
       design: "Design",
       business: "Business",
@@ -46,6 +48,18 @@ export const copy = {
       wordmark: "Miranda Faria",
       role: "Design Engineer & Creative Technologist",
       scrollHint: "Scroll",
+      // A abertura. A pergunta esta na tela no primeiro quadro, junto da
+      // identidade; o scroll revela a resposta. Curiosidade primeiro,
+      // mas sem cobrar scroll para o visitante descobrir de quem e o
+      // site — recrutador da a uma home uns 10 a 15 segundos de atencao
+      // real, e essa conta nao paga uma abertura de cinco telas.
+      opening: {
+        question: "What gets lost between the design and the database?",
+        answer:
+          "The reason for it. I carry both ends, so nothing has to survive a handoff.",
+        primary: "See the work",
+        secondary: "Book a call",
+      },
       thesis: {
         label: "What I do",
         lead: "I build the structure a business runs on.",
@@ -73,6 +87,12 @@ export const copy = {
         label: "Selected work",
         lead: "Systems in the field.",
         cta: "See all work",
+        // A gravacao de um sistema real, que parte sozinha ao ser
+        // alcancada. Descrever um sistema pede confianca; mostrar um
+        // rodando da prova.
+        reelCase: "queijos-santana",
+        reelLabel: "Queijos Santana — lot inventory, running",
+        reelCaption: "Queijos Santana · lot-level inventory, recorded in use",
       },
       contactTeaser: {
         label: "Contact",
@@ -86,6 +106,9 @@ export const copy = {
       intro:
         "Eight projects, each shipped end to end — brand, interface, data model and deployment. Screens and recordings only: client systems are never linked publicly.",
       viewCase: "Read the case",
+      filterAll: "All",
+      filterLabel: "Filter by practice",
+      empty: "No projects in this practice yet.",
       sections: {
         problem: "Problem",
         process: "Process",
@@ -100,6 +123,10 @@ export const copy = {
       lead: "Four layers, one person.",
       intro:
         "Every project moves through the same four layers. They are the reason a single person can carry a whole system without it falling apart in the middle.",
+      // A linha do horizonte: cai entre System e Data, que e onde o
+      // projeto deixa de ser visivel para o cliente. O fundo escurece
+      // exatamente ali.
+      horizon: "Below this line is everything the client never sees — and where most projects quietly break.",
       layers: [
         {
           t: "Surface",
@@ -136,6 +163,115 @@ export const copy = {
       ],
       location: "Based in Brazil (UTC−3) — full working-day overlap with US hours, partial with Europe.",
     },
+    // ---------------------------------------------------------------
+    // RAIO-X DE SISTEMA — a ferramenta de engajamento que substitui o
+    // formulario (DECISIONS.md). Nada e enviado: as respostas vivem em
+    // memoria, o resultado e desenhado na tela, e o CTA e um link
+    // direto. Cada resposta carrega peso para uma das QUATRO CAMADAS
+    // que /how-i-work ja ensinou — os nomes vem de howIWork.layers, nao
+    // sao redigitados aqui.
+    // ---------------------------------------------------------------
+    xray: {
+      label: "System X-ray",
+      // A porta de entrada, usada em /contact e no rodape da home. Quem
+      // hesita em agendar uma conversa nao hesita por falta de botao:
+      // hesita por nao saber o que pedir. O raio-x e o caminho de menor
+      // compromisso que termina sabendo.
+      entryLead: "Not sure what to ask for yet?",
+      entryCta: "Run the system X-ray",
+      lead: "Which layer of your operation is thinnest?",
+      intro:
+        "Six questions about how the work actually runs today. Nothing is sent anywhere — the reading happens on this page, and you decide what to do with it.",
+      start: "Start",
+      of: "of",
+      back: "Back",
+      restart: "Start over",
+      // Leitura por camada, em palavra. O numero cru nao diz nada a quem
+      // responde; "fina" diz.
+      grades: { solid: "Solid", thinning: "Thinning", thin: "Thin" },
+      resultLabel: "Reading",
+      resultLead: "Your thinnest layer is",
+      // Caso real: ninguem acusou nada. Inventar um problema aqui
+      // queimaria a credibilidade do resto — melhor dizer a verdade e
+      // oferecer a conversa por outro motivo.
+      allGoodLead: "Nothing here is thin.",
+      allGoodBody:
+        "Six answers and not one of them points at a gap. That is rare, and it usually means the next problem is scale rather than structure — which is a different conversation, and one worth having.",
+      costLabel: "What that costs",
+      cta: "Talk about this layer",
+      ctaNote: "Bring the answer above. It is a better brief than a spec.",
+      // O resultado por camada. `thin` e o custo de a camada estar fina.
+      verdicts: {
+        surface: {
+          thin: "The work is solid and looks like it isn't. You lose deals before anyone reads the second sentence, and you compete on price because nothing else is visible.",
+        },
+        system: {
+          thin: "The operation runs on people remembering things. It works until someone is away, and then it stops — which means it does not scale past the people currently in it.",
+        },
+        data: {
+          thin: "You have numbers, but two versions of them. Every decision starts with an argument about which one is right, and the meeting is spent on the number instead of the decision.",
+        },
+        foundation: {
+          thin: "Whatever you built sits on something you do not control or cannot hand over. It works right up until the person who set it up is gone.",
+        },
+      },
+      questions: [
+        {
+          q: "Someone asks the price of something you sell. What happens?",
+          options: [
+            { t: "It's on a page anyone can look up", w: {} },
+            { t: "Someone checks a spreadsheet", w: { system: 2, data: 1 } },
+            { t: "It depends who's asked — a few people know", w: { system: 2, data: 2 } },
+            { t: "Only I know for certain", w: { system: 3, data: 2, surface: 2 } },
+          ],
+        },
+        {
+          q: "How does a new order get recorded?",
+          options: [
+            { t: "In a system, with status and history", w: {} },
+            { t: "In a spreadsheet someone updates", w: { system: 2, data: 2 } },
+            { t: "In a message thread", w: { system: 3, data: 2 } },
+            { t: "On paper, or in someone's head", w: { system: 3, data: 3 } },
+          ],
+        },
+        {
+          q: "You want last month's numbers. How long until you have them?",
+          options: [
+            { t: "They're on a screen, already current", w: {} },
+            { t: "An hour of assembling", w: { data: 2 } },
+            { t: "Most of a day, and I still double-check", w: { data: 3 } },
+            { t: "I estimate, because assembling them isn't worth it", w: { data: 3, foundation: 1 } },
+          ],
+        },
+        {
+          q: "A customer looks you up before buying. What do they find?",
+          options: [
+            { t: "A site that shows the work and how to start", w: {} },
+            { t: "Social profiles, kept current", w: { surface: 2 } },
+            { t: "Something outdated I'd rather they didn't see", w: { surface: 3 } },
+            { t: "Not much, honestly", w: { surface: 3, foundation: 1 } },
+          ],
+        },
+        {
+          q: "Who can change what customers see — prices, photos, availability?",
+          options: [
+            { t: "The owner, directly, whenever", w: {} },
+            { t: "One person on the team", w: { system: 2 } },
+            { t: "We ask whoever built it", w: { system: 2, foundation: 3, surface: 2 } },
+            { t: "Nobody's really sure how", w: { system: 3, foundation: 3, surface: 3 } },
+          ],
+        },
+        {
+          q: "The hosting, the domain, the database — in whose name are they?",
+          options: [
+            { t: "Mine. I could move it tomorrow", w: {} },
+            { t: "Mine, but I'd need help to move it", w: { foundation: 2 } },
+            { t: "A supplier's, or an agency's", w: { foundation: 3 } },
+            { t: "I don't know", w: { foundation: 3, data: 1 } },
+          ],
+        },
+      ],
+    },
     contact: {
       label: "Contact",
       lead: "Tell me where it's stuck.",
@@ -159,6 +295,8 @@ export const copy = {
     },
     nav: {
       home: "Início",
+      practice: "O que eu faço",
+      practiceHint: "Três portas de entrada. A mesma pessoa nas três.",
       systems: "Sistemas",
       design: "Design",
       business: "Gestão",
@@ -172,6 +310,13 @@ export const copy = {
       wordmark: "Miranda Faria",
       role: "Consultoria & Tecnologia",
       scrollHint: "Role",
+      opening: {
+        question: "Quanto do seu negócio só existe na sua cabeça?",
+        answer:
+          "Preço, estoque, prazo. Enquanto estiver só aí, a operação para quando você para.",
+        primary: "Ver os trabalhos",
+        secondary: "Chamar no WhatsApp",
+      },
       thesis: {
         label: "O que eu faço",
         lead: "Estruturo a base que sustenta o negócio.",
@@ -199,6 +344,9 @@ export const copy = {
         label: "Trabalhos",
         lead: "Projetos em campo.",
         cta: "Ver todos os trabalhos",
+        reelCase: "queijos-santana",
+        reelLabel: "Queijos Santana — controle de lotes, em funcionamento",
+        reelCaption: "Queijos Santana · controle de estoque por lote, gravado em uso",
       },
       contactTeaser: {
         label: "Conversar",
@@ -212,6 +360,9 @@ export const copy = {
       intro:
         "Oito projetos entregues de ponta a ponta — marca, interface, banco de dados e publicação. Só imagem e vídeo: os sistemas dos clientes nunca são linkados publicamente.",
       viewCase: "Ler o case",
+      filterAll: "Todos",
+      filterLabel: "Filtrar por frente",
+      empty: "Nenhum projeto nesta frente ainda.",
       sections: {
         problem: "Problema",
         process: "Processo",
@@ -226,6 +377,7 @@ export const copy = {
       lead: "Quatro camadas, uma pessoa.",
       intro:
         "Todo projeto passa pelas mesmas quatro camadas. É por isso que uma pessoa só consegue carregar o sistema inteiro sem ele desmontar no meio.",
+      horizon: "Abaixo desta linha está tudo o que o cliente nunca vê — e onde a maioria dos projetos quebra em silêncio.",
       layers: [
         {
           t: "Superfície",
@@ -261,6 +413,101 @@ export const copy = {
         "Trabalho sozinho e entrego rápido. Uso IA em boa parte do processo — na construção dos sistemas e na criação visual —, e é por isso que consigo fazer sob medida por um preço que agência não alcança. O que sai daqui passa pela minha mão antes de chegar em você.",
       ],
       location: "Atendimento remoto para todo o Brasil.",
+    },
+    xray: {
+      label: "Raio-X de sistema",
+      entryLead: "Ainda não sabe o que pedir?",
+      entryCta: "Faça o raio-x do seu sistema",
+      lead: "Qual camada da sua operação está mais fina?",
+      intro:
+        "Seis perguntas sobre como o trabalho funciona hoje de verdade. Nada é enviado para lugar nenhum — a leitura acontece nesta página, e o que fazer com ela é decisão sua.",
+      start: "Começar",
+      of: "de",
+      back: "Voltar",
+      restart: "Começar de novo",
+      // Rotulos que NAO flexionam. "Fina" concordava com Superficie e
+      // Fundacao e errava em Sistema e Dados ("Sistema Fina", "Dados
+      // Fina"). Substantivo resolve: serve para as quatro camadas, no
+      // singular e no plural.
+      grades: { solid: "Sem falha", thinning: "Afinando", thin: "Ponto fraco" },
+      resultLabel: "Leitura",
+      resultLead: "Sua camada mais fina é",
+      allGoodLead: "Nada aqui está fino.",
+      allGoodBody:
+        "Seis respostas e nenhuma aponta uma falha. Isso é raro, e normalmente quer dizer que o próximo problema é de escala, não de estrutura — o que é outra conversa, e vale a pena ter.",
+      costLabel: "O que isso custa",
+      cta: "Conversar sobre essa camada",
+      ctaNote: "Traga a resposta acima. Ela vale mais que uma especificação.",
+      verdicts: {
+        surface: {
+          thin: "O trabalho é bom e não parece. Você perde negócio antes de alguém ler a segunda frase, e acaba competindo por preço porque não sobra mais nada visível.",
+        },
+        system: {
+          thin: "A operação anda porque as pessoas lembram das coisas. Funciona até alguém faltar — e aí para. Na prática, ela não cresce além de quem já está dentro.",
+        },
+        data: {
+          thin: "Número existe, mas em duas versões. Toda decisão começa com uma discussão sobre qual está certo, e a reunião vai embora no número em vez de ir na decisão.",
+        },
+        foundation: {
+          thin: "O que você construiu está apoiado em algo que não é seu ou que você não consegue transferir. Funciona até o dia em que quem montou sai de cena.",
+        },
+      },
+      questions: [
+        {
+          q: "Alguém pergunta o preço de um item. O que acontece?",
+          options: [
+            { t: "Está numa página que qualquer um consulta", w: {} },
+            { t: "Alguém abre uma planilha", w: { system: 2, data: 1 } },
+            { t: "Depende de quem foi perguntado — alguns sabem", w: { system: 2, data: 2 } },
+            { t: "Só eu sei com certeza", w: { system: 3, data: 2, surface: 2 } },
+          ],
+        },
+        {
+          q: "Como um pedido novo é registrado?",
+          options: [
+            { t: "Num sistema, com status e histórico", w: {} },
+            { t: "Numa planilha que alguém atualiza", w: { system: 2, data: 2 } },
+            { t: "Na conversa do WhatsApp", w: { system: 3, data: 2 } },
+            { t: "No papel, ou na cabeça de alguém", w: { system: 3, data: 3 } },
+          ],
+        },
+        {
+          q: "Você quer o número do mês passado. Em quanto tempo ele está na sua mão?",
+          options: [
+            { t: "Está numa tela, já atualizado", w: {} },
+            { t: "Uma hora montando", w: { data: 2 } },
+            { t: "Quase um dia, e ainda confiro", w: { data: 3 } },
+            { t: "Eu estimo, porque montar não compensa", w: { data: 3, foundation: 1 } },
+          ],
+        },
+        {
+          q: "Um cliente procura seu nome antes de comprar. O que ele encontra?",
+          options: [
+            { t: "Um site que mostra o trabalho e como começar", w: {} },
+            { t: "Redes sociais, em dia", w: { surface: 2 } },
+            { t: "Coisa desatualizada que eu preferia que ele não visse", w: { surface: 3 } },
+            { t: "Quase nada, sendo honesto", w: { surface: 3, foundation: 1 } },
+          ],
+        },
+        {
+          q: "Quem consegue mudar o que o cliente vê — preço, foto, disponibilidade?",
+          options: [
+            { t: "O dono, direto, na hora que quiser", w: {} },
+            { t: "Uma pessoa da equipe", w: { system: 2 } },
+            { t: "A gente chama quem fez", w: { system: 2, foundation: 3, surface: 2 } },
+            { t: "Ninguém sabe direito como", w: { system: 3, foundation: 3, surface: 3 } },
+          ],
+        },
+        {
+          q: "A hospedagem, o domínio, o banco de dados — estão no nome de quem?",
+          options: [
+            { t: "Meu. Eu mudaria de lugar amanhã", w: {} },
+            { t: "Meu, mas eu precisaria de ajuda para mudar", w: { foundation: 2 } },
+            { t: "De um fornecedor, ou de uma agência", w: { foundation: 3 } },
+            { t: "Não sei", w: { foundation: 3, data: 1 } },
+          ],
+        },
+      ],
     },
     contact: {
       label: "Conversar",
@@ -582,7 +829,7 @@ export const practices = {
       label: "Systems",
       lead: "Software the owner runs, not me.",
       intro:
-        "Catalogues, inventory, ordering and admin panels, built on a real database with an interface the client operates without calling me. Shipped on Base44, which is why the unit of delivery is weeks instead of months.",
+        "Catalogues, inventory, ordering and admin panels, built on a real database with an interface the client operates without calling me. Built with AI assistance, which is why delivery is measured in weeks — the data model, the states and the edge cases stay a human decision.",
       artAlt: "Blueprint linework resolving into built structure",
       deliverablesLabel: "What I deliver",
       deliverables: [
@@ -672,7 +919,7 @@ export const practices = {
       label: "Sistemas",
       lead: "Sistema que o dono opera, não eu.",
       intro:
-        "Catálogo, estoque, cadastro e pedidos, com banco de dados de verdade e um painel que o cliente usa sem me chamar. Construído no Base44, e é por isso que a entrega se mede em semanas, não em meses.",
+        "Catálogo, estoque, cadastro e pedidos, com banco de dados de verdade e um painel que o cliente usa sem me chamar. Construído com auxílio de IA, e é por isso que a entrega se mede em semanas — o modelo de dados, os estados e os casos de borda continuam decisão humana.",
       artAlt: "Linhas de prancha virando estrutura construída",
       deliverablesLabel: "O que entrego",
       deliverables: [

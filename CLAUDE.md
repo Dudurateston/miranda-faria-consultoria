@@ -84,6 +84,56 @@ POR IA (Lovart). É uma imagem raster, não um vetor limpo.
    AUTÔNOMOS — que se movem sozinhos, sem depender de interação — não
    apenas mais reatividade a mouse/scroll.
 
+## SESSÃO 01/09/2026 — leia isto antes de qualquer coisa abaixo
+
+A fase do branch `claude/redesign-identity-and-pages` foi **rejeitada
+integralmente** pelo cliente. Palavras dele: "praticamente tudo", não
+gostou de como ficaram as informações, ficou com abas demais, nenhum
+efeito prendeu a atenção e os que havia atrapalharam mais que ajudaram.
+**Não reconstruir:** testemunho de sondagem (`CoreSample`), trilho
+parado na borda esquerda, assinaturas por página (`PracticeSignature`,
+`HandoffDiagram`), acordeão da home. O branch fica como registro.
+
+**Duas regras fechadas mudaram. Não desfaça:**
+
+1. **Interação com mouse e toque agora é QUERIDA.** O texto abaixo diz
+   que efeito reativo a cursor foi rejeitado como "batido" — isso valia
+   para o *clichê* (paralaxe magnético, tilt 3D em hover), que segue
+   morto. Interatividade em si o cliente pediu de volta, explicitamente,
+   junto de movimento autônomo. Elemento vivo agora é: **autônomo E
+   responsivo a ponteiro/dedo**, com algo que atravessa a tela em
+   intervalo aleatório e vídeo que começa a tocar em certo ponto.
+2. **A nav tem 4 itens, não 7.** As três verticais vivem num submenu.
+
+**Regra nova, dura, medida:** nenhum texto anima opacidade. O verify lê
+`color` calculada e NÃO enxerga `opacity` herdada — texto fantasma passa
+em AA e some para quem lê. Foi assim que o corpo da home chegou a 1,02:1.
+Texto ou está inteiro na tela, ou saiu dela por transform.
+
+**Estado da abertura hoje:** `OpeningSequence` traz a pergunta, a
+resposta, o nome, o cargo e dois CTAs na primeira tela, sem scroll —
+12 elementos legíveis onde antes havia 1. Altura 200vh (era 480vh). O
+elemento vivo é `StrataField.jsx`: terreno gerado em código na metade de
+baixo da tela, camadas derivando sozinhas, fio de cobre atravessando em
+intervalo irregular, e revelação sob o ponteiro ou o dedo. 59 FPS
+medidos; pausa fora da viewport. A tipografia é a protagonista e o
+terreno é atmosfera — se o efeito cair, a página continua de pé.
+
+**Feito desde então:** /work virou índice que filtra por frente (o campo
+`practice` finalmente serve para algo) e /how-i-work deixou de ser lista
+e virou descida, com a faixa cega de contraste virando a linha do
+horizonte entre o que o cliente vê e o que fica embaixo. A home ganhou o
+vídeo que começa a tocar sozinho ao ser alcançado. E o **Raio-X de
+Sistema** existe em `/:lang/x-ray`: seis perguntas, nada é enviado, e o
+resultado nomeia a camada mais fina em vez de dar nota — a lógica mora
+em `src/lib/xray.js`, fora do React, e as 4096 combinações foram
+percorridas.
+
+**Ainda em aberto:** a intensidade do terreno está em teste em `/lab/a`,
+`/lab/b` e `/lab/c` esperando a escolha do cliente (essas rotas são
+descartáveis e saem junto com a decisão); cinco dos oito cases seguem sem
+imagem real; foto, métricas e domínio continuam pendentes.
+
 ## Direção criativa atual — elementos vivos/autônomos
 
 Buscar sistemas que evoluem em tempo real por conta própria (referência:
@@ -151,7 +201,7 @@ alto impacto. Verificado no código:
 | Formulário de contato | **Removido.** `ContactForm.jsx` e `sections/Conversar.jsx` apagados. CTA é link direto: WhatsApp no PT, Calendly no EN |
 | Conteúdo | **Feito.** Tudo em `src/content/copy.js`. EN e PT não são traduções: EN vende para o mercado internacional, PT para o cliente nacional |
 | Arte generativa | **Feito.** Gerada na Lovart, servida de `public/art` — abertura, três assinaturas de vertical, moldura de case, texturas, OG e favicon. `scripts/optimize-art.mjs` recorta o fundo, redimensiona e converte para WebP; os originais ficam em `assets-source/` |
-| Hero | **Feito.** `LivingHero.jsx` — sedimentação de partículas em Canvas 2D, procedural, sem imagem externa. Pausa fora da viewport, respeita `prefers-reduced-motion` com quadro estático, teto de partículas por área de tela |
+| Hero | **Refeito em 01/09/2026.** `OpeningSequence.jsx` + `StrataField.jsx` — pergunta e identidade na primeira tela, terreno vivo abaixo do texto. `LivingHero.jsx` saiu de uso e virou código morto |
 | Mídia dos cases | **Parcial.** Queijos Santana, Roda de Agronegócios e Paulo Henrique têm print e vídeo reais (`public/work/`, via `scripts/optimize-work.mjs`). Os cinco cases antigos ainda usam a moldura |
 | Contraste | **Auditado.** 336 medições em 7 páginas × 6 posições de scroll, todas passando em WCAG AA. **O cobre reprova como texto pequeno** (4,49:1 sobre osso) — é traço e marca, nunca rótulo ou número. A rampa tem faixa cega entre 0,45 e 0,80: seções só descansam em ≤0,35 ou ≥0,85. Regras medidas e documentadas em `tokens.css` |
 | Lançamento | **Feito.** `robots.txt`, `sitemap.xml` (gerado no build, nunca desatualiza), `manifest.json`, canonical por rota, OG card |
