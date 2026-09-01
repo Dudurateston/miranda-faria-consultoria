@@ -119,9 +119,20 @@ intervalo irregular, e revelação sob o ponteiro ou o dedo. 59 FPS
 medidos; pausa fora da viewport. A tipografia é a protagonista e o
 terreno é atmosfera — se o efeito cair, a página continua de pé.
 
-**Ainda em aberto:** a intensidade do terreno é o botão a girar (hoje
-discreto de propósito); /work e /how-i-work ainda usam o mesmo template
-um do outro; cinco dos oito cases seguem sem imagem real.
+**Feito desde então:** /work virou índice que filtra por frente (o campo
+`practice` finalmente serve para algo) e /how-i-work deixou de ser lista
+e virou descida, com a faixa cega de contraste virando a linha do
+horizonte entre o que o cliente vê e o que fica embaixo. A home ganhou o
+vídeo que começa a tocar sozinho ao ser alcançado. E o **Raio-X de
+Sistema** existe em `/:lang/x-ray`: seis perguntas, nada é enviado, e o
+resultado nomeia a camada mais fina em vez de dar nota — a lógica mora
+em `src/lib/xray.js`, fora do React, e as 4096 combinações foram
+percorridas.
+
+**Ainda em aberto:** a intensidade do terreno está em teste em `/lab/a`,
+`/lab/b` e `/lab/c` esperando a escolha do cliente (essas rotas são
+descartáveis e saem junto com a decisão); cinco dos oito cases seguem sem
+imagem real; foto, métricas e domínio continuam pendentes.
 
 ## Direção criativa atual — elementos vivos/autônomos
 

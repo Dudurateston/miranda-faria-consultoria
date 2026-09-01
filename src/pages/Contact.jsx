@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "@/components/TransitionLink";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
@@ -13,8 +14,9 @@ import { WHATSAPP_URL, CALENDLY_URL, EMAIL } from "@/lib/site";
  * primeiro contato profissional).
  */
 export default function Contact() {
-  const { lang } = useLang();
+  const { lang, path } = useLang();
   const t = copy[lang].contact;
+  const xray = copy[lang].xray;
   usePageTitle(t.label);
 
   const primaryHref = lang === "pt" ? WHATSAPP_URL : CALENDLY_URL;
@@ -57,6 +59,18 @@ export default function Contact() {
           <Reveal delay={260}>
             <p className="mf-label mf-contact__response">{t.response}</p>
           </Reveal>
+
+          {/* Caminho de menor compromisso para quem ainda nao sabe o que
+              pedir. Nao e formulario: e uma leitura que termina aqui
+              mesmo, no navegador de quem responde. */}
+          <Reveal delay={320}>
+            <p className="mf-contact__xray">
+              <span>{xray.entryLead}</span>
+              <Link to={path("x-ray")} className="mf-contact__xraylink" data-cursor="link">
+                {xray.entryCta} →
+              </Link>
+            </p>
+          </Reveal>
         </div>
       </section>
 
@@ -67,6 +81,20 @@ export default function Contact() {
   padding:var(--section-gap) var(--gutter);
 }
 .mf-contact__inner{max-width:var(--max-width-page);margin:0 auto;width:100%}
+.mf-contact__xray{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:0.35rem 0.9rem;
+  margin:3.5rem 0 0;padding-top:1.5rem;
+  border-top:1px solid var(--color-divider);max-width:44rem;
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);color:var(--color-text-secondary);
+}
+.mf-contact__xraylink{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-primary);text-decoration:none;
+  border-bottom:1px solid var(--copper);padding-bottom:3px;
+}
+.mf-contact__xraylink:hover{opacity:0.65}
 .mf-contact__lead{
   font-family:var(--font-display);font-weight:400;
   font-size:var(--text-display-hero);line-height:var(--leading-display);

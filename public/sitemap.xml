@@ -58,6 +58,13 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/contact"/>
   </url>
   <url>
+    <loc>https://mirandafaria.com.br/en/x-ray</loc>
+    <lastmod>2026-09-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/x-ray"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/x-ray"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/x-ray"/>
+  </url>
+  <url>
     <loc>https://mirandafaria.com.br/en/work/queijos-santana</loc>
     <lastmod>2026-09-01</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/queijos-santana"/>
@@ -168,6 +175,13 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/contact"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/contact"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/contact"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/pt/x-ray</loc>
+    <lastmod>2026-09-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/x-ray"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/x-ray"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/x-ray"/>
   </url>
   <url>
     <loc>https://mirandafaria.com.br/pt/work/queijos-santana</loc>

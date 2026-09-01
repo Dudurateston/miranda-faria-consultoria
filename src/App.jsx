@@ -14,6 +14,7 @@ import WorkCase from "@/pages/WorkCase";
 import HowIWork from "@/pages/HowIWork";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
+import XRay from "@/pages/XRay";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import Lab from "@/pages/Lab";
 import Connect from "@/pages/Connect";
@@ -89,6 +90,7 @@ const AuthenticatedApp = () => {
         <Route path="how-i-work" element={<HowIWork />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="x-ray" element={<XRay />} />
       </Route>
 
       {/* DESCARTAVEL: comparacao das intensidades do terreno. Fora do

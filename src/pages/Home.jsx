@@ -134,10 +134,35 @@ export default function Home() {
               {t.contactTeaser.cta} →
             </Link>
           </Reveal>
+
+          {/* Segundo caminho, de menor compromisso, para quem ainda nao
+              sabe o que pedir. */}
+          <Reveal delay={200}>
+            <p className="mf-home__xray">
+              <span>{copy[lang].xray.entryLead}</span>
+              <Link to={path("x-ray")} className="mf-home__xraylink" data-cursor="link">
+                {copy[lang].xray.entryCta} →
+              </Link>
+            </p>
+          </Reveal>
         </div>
       </section>
 
       <style>{`
+.mf-home__xray{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:0.35rem 0.9rem;
+  margin:3rem 0 0;padding-top:1.5rem;
+  border-top:1px solid var(--color-divider);max-width:44rem;
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);color:var(--color-text-secondary);
+}
+.mf-home__xraylink{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-primary);text-decoration:none;
+  border-bottom:1px solid var(--copper);padding-bottom:3px;
+}
+.mf-home__xraylink:hover{opacity:0.65}
 .mf-home__sec{padding:var(--section-gap) var(--gutter)}
 .mf-home__inner{max-width:var(--max-width-page);margin:0 auto}
 .mf-home__lead{

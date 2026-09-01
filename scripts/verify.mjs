@@ -33,7 +33,7 @@ const QUICK = has("quick");
 const CHROME = ["/opt/pw-browsers/chromium-1194/chrome-linux/chrome"].find(existsSync);
 
 const LANGS = ["en", "pt"];
-const PAGES = ["", "systems", "design", "business", "work", "how-i-work", "about", "contact"];
+const PAGES = ["", "systems", "design", "business", "work", "how-i-work", "about", "contact", "x-ray"];
 const CASES = [
   "queijos-santana", "roda-agro", "paulo-henrique", "motormoura",
   "1000-pecas", "rota-forte", "dj-jotave", "miranda-faria",
@@ -156,7 +156,7 @@ const MEASURE = () => {
   return out;
 };
 
-const alvos = ["/en", "/en/systems", "/en/business", "/en/how-i-work", "/en/about", "/en/contact", "/pt"];
+const alvos = ["/en", "/en/systems", "/en/business", "/en/how-i-work", "/en/about", "/en/contact", "/en/x-ray", "/pt"];
 let medicoes = 0;
 console.log(`medindo contraste em ${alvos.length} páginas × 6 posições de scroll`);
 
@@ -216,7 +216,7 @@ const LEGIVEL = () => {
 };
 
 console.log("checando o primeiro quadro e texto fantasma");
-for (const r of ["/en", "/pt", "/en/work", "/en/about", "/en/contact"]) {
+for (const r of ["/en", "/pt", "/en/work", "/en/about", "/en/contact", "/en/x-ray"]) {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(BASE + r, { waitUntil: "domcontentloaded" });
   await page.waitForTimeout(900);

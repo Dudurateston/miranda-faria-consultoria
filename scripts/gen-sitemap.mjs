@@ -11,7 +11,7 @@ import { CASE_SLUGS, PRACTICE_SLUGS } from "../src/content/copy.js";
 // TODO(dominio): trocar quando o dominio proprio for registrado.
 const ORIGIN = process.env.SITE_URL || "https://mirandafaria.com.br";
 const LANGS = ["en", "pt"];
-const PAGES = ["", ...PRACTICE_SLUGS, "work", "how-i-work", "about", "contact"];
+const PAGES = ["", ...PRACTICE_SLUGS, "work", "how-i-work", "about", "contact", "x-ray"];
 
 const paths = [];
 for (const lang of LANGS) {

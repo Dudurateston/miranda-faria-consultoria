@@ -43,7 +43,7 @@ Referência rápida, sem narrativa. Para o "porquê" de cada uma, ver
 | Formulário de contato | **REMOVIDO. Não existe em nenhuma página.** |
 | CTA de contato PT | Link direto para WhatsApp |
 | CTA de contato EN | Calendly (`calendly.com/edumirandamf`) ou equivalente de agendamento |
-| Ferramenta de engajamento | "Raio-X de Sistema" — diagnóstico interativo (substitui formulário), ainda não implementado |
+| Ferramenta de engajamento | "Raio-X de Sistema" — **implementado** em `/:lang/x-ray`. Seis perguntas, zero envio (nada sai do navegador), e o resultado nomeia a camada mais fina das quatro em vez de dar nota. Ligado de /contact e do rodapé da home |
 | Cases no site | MotorMoura, 1000 Peças, Rota Forte Logística, DJ Jotavê, + o próprio site como 5º case |
 | Framework de case | Problem → Process → Decisions → Impact |
 | Link externo em case | NUNCA — só print/vídeo, nunca link para o app Base44 do cliente |
