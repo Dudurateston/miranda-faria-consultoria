@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import PracticeMenu from "@/components/layout/PracticeMenu";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 
@@ -33,10 +34,9 @@ export default function SiteNav({ revealAfterHero = false }) {
     };
   }, [revealAfterHero]);
 
+  // As tres verticais saem daqui e vivem no PracticeMenu: sete itens de
+  // mesmo peso nao formam hierarquia, formam uma lista para varrer.
   const links = [
-    { to: path("systems"), label: t.systems },
-    { to: path("design"), label: t.design },
-    { to: path("business"), label: t.business },
     { to: path("work"), label: t.work },
     { to: path("about"), label: t.about },
     { to: path("contact"), label: t.contact },
@@ -50,6 +50,7 @@ export default function SiteNav({ revealAfterHero = false }) {
         </NavLink>
 
         <nav className="mf-nav__links" aria-label={t.home}>
+          <PracticeMenu />
           {links.map((l) => (
             <NavLink
               key={l.to}

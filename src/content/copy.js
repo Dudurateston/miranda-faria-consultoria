@@ -33,6 +33,8 @@ export const copy = {
     },
     nav: {
       home: "Home",
+      practice: "What I do",
+      practiceHint: "Three ways in. Same person on all three.",
       systems: "Systems",
       design: "Design",
       business: "Business",
@@ -159,6 +161,8 @@ export const copy = {
     },
     nav: {
       home: "Início",
+      practice: "O que eu faço",
+      practiceHint: "Três portas de entrada. A mesma pessoa nas três.",
       systems: "Sistemas",
       design: "Design",
       business: "Gestão",
@@ -582,7 +586,7 @@ export const practices = {
       label: "Systems",
       lead: "Software the owner runs, not me.",
       intro:
-        "Catalogues, inventory, ordering and admin panels, built on a real database with an interface the client operates without calling me. Shipped on Base44, which is why the unit of delivery is weeks instead of months.",
+        "Catalogues, inventory, ordering and admin panels, built on a real database with an interface the client operates without calling me. Built with AI assistance, which is why delivery is measured in weeks — the data model, the states and the edge cases stay a human decision.",
       artAlt: "Blueprint linework resolving into built structure",
       deliverablesLabel: "What I deliver",
       deliverables: [
@@ -672,7 +676,7 @@ export const practices = {
       label: "Sistemas",
       lead: "Sistema que o dono opera, não eu.",
       intro:
-        "Catálogo, estoque, cadastro e pedidos, com banco de dados de verdade e um painel que o cliente usa sem me chamar. Construído no Base44, e é por isso que a entrega se mede em semanas, não em meses.",
+        "Catálogo, estoque, cadastro e pedidos, com banco de dados de verdade e um painel que o cliente usa sem me chamar. Construído com auxílio de IA, e é por isso que a entrega se mede em semanas — o modelo de dados, os estados e os casos de borda continuam decisão humana.",
       artAlt: "Linhas de prancha virando estrutura construída",
       deliverablesLabel: "O que entrego",
       deliverables: [
