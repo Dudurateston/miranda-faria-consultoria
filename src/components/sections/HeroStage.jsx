@@ -90,46 +90,66 @@ export default function HeroStage() {
           start: "top top",
           end: "+=240%",
           pin: stage.current,
-          scrub: true,
+          // Numero, nao `true`. Com `scrub: true` o timeline fica preso
+          // ao scroll sem nenhum amortecimento: cada tique do dedo pula a
+          // animacao na hora, e raspagem sem inercia le como barata. O
+          // numero e quantos segundos ela leva para alcancar o scroll —
+          // 0,6 da peso sem atrasar a ponto de parecer travada.
+          scrub: 0.6,
           invalidateOnRefresh: true,
         },
       });
 
-      // 1 — a prancha se desenha (linhas + arco de compasso)
+      /* O RITMO.
+         O ritmo anterior gastava METADE do scroll inteiro num estagio so
+         — o grid levava de 0,00 a 0,52 contando o stagger — e depois
+         empilhava tres eventos em 0,11: a frase saia em 0,52, o fantasma
+         entrava em 0,56 e o lockup em 0,63, quase juntos. Comeco vazio,
+         fim atropelado.
+
+         Agora tem uma BATIDA DE LEITURA no comeco: os primeiros 12% de
+         scroll nao animam nada. A frase e a primeira coisa da pagina e
+         precisa ser lida antes de qualquer construcao aparecer — sem essa
+         pausa, o desenho comeca a competir com o texto no instante em que
+         o visitante toca a roda. Depois a construcao ganha espaco, o
+         ponto pousa sozinho num intervalo limpo, e a troca frase→lockup
+         acontece com folga entre as tres partes. */
+
+      // 1 — a prancha se desenha (depois da batida de leitura)
       tl.to(
         gridLines.current,
-        { strokeDashoffset: 0, duration: 0.34, ease: "power2.out", stagger: 0.018 },
-        0
+        { strokeDashoffset: 0, duration: 0.30, ease: "power2.out", stagger: 0.016 },
+        0.12
       );
-      tl.to(arc.current, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, 0.06);
+      tl.to(arc.current, { strokeDashoffset: 0, duration: 0.34, ease: "power2.out" }, 0.20);
 
-      // 2 — o ponto de cobre pousa como pontuação
+      // 2 — o ponto de cobre pousa, sozinho, num intervalo limpo
       tl.to(
         dot.current,
-        { scale: 1, opacity: 1, duration: 0.16, ease: "back.out(2.4)" },
-        0.3
+        { scale: 1, opacity: 1, duration: 0.14, ease: "back.out(2.4)" },
+        0.46
       );
 
       // 3 — a frase cede lugar: recua e some
       tl.to(
         [stmtMask.current, stmtInner.current],
-        { opacity: 0, scale: 0.9, y: -70, duration: 0.26, ease: "power2.in" },
-        0.52
+        { opacity: 0, scale: 0.9, y: -70, duration: 0.22, ease: "power2.in" },
+        0.62
       );
 
-      // 4 — o "M" fantasma entra discreto atrás do lockup
-      tl.to(ghost.current, { opacity: 0.11, duration: 0.24 }, 0.56);
+      // 4 — o "M" fantasma entra discreto atras do lockup
+      tl.to(ghost.current, { opacity: 0.11, duration: 0.22 }, 0.70);
 
-      // 5 — o lockup da marca resolve
+      // 5 — o lockup da marca resolve, com folga depois da frase sair
       tl.to(
         lockup.current,
-        { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" },
-        0.63
+        { opacity: 1, y: 0, duration: 0.26, ease: "expo.out" },
+        0.78
       );
 
-      // 6 — segura e entrega para o conteúdo abaixo
-      tl.to(hint.current, { opacity: 0, duration: 0.05 }, 0);
-      tl.to({}, { duration: 0.12 });
+      // 6 — segura e entrega para o conteudo abaixo
+      tl.to(hint.current, { opacity: 0, duration: 0.06 }, 0.10);
+      tl.to({}, { duration: 0.16 });
     };
 
     if (document.fonts && document.fonts.ready) {
