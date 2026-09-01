@@ -1,13 +1,13 @@
 import React from "react";
-import StaticHero from "@/components/StaticHero";
+import ScrollScrubHero from "@/components/ScrollScrubHero";
+import { HERO_FRAMES } from "@/lib/hero-frames";
 
-// Hero temporária e estável enquanto a versão de alto impacto é
-// desenhada no Claude Design. Revelação por máscara sobre a imagem
-// real do M — funciona, é fiel à marca, não quebra.
+// Hero com animação da marca por scroll: sequência de 65 quadros
+// pintada em canvas, determinada pela posição do scroll.
 export default function Hero() {
   return (
     <section className="mf-hero" data-bg="#F5F1EA" id="topo">
-      <StaticHero />
+      <ScrollScrubHero frames={HERO_FRAMES} />
       <style>{`.mf-hero{position:relative;background:transparent}`}</style>
     </section>
   );
