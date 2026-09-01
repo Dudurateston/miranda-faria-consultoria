@@ -3,6 +3,7 @@ import { Outlet, useLocation, useMatch } from "react-router-dom";
 import SiteNav from "@/components/layout/SiteNav";
 import Footer from "@/components/Footer";
 import MobileWhatsAppBar from "@/components/MobileWhatsAppBar";
+import { useStageFirstScreen } from "@/hooks/useStageFirstScreen";
 import { LANGS, useLang, swapLangInPath } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 
@@ -66,6 +67,9 @@ export default function SiteLayout() {
   const location = useLocation();
   const isHome = Boolean(useMatch("/:lang"));
 
+  // O que ja esta na primeira tela nao entra com animacao.
+  useStageFirstScreen(location.pathname);
+
   useDocumentHead(lang, location.pathname);
 
   return (
@@ -75,7 +79,7 @@ export default function SiteLayout() {
       <div className="mf-progress" aria-hidden="true" />
 
       {/* A nav so espera a hero passar na home; nas internas aparece de cara. */}
-      <SiteNav revealAfterHero={isHome} />
+      <SiteNav />
       <main id="conteudo" className={isHome ? undefined : "mf-shell__main"}>
         <Outlet />
       </main>

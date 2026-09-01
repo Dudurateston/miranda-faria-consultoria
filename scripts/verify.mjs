@@ -178,7 +178,72 @@ for (const r of alvos) {
 }
 console.log();
 
-/* ---------- 3. responsivo ---------- */
+/* ---------- 3. o primeiro quadro, e o texto fantasma ----------
+
+   Duas coisas que a medicao de contraste acima NAO pega, e que ja
+   custaram caro neste projeto:
+
+   a) A home chegou a ter UM unico elemento de texto legivel antes de
+      qualquer scroll — a palavra "Scroll", em 10px. O h1 existia no
+      HTML (entao nenhuma checagem estrutural reclamava) mas estava em
+      opacity 0 ate 72% de uma abertura de quase cinco telas. Um
+      recrutador da a uma home 10 a 15 segundos; era a conta inteira
+      gasta sem dizer o nome de quem assina.
+
+   b) A medicao de contraste le a cor CALCULADA do elemento. Ela nao
+      enxerga `opacity` herdada de um ancestral. Um paragrafo dentro de
+      um bloco em opacity 0.3 e medido como se estivesse cheio: passa em
+      AA na auditoria e some para quem le. Por isso texto em opacidade
+      parcial e proibido, e por isso e verificado aqui.
+   ---------------------------------------------------------------- */
+const LEGIVEL = () => {
+  const out = [];
+  for (const el of document.querySelectorAll("h1,h2,h3,p,a,li,span,button")) {
+    if (el.children.length || !el.textContent.trim()) continue;
+    const cs = getComputedStyle(el);
+    if (cs.visibility === "hidden" || cs.display === "none") continue;
+    const r = el.getBoundingClientRect();
+    if (r.height === 0 || r.bottom < 0 || r.top > innerHeight) continue;
+    let op = 1, n = el;
+    while (n && n !== document.documentElement) { op *= +getComputedStyle(n).opacity; n = n.parentElement; }
+    out.push({
+      t: el.textContent.trim().slice(0, 34),
+      op: +op.toFixed(2),
+      px: Math.round(parseFloat(cs.fontSize)),
+    });
+  }
+  return out;
+};
+
+console.log("checando o primeiro quadro e texto fantasma");
+for (const r of ["/en", "/pt", "/en/work", "/en/about", "/en/contact"]) {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(BASE + r, { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(900);
+  const itens = await page.evaluate(LEGIVEL);
+
+  // Fantasmas: nem apagado de proposito (<0.06, invisivel para todos) nem
+  // cheio. A faixa do meio e a perigosa — parece texto, mede como texto,
+  // e nao se le.
+  for (const i of itens.filter((i) => i.op > 0.06 && i.op < 0.85)) {
+    flag("ALTO", "fantasma", `${r}: texto em opacidade ${i.op} — "${i.t}" (${i.px}px)`);
+  }
+
+  const visiveis = itens.filter((i) => i.op >= 0.85);
+  if (visiveis.length < 6) {
+    flag("ALTO", "abertura",
+      `${r}: so ${visiveis.length} elemento(s) de texto legivel(is) sem rolar — ` +
+      `${visiveis.map((i) => JSON.stringify(i.t)).join(", ") || "nenhum"}`);
+  }
+  // Sem um titulo de verdade na primeira tela, a pagina nao diz o que e.
+  if (!visiveis.some((i) => i.px >= 28)) {
+    flag("ALTO", "abertura", `${r}: nenhum texto grande (>=28px) na primeira tela`);
+  }
+  process.stdout.write(".");
+}
+console.log();
+
+/* ---------- 4. responsivo ---------- */
 if (!QUICK) {
   console.log("checando overflow horizontal em 3 larguras");
   for (const [w, h] of [[390, 844], [768, 1024], [1440, 900]]) {

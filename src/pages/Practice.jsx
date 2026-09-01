@@ -6,7 +6,6 @@ import MfRule from "@/components/MfRule";
 import ArtSlot from "@/components/ArtSlot";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
-import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { usePageTitle } from "@/lib/usePageTitle";
 import { copy, getPractice, casesOfPractice, processSteps } from "@/content/copy";
@@ -37,8 +36,6 @@ export default function Practice({ slug: slugProp }) {
 
   const deliverRef = useRef(null);
   const stepsRef = useRef(null);
-  useScrollStagger(deliverRef, { selector: ".mf-pr__item", stagger: 0.1, y: 32 });
-  useScrollStagger(stepsRef, { selector: ".mf-pr__step", stagger: 0.1, y: 26 });
 
   if (!p) return <Navigate to={path()} replace />;
 

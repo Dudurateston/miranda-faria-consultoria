@@ -6,7 +6,6 @@ import MfRule from "@/components/MfRule";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import SectorTicker from "@/components/SectorTicker";
-import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { copy, cases } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
@@ -25,8 +24,6 @@ export default function Home() {
 
   const pitchRef = useRef(null);
   const workRef = useRef(null);
-  useScrollStagger(pitchRef, { selector: ".mf-pitch__item", stagger: 0.12, y: 32 });
-  useScrollStagger(workRef, { selector: ".mf-teaser__item", stagger: 0.1, y: 30 });
 
   return (
     <>

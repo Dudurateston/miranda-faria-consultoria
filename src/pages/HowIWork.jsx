@@ -3,7 +3,6 @@ import PageHeader from "@/components/layout/PageHeader";
 import MfRule from "@/components/MfRule";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
-import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
@@ -19,8 +18,6 @@ export default function HowIWork() {
   const t = copy[lang].howIWork;
   const layersRef = useRef(null);
   usePageTitle(t.label);
-
-  useScrollStagger(layersRef, { selector: ".mf-hiw__layer", stagger: 0.12, y: 36 });
 
   return (
     <>

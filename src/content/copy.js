@@ -48,6 +48,18 @@ export const copy = {
       wordmark: "Miranda Faria",
       role: "Design Engineer & Creative Technologist",
       scrollHint: "Scroll",
+      // A abertura. A pergunta esta na tela no primeiro quadro, junto da
+      // identidade; o scroll revela a resposta. Curiosidade primeiro,
+      // mas sem cobrar scroll para o visitante descobrir de quem e o
+      // site — recrutador da a uma home uns 10 a 15 segundos de atencao
+      // real, e essa conta nao paga uma abertura de cinco telas.
+      opening: {
+        question: "What gets lost between the design and the database?",
+        answer:
+          "The reason for it. I carry both ends, so nothing has to survive a handoff.",
+        primary: "See the work",
+        secondary: "Book a call",
+      },
       thesis: {
         label: "What I do",
         lead: "I build the structure a business runs on.",
@@ -176,6 +188,13 @@ export const copy = {
       wordmark: "Miranda Faria",
       role: "Consultoria & Tecnologia",
       scrollHint: "Role",
+      opening: {
+        question: "Quanto do seu negócio só existe na sua cabeça?",
+        answer:
+          "Preço, estoque, prazo. Enquanto estiver só aí, a operação para quando você para.",
+        primary: "Ver os trabalhos",
+        secondary: "Chamar no WhatsApp",
+      },
       thesis: {
         label: "O que eu faço",
         lead: "Estruturo a base que sustenta o negócio.",

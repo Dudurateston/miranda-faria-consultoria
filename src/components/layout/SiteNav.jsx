@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import PracticeMenu from "@/components/layout/PracticeMenu";
 import { useLang } from "@/lib/i18n";
@@ -9,30 +9,16 @@ import { copy } from "@/content/copy";
  * tipografia e grid sao a constante; cada pagina varia so na sua
  * assinatura visual (CLAUDE.md).
  *
- * Na home ela se revela depois da hero, para a abertura ocupar a tela
- * inteira. Nas paginas internas aparece de imediato, porque ali o
- * visitante ja esta navegando e precisa da orientacao.
+ * Ela aparece de imediato em TODA pagina, home inclusive. Antes ficava
+ * escondida na home ate 72% da altura da tela, para a abertura ocupar
+ * tudo — o que, somado a uma abertura que so revelava o nome depois de
+ * quase cinco telas, deixava a primeira tela do site sem nome, sem menu
+ * e sem uma frase. A abertura agora divide a tela com a informacao, e a
+ * nav nao tem mais motivo para sumir.
  */
-export default function SiteNav({ revealAfterHero = false }) {
+export default function SiteNav() {
   const { lang, otherLang, setLang, path } = useLang();
   const t = copy[lang].nav;
-  const [show, setShow] = useState(!revealAfterHero);
-
-  useEffect(() => {
-    if (!revealAfterHero) {
-      setShow(true);
-      return;
-    }
-    const threshold = () => window.innerHeight * 0.72;
-    const onScroll = () => setShow(window.scrollY > threshold());
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [revealAfterHero]);
 
   // As tres verticais saem daqui e vivem no PracticeMenu: sete itens de
   // mesmo peso nao formam hierarquia, formam uma lista para varrer.
@@ -44,7 +30,7 @@ export default function SiteNav({ revealAfterHero = false }) {
 
   return (
     <>
-      <header className="mf-nav" data-show={show ? "true" : "false"}>
+      <header className="mf-nav">
         <NavLink to={path()} className="mf-nav__mark" data-cursor="link">
           Miranda Faria
         </NavLink>
@@ -91,8 +77,6 @@ export default function SiteNav({ revealAfterHero = false }) {
              background-color var(--duration-slow) var(--ease-in-out);
 }
 [data-theme="on-deep"] .mf-nav{background:rgba(30,27,23,0.86)}
-.mf-nav[data-show="false"]{opacity:0;transform:translateY(-100%);pointer-events:none}
-.mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}
 
 .mf-nav__mark{
   font-family:var(--font-display);font-weight:400;font-size:13px;

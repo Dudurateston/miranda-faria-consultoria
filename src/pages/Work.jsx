@@ -3,7 +3,6 @@ import Link from "@/components/TransitionLink";
 
 import PageHeader from "@/components/layout/PageHeader";
 import MfRule from "@/components/MfRule";
-import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { copy, cases } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
@@ -14,8 +13,6 @@ export default function Work() {
   const list = cases[lang];
   const listRef = useRef(null);
   usePageTitle(t.label);
-
-  useScrollStagger(listRef, { selector: ".mf-work__item", stagger: 0.09, y: 34 });
 
   return (
     <>

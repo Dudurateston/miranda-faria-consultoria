@@ -31,6 +31,19 @@
       animation-range: entry 8% cover 34%;
     }
 
+    /* O que JA esta na primeira tela nao entra com animacao.
+       `entry` mede a entrada do elemento na viewport, entao um item
+       parcialmente visivel no carregamento cai no meio da faixa e nasce
+       em opacidade parcial — medido em /work, a segunda linha ficava em
+       0,41 e lia como item desabilitado. Animacao de entrada recompensa
+       quem rola ate o conteudo; aplicada ao que ja esta na frente do
+       visitante, ela so atrasa a leitura. O atributo e posto por JS no
+       primeiro quadro (useStageFirstScreen), porque "ja estava visivel
+       ao carregar" nao e uma condicao que o CSS saiba exprimir. */
+    .mf-stage > *[data-instant] {
+      animation: none;
+    }
+
     /* Escalonamento por posição: cada filho entra um pouco depois do
        anterior, deslocando a faixa de animação em vez de usar delay —
        delay não existe em linha do tempo de scroll. */
