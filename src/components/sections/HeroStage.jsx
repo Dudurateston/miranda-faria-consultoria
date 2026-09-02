@@ -126,30 +126,32 @@ export default function HeroStage() {
       };
       window.addEventListener("mousemove", onMove, { passive: true });
       raf = requestAnimationFrame(loop);
-      // Magnético no CTA.
+      // Magnético no CTA (o ref pode ser nulo — TransitionLink não
+      // repassa ref, então protegemos tudo).
       const btn = cta.current;
-      const onBtnMove = (e) => {
-        const r = btn.getBoundingClientRect();
-        const dx = e.clientX - (r.left + r.width / 2);
-        const dy = e.clientY - (r.top + r.height / 2);
-        const dist = Math.hypot(dx, dy);
-        const radius = 140;
-        if (dist < radius) {
-          const f = (1 - dist / radius) * 0.4;
-          btn.style.transform = `translate3d(${dx * f}px, ${dy * f}px, 0)`;
-        } else {
-          btn.style.transform = "translate3d(0,0,0)";
-        }
-      };
-      const onBtnLeave = () => (btn.style.transform = "translate3d(0,0,0)");
-      window.addEventListener("mousemove", onBtnMove, { passive: true });
-      btn.addEventListener("mouseleave", onBtnLeave);
+      let onBtnMove = null;
+      let onBtnLeave = null;
+      if (btn) {
+        onBtnMove = (e) => {
+          const r = btn.getBoundingClientRect();
+          const dx = e.clientX - (r.left + r.width / 2);
+          const dy = e.clientY - (r.top + r.height / 2);
+          const dist = Math.hypot(dx, dy);
+          const radius = 140;
+          btn.style.transform = dist < radius
+            ? `translate3d(${dx * (1 - dist / radius) * 0.4}px, ${dy * (1 - dist / radius) * 0.4}px, 0)`
+            : "translate3d(0,0,0)";
+        };
+        onBtnLeave = () => (btn.style.transform = "translate3d(0,0,0)");
+        window.addEventListener("mousemove", onBtnMove, { passive: true });
+        btn.addEventListener("mouseleave", onBtnLeave);
+      }
 
       return () => {
         if (tl) tl.kill();
         window.removeEventListener("mousemove", onMove);
-        window.removeEventListener("mousemove", onBtnMove);
-        btn.removeEventListener("mouseleave", onBtnLeave);
+        if (onBtnMove) window.removeEventListener("mousemove", onBtnMove);
+        if (btn && onBtnLeave) btn.removeEventListener("mouseleave", onBtnLeave);
         cancelAnimationFrame(raf);
       };
     }
