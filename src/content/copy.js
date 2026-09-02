@@ -82,6 +82,16 @@ export const copy = {
         lead: "Tell me where it's stuck.",
         cta: "Book a call",
       },
+      heroCta: "Get in touch",
+      sobrePreview: { label: "About", cta: "Learn more" },
+      techPreview: {
+        label: "Technology",
+        lead: "A lean stack, driven by method.",
+        stack: ["React", "Tailwind CSS", "GSAP", "Lenis", "Base44", "AI / LLMs"],
+        cta: "Learn more",
+      },
+      insightsPreview: { cta: "See all insights" },
+      finalCta: { lead: "Let's talk.", cta: "Message on WhatsApp" },
     },
     work: {
       label: "Work",
@@ -266,6 +276,16 @@ export const copy = {
         lead: "Me conta onde está travando.",
         cta: "Chamar no WhatsApp",
       },
+      heroCta: "Fale comigo",
+      sobrePreview: { label: "Sobre", cta: "Saiba mais" },
+      techPreview: {
+        label: "Tecnologia",
+        lead: "Stack enxuto, dirigido por método.",
+        stack: ["React", "Tailwind CSS", "GSAP", "Lenis", "Base44", "IA / LLMs"],
+        cta: "Saiba mais",
+      },
+      insightsPreview: { cta: "Ver todos os insights" },
+      finalCta: { lead: "Vamos conversar.", cta: "Chamar no WhatsApp" },
     },
     work: {
       label: "Trabalhos",

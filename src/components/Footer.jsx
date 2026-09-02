@@ -1,19 +1,50 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Link from "@/components/TransitionLink";
 
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
-import { LINKEDIN_URL } from "@/lib/site";
+import { LINKEDIN_URL, M_LOGO, LOGO_ANIM_GIF } from "@/lib/site";
 
+/**
+ * Rodape grafite, fechando o site no mesmo campo da home. O M e um
+ * botao: tres cliques rapidos abrem a animacao da marca (easter egg).
+ */
 export default function Footer() {
   const { lang, path } = useLang();
   const t = copy[lang];
 
+  const [egg, setEgg] = useState(false);
+  const clicks = useRef(0);
+  const timer = useRef(null);
+
+  const onMarkClick = () => {
+    clicks.current += 1;
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      clicks.current = 0;
+    }, 900);
+    if (clicks.current >= 3) {
+      clicks.current = 0;
+      setEgg(true);
+    }
+  };
+
   return (
     <>
-      <footer className="mf-foot">
+      <footer className="mf-foot" data-theme="dark">
         <div className="mf-foot__inner">
-          <p className="mf-foot__tag">{t.footer.tagline}</p>
+          <div className="mf-foot__brand">
+            <button
+              type="button"
+              className="mf-foot__mark"
+              onClick={onMarkClick}
+              data-cursor="link"
+              aria-label="Miranda Faria"
+            >
+              <img src={M_LOGO} alt="" />
+            </button>
+            <p className="mf-foot__tag">{t.footer.tagline}</p>
+          </div>
           <nav className="mf-foot__links" aria-label={t.nav.home}>
             <Link to={path("work")} data-cursor="link" className="mf-foot__link">
               {t.nav.work}
@@ -46,11 +77,24 @@ export default function Footer() {
         <span className="mf-foot__beacon" aria-hidden="true" />
       </footer>
 
+      {egg && (
+        <div
+          className="mf-egg"
+          onClick={() => setEgg(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Miranda Faria"
+        >
+          <img src={LOGO_ANIM_GIF} alt="Miranda Faria" />
+        </div>
+      )}
+
       <style>{`
 .mf-foot{
   position:relative;
   padding:clamp(3.5rem,7vh,5rem) var(--gutter) clamp(2.5rem,5vh,3.5rem);
-  border-top:1px solid var(--color-divider);
+  background:var(--mf-graphite);
+  border-top:1px solid var(--mf-rule);
 }
 .mf-foot__inner{
   max-width:var(--max-width-page);margin:0 auto;
@@ -59,6 +103,9 @@ export default function Footer() {
 @media(min-width:768px){
   .mf-foot__inner{flex-direction:row;align-items:center;justify-content:space-between;gap:2rem}
 }
+.mf-foot__brand{display:flex;align-items:center;gap:1rem}
+.mf-foot__mark{background:none;border:0;padding:0;cursor:pointer;display:flex}
+.mf-foot__mark img{height:34px;width:auto;display:block}
 .mf-foot__tag{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
@@ -86,6 +133,13 @@ export default function Footer() {
 @media(prefers-reduced-motion:reduce){
   .mf-foot__beacon{animation:none;opacity:0.7}
 }
+
+.mf-egg{
+  position:fixed;inset:0;z-index:200;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(20,20,20,0.92);
+}
+.mf-egg img{width:clamp(220px,40vw,420px);display:block}
       `}</style>
     </>
   );

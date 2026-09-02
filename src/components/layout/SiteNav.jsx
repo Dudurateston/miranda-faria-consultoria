@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
-import { WHATSAPP_URL, M_LOGO } from "@/lib/site";
+import { WHATSAPP_URL_BARE, M_LOGO } from "@/lib/site";
 
 /**
  * Navegacao persistente, no formato do print de referencia:
@@ -79,7 +79,7 @@ export default function SiteNav({ revealAfterHero = false }) {
         </nav>
 
         <a
-          href={WHATSAPP_URL}
+          href={WHATSAPP_URL_BARE}
           target="_blank"
           rel="noopener noreferrer"
           className="mf-nav__cta"
@@ -107,10 +107,10 @@ export default function SiteNav({ revealAfterHero = false }) {
 .mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}
 
 .mf-nav__brand{display:flex;align-items:center;gap:0.8rem;text-decoration:none;white-space:nowrap;flex:0 0 auto}
-.mf-nav__logo{width:30px;height:30px;object-fit:contain;display:block}
+.mf-nav__logo{width:auto;height:40px;object-fit:contain;display:block}
 .mf-nav__lockup{display:flex;flex-direction:column;line-height:1.3}
 .mf-nav__name{
-  font-family:var(--font-display);font-weight:500;font-size:12px;
+  font-family:var(--font-display);font-weight:600;font-size:12px;
   letter-spacing:var(--tracking-wordmark);text-transform:uppercase;
   color:var(--color-text-primary);
 }
@@ -160,7 +160,7 @@ export default function SiteNav({ revealAfterHero = false }) {
     gap:0.8rem;padding:0.7rem var(--gutter) 0;
   }
   .mf-nav__brand{flex:1 1 auto;min-width:0}
-  .mf-nav__logo{width:26px;height:26px}
+  .mf-nav__logo{height:32px;width:auto}
   .mf-nav__cta{order:2}
   .mf-nav__links{
     order:3;margin-left:0;flex:1 0 100%;
