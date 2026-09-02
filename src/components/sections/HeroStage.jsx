@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import gsap from "gsap";
-import Link from "@/components/TransitionLink";
+import { WHATSAPP_URL } from "@/lib/site";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 
@@ -20,10 +20,10 @@ import { copy } from "@/content/copy";
 
 const PAPER =
   "https://media.base44.com/images/public/6a74f6e6fbaa381e21a2415b/d3fb11d81_TexturapapelgraintileableMirandaFaria.png";
-const FUND_3D =
-  "https://media.base44.com/images/public/6a74f6e6fbaa381e21a2415b/b507ca297_fundo_3d_animacao_miranda_faria1.gif";
+const HERO_LOOP_MP4 =
+  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/df560ff36_hero_loop.mp4";
 const M_MARK =
-  "https://media.base44.com/images/public/6a74f6e6fbaa381e21a2415b/e2b54763d_MsimplificadopontocentralMirandaFaria3.png";
+  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/86625a97f_M_camadas_fundo_transparente.png";
 
 const genWave = (periods, amp, midY, samples = 140) => {
   let d = `M 0 ${midY.toFixed(2)}`;
@@ -43,13 +43,12 @@ const DUNES = [
 ];
 
 export default function HeroStage() {
-  const { lang, path } = useLang();
+  const { lang } = useLang();
   const t = copy[lang].home;
 
   const root = useRef(null);
   const gifRef = useRef(null);
   const markParallax = useRef(null);
-  const dot = useRef(null);
   const brand = useRef(null);
   const headMask = useRef(null);
   const headInner = useRef(null);
@@ -90,7 +89,6 @@ export default function HeroStage() {
     // Timeline de carga.
     let tl = null;
     const build = () => {
-      gsap.set(dot.current, { scale: 0, opacity: 0, transformOrigin: "center" });
       gsap.set(brand.current, { opacity: 0, y: 16 });
       gsap.set(headInner.current, { yPercent: 118 });
       gsap.set(rule.current, { scaleX: 0, transformOrigin: "center" });
@@ -99,7 +97,6 @@ export default function HeroStage() {
 
       tl = gsap.timeline({ delay: 0.25 });
       // M já revela por CSS (clip). Ponto de cobre pulsa.
-      tl.to(dot.current, { scale: 1, opacity: 1, duration: 0.16, ease: "back.out(2.6)" }, 0.95);
       tl.to(brand.current, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 0.7);
       tl.to(headInner.current, { yPercent: 0, duration: 0.9, ease: "expo.out" }, 0.85);
       tl.to(rule.current, { scaleX: 1, duration: 0.4, ease: "power2.out" }, 1.15);
@@ -166,7 +163,9 @@ export default function HeroStage() {
       <section className="mf-hero" ref={root} data-depth="0" id="topo" aria-label={`${t.wordmark} — ${t.role}`}>
         {/* Ambiente 3D (GIF) — reage ao cursor */}
         <div className="mf-hero__env" aria-hidden="true">
-          <img ref={gifRef} src={FUND_3D} alt="" className="mf-hero__gif" />
+          <video ref={gifRef} className="mf-hero__gif" autoPlay muted loop playsInline preload="auto">
+            <source src={HERO_LOOP_MP4} type="video/mp4" />
+          </video>
           <div className="mf-hero__scrim" />
         </div>
         <div className="mf-hero__paper" aria-hidden="true" />
@@ -220,7 +219,6 @@ export default function HeroStage() {
                 style={{ clipPath: drawn ? "inset(0 0 0 0)" : "inset(0 100% 0 0)" }}
               >
                 <img src={M_MARK} alt="" className="mf-hero__mark-img" />
-                <span ref={dot} className="mf-hero__pulse" />
               </div>
             </div>
           </div>
@@ -238,9 +236,16 @@ export default function HeroStage() {
 
           <p className="mf-hero__body" ref={body}>{t.thesis.body}</p>
 
-          <Link to={path("contact")} className="mf-hero__cta" ref={cta} data-cursor="link">
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mf-hero__cta"
+            ref={cta}
+            data-cursor="link"
+          >
             {t.contactTeaser.cta}
-          </Link>
+          </a>
         </div>
 
         <span className="mf-hero__hint" aria-hidden="true">{t.scrollHint}</span>
@@ -285,20 +290,10 @@ export default function HeroStage() {
 
 .mf-hero__inner{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;max-width:var(--max-width-page)}
 
-.mf-hero__mark{width:clamp(56px,7vw,80px);margin-bottom:1.4rem;will-change:transform}
+.mf-hero__mark{width:clamp(88px,12vw,132px);margin-bottom:1.4rem;will-change:transform}
 .mf-hero__mark-float{animation:mf-float 7s ease-in-out infinite}
 .mf-hero__mark-clip{position:relative;transition:clip-path 1.1s cubic-bezier(.77,0,.18,1)}
-.mf-hero__mark-img{width:100%;height:auto;display:block;mix-blend-mode:multiply}
-.mf-hero__pulse{
-  position:absolute;left:50%;bottom:14%;width:7px;height:7px;margin-left:-3.5px;
-  border-radius:50%;background:var(--copper);box-shadow:0 0 0 0 rgba(181,80,46,0.5);
-  animation:mf-pulse 2.4s ease-out infinite;
-}
-@keyframes mf-pulse{
-  0%{box-shadow:0 0 0 0 rgba(181,80,46,0.45)}
-  70%{box-shadow:0 0 0 14px rgba(181,80,46,0)}
-  100%{box-shadow:0 0 0 0 rgba(181,80,46,0)}
-}
+.mf-hero__mark-img{width:100%;height:auto;display:block;opacity:0.92}
 @keyframes mf-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 
 .mf-hero__brand{display:flex;flex-direction:column;align-items:center;gap:0.5rem;margin-bottom:clamp(1.8rem,4vh,2.6rem)}
@@ -325,7 +320,7 @@ export default function HeroStage() {
 .mf-hero__hint{position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:var(--text-label);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--color-text-ghost);z-index:2}
 
 @media(prefers-reduced-motion:reduce){
-  .mf-hero__dune,.mf-hero__mark-float,.mf-hero__mote,.mf-hero__pulse{animation:none}
+  .mf-hero__dune,.mf-hero__mark-float,.mf-hero__mote{animation:none}
   .mf-hero__mark-clip{clip-path:inset(0 0 0 0)!important;transition:none}
 }
 @media(max-width:600px){

@@ -2,19 +2,22 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
+import { WHATSAPP_URL, M_LOGO } from "@/lib/site";
 
 /**
- * Navegacao persistente. Fica igual entre as paginas — nav, paleta,
- * tipografia e grid sao a constante; cada pagina varia so na sua
- * assinatura visual (CLAUDE.md).
+ * Navegacao persistente, no formato do print de referencia:
+ * marca (M translucida + lockup de duas linhas) a esquerda, rotulos
+ * no centro-direita e o botao CONTATO com filete terracota na
+ * extremidade direita — levando ao WhatsApp.
  *
- * Na home ela se revela depois da hero, para a abertura ocupar a tela
- * inteira. Nas paginas internas aparece de imediato, porque ali o
- * visitante ja esta navegando e precisa da orientacao.
+ * Na home ela se revela depois da hero. Nas internas, aparece de
+ * imediato. Em telas estreitas vira duas faixas: marca + contato em
+ * cima, rotulos rolaveis embaixo.
  */
 export default function SiteNav({ revealAfterHero = false }) {
   const { lang, otherLang, setLang, path } = useLang();
   const t = copy[lang].nav;
+  const home = copy[lang].home;
   const [show, setShow] = useState(!revealAfterHero);
 
   useEffect(() => {
@@ -34,19 +37,21 @@ export default function SiteNav({ revealAfterHero = false }) {
   }, [revealAfterHero]);
 
   const links = [
-    { to: path("systems"), label: t.systems },
-    { to: path("design"), label: t.design },
-    { to: path("business"), label: t.business },
-    { to: path("work"), label: t.work },
     { to: path("about"), label: t.about },
-    { to: path("contact"), label: t.contact },
+    { to: path("servicos"), label: t.services },
+    { to: path("how-i-work"), label: t.technology },
+    { to: path("insights"), label: t.insights },
   ];
 
   return (
     <>
       <header className="mf-nav" data-show={show ? "true" : "false"}>
-        <NavLink to={path()} className="mf-nav__mark" data-cursor="link">
-          Miranda Faria
+        <NavLink to={path()} className="mf-nav__brand" data-cursor="link">
+          <img src={M_LOGO} alt="Miranda Faria" className="mf-nav__logo" />
+          <span className="mf-nav__lockup">
+            <span className="mf-nav__name">{home.wordmark}</span>
+            <span className="mf-nav__role">{home.role}</span>
+          </span>
         </NavLink>
 
         <nav className="mf-nav__links" aria-label={t.home}>
@@ -72,17 +77,25 @@ export default function SiteNav({ revealAfterHero = false }) {
             {t.toggle}
           </button>
         </nav>
+
+        <a
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mf-nav__cta"
+          data-cursor="link"
+        >
+          {t.contact}
+        </a>
       </header>
 
       <style>{`
 .mf-nav{
   position:fixed;top:0;left:0;right:0;z-index:60;
   height:var(--nav-height);
-  display:flex;align-items:center;justify-content:space-between;
+  display:flex;align-items:center;gap:clamp(1.2rem,3vw,3rem);
   padding:0 var(--gutter);
-  /* Acompanha a rampa de fundo: uma faixa cor-de-osso fixa viraria um
-     corte claro assim que a pagina desce para o cobre. */
-  background:rgba(245,241,234,0.88);
+  background:rgba(245,242,237,0.9);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   border-bottom:1px solid var(--color-divider);
   transition:opacity var(--duration-base) var(--ease-in-out),
@@ -93,12 +106,21 @@ export default function SiteNav({ revealAfterHero = false }) {
 .mf-nav[data-show="false"]{opacity:0;transform:translateY(-100%);pointer-events:none}
 .mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}
 
-.mf-nav__mark{
-  font-family:var(--font-display);font-weight:400;font-size:13px;
+.mf-nav__brand{display:flex;align-items:center;gap:0.8rem;text-decoration:none;white-space:nowrap;flex:0 0 auto}
+.mf-nav__logo{width:30px;height:30px;object-fit:contain;display:block}
+.mf-nav__lockup{display:flex;flex-direction:column;line-height:1.3}
+.mf-nav__name{
+  font-family:var(--font-display);font-weight:500;font-size:12px;
   letter-spacing:var(--tracking-wordmark);text-transform:uppercase;
-  color:var(--color-text-primary);text-decoration:none;white-space:nowrap;
+  color:var(--color-text-primary);
 }
-.mf-nav__links{display:flex;align-items:center;gap:clamp(1rem,2.4vw,2.2rem)}
+.mf-nav__role{
+  font-family:var(--font-mono);font-size:9px;
+  letter-spacing:0.24em;text-transform:uppercase;
+  color:var(--color-text-secondary);
+}
+
+.mf-nav__links{display:flex;align-items:center;gap:clamp(1rem,2.2vw,2rem);margin-left:auto}
 .mf-nav__link{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
@@ -115,29 +137,39 @@ export default function SiteNav({ revealAfterHero = false }) {
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-primary);background:none;border:0;padding:0 0 2px;cursor:pointer;
   white-space:nowrap;
-  /* O acento vive no traco, nunca no texto pequeno — ver tokens.css. */
   border-bottom:1px solid var(--color-accent);
 }
 .mf-nav__lang:hover{opacity:0.68}
 
-/* Em telas estreitas a nav vira duas linhas: marca e idioma em cima,
-   os rotulos numa faixa propria embaixo. Nada some — num portfolio,
-   esconder a navegacao no celular custa visita. */
+.mf-nav__cta{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--mf-terracotta);background:transparent;
+  border:1px solid var(--mf-terracotta);
+  padding:0.55rem 1.2rem;text-decoration:none;white-space:nowrap;flex:0 0 auto;
+  transition:background var(--duration-fast) var(--ease-in-out),
+             color var(--duration-fast) var(--ease-in-out);
+}
+.mf-nav__cta:hover{background:var(--mf-terracotta);color:var(--bone)}
+
+/* Em telas estreitas: marca + contato em cima, rotulos rolaveis
+   embaixo. Nada some — esconder a navegacao custa visita. */
 @media(max-width:859px){
   .mf-nav{
-    height:auto;flex-direction:column;align-items:stretch;gap:0;
-    padding:0.7rem var(--gutter) 0;
+    height:auto;flex-wrap:wrap;align-items:center;
+    gap:0.8rem;padding:0.7rem var(--gutter) 0;
   }
-  .mf-nav__mark{align-self:flex-start}
+  .mf-nav__brand{flex:1 1 auto;min-width:0}
+  .mf-nav__logo{width:26px;height:26px}
+  .mf-nav__cta{order:2}
   .mf-nav__links{
-    gap:1.4rem;margin-top:0.6rem;
-    overflow-x:auto;scrollbar-width:none;
-    padding-bottom:0.7rem;
+    order:3;margin-left:0;flex:1 0 100%;
+    gap:1.3rem;overflow-x:auto;scrollbar-width:none;
+    padding:0.45rem 0 0.7rem;
   }
   .mf-nav__links::-webkit-scrollbar{display:none}
   .mf-nav__link,.mf-nav__lang{flex:0 0 auto}
-  /* o toggle de idioma vai para o fim da faixa, depois dos rotulos */
-  .mf-nav__lang{margin-left:auto;padding-left:1.4rem}
+  .mf-nav__lang{margin-left:auto;padding-left:1.3rem}
 }
       `}</style>
     </>

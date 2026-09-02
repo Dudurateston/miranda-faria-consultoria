@@ -1,0 +1,54 @@
+{
+  "name": "ContactRequest",
+  "type": "object",
+  "properties": {
+    "nome": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "empresa": {
+      "type": "string"
+    },
+    "tipo_projeto": {
+      "type": "string",
+      "enum": [
+        "systems",
+        "design",
+        "business"
+      ]
+    },
+    "mensagem": {
+      "type": "string"
+    },
+    "prefere_whatsapp": {
+      "type": "boolean"
+    },
+    "origem": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nome",
+    "email",
+    "mensagem"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

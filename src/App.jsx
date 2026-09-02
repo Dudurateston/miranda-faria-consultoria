@@ -12,6 +12,8 @@ import Work from "@/pages/Work";
 import Practice from "@/pages/Practice";
 import WorkCase from "@/pages/WorkCase";
 import HowIWork from "@/pages/HowIWork";
+import Servicos from "@/pages/Servicos";
+import Insights from "@/pages/Insights";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
@@ -82,6 +84,8 @@ const AuthenticatedApp = () => {
           <Route key={slug} path={slug} element={<Practice slug={slug} />} />
         ))}
 
+        <Route path="servicos" element={<Servicos />} />
+        <Route path="insights" element={<Insights />} />
         <Route path="work" element={<Work />} />
         <Route path="work/:slug" element={<WorkCase />} />
         <Route path="how-i-work" element={<HowIWork />} />
