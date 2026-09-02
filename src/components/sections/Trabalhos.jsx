@@ -43,8 +43,6 @@ export default function Trabalhos() {
     <>
       <section
         className="mf-trab"
-        data-bg="#1A1A18"
-        data-theme="dark"
         id="trabalhos"
       >
         <div className="mf-trab__inner">

@@ -22,7 +22,6 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import OAuthConsent from "@/pages/OAuthConsent";
 import SmoothScroll from "@/components/SmoothScroll";
-import AmbientDepth from "@/components/AmbientDepth";
 import CopperCursor from "@/components/CopperCursor";
 import SiteLayout from "@/components/layout/SiteLayout";
 import { LanguageProvider, detectLang, isLang } from "@/lib/i18n";
@@ -116,7 +115,6 @@ function App() {
             {/* Dentro do Router: a rampa de fundo precisa recalcular na
                 troca de rota, senao a pagina nova herda a profundidade
                 da anterior ate o proximo tick. */}
-            <AmbientDepth />
             <AuthenticatedApp />
           </Router>
           <Toaster />
