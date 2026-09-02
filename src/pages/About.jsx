@@ -53,6 +53,21 @@ export default function About() {
         </div>
       </section>
 
+      <section className="mf-about__reel" data-depth="0.20" aria-label="Reel">
+        <div className="mf-about__reel-inner">
+          <Reveal>
+            <figure className="mf-about__video">
+              <video className="mf-about__vid" autoPlay muted loop playsInline preload="metadata">
+                <source src="https://media.base44.com/videos/public/6a74f6e6fbaa381e21a2415b/1a9ae7942_Reelsdia2quemsomosMirandaFaria.mp4" type="video/mp4" />
+              </video>
+              <figcaption className="mf-label mf-about__caption mf-about__reel-cap">
+                {lang === "pt" ? "Quem somos — em movimento" : "Who we are — in motion"}
+              </figcaption>
+            </figure>
+          </Reveal>
+        </div>
+      </section>
+
       <MfRule />
 
       <section className="mf-about__cta" data-depth="0.30">
@@ -98,6 +113,12 @@ export default function About() {
 .mf-about__body p:first-child{color:var(--color-text-primary)}
 .mf-about__body p:last-child{margin-bottom:0}
 .mf-about__loc{margin:2rem 0 0}
+
+.mf-about__reel{padding:clamp(2rem,5vh,4rem) var(--gutter) clamp(2rem,5vh,4rem)}
+.mf-about__reel-inner{max-width:var(--max-width-page);margin:0 auto}
+.mf-about__video{margin:0;position:relative;width:100%;aspect-ratio:16/9;background:var(--paper);overflow:hidden;border:1px solid var(--color-divider)}
+.mf-about__vid{width:100%;height:100%;object-fit:cover;display:block}
+.mf-about__reel-cap{margin-top:1rem}
 
 .mf-about__cta{padding:clamp(2.5rem,6vh,4rem) var(--gutter) var(--section-gap)}
 .mf-about__ctalink{
