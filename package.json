@@ -13,7 +13,7 @@
     "sitemap": "node scripts/gen-sitemap.mjs"
   },
   "dependencies": {
-    "@base44/sdk": "^0.8.44",
+    "@base44/sdk": "^0.8.46",
     "@base44/vite-plugin": "^1.0.34",
     "@gsap/react": "^2.1.2",
     "@hello-pangea/dnd": "^17.0.0",
