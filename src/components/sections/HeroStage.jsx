@@ -1,40 +1,59 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "@/components/TransitionLink";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 
-gsap.registerPlugin(ScrollTrigger);
-
 /**
- * HeroStage — abertura editorial de alto impacto.
+ * HeroStage — abertura centralizada, no registro da marca.
  *
- * Abre com a tese (não o logo): uma frase gigante em Playfair sobre o
- * papel texturizado. Conforme o visitante rola, a prancha de construção
- * se desenha (linhas + arco de compasso), o ponto de cobre pousa como
- * pontuação e a frase cede lugar ao lockup profissional da marca — o
- * "M" sólido ao lado do wordmark localizado. Tudo dirigido pelo scroll
- * via GSAP ScrollTrigger pin + scrub. Respeita prefers-reduced-motion.
+ * Composição (topo -> base), tudo centrado: o "M" se desenha sozinho
+ * em linhas finas, o ponto de cobre pousa com um pulso, o wordmark e o
+ * papel assumem, a frase-tese aparece linha a linha, um filete separa,
+ * o corpo explica e o CTA conduz. Ao fundo, no rodapé, camadas de
+ * contorno derivam devagar — paper grain / curva de nível —, o
+ * movimento sutil que chama a atenção sem competir com o tipo.
+ *
+ * Tudo entra por uma timeline GSAP de carga (sem scroll), e os
+ * contornos derivam por CSS. Respeita prefers-reduced-motion.
  */
 
 const PAPER =
   "https://media.base44.com/images/public/6a74f6e6fbaa381e21a2415b/d3fb11d81_TexturapapelgraintileableMirandaFaria.png";
-const M_MARK =
-  "https://media.base44.com/images/public/6a74f6e6fbaa381e21a2415b/e2b54763d_MsimplificadopontocentralMirandaFaria3.png";
+
+/** Gera uma onda senoidal que fecha em copo inteiro de periodos —
+ *  tileable, para o marquee derivar sem emenda. */
+const genWave = (periods, amp, midY, samples = 140) => {
+  let d = `M 0 ${midY.toFixed(2)}`;
+  for (let i = 1; i <= samples; i++) {
+    const x = (i / samples) * 100;
+    const y = midY + Math.sin((i / samples) * periods * Math.PI * 2) * amp;
+    d += ` L ${x.toFixed(2)} ${y.toFixed(2)}`;
+  }
+  return d;
+};
+
+const DUNES = [
+  { midY: 6, amp: 1.5, op: 0.10, dur: 36, rev: false, copper: false },
+  { midY: 9, amp: 1.9, op: 0.16, dur: 26, rev: true, copper: false },
+  { midY: 13, amp: 2.3, op: 0.22, dur: 40, rev: false, copper: false },
+  { midY: 17, amp: 1.8, op: 0.32, dur: 30, rev: true, copper: true },
+];
 
 export default function HeroStage() {
-  const { lang } = useLang();
+  const { lang, path } = useLang();
   const t = copy[lang].home;
 
   const root = useRef(null);
-  const stage = useRef(null);
-  const gridLines = useRef([]);
-  const arc = useRef(null);
+  const mLines = useRef([]);
   const dot = useRef(null);
-  const stmtMask = useRef(null);
-  const stmtInner = useRef(null);
-  const lockup = useRef(null);
-  const hint = useRef(null);
+  const ring = useRef(null);
+  const brand = useRef(null);
+  const headMask = useRef(null);
+  const headInner = useRef(null);
+  const rule = useRef(null);
+  const body = useRef(null);
+  const cta = useRef(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -42,82 +61,50 @@ export default function HeroStage() {
     if (!el) return;
 
     if (mq.matches) {
-      gsap.set(stmtInner.current, { y: 0 });
-      gsap.set(gridLines.current, { strokeDashoffset: 0 });
-      gsap.set(arc.current, { strokeDashoffset: 0 });
+      // Tudo no repouso, visível.
+      mLines.current.forEach((l) => gsap.set(l, { strokeDashoffset: 0 }));
       gsap.set(dot.current, { scale: 1, opacity: 1 });
-      gsap.set(lockup.current, { opacity: 1, y: 0 });
-      gsap.set(hint.current, { opacity: 0.7 });
-      el.style.height = "auto";
+      gsap.set([brand.current, body.current, cta.current, headInner.current], { opacity: 1, y: 0, yPercent: 0 });
+      gsap.set(rule.current, { scaleX: 1 });
       return;
     }
 
     let tl = null;
-    let intro = null;
-
     const build = () => {
-      // Intro (carga): a frase sobe de dentro da máscara.
-      gsap.set(stmtInner.current, { yPercent: 115 });
-      intro = gsap.to(stmtInner.current, {
-        yPercent: 0,
-        duration: 1.1,
-        ease: "expo.out",
-        delay: 0.2,
-      });
-      gsap.set(hint.current, { opacity: 0 });
-      gsap.to(hint.current, { opacity: 0.7, duration: 0.6, delay: 1.3 });
-
-      // Prancha pronta para ser desenhada.
-      gridLines.current.forEach((l) =>
+      // Linhas do M prontas para desenhar.
+      mLines.current.forEach((l) =>
         gsap.set(l, { strokeDasharray: 1, strokeDashoffset: 1 })
       );
-      gsap.set(arc.current, { strokeDasharray: 1, strokeDashoffset: 1 });
       gsap.set(dot.current, { scale: 0, opacity: 0, transformOrigin: "center" });
-      gsap.set(lockup.current, { opacity: 0, y: 40 });
+      gsap.set(ring.current, { scale: 0.4, opacity: 0, transformOrigin: "center" });
+      gsap.set(brand.current, { opacity: 0, y: 16 });
+      gsap.set(headInner.current, { yPercent: 118 });
+      gsap.set(rule.current, { scaleX: 0, transformOrigin: "center" });
+      gsap.set(body.current, { opacity: 0, y: 16 });
+      gsap.set(cta.current, { opacity: 0, y: 16 });
 
-      tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: el,
-          start: "top top",
-          end: "+=200%",
-          pin: stage.current,
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      // 1 — a prancha se desenha (a frase ainda descansa, legível)
+      tl = gsap.timeline({ delay: 0.15 });
+      // 1 — o M se desenha
       tl.to(
-        gridLines.current,
-        { strokeDashoffset: 0, duration: 0.30, ease: "power2.out", stagger: 0.02 },
+        mLines.current,
+        { strokeDashoffset: 0, duration: 0.6, ease: "power2.out", stagger: 0.1 },
         0
       );
-      tl.to(arc.current, { strokeDashoffset: 0, duration: 0.34, ease: "power2.out" }, 0.05);
-
-      // 2 — o ponto de cobre pousa como pontuação
-      tl.to(
-        dot.current,
-        { scale: 1, opacity: 1, duration: 0.12, ease: "back.out(2.6)" },
-        0.26
-      );
-
-      // 3 — a frase cede lugar (depois de descansar)
-      tl.to(
-        [stmtMask.current, stmtInner.current],
-        { opacity: 0, scale: 0.88, y: -70, duration: 0.24, ease: "power2.in" },
-        0.52
-      );
-
-      // 4 — o lockup profissional resolve (M + wordmark)
-      tl.to(
-        lockup.current,
-        { opacity: 1, y: 0, duration: 0.28, ease: "expo.out" },
-        0.60
-      );
-
-      // 5 — segura e entrega para o conteúdo
-      tl.to(hint.current, { opacity: 0, duration: 0.05 }, 0);
-      tl.to({}, { duration: 0.18 });
+      // 2 — o ponto de cobre pousa
+      tl.to(dot.current, { scale: 1, opacity: 1, duration: 0.14, ease: "back.out(2.6)" }, 0.55);
+      // 3 — um pulso irradia do ponto
+      tl.to(ring.current, { scale: 4.5, opacity: 0.5, duration: 0.7, ease: "power2.out" }, 0.62);
+      tl.to(ring.current, { opacity: 0, duration: 0.4, ease: "power2.in" }, 0.95);
+      // 4 — wordmark + papel
+      tl.to(brand.current, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 0.7);
+      // 5 — a frase-tese sobe da máscara
+      tl.to(headInner.current, { yPercent: 0, duration: 0.9, ease: "expo.out" }, 0.85);
+      // 6 — filete separador
+      tl.to(rule.current, { scaleX: 1, duration: 0.4, ease: "power2.out" }, 1.15);
+      // 7 — corpo
+      tl.to(body.current, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 1.25);
+      // 8 — CTA
+      tl.to(cta.current, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 1.35);
     };
 
     if (document.fonts && document.fonts.ready) {
@@ -127,168 +114,181 @@ export default function HeroStage() {
     }
 
     return () => {
-      if (tl) {
-        if (tl.scrollTrigger) tl.scrollTrigger.kill();
-        tl.kill();
-      }
-      if (intro) intro.kill();
+      if (tl) tl.kill();
     };
   }, []);
 
   return (
     <>
-      <section className="mf-hs" ref={root} data-depth="0" id="topo" aria-label={`${t.wordmark} — ${t.role}`}>
-        <div className="mf-hs__stage" ref={stage}>
-          <div className="mf-hs__paper" aria-hidden="true" />
+      <section className="mf-hero" ref={root} data-depth="0" id="topo" aria-label={`${t.wordmark} — ${t.role}`}>
+        <div className="mf-hero__paper" aria-hidden="true" />
 
-          <svg
-            className="mf-hs__grid"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <line ref={(n) => n && gridLines.current.push(n)} x1="14" y1="0" x2="14" y2="100" pathLength="1" />
-            <line ref={(n) => n && gridLines.current.push(n)} x1="30" y1="0" x2="30" y2="100" pathLength="1" />
-            <line ref={(n) => n && gridLines.current.push(n)} x1="70" y1="0" x2="70" y2="100" pathLength="1" />
-            <line ref={(n) => n && gridLines.current.push(n)} x1="86" y1="0" x2="86" y2="100" pathLength="1" />
-            <line ref={(n) => n && gridLines.current.push(n)} className="mf-hs__axis" x1="50" y1="0" x2="50" y2="100" pathLength="1" />
-            <line ref={(n) => n && gridLines.current.push(n)} x1="0" y1="18" x2="100" y2="18" pathLength="1" />
-            <line ref={(n) => n && gridLines.current.push(n)} x1="0" y1="50" x2="100" y2="50" pathLength="1" />
-            <line ref={(n) => n && gridLines.current.push(n)} x1="0" y1="82" x2="100" y2="82" pathLength="1" />
-            <line ref={(n) => n && gridLines.current.push(n)} x1="14" y1="82" x2="86" y2="18" pathLength="1" />
-            <path
-              ref={arc}
-              d="M 14 30 A 44 44 0 0 1 86 30"
-              pathLength="1"
-              fill="none"
-            />
-          </svg>
-
-          <span className="mf-hs__dot" ref={dot} aria-hidden="true" />
-
-          <div className="mf-hs__center">
-            <div className="mf-hs__stmt" ref={stmtMask}>
-              <span className="mf-hs__stmt-inner" ref={stmtInner}>
-                {t.thesis.lead}
-              </span>
+        <div className="mf-hero__dunes" aria-hidden="true">
+          {DUNES.map((d, i) => (
+            <div
+              key={i}
+              className="mf-hero__dune"
+              style={{
+                animationDuration: `${d.dur}s`,
+                animationDirection: d.rev ? "reverse" : "normal",
+                opacity: d.op,
+              }}
+            >
+              {[0, 1].map((copy2) => (
+                <svg key={copy2} viewBox="0 0 100 20" preserveAspectRatio="none">
+                  <path
+                    d={genWave(3, d.amp, d.midY)}
+                    fill="none"
+                    vectorEffect="non-scaling-stroke"
+                    style={{ stroke: d.copper ? "var(--copper)" : "var(--stone)", strokeWidth: d.copper ? 1.1 : 1 }}
+                  />
+                </svg>
+              ))}
             </div>
+          ))}
+        </div>
 
-            <div className="mf-hs__lockup" ref={lockup}>
-              <img className="mf-hs__mark-img" src={M_MARK} alt="" />
-              <span className="mf-hs__sep" aria-hidden="true" />
-              <div className="mf-hs__mark-text">
-                <h1 className="mf-hs__mark">{t.wordmark}</h1>
-                <p className="mf-hs__role">{t.role}</p>
-              </div>
-            </div>
+        <div className="mf-hero__inner">
+          <div className="mf-hero__mark" aria-hidden="true">
+            <svg viewBox="0 0 100 110" className="mf-hero__m">
+              <line ref={(n) => n && mLines.current.push(n)} x1="30" y1="14" x2="30" y2="96" pathLength="1" vectorEffect="non-scaling-stroke" />
+              <line ref={(n) => n && mLines.current.push(n)} x1="70" y1="14" x2="70" y2="96" pathLength="1" vectorEffect="non-scaling-stroke" />
+              <line ref={(n) => n && mLines.current.push(n)} x1="30" y1="14" x2="50" y2="88" pathLength="1" vectorEffect="non-scaling-stroke" />
+              <line ref={(n) => n && mLines.current.push(n)} x1="70" y1="14" x2="50" y2="88" pathLength="1" vectorEffect="non-scaling-stroke" />
+              <circle ref={ring} className="mf-hero__ring" cx="50" cy="88" r="3.5" />
+              <circle ref={dot} className="mf-hero__dot" cx="50" cy="88" r="3.5" />
+            </svg>
           </div>
 
-          <span className="mf-hs__hint" ref={hint} aria-hidden="true">
-            {t.scrollHint}
-          </span>
+          <div className="mf-hero__brand" ref={brand}>
+            <span className="mf-hero__wordmark">{t.wordmark}</span>
+            <span className="mf-hero__role">{t.role}</span>
+          </div>
+
+          <div className="mf-hero__head" ref={headMask}>
+            <h1 className="mf-hero__head-inner" ref={headInner}>{t.thesis.lead}</h1>
+          </div>
+
+          <span className="mf-hero__rule" ref={rule} />
+
+          <p className="mf-hero__body" ref={body}>{t.thesis.body}</p>
+
+          <Link to={path("contact")} className="mf-hero__cta" ref={cta} data-cursor="link">
+            {t.contactTeaser.cta}
+          </Link>
         </div>
+
+        <span className="mf-hero__hint" aria-hidden="true">{t.scrollHint}</span>
       </section>
 
       <style>{`
-.mf-hs{position:relative;height:300vh;background:transparent}
-.mf-hs__stage{
-  position:sticky;top:0;height:100vh;height:100svh;
-  overflow:hidden;
-  background:var(--bone);
-  display:grid;place-items:center;
+.mf-hero{
+  position:relative;min-height:100vh;min-height:100svh;
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(5rem,12vh,8rem) var(--gutter) clamp(4rem,8vh,6rem);
+  background:var(--bone);overflow:hidden;
 }
-.mf-hs__paper{
+.mf-hero__paper{
   position:absolute;inset:0;
   background-image:url(${PAPER});
   background-size:420px;background-repeat:repeat;
   opacity:0.5;pointer-events:none;mix-blend-mode:multiply;
 }
-.mf-hs__grid{
-  position:absolute;inset:0;width:100%;height:100%;
-  pointer-events:none;opacity:0.7;
-}
-.mf-hs__grid line{
-  stroke:var(--stone);stroke-width:0.14;opacity:0.4;
-}
-.mf-hs__grid .mf-hs__axis{
-  stroke:var(--copper);stroke-width:0.2;opacity:0.65;
-}
-.mf-hs__grid path{
-  stroke:var(--stone);stroke-width:0.2;opacity:0.4;
-}
 
-.mf-hs__dot{
-  position:absolute;left:14%;top:18%;
-  width:13px;height:13px;margin:-6.5px 0 0 -6.5px;
-  border-radius:50%;background:var(--copper);
-  box-shadow:0 0 0 3px rgba(181,80,46,0.14);
-  will-change:transform,opacity;z-index:3;
+/* Contornos que derivam no rodapé */
+.mf-hero__dunes{
+  position:absolute;left:0;right:0;bottom:0;height:34vh;
+  pointer-events:none;overflow:hidden;
 }
-
-.mf-hs__center{position:relative;z-index:2;text-align:center;padding:0 var(--gutter);width:100%;max-width:var(--max-width-page)}
-
-.mf-hs__stmt{
-  position:relative;
-  overflow:hidden;
-  padding:0.12em 0;
+.mf-hero__dune{
+  position:absolute;left:0;right:0;top:0;height:100%;
+  display:flex;width:200%;will-change:transform;
+  animation-name:mf-dune-drift;animation-timing-function:linear;animation-iteration-count:infinite;
 }
-.mf-hs__stmt-inner{
-  display:block;
+.mf-hero__dune svg{width:50%;height:100%;flex-shrink:0;display:block}
+@keyframes mf-dune-drift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Marca */
+.mf-hero__inner{
+  position:relative;z-index:2;text-align:center;
+  display:flex;flex-direction:column;align-items:center;
+  max-width:var(--max-width-page);
+}
+.mf-hero__mark{
+  width:clamp(54px,7vw,76px);height:auto;margin-bottom:1.4rem;
+  animation:mf-float 7s ease-in-out infinite;
+}
+.mf-hero__m{width:100%;height:auto;display:block;overflow:visible}
+.mf-hero__m line{stroke:var(--ink);stroke-width:1.6;stroke-linecap:square;opacity:0.9}
+.mf-hero__dot{fill:var(--copper)}
+.mf-hero__ring{fill:none;stroke:var(--copper);stroke-width:1;opacity:0}
+@keyframes mf-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+.mf-hero__brand{display:flex;flex-direction:column;align-items:center;gap:0.5rem;margin-bottom:clamp(1.8rem,4vh,2.6rem)}
+.mf-hero__wordmark{
   font-family:var(--font-display);font-weight:400;
-  font-size:var(--text-display-hero);
-  line-height:var(--leading-display);
-  letter-spacing:var(--tracking-display);
-  color:var(--color-text-primary);
-  will-change:transform;
-}
-
-.mf-hs__lockup{
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  display:flex;align-items:center;gap:clamp(1rem,2.4vw,2rem);
-  justify-content:center;
-  white-space:nowrap;z-index:2;will-change:transform,opacity;
-}
-.mf-hs__mark-img{
-  height:clamp(52px,7vw,76px);width:auto;
-  mix-blend-mode:multiply;
-}
-.mf-hs__sep{
-  width:1px;height:clamp(40px,5vw,62px);
-  background:var(--color-divider);flex-shrink:0;
-}
-.mf-hs__mark-text{text-align:left}
-.mf-hs__mark{
-  font-family:var(--font-display);font-weight:400;margin:0;
-  font-size:clamp(1.3rem,4vw,2.6rem);
+  font-size:clamp(0.95rem,1.6vw,1.15rem);
   letter-spacing:var(--tracking-wordmark);text-transform:uppercase;
-  line-height:1;color:var(--color-text-primary);
+  color:var(--color-text-primary);
 }
-.mf-hs__role{
+.mf-hero__role{
   font-family:var(--font-mono);font-weight:400;
   font-size:var(--text-label);letter-spacing:0.42em;text-indent:0.42em;
   text-transform:uppercase;color:var(--color-text-secondary);
-  margin:0.9rem 0 0;
 }
 
-.mf-hs__hint{
-  position:absolute;bottom:2.4rem;left:50%;transform:translateX(-50%);
+.mf-hero__head{overflow:hidden;padding:0.08em 0;margin-bottom:1.5rem}
+.mf-hero__head-inner{
+  margin:0;
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(1.7rem,4.8vw,3.1rem);
+  line-height:var(--leading-display);
+  letter-spacing:var(--tracking-display);
+  color:var(--color-text-primary);
+  max-width:18ch;margin-inline:auto;
+}
+
+.mf-hero__rule{
+  width:48px;height:1px;background:var(--copper);
+  display:block;margin:0 0 1.5rem;
+}
+
+.mf-hero__body{
+  margin:0 0 2.4rem;
+  font-family:var(--font-body);font-weight:300;
+  font-size:clamp(0.95rem,1.5vw,1.05rem);
+  line-height:var(--leading-body);
+  color:var(--color-text-secondary);
+  max-width:46ch;
+}
+
+.mf-hero__cta{
+  display:inline-block;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-ghost);z-index:3;
+  color:var(--bone);background:var(--copper);
+  padding:0.95rem 2.2rem;text-decoration:none;
+  border:1px solid var(--copper);
+  transition:transform var(--duration-base) var(--ease-out-expo),
+             background var(--duration-fast) var(--ease-in-out),
+             color var(--duration-fast) var(--ease-in-out);
+}
+.mf-hero__cta:hover{transform:translateY(-2px);background:transparent;color:var(--copper)}
+
+.mf-hero__hint{
+  position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);z-index:2;
 }
 
 @media(prefers-reduced-motion:reduce){
-  .mf-hs{height:auto}
-  .mf-hs__stage{position:relative;height:auto;min-height:100vh;min-height:100svh}
-  .mf-hs__stmt-inner{transform:none}
-  .mf-hs__grid line,.mf-hs__grid path{stroke-dashoffset:0!important}
+  .mf-hero__dune,.mf-hero__mark{animation:none}
+  .mf-hero__m line{stroke-dashoffset:0!important}
 }
 @media(max-width:600px){
-  .mf-hs__dot{left:14%;top:22%}
-  .mf-hs__lockup{flex-direction:column;gap:1.1rem;white-space:normal}
-  .mf-hs__sep{width:clamp(40px,14vw,80px);height:1px}
-  .mf-hs__mark-text{text-align:center}
+  .mf-hero__dunes{height:26vh}
+  .mf-hero__head-inner{max-width:14ch}
 }
       `}</style>
     </>

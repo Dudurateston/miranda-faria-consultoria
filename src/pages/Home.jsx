@@ -33,21 +33,6 @@ export default function Home() {
       <HeroStage />
       <MfRule />
 
-      {/* Tese */}
-      <section className="mf-home__sec" data-depth="0.08">
-        <div className="mf-home__inner">
-          <Reveal>
-            <p className="mf-label">{t.thesis.label}</p>
-          </Reveal>
-          <LineReveal className="mf-home__lead">{t.thesis.lead}</LineReveal>
-          <Reveal delay={160}>
-            <p className="mf-home__body">{t.thesis.body}</p>
-          </Reveal>
-        </div>
-      </section>
-
-      <MfRule />
-
       {/* Argumento — tres blocos */}
       <section className="mf-home__sec" data-depth="0.22">
         <div className="mf-home__inner">
