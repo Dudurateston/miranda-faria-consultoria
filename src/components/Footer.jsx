@@ -49,8 +49,8 @@ export default function Footer() {
             <Link to={path("work")} data-cursor="link" className="mf-foot__link">
               {t.nav.work}
             </Link>
-            <Link to={path("how-i-work")} data-cursor="link" className="mf-foot__link">
-              {t.nav.howIWork}
+            <Link to={path("servicos")} data-cursor="link" className="mf-foot__link">
+              {t.nav.services}
             </Link>
             <Link to={path("about")} data-cursor="link" className="mf-foot__link">
               {t.nav.about}
@@ -58,6 +58,8 @@ export default function Footer() {
             <Link to={path("contact")} data-cursor="link" className="mf-foot__link">
               {t.nav.contact}
             </Link>
+          </nav>
+          <div className="mf-foot__meta">
             <a
               href={LINKEDIN_URL}
               target="_blank"
@@ -70,7 +72,8 @@ export default function Footer() {
             <Link to="/privacidade" data-cursor="link" className="mf-foot__link">
               {t.footer.privacy}
             </Link>
-          </nav>
+            <span className="mf-foot__copy">© {new Date().getFullYear()} Miranda Faria</span>
+          </div>
         </div>
 
         {/* Farol de cobre — o unico do site inteiro (DECISIONS.md). */}
@@ -98,20 +101,21 @@ export default function Footer() {
 }
 .mf-foot__inner{
   max-width:var(--max-width-page);margin:0 auto;
-  display:flex;flex-direction:column;gap:1.75rem;
+  display:grid;grid-template-columns:1fr;gap:2rem;
 }
-@media(min-width:768px){
-  .mf-foot__inner{flex-direction:row;align-items:center;justify-content:space-between;gap:2rem}
+@media(min-width:900px){
+  .mf-foot__inner{grid-template-columns:auto 1fr auto;align-items:start;gap:3rem}
 }
 .mf-foot__brand{display:flex;align-items:center;gap:1rem}
 .mf-foot__mark{background:none;border:0;padding:0;cursor:pointer;display:flex}
-.mf-foot__mark img{height:34px;width:auto;display:block}
+.mf-foot__mark img{height:34px;width:auto;display:block;filter:invert(1) brightness(1.05) contrast(0.9)}
 .mf-foot__tag{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-ghost);margin:0;
 }
-.mf-foot__links{display:flex;flex-wrap:wrap;gap:1rem 1.6rem}
+.mf-foot__links{display:flex;flex-wrap:wrap;gap:1rem 1.8rem}
+@media(min-width:900px){.mf-foot__links{justify-content:center}}
 .mf-foot__link{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
@@ -119,6 +123,13 @@ export default function Footer() {
   transition:color var(--duration-fast) var(--ease-in-out);
 }
 .mf-foot__link:hover{color:var(--color-accent)}
+.mf-foot__meta{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.8rem}
+@media(min-width:900px){.mf-foot__meta{justify-content:flex-end}}
+.mf-foot__copy{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);
+}
 
 .mf-foot__beacon{
   position:absolute;right:var(--gutter);bottom:1.4rem;
@@ -139,7 +150,7 @@ export default function Footer() {
   display:flex;align-items:center;justify-content:center;
   background:rgba(20,20,20,0.92);
 }
-.mf-egg img{width:clamp(220px,40vw,420px);display:block}
+.mf-egg img{width:clamp(220px,40vw,420px);display:block;filter:invert(1) brightness(1.05) contrast(0.9)}
       `}</style>
     </>
   );

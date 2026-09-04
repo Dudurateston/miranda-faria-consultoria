@@ -7,6 +7,7 @@ import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
+import { CORTE_GIF } from "@/lib/site";
 
 /**
  * As quatro camadas sao o motivo de estratos aplicado ao conteudo, nao
@@ -45,6 +46,27 @@ export default function HowIWork() {
         </div>
       </section>
 
+      <MfRule />
+
+      {/* Stack — GIF integrado em simbiose com o fundo: mascara suave,
+          opacidade baixa, sem moldura de quadrado. */}
+      <section className="mf-hiw__stackwrap" data-depth="0.60">
+        <img className="mf-hiw__stackbg" src={CORTE_GIF} alt="" aria-hidden="true" loading="lazy" />
+        <div className="mf-hiw__stackinner">
+          <Reveal>
+            <p className="mf-label">{t.stack.label}</p>
+          </Reveal>
+          <LineReveal className="mf-hiw__stacklead">{t.stack.lead}</LineReveal>
+          <ul className="mf-hiw__stacklist">
+            {t.stack.items.map((s, i) => (
+              <Reveal key={s} delay={i * 70}>
+                <li>{s}</li>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <section className="mf-hiw__ai" data-depth="0.90">
         <div className="mf-hiw__aiinner">
           <Reveal>
@@ -64,7 +86,7 @@ export default function HowIWork() {
 .mf-hiw__layer{
   display:grid;grid-template-columns:4.5rem 1fr;
   gap:0 clamp(1.5rem,4vw,3rem);align-items:baseline;
-  padding:clamp(2rem,4.5vh,3.4rem) 0;
+  padding:clamp(1.4rem,3vh,2.2rem) 0;
   border-bottom:1px solid var(--color-divider);
   /* cada camada assenta um pouco mais escura que a anterior */
   background:linear-gradient(
@@ -78,7 +100,7 @@ export default function HowIWork() {
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);color:var(--color-text-ghost);
 }
-.mf-hiw__text{display:flex;flex-direction:column;gap:0.9rem}
+.mf-hiw__text{display:flex;flex-direction:column;gap:0.6rem}
 .mf-hiw__name{
   font-family:var(--font-display);font-weight:400;
   font-size:var(--text-display-lg);line-height:1.08;
@@ -105,6 +127,28 @@ export default function HowIWork() {
   font-family:var(--font-body);font-weight:300;
   font-size:var(--text-body-lg);line-height:var(--leading-body);
   color:var(--color-text-secondary);max-width:var(--max-width-body);margin:2.25rem 0 0;
+}
+.mf-hiw__stackwrap{position:relative;padding:var(--section-gap) var(--gutter);overflow:hidden}
+.mf-hiw__stackbg{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0.14;pointer-events:none;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,black 25%,black 75%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0%,black 25%,black 75%,transparent 100%);
+}
+.mf-hiw__stackinner{position:relative;max-width:var(--max-width-page);margin:0 auto}
+.mf-hiw__stacklead{
+  font-family:var(--font-display);font-weight:400;
+  font-size:var(--text-display-xl);line-height:var(--leading-display);
+  letter-spacing:var(--tracking-display);color:var(--color-text-primary);
+  margin:1.25rem 0 0;
+}
+.mf-hiw__stacklist{list-style:none;margin:2.25rem 0 0;padding:0;
+  display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:768px){.mf-hiw__stacklist{grid-template-columns:1fr 1fr;gap:0 2.5rem}}
+.mf-hiw__stacklist li{
+  padding:0.85rem 0;border-bottom:1px solid var(--mf-rule);
+  font-family:var(--font-mono);font-size:var(--text-body-md);
+  letter-spacing:0.04em;color:var(--color-text-secondary);
 }
       `}</style>
     </>

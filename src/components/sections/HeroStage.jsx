@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
-import { WHATSAPP_URL, HERO_LOOP_MP4, M_LOGO } from "@/lib/site";
+import { WHATSAPP_URL, HERO_LOOP_MP4, M_LOGO_HERO } from "@/lib/site";
 
 /**
  * Hero imersiva: fundo 3D em loop (MP4, autoplay/muted/loop/playsinline)
@@ -54,7 +54,7 @@ export default function HeroStage() {
         preload="auto"
       />
       <div className="mf-hero__scrim" aria-hidden="true" />
-      <img className="mf-hero__wm" src={M_LOGO} alt="" aria-hidden="true" />
+      <img className="mf-hero__wm" src={M_LOGO_HERO} alt="" aria-hidden="true" />
       <div className="mf-hero__motes" aria-hidden="true">
         {MOTES.map((m, i) => (
           <span
@@ -116,10 +116,17 @@ export default function HeroStage() {
   background:linear-gradient(180deg,rgba(20,20,20,0.42) 0%,rgba(20,20,20,0.30) 45%,rgba(20,20,20,0.64) 100%);
 }
 .mf-hero__wm{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:clamp(240px,40vw,520px);opacity:0.22;
+  position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);
+  width:clamp(260px,42vw,560px);opacity:0.16;
   pointer-events:none;user-select:none;
+  mix-blend-mode:screen;
+  animation:mf-wm-breathe 9s var(--ease-in-out) infinite;
 }
+@keyframes mf-wm-breathe{
+  0%,100%{opacity:0.13;transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:0.19;transform:translate(-50%,-50%) scale(1.02)}
+}
+@media(prefers-reduced-motion:reduce){.mf-hero__wm{animation:none;opacity:0.16}}
 .mf-hero__motes{position:absolute;inset:0;pointer-events:none}
 .mf-hero__motes span{
   position:absolute;border-radius:50%;

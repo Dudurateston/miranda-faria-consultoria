@@ -103,6 +103,7 @@ export default function SiteNav({ revealAfterHero = false }) {
              background-color var(--duration-slow) var(--ease-in-out);
 }
 [data-theme="on-deep"] .mf-nav{background:rgba(30,27,23,0.86)}
+[data-theme="on-deep"] .mf-nav__logo{filter:invert(1) brightness(1.05) contrast(0.9)}
 .mf-nav[data-show="false"]{opacity:0;transform:translateY(-100%);pointer-events:none}
 .mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}
 

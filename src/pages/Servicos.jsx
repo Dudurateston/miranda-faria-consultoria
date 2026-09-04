@@ -6,7 +6,7 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { WHATSAPP_URL, GEO_GIF } from "@/lib/site";
+import { WHATSAPP_URL, CORTE_GIF } from "@/lib/site";
 
 /**
  * Servicos — visao geral das tres verticais, com numeros reais da
@@ -44,7 +44,7 @@ export default function Servicos() {
 
           <Reveal delay={200}>
             <figure className="mf-srv__band">
-              <img src={GEO_GIF} alt="" loading="lazy" />
+              <img src={CORTE_GIF} alt="" loading="lazy" />
             </figure>
           </Reveal>
         </div>
@@ -118,8 +118,12 @@ export default function Servicos() {
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-ghost);
 }
-.mf-srv__band{margin:3.5rem 0 0;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--color-divider)}
-.mf-srv__band img{width:100%;height:100%;object-fit:cover;display:block}
+.mf-srv__band{margin:3.5rem 0 0;aspect-ratio:21/9;overflow:hidden;position:relative}
+.mf-srv__band img{
+  width:100%;height:100%;object-fit:cover;display:block;opacity:0.32;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 15%,black 85%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,black 15%,black 85%,transparent 100%);
+}
 
 .mf-srv__list{display:flex;flex-direction:column;margin-top:3rem}
 .mf-srv__item{

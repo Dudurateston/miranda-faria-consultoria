@@ -87,7 +87,7 @@ export const copy = {
       techPreview: {
         label: "Technology",
         lead: "A lean stack, driven by method.",
-        stack: ["React", "Tailwind CSS", "GSAP", "Lenis", "Base44", "AI / LLMs"],
+        stack: ["React", "Next.js", "Tailwind CSS", "Node.js", "Python", "Figma", "AI / LLMs", "Automation"],
         cta: "Learn more",
       },
       insightsPreview: { cta: "See all insights" },
@@ -131,6 +131,18 @@ export const copy = {
           d: "Hosting, deployment, ownership. The infrastructure ends up in the client's name — I leave, it keeps running.",
         },
       ],
+      stack: {
+        label: "Stack",
+        lead: "Lean tools, directed by method.",
+        items: [
+          "React / Next.js — interface and application",
+          "Tailwind CSS — design tokens the code reads",
+          "Node.js / Python — automation and integrations",
+          "Figma — identity and interface design",
+          "AI / LLMs — leverage across the mechanical parts",
+          "REST APIs — systems that talk to systems",
+        ],
+      },
       ai: {
         label: "On AI",
         lead: "Leverage, directed by judgment.",
@@ -148,6 +160,23 @@ export const copy = {
         "I work solo and ship fast, using an orchestrated AI workflow through the mechanical parts of the build. Everything that leaves here passes through my hands before it reaches you.",
       ],
       location: "Based in Brazil (UTC−3) — full working-day overlap with US hours, partial with Europe.",
+      trajectoryLabel: "Trajectory",
+      trajectory: "Eight complete systems shipped across parts distribution, logistics, agribusiness, retail and the arts — brand, interface, data model and deployment, end to end.",
+      principlesLabel: "How I decide",
+      principles: [
+        {
+          t: "Custom, never template",
+          d: "Every system starts from the client's operation, not from a theme. If it can be delivered by form, it does not need me.",
+        },
+        {
+          t: "The owner operates it",
+          d: "Delivery is only done when the client runs the system without me in the room. Infrastructure in their name, panel in their hands.",
+        },
+        {
+          t: "AI as leverage, judgment as the work",
+          d: "AI generates the drafts and writes the mechanical code. Architecture, hierarchy and what gets cut remain human decisions — mine.",
+        },
+      ],
     },
     contact: {
       label: "Contact",
@@ -180,18 +209,18 @@ export const copy = {
     },
     servicos: {
       label: "Services",
-      lead: "Three verticals, one operating principle.",
+      lead: "Three solutions, one operating principle.",
       intro:
         "Systems, design and business intelligence — each shippable alone, designed to work as one.",
       metricsLabel: "In numbers",
       metrics: [
-        { n: "8", d: "projects shipped end to end" },
-        { n: "1", d: "person across the whole stack" },
-        { n: "24h", d: "response time, same day" },
-        { n: "3", d: "verticals that combine into one system" },
+        { n: "8+", d: "projects shipped end to end" },
+        { n: "24h", d: "same-day response, no middleman" },
+        { n: "1", d: "specialist from briefing to delivery" },
+        { n: "3", d: "solutions that combine into one system" },
       ],
-      verticalsLabel: "The verticals",
-      seeVertical: "See the vertical",
+      verticalsLabel: "The solutions",
+      seeVertical: "See the solution",
       cta: "Start a project",
     },
     insights: {
@@ -281,7 +310,7 @@ export const copy = {
       techPreview: {
         label: "Tecnologia",
         lead: "Stack enxuto, dirigido por método.",
-        stack: ["React", "Tailwind CSS", "GSAP", "Lenis", "Base44", "IA / LLMs"],
+        stack: ["React", "Next.js", "Tailwind CSS", "Node.js", "Python", "Figma", "IA / LLMs", "Automações"],
         cta: "Saiba mais",
       },
       insightsPreview: { cta: "Ver todos os insights" },
@@ -325,6 +354,18 @@ export const copy = {
           d: "Hospedagem, publicação, titularidade. A infraestrutura fica no seu nome — eu saio, o sistema continua.",
         },
       ],
+      stack: {
+        label: "Stack",
+        lead: "Ferramentas enxutas, dirigidas por método.",
+        items: [
+          "React / Next.js — interface e aplicação",
+          "Tailwind CSS — tokens de design que o código lê",
+          "Node.js / Python — automação e integrações",
+          "Figma — design de identidade e interface",
+          "IA / LLMs — alavanca nas partes mecânicas",
+          "APIs REST — sistemas que conversam com sistemas",
+        ],
+      },
       ai: {
         label: "Sobre IA",
         lead: "Alavanca dirigida por julgamento.",
@@ -342,6 +383,23 @@ export const copy = {
         "Trabalho sozinho e entrego rápido. Uso IA em boa parte do processo — na construção dos sistemas e na criação visual —, e é por isso que consigo fazer sob medida por um preço que agência não alcança. O que sai daqui passa pela minha mão antes de chegar em você.",
       ],
       location: "Atendimento remoto para todo o Brasil.",
+      trajectoryLabel: "Trajetória",
+      trajectory: "Oito sistemas completos entregues em distribuição de peças, logística, agronegócio, comércio e arte — marca, interface, modelo de dados e publicação, de ponta a ponta.",
+      principlesLabel: "Como eu decido",
+      principles: [
+        {
+          t: "Sob medida, nunca template",
+          d: "Todo sistema nasce da operação do cliente, não de um tema. Se dá pra entregar por formulário, não precisa de mim.",
+        },
+        {
+          t: "O dono opera",
+          d: "Só está entregue quando o cliente roda o sistema sem mim na sala. Infraestrutura no nome dele, painel na mão dele.",
+        },
+        {
+          t: "IA como alavanca, julgamento como trabalho",
+          d: "A IA gera os rascunhos e escreve o código mecânico. Arquitetura, hierarquia e o que sai fora continuam sendo decisão humana — minha.",
+        },
+      ],
     },
     contact: {
       label: "Conversar",
@@ -374,18 +432,18 @@ export const copy = {
     },
     servicos: {
       label: "Serviços",
-      lead: "Três verticais, um princípio de operação.",
+      lead: "Três soluções, um princípio de operação.",
       intro:
         "Sistemas, design e gestão — cada um entrega sozinho, todos desenhados para funcionar como um só.",
       metricsLabel: "Em números",
       metrics: [
-        { n: "8", d: "projetos entregues de ponta a ponta" },
-        { n: "1", d: "pessoa atravessando o stack inteiro" },
-        { n: "24h", d: "resposta no mesmo dia" },
-        { n: "3", d: "verticais que se combinam num sistema só" },
+        { n: "8+", d: "projetos entregues de ponta a ponta" },
+        { n: "24h", d: "resposta no mesmo dia, sem intermediários" },
+        { n: "1", d: "especialista do briefing à entrega" },
+        { n: "3", d: "soluções que se combinam num sistema só" },
       ],
-      verticalsLabel: "As verticais",
-      seeVertical: "Ver a vertical",
+      verticalsLabel: "As soluções",
+      seeVertical: "Ver a solução",
       cta: "Começar um projeto",
     },
     insights: {
@@ -718,7 +776,7 @@ export const practices = {
       label: "Systems",
       lead: "Software the owner runs, not me.",
       intro:
-        "Catalogues, inventory, ordering and admin panels, built on a real database with an interface the client operates without calling me. Shipped on Base44, which is why the unit of delivery is weeks instead of months.",
+        "Catalogues, inventory, ordering and admin panels, built on a real database with an interface the client operates without calling me. Delivery is measured in weeks, not months.",
       artAlt: "Blueprint linework resolving into built structure",
       deliverablesLabel: "What I deliver",
       deliverables: [
@@ -738,6 +796,12 @@ export const practices = {
           t: "Ownership",
           d: "Hosting and infrastructure end up in the client's name. I leave, the system keeps running.",
         },
+      ],
+      proofLabel: "Proof, not promise",
+      proofs: [
+        "MotorMoura and 1000 Peças: catalogues a customer can browse and a quote flow that runs without a phone call.",
+        "Roda de Agronegócios: exhibition space sold straight from an interactive floor map.",
+        "Queijos Santana: lot-level inventory with FEFO ordering the owner trusts.",
       ],
       casesLabel: "Built this way",
       cta: "Start a project",
@@ -768,6 +832,12 @@ export const practices = {
           d: "It arrives as running code, not as a file handed to someone else to interpret. Nothing is lost in translation because there is no translation.",
         },
       ],
+      proofLabel: "Proof, not promise",
+      proofs: [
+        "DJ Jotavê: full presentation site — identity, schedule and promotional material.",
+        "Paulo Henrique: brand and interface built for an athlete's audience.",
+        "This site: identity, motion and code by the same hand you would hire.",
+      ],
       casesLabel: "Built this way",
       cta: "Start a project",
     },
@@ -797,6 +867,12 @@ export const practices = {
           d: "The layer underneath: what is stored, what is derived, and how the pieces relate. Where most reporting projects quietly break.",
         },
       ],
+      proofLabel: "Proof, not promise",
+      proofs: [
+        "Queijos Santana: expiry-tiered alerts on lots, stock queryable in seconds.",
+        "Rota Forte: quote requests flowing to WhatsApp instead of a phone tag.",
+        "The monthly report replaced by a panel that updates itself.",
+      ],
       casesLabel: "Built this way",
       cta: "Start a project",
     },
@@ -808,7 +884,7 @@ export const practices = {
       label: "Sistemas",
       lead: "Sistema que o dono opera, não eu.",
       intro:
-        "Catálogo, estoque, cadastro e pedidos, com banco de dados de verdade e um painel que o cliente usa sem me chamar. Construído no Base44, e é por isso que a entrega se mede em semanas, não em meses.",
+        "Catálogo, estoque, cadastro e pedidos, com banco de dados de verdade e um painel que o cliente usa sem me chamar. A entrega se mede em semanas, não em meses.",
       artAlt: "Linhas de prancha virando estrutura construída",
       deliverablesLabel: "O que entrego",
       deliverables: [
@@ -828,6 +904,12 @@ export const practices = {
           t: "Titularidade",
           d: "Hospedagem e infraestrutura ficam no seu nome. Eu saio, o sistema continua.",
         },
+      ],
+      proofLabel: "Prova, não promessa",
+      proofs: [
+        "MotorMoura e 1000 Peças: catálogo que o cliente navega e orçamento que corre sem telefonema.",
+        "Roda de Agronegócios: espaço de feira vendido direto num mapa interativo.",
+        "Queijos Santana: estoque por lote com FEFO em que o dono confia.",
       ],
       casesLabel: "Feitos assim",
       cta: "Começar um projeto",
@@ -858,6 +940,12 @@ export const practices = {
           d: "Chega funcionando, não como arquivo para outra pessoa interpretar. Nada se perde na tradução porque não existe tradução.",
         },
       ],
+      proofLabel: "Prova, não promessa",
+      proofs: [
+        "DJ Jotavê: site de apresentação completo — identidade, agenda e material promocional.",
+        "Paulo Henrique: marca e interface feitas para o público de um atleta.",
+        "Este site: identidade, movimento e código pela mesma mão que você contratarias.",
+      ],
       casesLabel: "Feitos assim",
       cta: "Começar um projeto",
     },
@@ -886,6 +974,12 @@ export const practices = {
           t: "O modelo de dados",
           d: "A camada de baixo: o que é guardado, o que é calculado e como as peças se relacionam. Onde a maioria dos projetos de relatório quebra em silêncio.",
         },
+      ],
+      proofLabel: "Prova, não promessa",
+      proofs: [
+        "Queijos Santana: alertas de validade por lote, estoque consultável em segundos.",
+        "Rota Forte: pedidos de orçamento chegando no WhatsApp em vez de telefone tocando.",
+        "O relatório mensal substituído por um painel que se atualiza sozinho.",
       ],
       casesLabel: "Feitos assim",
       cta: "Começar um projeto",
