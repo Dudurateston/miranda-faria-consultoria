@@ -220,10 +220,10 @@ export const copy = {
         "Systems, design and business intelligence — each shippable alone, designed to work as one.",
       metricsLabel: "In numbers",
       metrics: [
-        { n: "8+", d: "projects across sites and systems, end to end" },
-        { n: "24h", d: "same-day response — straight from who builds it" },
-        { n: "100%", d: "tailor-made — nothing ships from a template" },
-        { n: "3", d: "solutions that combine into one system" },
+        { n: "8+", d: "projects delivered across sites and systems" },
+        { n: "24h", d: "to respond — straight from who builds it" },
+        { n: "3", d: "disciplines that combine: system, design and data" },
+        { n: "100%", d: "tailor-made, from briefing to delivery" },
       ],
       bandLayers: ["Surface", "System", "Data", "Foundation"],
       bandStat:
@@ -458,10 +458,10 @@ export const copy = {
         "Sistemas, design e gestão — cada um entrega sozinho, todos desenhados para funcionar como um só.",
       metricsLabel: "Em números",
       metrics: [
-        { n: "8+", d: "projetos entre sites e sistemas, de ponta a ponta" },
-        { n: "24h", d: "resposta no mesmo dia — direto com quem executa" },
-        { n: "100%", d: "sob medida — nenhum projeto sai de template" },
-        { n: "3", d: "soluções que se combinam num sistema só" },
+        { n: "8+", d: "projetos entregues entre sites e sistemas" },
+        { n: "24h", d: "para resposta — direto com quem executa" },
+        { n: "3", d: "frentes que se combinam: sistema, design e dados" },
+        { n: "100%", d: "sob medida, do briefing à entrega" },
       ],
       bandLayers: ["Superfície", "Sistema", "Dados", "Fundação"],
       bandStat:
