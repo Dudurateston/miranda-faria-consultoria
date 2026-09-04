@@ -6,7 +6,7 @@ import LineReveal from "@/components/LineReveal";
 import MfRule from "@/components/MfRule";
 import CaseMedia from "@/components/CaseMedia";
 import { useLang } from "@/lib/i18n";
-import { copy, cases, getCase } from "@/content/copy";
+import { copy, cases, getCase, getPractice } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
 
 export default function WorkCase() {
@@ -63,6 +63,28 @@ export default function WorkCase() {
           <Reveal delay={120}>
             <CaseMedia media={item.media} name={item.name} />
           </Reveal>
+          <Reveal delay={200}>
+            <ul className="mf-case__facts">
+              <li>
+                <span className="mf-case__factk">{t.factsSector}</span>
+                <span className="mf-case__factv">{item.sector}</span>
+              </li>
+              <li>
+                <span className="mf-case__factk">{t.factsYear}</span>
+                <span className="mf-case__factv">{item.year}</span>
+              </li>
+              <li>
+                <span className="mf-case__factk">{t.factsPractice}</span>
+                <span className="mf-case__factv">{getPractice(lang, item.practice)?.label ?? item.practice}</span>
+              </li>
+              <li>
+                <span className="mf-case__factk">{t.factsDelivery}</span>
+                <span className="mf-case__factv">
+                  {item.practice === "systems" ? t.factsDeliverySystems : t.factsDeliverySite}
+                </span>
+              </li>
+            </ul>
+          </Reveal>
         </div>
 
         <MfRule />
@@ -110,6 +132,21 @@ export default function WorkCase() {
 }
 
 .mf-case__mediawrap{padding:0 var(--gutter);margin-bottom:clamp(2rem,5vh,3.5rem)}
+.mf-case__facts{
+  list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;
+  margin:1.4rem 0 0;padding:1.2rem 0 0;border-top:1px solid var(--color-divider);
+}
+@media(min-width:860px){.mf-case__facts{grid-template-columns:repeat(4,1fr)}}
+.mf-case__facts li{display:flex;flex-direction:column;gap:0.35rem}
+.mf-case__factk{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);
+}
+.mf-case__factv{
+  font-family:var(--font-body);font-size:var(--text-body-md);
+  color:var(--color-text-primary);
+}
 
 .mf-case__body{padding:clamp(2.5rem,6vh,4.5rem) var(--gutter)}
 .mf-case__block{

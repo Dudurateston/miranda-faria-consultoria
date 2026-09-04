@@ -14,7 +14,7 @@ export const M_LOGO_HERO =
 export const HERO_LOOP_MP4 =
   "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/df560ff36_hero_loop.mp4";
 export const REELS_URL =
-  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/1168fb24b_reels_quem_somos_final.mp4";
+  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/13127e3ed_reels_quem_somos_v3.mp4";
 export const CORTE_GIF =
   "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/46ce274a3_corte_rocha_sedimentar_animacao.gif";
 export const WATERMARK_GIF =

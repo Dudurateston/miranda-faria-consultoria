@@ -64,7 +64,7 @@ export default function CaseMedia({ media, name }) {
     <>
       <div className="mf-cm__set" ref={wrapRef}>
         {video && (
-          <figure className="mf-cm">
+          <figure className="mf-cm mf-cm--blend">
             {/* Sem preferencia de movimento reduzida o video toca; com
                 ela, fica so o quadro de poster. */}
             {reduced ? (
@@ -114,5 +114,12 @@ const mediaCss = `
 .mf-cm__img{
   display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;
   border:1px solid var(--color-divider);
+}
+/* Video do case: sem moldura — funde com a pagina. */
+.mf-cm--blend{background:transparent;overflow:visible}
+.mf-cm--blend .mf-cm__img{
+  border:0;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,black 9%,black 91%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0%,black 9%,black 91%,transparent 100%);
 }
 `;

@@ -59,9 +59,9 @@ export default function Insights() {
 @media(min-width:860px){.mf-ins__head{grid-template-columns:7fr 5fr;gap:clamp(2.5rem,6vw,5rem)}}
 .mf-ins__lead{
   font-family:var(--font-display);font-weight:400;
-  font-size:var(--text-display-xl);line-height:var(--leading-display);
+  font-size:var(--text-display-lg);line-height:var(--leading-display);
   letter-spacing:var(--tracking-display);color:var(--color-text-primary);
-  margin:1.25rem 0 0;
+  margin:1.25rem 0 0;max-width:16ch;text-wrap:balance;
 }
 .mf-ins__intro{
   font-family:var(--font-body);font-weight:300;
@@ -73,21 +73,22 @@ export default function Insights() {
 
 .mf-ins__list{display:flex;flex-direction:column;margin-top:3.5rem}
 .mf-ins__item{
-  padding:clamp(1.8rem,4vh,2.6rem) 0;
+  padding:clamp(2rem,4.5vh,3rem) 0;
   border-top:1px solid var(--color-divider);
-  display:grid;grid-template-columns:10rem 1fr;gap:0.8rem clamp(1.5rem,4vw,3rem);
+  display:grid;grid-template-columns:8.5rem 1fr;gap:0.8rem clamp(1.5rem,4vw,3rem);
 }
 .mf-ins__item:last-child{border-bottom:1px solid var(--color-divider)}
 .mf-ins__tag{align-self:start;color:var(--color-text-ghost)}
 .mf-ins__t{
   font-family:var(--font-display);font-weight:400;
-  font-size:var(--text-display-md);line-height:1.14;
+  font-size:var(--text-display-md);line-height:1.16;
   letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:0;
+  max-width:24ch;text-wrap:balance;
 }
 .mf-ins__d{
   font-family:var(--font-body);font-weight:300;
-  font-size:var(--text-body-md);line-height:var(--leading-body);
-  color:var(--color-text-secondary);margin:1rem 0 0;max-width:70ch;
+  font-size:var(--text-body-lg);line-height:var(--leading-body);
+  color:var(--color-text-secondary);margin:1.1rem 0 0;max-width:58ch;
 }
 @media(max-width:767px){
   .mf-ins__item{grid-template-columns:1fr;gap:0.5rem}

@@ -19,7 +19,7 @@ export default function HomeInsights() {
         <LineReveal className="mf-h__lead">{t.insights.lead}</LineReveal>
 
         <div className="mf-insprev">
-          {t.insights.items.slice(0, 3).map((it, i) => (
+          {t.insights.items.slice(0, 4).map((it, i) => (
             <Link
               key={i}
               to={path("insights")}
@@ -41,6 +41,9 @@ export default function HomeInsights() {
 
       <style>{`
 .mf-insprev{margin-top:3rem}
+@media(min-width:860px){
+  .mf-insprev{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(2rem,5vw,4rem)}
+}
 .mf-insprev__item{
   display:grid;grid-template-columns:8rem 1fr;gap:0 2rem;align-items:baseline;
   padding:1.6rem 0;border-top:1px solid var(--mf-rule);

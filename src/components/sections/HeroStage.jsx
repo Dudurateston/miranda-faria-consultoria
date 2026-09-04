@@ -117,16 +117,16 @@ export default function HeroStage() {
 }
 .mf-hero__wm{
   position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);
-  width:clamp(260px,42vw,560px);opacity:0.16;
+  width:clamp(260px,42vw,560px);opacity:0.34;
   pointer-events:none;user-select:none;
   mix-blend-mode:screen;
   animation:mf-wm-breathe 9s var(--ease-in-out) infinite;
 }
 @keyframes mf-wm-breathe{
-  0%,100%{opacity:0.13;transform:translate(-50%,-50%) scale(1)}
-  50%{opacity:0.19;transform:translate(-50%,-50%) scale(1.02)}
+  0%,100%{opacity:0.30;transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:0.40;transform:translate(-50%,-50%) scale(1.02)}
 }
-@media(prefers-reduced-motion:reduce){.mf-hero__wm{animation:none;opacity:0.16}}
+@media(prefers-reduced-motion:reduce){.mf-hero__wm{animation:none;opacity:0.34}}
 .mf-hero__motes{position:absolute;inset:0;pointer-events:none}
 .mf-hero__motes span{
   position:absolute;border-radius:50%;

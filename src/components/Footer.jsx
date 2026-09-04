@@ -33,6 +33,7 @@ export default function Footer() {
     <>
       <footer className="mf-foot" data-theme="dark">
         <div className="mf-foot__inner">
+          <div className="mf-foot__row mf-foot__row--top">
           <div className="mf-foot__brand">
             <button
               type="button"
@@ -59,6 +60,8 @@ export default function Footer() {
               {t.nav.contact}
             </Link>
           </nav>
+          </div>
+          <div className="mf-foot__row mf-foot__row--sub">
           <div className="mf-foot__meta">
             <a
               href={LINKEDIN_URL}
@@ -73,6 +76,7 @@ export default function Footer() {
               {t.footer.privacy}
             </Link>
             <span className="mf-foot__copy">© {new Date().getFullYear()} Miranda Faria</span>
+          </div>
           </div>
         </div>
 
@@ -101,11 +105,10 @@ export default function Footer() {
 }
 .mf-foot__inner{
   max-width:var(--max-width-page);margin:0 auto;
-  display:grid;grid-template-columns:1fr;gap:2rem;
+  display:flex;flex-direction:column;gap:clamp(1.6rem,3.5vh,2.4rem);
 }
-@media(min-width:900px){
-  .mf-foot__inner{grid-template-columns:auto 1fr auto;align-items:start;gap:3rem}
-}
+.mf-foot__row{display:flex;align-items:center;justify-content:space-between;gap:1.4rem 2.5rem;flex-wrap:wrap}
+.mf-foot__row--sub{border-top:1px solid var(--mf-rule);padding-top:1.4rem}
 .mf-foot__brand{display:flex;align-items:center;gap:1rem}
 .mf-foot__mark{background:none;border:0;padding:0;cursor:pointer;display:flex}
 .mf-foot__mark img{height:34px;width:auto;display:block;filter:invert(1) brightness(1.05) contrast(0.9)}
@@ -115,7 +118,7 @@ export default function Footer() {
   color:var(--color-text-ghost);margin:0;
 }
 .mf-foot__links{display:flex;flex-wrap:wrap;gap:1rem 1.8rem}
-@media(min-width:900px){.mf-foot__links{justify-content:center}}
+
 .mf-foot__link{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
@@ -124,7 +127,7 @@ export default function Footer() {
 }
 .mf-foot__link:hover{color:var(--color-accent)}
 .mf-foot__meta{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.8rem}
-@media(min-width:900px){.mf-foot__meta{justify-content:flex-end}}
+
 .mf-foot__copy{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;

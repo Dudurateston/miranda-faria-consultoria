@@ -32,9 +32,9 @@ export default function HomeCta() {
 .mf-cta{text-align:center}
 .mf-cta__wm{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:clamp(280px,46vw,560px);opacity:0.22;pointer-events:none;user-select:none;
-  -webkit-mask-image:radial-gradient(closest-side,black 55%,transparent 98%);
-  mask-image:radial-gradient(closest-side,black 55%,transparent 98%);
+  width:clamp(280px,46vw,560px);opacity:0.40;pointer-events:none;user-select:none;
+  -webkit-mask-image:radial-gradient(closest-side,black 64%,transparent 100%);
+  mask-image:radial-gradient(closest-side,black 64%,transparent 100%);
 }
 .mf-cta__inner{
   position:relative;display:flex;flex-direction:column;align-items:center;gap:2.2rem;

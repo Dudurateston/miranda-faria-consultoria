@@ -45,7 +45,16 @@ export default function Servicos() {
           <Reveal delay={200}>
             <figure className="mf-srv__band">
               <img src={CORTE_GIF} alt="" loading="lazy" />
+              <figcaption className="mf-srv__layers" aria-hidden="true">
+                {t.servicos.bandLayers.map((l, i) => (
+                  <span key={i} className="mf-srv__layer">{l}</span>
+                ))}
+              </figcaption>
             </figure>
+            <p className="mf-srv__stat">
+              {t.servicos.bandStat}
+              <span className="mf-srv__stat-src">{t.servicos.bandSource}</span>
+            </p>
           </Reveal>
         </div>
       </section>
@@ -119,6 +128,28 @@ export default function Servicos() {
   color:var(--color-text-ghost);
 }
 .mf-srv__band{margin:3.5rem 0 0;aspect-ratio:21/9;overflow:hidden;position:relative}
+.mf-srv__layers{
+  position:absolute;inset:0;margin:0;display:flex;flex-direction:column;
+  justify-content:space-between;padding:clamp(0.9rem,2.4vw,1.8rem) clamp(0.9rem,2.4vw,1.8rem);
+  pointer-events:none;
+}
+.mf-srv__layer{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:rgba(38,38,38,0.78);
+  padding-left:clamp(0.5rem,4vw,3.5rem);
+}
+.mf-srv__stat{
+  margin:1.1rem 0 0;max-width:56ch;
+  font-family:var(--font-body);font-weight:300;font-size:var(--text-body-md);
+  line-height:var(--leading-body);color:var(--color-text-secondary);
+}
+.mf-srv__stat-src{
+  display:block;margin-top:0.35rem;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);
+}
 .mf-srv__band img{
   width:100%;height:100%;object-fit:cover;display:block;opacity:0.32;
   -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 15%,black 85%,transparent 100%);
