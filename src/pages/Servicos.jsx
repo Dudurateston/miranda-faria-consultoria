@@ -46,14 +46,14 @@ export default function Servicos() {
             <figure className="mf-srv__band">
               <img src={CORTE_GIF} alt="" loading="lazy" />
               <figcaption className="mf-srv__layers" aria-hidden="true">
-                {t.servicos.bandLayers.map((l, i) => (
+                {t.bandLayers.map((l, i) => (
                   <span key={i} className="mf-srv__layer">{l}</span>
                 ))}
               </figcaption>
             </figure>
             <p className="mf-srv__stat">
-              {t.servicos.bandStat}
-              <span className="mf-srv__stat-src">{t.servicos.bandSource}</span>
+              {t.bandStat}
+              <span className="mf-srv__stat-src">{t.bandSource}</span>
             </p>
           </Reveal>
         </div>
