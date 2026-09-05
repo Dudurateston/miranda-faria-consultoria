@@ -84,7 +84,7 @@ export default function Footer() {
             <Link to="/privacidade" data-cursor="link" className="mf-foot__link">
               {t.footer.privacy}
             </Link>
-            <span className="mf-foot__copy">© {new Date().getFullYear()} Miranda Faria</span>
+            <span className="mf-foot__copy">© 2023 Miranda Faria</span>
           </div>
           </div>
         </div>

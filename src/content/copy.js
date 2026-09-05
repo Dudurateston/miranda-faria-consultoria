@@ -14,7 +14,7 @@
  */
 
 export const CASE_SLUGS = [
-  "queijos-santana",
+  "queijos-serra",
   "roda-agro",
   "paulo-henrique",
   "motormoura",
@@ -710,12 +710,12 @@ export const copy = {
 export const cases = {
   en: [
     {
-      slug: "queijos-santana",
+      slug: "queijos-serra",
       practice: "gestao",
-      name: "Queijos Santana",
+      name: "Queijos da Serra",
       sector: "Artisanal cheese production",
-      year: "2026",
-      media: { dir: "queijos-santana", shots: 3, video: true },
+      year: "2024",
+      media: { dir: "queijos-serra", shots: 3, video: true },
       summary:
         "Lot-level inventory with FEFO priority and tiered expiry alerts, for a product that spoils.",
       problem:
@@ -849,14 +849,14 @@ export const cases = {
       media: { dir: "miranda-faria", shots: 5, video: true },
     },
     {
-      slug: "queijos-piumhi",
+      slug: "queijos-serra-loja",
       practice: "desenvolvimento",
-      name: "Queijos Santana Piumhi",
+      name: "Queijos da Serra — Loja",
       sector: "Artisanal cheese retail",
-      year: "2026",
+      year: "2024",
       summary: "A shop counter that now takes orders over WhatsApp — typed, ahead of time.",
       problem:
-        "A cheese shop in the centre of Piumhi selling only across the counter. No way to browse the case before visiting, and no way to order ahead for pickup.",
+        "A cheese shop in a small Minas Gerais town selling only across the counter. No way to browse the case before visiting, and no way to order ahead for pickup.",
       process:
         "The shop's catalogue became a page, in the shop's own language. The order is assembled on WhatsApp and arrives as a ready message.",
       decisions:
@@ -917,12 +917,12 @@ export const cases = {
   ],
   pt: [
     {
-      slug: "queijos-santana",
+      slug: "queijos-serra",
       practice: "gestao",
-      name: "Queijos Santana",
+      name: "Queijos da Serra",
       sector: "Produção de queijo artesanal",
-      year: "2026",
-      media: { dir: "queijos-santana", shots: 3, video: true },
+      year: "2024",
+      media: { dir: "queijos-serra", shots: 3, video: true },
       summary:
         "Estoque rastreado por lote, com prioridade FEFO e alertas escalonados de validade.",
       problem:
@@ -1056,14 +1056,14 @@ export const cases = {
       media: { dir: "miranda-faria", shots: 5, video: true },
     },
     {
-      slug: "queijos-piumhi",
+      slug: "queijos-serra-loja",
       practice: "desenvolvimento",
-      name: "Queijos Santana Piumhi",
+      name: "Queijos da Serra — Loja",
       sector: "Varejo de queijos artesanais",
-      year: "2026",
+      year: "2024",
       summary: "Um balcão que agora recebe pedido por WhatsApp — digitado, com antecedência.",
       problem:
-        "Uma loja de queijos no centro de Piumhi vendendo só no balcão. Sem como ver o estoque antes de visitar, sem como encomendar com antecedência para retirar.",
+        "Uma loja de queijos no interior de Minas vendendo só no balcão. Sem como ver o estoque antes de visitar, sem como encomendar com antecedência para retirar.",
       process:
         "O catálogo da loja virou página, na linguagem da própria loja. O pedido se monta no WhatsApp e chega como mensagem pronta.",
       decisions:
@@ -1168,7 +1168,7 @@ export const practices = {
       proofLabel: "Proof, not promise",
       proofs: [
         "MotorMoura and 1000 Peças: catalogues a customer can browse and a quote flow that runs without a phone call.",
-        "Queijos Santana: lot-level inventory with FEFO ordering and expiry-tiered alerts.",
+        "Queijos da Serra: lot-level inventory with FEFO ordering and expiry-tiered alerts.",
         "The monthly report replaced by a panel that updates itself.",
       ],
       casesLabel: "Built this way",
@@ -1248,7 +1248,7 @@ export const practices = {
       proofs: [
         "Rota Forte: a page whose only job is to route the right enquiry to WhatsApp — and it does.",
         "Paulo Henrique: a presentation site with a performance lab the visitor actually uses.",
-        "Queijos Santana Piumhi and SOLARSAT: storefronts where the order and the quote start on WhatsApp.",
+        "Queijos da Serra — Loja and SOLARSAT: storefronts where the order and the quote start on WhatsApp.",
       ],
       casesLabel: "Built this way",
       cta: "Start a project",
@@ -1285,7 +1285,7 @@ export const practices = {
       proofLabel: "Prova, não promessa",
       proofs: [
         "MotorMoura e 1000 Peças: catálogos que o cliente navega e um fluxo de orçamento que roda sem telefonema.",
-        "Queijos Santana: estoque por lote com ordenação FEFO e alertas escalonados por validade.",
+        "Queijos da Serra: estoque por lote com ordenação FEFO e alertas escalonados por validade.",
         "O relatório mensal substituído por um painel que atualiza sozinho.",
       ],
       casesLabel: "Feitos assim",
@@ -1365,7 +1365,7 @@ export const practices = {
       proofs: [
         "Rota Forte: uma página cujo único trabalho é levar o orçamento certo pro WhatsApp — e ela leva.",
         "Paulo Henrique: site de apresentação com um laboratório de performance que o visitante usa de verdade.",
-        "Queijos Santana Piumhi e SOLARSAT: vitrines em que o pedido e o orçamento começam no WhatsApp.",
+        "Queijos da Serra — Loja e SOLARSAT: vitrines em que o pedido e o orçamento começam no WhatsApp.",
       ],
       casesLabel: "Feitos assim",
       cta: "Começar um projeto",
