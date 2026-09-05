@@ -12,7 +12,7 @@ export default function HomeCta() {
 
   return (
     <section className="mf-h mf-cta">
-      <img className="mf-cta__wm" src={WATERMARK_GIF} alt="" loading="lazy" aria-hidden="true" />
+      <img className="mf-cta__wm" src={WATERMARK_GIF} alt="" loading="lazy" width="640" height="360" aria-hidden="true" />
       <div className="mf-h__inner mf-cta__inner">
         <LineReveal className="mf-cta__lead">{t.lead}</LineReveal>
         <Reveal delay={180}>
@@ -32,7 +32,7 @@ export default function HomeCta() {
 .mf-cta{text-align:center}
 .mf-cta__wm{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:clamp(280px,46vw,560px);opacity:0.40;pointer-events:none;user-select:none;
+  width:clamp(280px,46vw,560px);height:auto;aspect-ratio:16/9;opacity:0.40;pointer-events:none;user-select:none;
   -webkit-mask-image:radial-gradient(closest-side,black 64%,transparent 100%);
   mask-image:radial-gradient(closest-side,black 64%,transparent 100%);
 }
