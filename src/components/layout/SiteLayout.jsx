@@ -88,12 +88,9 @@ export default function SiteLayout() {
 @media(max-width:859px){
   .mf-shell__main{padding-top:calc(var(--nav-height) + 2.2rem)}
 }
-      `}</style>
-    </div>
-  );
-}
 
-<style>{`
+/* Teclado primeiro: o link de pular so existe para quem tecla —
+   fora da tela ate receber foco. */
 .mf-skip{
   position:fixed;top:0.75rem;left:0.75rem;z-index:300;
   transform:translateY(-300%);
@@ -104,4 +101,7 @@ export default function SiteLayout() {
   padding:0.7rem 1.1rem;text-decoration:none;
 }
 .mf-skip:focus-visible{transform:translateY(0);outline-offset:0}
-`}</style>
+      `}</style>
+    </div>
+  );
+}

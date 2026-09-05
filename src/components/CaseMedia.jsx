@@ -71,6 +71,7 @@ export default function CaseMedia({ media, name }) {
               <img className="mf-cm__img" src={poster} alt={`${name} — interface`} loading="lazy" />
             ) : (
               <video
+                key={dir}
                 ref={videoRef}
                 className="mf-cm__img"
                 poster={poster}
