@@ -33,20 +33,20 @@ export const copy = {
       skip: "Skip to content",
       pages: {
         home: "Complete web systems — brand, product and data as one — built solo, shipped fast.",
-        work: "Six systems delivered end to end, across parts distribution, logistics, agribusiness, retail and the arts.",
-        servicos: "Three solutions, one operating principle: systems, design and business intelligence.",
+        work: "Management systems, websites and identity delivered end to end — parts, logistics, agribusiness, retail and the arts.",
+        servicos: "Three solutions, one operating principle: management systems, websites and design.",
         about: "Design engineer working across brand, product and data — technology applied to a business that actually exists.",
         how: "How a project runs here: diagnosis first, demo in the first week, delivery in the owner's hands.",
         insights: "Three questions and an estimate of what the problem costs — before any talk of price.",
         contact: "Bring the problem, not a spec. Same-day response, straight from who builds it.",
-        practice: "Custom systems the owner operates without calling me — catalogue, inventory, ordering and panels.",
+        practice: "Management systems, websites and identity — one hand from diagnosis to delivery.",
       },
     },
     nav: {
       home: "Home",
-      systems: "Systems",
+      gestao: "Systems & Management",
       design: "Design",
-      business: "Business",
+      desenvolvimento: "Development",
       work: "Work",
       howIWork: "How I work",
       about: "About",
@@ -246,7 +246,7 @@ export const copy = {
         email: "Email",
         company: "Company",
         type: "Project type",
-        types: { systems: "Systems", design: "Design", business: "Business / consulting" },
+        types: { gestao: "Systems & Management", design: "Design", desenvolvimento: "Websites & development" },
         message: "Message",
         whatsapp: "Prefer to schedule a meeting over WhatsApp?",
         submit: "Send",
@@ -289,9 +289,9 @@ export const copy = {
       verticalsLabel: "The solutions",
       seeVertical: "See the solution",
       cards: {
-        systems: "The order that dies in a chat thread — in a system you own.",
+        gestao: "The order that dies in a chat thread — in a system you own.",
         design: "Brand and interface that justify the premium.",
-        business: "Decisions that stop being guesswork: a panel that updates itself.",
+        desenvolvimento: "A site that works the lead for you — it arrives ready, in your WhatsApp.",
       },
       cta: "Start a project",
     },
@@ -371,20 +371,20 @@ export const copy = {
       skip: "Pular para o conteúdo",
       pages: {
         home: "Sistemas completos — marca, produto e dados como um só — construídos sob medida, entregues rápido.",
-        work: "Seis sistemas entregues de ponta a ponta: distribuição de peças, logística, agronegócio, comércio e arte.",
-        servicos: "Três soluções, um princípio de operação: sistemas, design e gestão.",
+        work: "Sistemas de gestão, sites e identidade entregues de ponta a ponta: peças, logística, agronegócio, comércio e arte.",
+        servicos: "Três soluções, um princípio de operação: sistemas de gestão, sites e design.",
         about: "Design engineer entre marca, produto e dados — tecnologia aplicada a negócio que existe de verdade.",
         how: "Como um projeto corre por aqui: diagnóstico primeiro, demo na primeira semana, entrega na mão do dono.",
         insights: "Três perguntas e uma estimativa do custo do seu problema — antes de falar de preço ou tecnologia.",
         contact: "Traga o problema, não a especificação. Resposta no mesmo dia, direto com quem executa.",
-        practice: "Sistemas sob medida que o dono opera sem me ligar — catálogo, estoque, pedidos e painéis.",
+        practice: "Sistemas de gestão, sites e identidade — uma mão só do diagnóstico à entrega.",
       },
     },
     nav: {
       home: "Início",
-      systems: "Sistemas",
+      gestao: "Sistemas & Gestão",
       design: "Design",
-      business: "Gestão",
+      desenvolvimento: "Desenvolvimento",
       work: "Trabalhos",
       howIWork: "Como funciona",
       about: "Sobre",
@@ -584,7 +584,7 @@ export const copy = {
         email: "E-mail",
         company: "Empresa",
         type: "Tipo de projeto",
-        types: { systems: "Sistemas", design: "Design", business: "Gestão / consultoria" },
+        types: { gestao: "Sistemas & Gestão", design: "Design", desenvolvimento: "Desenvolvimento (sites)" },
         message: "Mensagem",
         whatsapp: "Prefere agendar reunião por WhatsApp?",
         submit: "Enviar",
@@ -627,9 +627,9 @@ export const copy = {
       verticalsLabel: "As soluções",
       seeVertical: "Ver a solução",
       cards: {
-        systems: "O pedido que hoje morre na conversa — num sistema que é seu.",
+        gestao: "O pedido que hoje morre na conversa — num sistema que é seu.",
         design: "Marca e interface que sustentam o preço premium.",
-        business: "Decisão que deixa de ser chute: painel que atualiza sozinho.",
+        desenvolvimento: "Site que trabalha por você — o lead chega pronto, no seu WhatsApp.",
       },
       cta: "Começar um projeto",
     },
@@ -711,7 +711,7 @@ export const cases = {
   en: [
     {
       slug: "queijos-santana",
-      practice: "business",
+      practice: "gestao",
       name: "Queijos Santana",
       sector: "Artisanal cheese production",
       year: "2026",
@@ -729,7 +729,7 @@ export const cases = {
     },
     {
       slug: "roda-agro",
-      practice: "systems",
+      practice: "desenvolvimento",
       name: "Roda de Agronegócios",
       sector: "Agribusiness trade fair",
       year: "2026",
@@ -747,7 +747,7 @@ export const cases = {
     },
     {
       slug: "paulo-henrique",
-      practice: "design",
+      practice: "desenvolvimento",
       name: "Paulo Henrique",
       sector: "Athlete and performance coach",
       year: "2026",
@@ -765,7 +765,7 @@ export const cases = {
     },
     {
       slug: "motormoura",
-      practice: "systems",
+      practice: "gestao",
       name: "MotorMoura",
       sector: "Auto parts distribution",
       year: "2026",
@@ -783,7 +783,7 @@ export const cases = {
     },
     {
       slug: "1000-pecas",
-      practice: "systems",
+      practice: "gestao",
       name: "1000 Peças Truck Center",
       sector: "Heavy vehicle parts",
       year: "2026",
@@ -799,7 +799,7 @@ export const cases = {
     },
     {
       slug: "rota-forte",
-      practice: "business",
+      practice: "desenvolvimento",
       name: "Rota Forte Logística",
       sector: "Logistics and transport",
       year: "2026",
@@ -816,7 +816,7 @@ export const cases = {
     },
     {
       slug: "dj-jotave",
-      practice: "design",
+      practice: "desenvolvimento",
       name: "DJ Jotavê",
       sector: "Artist",
       year: "2025",
@@ -848,11 +848,77 @@ export const cases = {
         "The site is the case. Shader, canvas, motion system, two languages, the diagnostic engine and every line of CSS — designed, built and deployed by one person, in weeks, not quarters.",
       media: { dir: "miranda-faria", shots: 5, video: true },
     },
+    {
+      slug: "queijos-piumhi",
+      practice: "desenvolvimento",
+      name: "Queijos Santana Piumhi",
+      sector: "Artisanal cheese retail",
+      year: "2026",
+      summary: "A shop counter that now takes orders over WhatsApp — typed, ahead of time.",
+      problem:
+        "A cheese shop in the centre of Piumhi selling only across the counter. No way to browse the case before visiting, and no way to order ahead for pickup.",
+      process:
+        "The shop's catalogue became a page, in the shop's own language. The order is assembled on WhatsApp and arrives as a ready message.",
+      decisions:
+        "WhatsApp instead of a shopping cart: no payment machinery to maintain, and the order lands in the channel the shop already answers. Pickup at the counter kept the operation local instead of inventing logistics.",
+      impact:
+        "The counter stopped being the only entrance — the order arrives typed, and the shop answers from the counter it already owns.",
+    },
+    {
+      slug: "solarsat",
+      practice: "desenvolvimento",
+      name: "SOLARSAT",
+      sector: "Technical services — antennas and solar cleaning",
+      year: "2026",
+      summary: "Local technical services with the quote one tap away.",
+      problem:
+        "A satellite antenna installation and photovoltaic panel cleaning business in Piumhi and region, living on word of mouth. The work was good; the findability was zero.",
+      process:
+        "A services page that says exactly what is done, where it is done, and what it costs to ask. The quote request goes to WhatsApp with the service already in the message.",
+      decisions:
+        "Wrote the region into the copy instead of a generic 'we serve your area' — local search is won by naming the territory. Kept the two services as equals rather than hiding the newer one.",
+      impact:
+        "The phone number stopped being a rumour: the site hands over the enquiry, pre-filled.",
+    },
+    {
+      slug: "motormoura-marca",
+      practice: "design",
+      name: "MotorMoura — Identity",
+      sector: "Auto parts distribution",
+      year: "2026",
+      summary: "Complete brand kit: logo, manual, cards, seals and print material.",
+      problem:
+        "A B2B parts distributor whose materials were made ad hoc — a logo in one style, a flyer in another, and no rule to hold either.",
+      process:
+        "Built the identity as a system: logotype with controlled variations — positive, white, monochrome, isolated icon — usage manual, business cards, email signature, seals and WhatsApp stickers.",
+      decisions:
+        "The kit was organised by use: identity, sales deck, go-to-market visuals, print kit, and complementary material. A distributor does not need art; it needs rules that survive any printer.",
+      impact:
+        "The team produces material inside the brand without a designer on call.",
+      media: { dir: "motormoura-marca", shots: 3, video: false },
+    },
+    {
+      slug: "1000-pecas-marca",
+      practice: "design",
+      name: "1000 Peças — Identity",
+      sector: "Heavy vehicle parts",
+      year: "2026",
+      summary: "Brand, signage, uniform and social for a certified dismantler.",
+      problem:
+        "A certified heavy-vehicle dismantler with the credibility of paperwork and the visual presence of any corner shop.",
+      process:
+        "Identity applied where the customer actually looks: the facade, the uniform, and the social feeds — one system from the street to the screen.",
+      decisions:
+        "Made certification the axis of the identity: in a market full of scrap, the paper that proves it is a design asset.",
+      impact:
+        "The yard transmits trust before the first conversation.",
+      media: { dir: "1000-pecas-marca", shots: 3, video: false },
+    },
   ],
   pt: [
     {
       slug: "queijos-santana",
-      practice: "business",
+      practice: "gestao",
       name: "Queijos Santana",
       sector: "Produção de queijo artesanal",
       year: "2026",
@@ -870,7 +936,7 @@ export const cases = {
     },
     {
       slug: "roda-agro",
-      practice: "systems",
+      practice: "desenvolvimento",
       name: "Roda de Agronegócios",
       sector: "Feira de agronegócio",
       year: "2026",
@@ -888,7 +954,7 @@ export const cases = {
     },
     {
       slug: "paulo-henrique",
-      practice: "design",
+      practice: "desenvolvimento",
       name: "Paulo Henrique",
       sector: "Atleta e coach de performance",
       year: "2026",
@@ -906,7 +972,7 @@ export const cases = {
     },
     {
       slug: "motormoura",
-      practice: "systems",
+      practice: "gestao",
       name: "MotorMoura",
       sector: "Distribuidora de autopeças",
       year: "2026",
@@ -924,7 +990,7 @@ export const cases = {
     },
     {
       slug: "1000-pecas",
-      practice: "systems",
+      practice: "gestao",
       name: "1000 Peças Truck Center",
       sector: "Peças para caminhão",
       year: "2026",
@@ -940,7 +1006,7 @@ export const cases = {
     },
     {
       slug: "rota-forte",
-      practice: "business",
+      practice: "desenvolvimento",
       name: "Rota Forte Logística",
       sector: "Logística e transporte",
       year: "2026",
@@ -957,7 +1023,7 @@ export const cases = {
     },
     {
       slug: "dj-jotave",
-      practice: "design",
+      practice: "desenvolvimento",
       name: "DJ Jotavê",
       sector: "Artista",
       year: "2025",
@@ -989,6 +1055,72 @@ export const cases = {
         "O site é o case. Shader, canvas, sistema de movimento, dois idiomas, o motor de diagnóstico e cada linha de CSS — desenhado, construído e publicado por uma pessoa, em semanas, não em trimestres.",
       media: { dir: "miranda-faria", shots: 5, video: true },
     },
+    {
+      slug: "queijos-piumhi",
+      practice: "desenvolvimento",
+      name: "Queijos Santana Piumhi",
+      sector: "Varejo de queijos artesanais",
+      year: "2026",
+      summary: "Um balcão que agora recebe pedido por WhatsApp — digitado, com antecedência.",
+      problem:
+        "Uma loja de queijos no centro de Piumhi vendendo só no balcão. Sem como ver o estoque antes de visitar, sem como encomendar com antecedência para retirar.",
+      process:
+        "O catálogo da loja virou página, na linguagem da própria loja. O pedido se monta no WhatsApp e chega como mensagem pronta.",
+      decisions:
+        "WhatsApp em vez de carrinho de compras: sem maquinário de pagamento pra manter, e o pedido cai no canal que a loja já atende. Retirada no balcão manteve a operação local — nenhuma logística inventada.",
+      impact:
+        "O balcão deixou de ser a única porta de entrada — o pedido chega digitado, e a loja responde do balcão que já tem.",
+    },
+    {
+      slug: "solarsat",
+      practice: "desenvolvimento",
+      name: "SOLARSAT",
+      sector: "Serviços técnicos — antenas e limpeza solar",
+      year: "2026",
+      summary: "Serviços técnicos locais com o orçamento a um toque de distância.",
+      problem:
+        "Instalação de antenas parabólicas e limpeza de painéis fotovoltaicos em Piumhi e região, vivendo de indicação boca a boca. O serviço era bom; a encontrabilidade, zero.",
+      process:
+        "Uma página de serviços que diz exatamente o que é feito, onde é feito, e quanto custa perguntar. O orçamento vai pro WhatsApp com o serviço já na mensagem.",
+      decisions:
+        "Escrevi a região na copy em vez de um genérico 'atendemos sua área' — busca local se ganha nomeando o território. Mantive os dois serviços como iguais, sem esconder o mais novo.",
+      impact:
+        "O telefone deixou de ser boato: o site entrega o pedido, pré-preenchido.",
+    },
+    {
+      slug: "motormoura-marca",
+      practice: "design",
+      name: "MotorMoura — Identidade",
+      sector: "Distribuidora de autopeças",
+      year: "2026",
+      summary: "Brand kit completo: logo, manual, cartões, selos e material de impressão.",
+      problem:
+        "Uma distribuidora B2B cujo material era feito solto — um logo num estilo, um flyer noutro, e nenhuma regra segurando nenhum.",
+      process:
+        "A identidade foi construída como sistema: logotipo com variações controladas — positiva, branca, monocromática, ícone isolado — manual de uso, cartões de visita, assinatura de e-mail, selos e figurinhas de WhatsApp.",
+      decisions:
+        "O kit foi organizado por uso: identidade, sales deck, kit visual de go-to-market, impressão e materiais complementares. Distribuidora não precisa de arte; precisa de regras que sobrevivam a qualquer gráfica.",
+      impact:
+        "O time produz material dentro da marca sem designer de plantão.",
+      media: { dir: "motormoura-marca", shots: 3, video: false },
+    },
+    {
+      slug: "1000-pecas-marca",
+      practice: "design",
+      name: "1000 Peças — Identidade",
+      sector: "Desmanche de caminhões",
+      year: "2026",
+      summary: "Marca, faixada, uniforme e redes sociais para um desmanche certificado.",
+      problem:
+        "Um desmanche de caminhões certificado, com a credibilidade do papel timbrado e a presença visual de qualquer oficina de esquina.",
+      process:
+        "Identidade aplicada onde o cliente realmente olha: a faixada, o uniforme e as redes — um sistema só, da rua à tela.",
+      decisions:
+        "A certificação virou o eixo da identidade: num mercado cheio de sucata, o papel que prova é ativo de design.",
+      impact:
+        "O pátio transmite confiança antes da primeira conversa.",
+      media: { dir: "1000-pecas-marca", shots: 3, video: false },
+    },
   ],
 };
 
@@ -1003,16 +1135,16 @@ export const cases = {
  * sections/ComoFunciona.jsx — as duas secoes antigas que nunca tinham
  * sido portadas.
  */
-export const PRACTICE_SLUGS = ["systems", "design", "business"];
+export const PRACTICE_SLUGS = ["gestao", "desenvolvimento", "design"];
 
 export const practices = {
   en: {
-    systems: {
-      slug: "systems",
-      label: "Systems",
+    gestao: {
+      slug: "gestao",
+      label: "Systems & Management",
       lead: "Software the owner runs, not me.",
       intro:
-        "Catalogues, inventory, ordering and admin panels, built on a real database with an interface the client operates without calling me. Delivery is measured in weeks, not months.",
+        "Catalogues, inventory, ordering, admin panels and the numbers behind them, on a real database with an interface the client operates without calling me. Delivery is measured in weeks, not months.",
       artAlt: "Blueprint linework resolving into built structure",
       deliverablesLabel: "What I deliver",
       deliverables: [
@@ -1025,19 +1157,19 @@ export const practices = {
           d: "Orders that stop dying inside a message thread. Status, history and a record of who did what, in one place.",
         },
         {
-          t: "Admin panel",
-          d: "The client registers, edits and publishes without me. No maintenance contract disguised as a feature.",
+          t: "Dashboards and data",
+          d: "Sales, stock and margin on one screen that updates itself. The monthly report stops being something someone assembles by hand.",
         },
         {
           t: "Ownership",
-          d: "Hosting and infrastructure end up in the client's name. I leave, the system keeps running.",
+          d: "The client registers, edits and publishes without me — and hosting ends up in their name. I leave, the system keeps running.",
         },
       ],
       proofLabel: "Proof, not promise",
       proofs: [
         "MotorMoura and 1000 Peças: catalogues a customer can browse and a quote flow that runs without a phone call.",
-        "Roda de Agronegócios: exhibition space sold straight from an interactive floor map.",
-        "Queijos Santana: lot-level inventory with FEFO ordering the owner trusts.",
+        "Queijos Santana: lot-level inventory with FEFO ordering and expiry-tiered alerts.",
+        "The monthly report replaced by a panel that updates itself.",
       ],
       casesLabel: "Built this way",
       cta: "Start a project",
@@ -1078,45 +1210,45 @@ export const practices = {
       ],
       proofLabel: "Proof, not promise",
       proofs: [
-        "DJ Jotavê: full presentation site — identity, schedule and promotional material.",
-        "Paulo Henrique: brand and interface built for an athlete's audience.",
+        "MotorMoura: complete identity — logo, manual, business cards, seals and print kit.",
+        "1000 Peças: brand, signage, uniform and social, from one identity system.",
         "This site: identity, motion and code by the same hand you would hire.",
       ],
       casesLabel: "Built this way",
       closingCta: { label: "See the case of this site", to: "work/miranda-faria" },
       cta: "Start a project",
     },
-    business: {
-      slug: "business",
-      label: "Business",
-      lead: "Numbers that update themselves.",
+    desenvolvimento: {
+      slug: "desenvolvimento",
+      label: "Development",
+      lead: "Sites that work the lead, not just present it.",
       intro:
-        "BI, dashboards and automation. Sales, inventory, margin and productivity on one screen that refreshes on its own, plus the flows that run without anyone pressing a button.",
+        "Institutional sites, landing pages and WhatsApp-first storefronts. Structure to convert: the visitor arrives at the conversation instead of at a dead form. Launched in days, not quarters.",
       artAlt: "A geological core sample sectioned into layers of data",
       deliverablesLabel: "What I deliver",
       deliverables: [
         {
-          t: "Dashboards",
-          d: "Your numbers leave the manual spreadsheet and become a panel that updates itself. One screen, and a number the team actually trusts.",
+          t: "Institutional site",
+          d: "The business presented properly: what it does, for whom, and why it charges what it charges. Real copy, no template smell.",
         },
         {
-          t: "Automation",
-          d: "Flows that run unattended: qualification, scheduling, the report that arrives by email already built.",
+          t: "WhatsApp-first pages",
+          d: "Pages built so the next step is a tap: the message arrives with context — what the visitor saw, what they want. Quote, booking, order — the conversation starts already informed.",
         },
         {
-          t: "AI in the operation",
-          d: "Applied where it removes repetitive work with a verifiable result — not sprinkled on so the deck can say the word.",
+          t: "Capture and presentation",
+          d: "Galleries, catalogues and calculators that make the visitor do something measurable before leaving.",
         },
         {
-          t: "The data model",
-          d: "The layer underneath: what is stored, what is derived, and how the pieces relate. Where most reporting projects quietly break.",
+          t: "Hosting and upkeep",
+          d: "Fast, hosted, domain in the client's name. Changes ship in hours when the business asks.",
         },
       ],
       proofLabel: "Proof, not promise",
       proofs: [
-        "Queijos Santana: expiry-tiered alerts on lots, stock queryable in seconds.",
-        "Rota Forte: quote requests flowing to WhatsApp instead of a phone tag.",
-        "The monthly report replaced by a panel that updates itself.",
+        "Rota Forte: a page whose only job is to route the right enquiry to WhatsApp — and it does.",
+        "Paulo Henrique: a presentation site with a performance lab the visitor actually uses.",
+        "Queijos Santana Piumhi and SOLARSAT: storefronts where the order and the quote start on WhatsApp.",
       ],
       casesLabel: "Built this way",
       cta: "Start a project",
@@ -1124,37 +1256,37 @@ export const practices = {
   },
 
   pt: {
-    systems: {
-      slug: "systems",
-      label: "Sistemas",
+    gestao: {
+      slug: "gestao",
+      label: "Sistemas & Gestão",
       lead: "Sistema que o dono opera, não eu.",
       intro:
-        "Catálogo, estoque, cadastro e pedidos, com banco de dados de verdade e um painel que o cliente usa sem me chamar. A entrega se mede em semanas, não em meses.",
-      artAlt: "Linhas de prancha virando estrutura construída",
+        "Catálogo, estoque, pedidos, painéis administrativos e os números por trás deles, sobre um banco de dados de verdade com interface que o cliente opera sem me ligar. Entrega medida em semanas, não meses.",
+      artAlt: "Traço de planta baixa se resolvendo em estrutura construída",
       deliverablesLabel: "O que entrego",
       deliverables: [
         {
           t: "Catálogo e estoque",
-          d: "Produto, categoria, marca e imagem como entidades de verdade, não linhas de planilha. Consultável, filtrável e editável por quem é dono do negócio.",
+          d: "Produtos, categorias, marcas e imagens modelados como entidades de verdade, não linhas de planilha. Buscáveis, filtráveis, editáveis por quem é dono do negócio.",
         },
         {
           t: "Pedidos e fluxo",
-          d: "O pedido para de morrer na conversa. Status, histórico e registro de quem fez o quê, num lugar só.",
+          d: "O pedido que deixa de morrer dentro de uma conversa. Status, histórico e registro de quem fez o quê, num lugar só.",
         },
         {
-          t: "Painel administrativo",
-          d: "O cliente cadastra, edita e publica sem mim. Sem contrato de manutenção disfarçado de funcionalidade.",
+          t: "Painéis e dados",
+          d: "Venda, estoque e margem numa tela que atualiza sozinha. O relatório mensal deixa de ser algo que alguém monta à mão.",
         },
         {
-          t: "Titularidade",
-          d: "Hospedagem e infraestrutura ficam no seu nome. Eu saio, o sistema continua.",
+          t: "Propriedade",
+          d: "O cliente cadastra, edita e publica sem mim — e a hospedagem fica no nome dele. Eu saio, o sistema continua rodando.",
         },
       ],
       proofLabel: "Prova, não promessa",
       proofs: [
-        "MotorMoura e 1000 Peças: catálogo que o cliente navega e orçamento que corre sem telefonema.",
-        "Roda de Agronegócios: espaço de feira vendido direto num mapa interativo.",
-        "Queijos Santana: estoque por lote com FEFO em que o dono confia.",
+        "MotorMoura e 1000 Peças: catálogos que o cliente navega e um fluxo de orçamento que roda sem telefonema.",
+        "Queijos Santana: estoque por lote com ordenação FEFO e alertas escalonados por validade.",
+        "O relatório mensal substituído por um painel que atualiza sozinho.",
       ],
       casesLabel: "Feitos assim",
       cta: "Começar um projeto",
@@ -1203,37 +1335,37 @@ export const practices = {
       closingCta: { label: "Ver o case deste site", to: "work/miranda-faria" },
       cta: "Começar um projeto",
     },
-    business: {
-      slug: "business",
-      label: "Gestão",
-      lead: "Número que se atualiza sozinho.",
+    desenvolvimento: {
+      slug: "desenvolvimento",
+      label: "Desenvolvimento",
+      lead: "Site que trabalha o lead, não só apresenta.",
       intro:
-        "BI, painéis e automação. Venda, estoque, margem e produtividade numa tela só, que atualiza sozinha — mais os fluxos que rodam sem ninguém apertar botão.",
-      artAlt: "Testemunho de sondagem seccionado em camadas de dado",
+        "Sites institucionais, landing pages e vitrines WhatsApp-first. Estrutura para converter: o visitante chega na conversa em vez de chegar num formulário morto. No ar em dias, não em trimestres.",
+      artAlt: "Um testemunho geológico seccionado em camadas de dados",
       deliverablesLabel: "O que entrego",
       deliverables: [
         {
-          t: "Painéis",
-          d: "Seus números saem da planilha manual e viram painel que atualiza sozinho. Uma tela, e um número em que a equipe confia de verdade.",
+          t: "Site institucional",
+          d: "O negócio apresentado direito: o que faz, para quem, e por que cobra o que cobra. Texto de verdade, sem cheiro de template.",
         },
         {
-          t: "Automação",
-          d: "Fluxos que rodam sem ninguém apertar botão: qualificação, agendamento, o relatório que chega pronto no e-mail.",
+          t: "Páginas WhatsApp-first",
+          d: "Páginas feitas para o próximo passo ser um toque: a mensagem chega com contexto — o que o visitante viu, o que ele quer. Orçamento, agendamento, pedido — a conversa começa já informada.",
         },
         {
-          t: "IA na operação",
-          d: "Aplicada onde tira trabalho repetitivo com resultado verificável — não polvilhada por cima para a proposta poder citar a palavra.",
+          t: "Captura e apresentação",
+          d: "Galerias, catálogos e calculadoras que fazem o visitante fazer algo mensurável antes de ir embora.",
         },
         {
-          t: "O modelo de dados",
-          d: "A camada de baixo: o que é guardado, o que é calculado e como as peças se relacionam. Onde a maioria dos projetos de relatório quebra em silêncio.",
+          t: "Hospedagem e manutenção",
+          d: "Rápido, hospedado, domínio no nome do cliente. Mudança sobe em horas quando o negócio pede.",
         },
       ],
       proofLabel: "Prova, não promessa",
       proofs: [
-        "Queijos Santana: alertas de validade por lote, estoque consultável em segundos.",
-        "Rota Forte: pedidos de orçamento chegando no WhatsApp em vez de telefone tocando.",
-        "O relatório mensal substituído por um painel que se atualiza sozinho.",
+        "Rota Forte: uma página cujo único trabalho é levar o orçamento certo pro WhatsApp — e ela leva.",
+        "Paulo Henrique: site de apresentação com um laboratório de performance que o visitante usa de verdade.",
+        "Queijos Santana Piumhi e SOLARSAT: vitrines em que o pedido e o orçamento começam no WhatsApp.",
       ],
       casesLabel: "Feitos assim",
       cta: "Começar um projeto",
@@ -1241,6 +1373,10 @@ export const practices = {
   },
 };
 
+/**
+ * Os quatro passos sao os mesmos nas tres verticais, e isso e o
+ * argumento: o processo nao muda conforme o que voce compra.
+ */
 /**
  * Os quatro passos sao os mesmos nas tres verticais, e isso e o
  * argumento: o processo nao muda conforme o que voce compra.

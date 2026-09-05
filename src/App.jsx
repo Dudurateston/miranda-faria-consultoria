@@ -26,7 +26,7 @@ import OAuthConsent from "@/pages/OAuthConsent";
 import SmoothScroll from "@/components/SmoothScroll";
 import CopperCursor from "@/components/CopperCursor";
 import SiteLayout from "@/components/layout/SiteLayout";
-import { LanguageProvider, detectLang, isLang } from "@/lib/i18n";
+import { LanguageProvider, useLang, detectLang, isLang } from "@/lib/i18n";
 import { PRACTICE_SLUGS } from "@/content/copy";
 
 /**
@@ -34,6 +34,12 @@ import { PRACTICE_SLUGS } from "@/content/copy";
  * URL — `/en/work`, `/pt/work` — e nao de hash nem de IP, para o
  * hreflang apontar para paginas reais (DECISIONS.md).
  */
+/** Slug aposentado -> slug vigente, mantendo o idioma da URL. */
+function OldSlugRedirect({ to }) {
+  const { path } = useLang();
+  return <Navigate to={path(to)} replace />;
+}
+
 const LangShell = () => {
   const { lang } = useParams();
   if (!isLang(lang)) return <Navigate to={`/${detectLang()}`} replace />;
@@ -83,6 +89,10 @@ const AuthenticatedApp = () => {
         {PRACTICE_SLUGS.map((slug) => (
           <Route key={slug} path={slug} element={<Practice slug={slug} />} />
         ))}
+
+        {/* Taxonomia antiga — quem tem link salvo chega na nova. */}
+        <Route path="systems" element={<OldSlugRedirect to="gestao" />} />
+        <Route path="business" element={<OldSlugRedirect to="desenvolvimento" />} />
 
         <Route path="servicos" element={<Servicos />} />
         <Route path="insights" element={<Insights />} />

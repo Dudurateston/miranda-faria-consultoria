@@ -34,54 +34,54 @@ const LEAK_MODEL = {
 const SOLUTION = {
   pt: {
     marketplace: {
-      practice: "systems",
+      practice: "gestao",
       t: "Casa própria digital",
       d: "Catálogo e pedido direto, sem comissão no meio. O dinheiro cai na sua conta e o cliente fica no seu banco.",
     },
     excel: {
-      practice: "business",
+      practice: "gestao",
       t: "Painel que atualiza sozinho",
       d: "A planilha manual vira sistema — e o processo para de depender da memória de alguém.",
     },
     curiosos: {
-      practice: "systems",
+      practice: "desenvolvimento",
       t: "Sistema que filtra",
       d: "FAQ, qualificação e orçamento automático: o lead chega pronto e o curioso se atende sozinho.",
     },
     pessoa: {
-      practice: "systems",
+      practice: "gestao",
       t: "CRM próprio",
       d: "O histórico do cliente fica no sistema, não na cabeça de quem pode sair amanhã.",
     },
     cego: {
-      practice: "business",
+      practice: "gestao",
       t: "Dashboards de decisão",
       d: "Venda, margem e estoque numa tela só: o padrão aparece e a decisão deixa de ser chute.",
     },
   },
   en: {
     marketplace: {
-      practice: "systems",
+      practice: "gestao",
       t: "Your own digital storefront",
       d: "Catalogue and ordering direct, no commission in the middle. The money lands in your account and the customer stays in your database.",
     },
     excel: {
-      practice: "business",
+      practice: "gestao",
       t: "A panel that updates itself",
       d: "The manual spreadsheet becomes a system — the process stops depending on someone's memory.",
     },
     curiosos: {
-      practice: "systems",
+      practice: "desenvolvimento",
       t: "A system that filters",
       d: "FAQ, qualification and automatic quoting: the lead arrives ready and the tire-kicker self-serves.",
     },
     pessoa: {
-      practice: "systems",
+      practice: "gestao",
       t: "Your own CRM",
       d: "The customer history lives in the system, not in the head of whoever might leave tomorrow.",
     },
     cego: {
-      practice: "business",
+      practice: "gestao",
       t: "Decision dashboards",
       d: "Sales, margin and stock on one screen: the pattern shows up and the decision stops being a guess.",
     },

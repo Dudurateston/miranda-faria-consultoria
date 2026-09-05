@@ -6,8 +6,6 @@ import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
 import { WHATSAPP_URL, EMAIL, WHATSAPP_DISPLAY, WHATSAPP_URL_SELLER, SELLERS_APP_URL } from "@/lib/site";
-import AutoVideo from "@/components/AutoVideo";
-import { DESIGN_SIGN } from "@/lib/site";
 
 /**
  * Contato — CTA direto no WhatsApp no topo e, abaixo, o formulario
@@ -113,13 +111,6 @@ export default function Contact() {
             </div>
           </Reveal>
 
-          <Reveal delay={280}>
-            <figure className="mf-contact__art">
-              <AutoVideo className="mf-contact__artvideo" src={DESIGN_SIGN} label={t.signCaption} />
-              <figcaption className="mf-label">{t.signCaption}</figcaption>
-            </figure>
-          </Reveal>
-
           <Reveal delay={320}>
             <div className="mf-form">
               <p className="mf-label">{f.title}</p>
@@ -143,10 +134,10 @@ export default function Contact() {
                   </label>
                   <label className="mf-form__field">
                     <span className="mf-label">{f.type}</span>
-                    <select name="tipo" defaultValue="systems">
-                      <option value="systems">{f.types.systems}</option>
+                    <select name="tipo" defaultValue="gestao">
+                      <option value="gestao">{f.types.gestao}</option>
                       <option value="design">{f.types.design}</option>
-                      <option value="business">{f.types.business}</option>
+                      <option value="desenvolvimento">{f.types.desenvolvimento}</option>
                     </select>
                   </label>
                   <label className="mf-form__field mf-form__field--full">

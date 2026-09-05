@@ -4,7 +4,7 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice } from "@/content/copy";
-import { CORTE_GIF, CELESTE_GIF, GEO_GIF, DESIGN_PARTICLES } from "@/lib/site";
+import { CORTE_GIF, CELESTE_GIF, GEO_GIF } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 /**
@@ -13,9 +13,9 @@ import AutoVideo from "@/components/AutoVideo";
  * do design, nao elemento colado. Metricas reais embaixo.
  */
 const VERTICALS = [
-  { slug: "systems", gif: CORTE_GIF },
-  { slug: "design", gif: DESIGN_PARTICLES },
-  { slug: "business", gif: GEO_GIF },
+  { slug: "gestao", gif: CORTE_GIF },
+  { slug: "desenvolvimento", gif: GEO_GIF },
+  { slug: "design", gif: CELESTE_GIF },
 ];
 
 export default function HomeServicos() {

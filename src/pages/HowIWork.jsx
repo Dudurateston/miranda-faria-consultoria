@@ -10,7 +10,7 @@ import TerraformCanvas from "@/components/TerraformCanvas";
 import MotionCurves from "@/components/MotionCurves";
 import FrameTimeGraph from "@/components/FrameTimeGraph";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { CORTE_GIF, TEXTURE_MACRO } from "@/lib/site";
+import { CORTE_GIF } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 /**
@@ -73,17 +73,6 @@ export default function HowIWork() {
 
       {/* Demo ao vivo — a prova da capacidade rodando no navegador do visitante. */}
       <section className="mf-hiw__demo" data-depth="0.80">
-        {/* Textura macro gerada por IA — camada sutil de fundo, sem
-            moldura: a secao respira por cima da arte. */}
-        <img
-          className="mf-hiw__texbg"
-          src={TEXTURE_MACRO}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          width="1920"
-          height="1080"
-        />
         <div className="mf-hiw__demoinner">
           <Reveal>
             <p className="mf-label">{t.demo.label}</p>
@@ -143,12 +132,6 @@ export default function HowIWork() {
       <style>{`
 /* Fundo generativo da seção demo — textura que some nas bordas. */
 .mf-hiw__demo{position:relative}
-.mf-hiw__texbg{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:0.12;pointer-events:none;
-  -webkit-mask-image:linear-gradient(to bottom,transparent,black 20%,black 80%,transparent);
-  mask-image:linear-gradient(to bottom,transparent,black 20%,black 80%,transparent);
-}
 .mf-hiw__demo .mf-hiw__inner{position:relative}
 
 .mf-hiw{padding:0 var(--gutter) var(--section-gap)}

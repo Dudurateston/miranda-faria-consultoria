@@ -9,11 +9,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en"/>
   </url>
   <url>
-    <loc>https://mirandafaria.com.br/en/systems</loc>
+    <loc>https://mirandafaria.com.br/en/gestao</loc>
     <lastmod>2026-09-05</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/systems"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/systems"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/systems"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/gestao"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/gestao"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/gestao"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/en/desenvolvimento</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/desenvolvimento"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/desenvolvimento"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/desenvolvimento"/>
   </url>
   <url>
     <loc>https://mirandafaria.com.br/en/design</loc>
@@ -21,13 +28,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/design"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/design"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/design"/>
-  </url>
-  <url>
-    <loc>https://mirandafaria.com.br/en/business</loc>
-    <lastmod>2026-09-05</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/business"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/business"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/business"/>
   </url>
   <url>
     <loc>https://mirandafaria.com.br/en/work</loc>
@@ -121,11 +121,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en"/>
   </url>
   <url>
-    <loc>https://mirandafaria.com.br/pt/systems</loc>
+    <loc>https://mirandafaria.com.br/pt/gestao</loc>
     <lastmod>2026-09-05</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/systems"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/systems"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/systems"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/gestao"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/gestao"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/gestao"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/pt/desenvolvimento</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/desenvolvimento"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/desenvolvimento"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/desenvolvimento"/>
   </url>
   <url>
     <loc>https://mirandafaria.com.br/pt/design</loc>
@@ -133,13 +140,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/design"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/design"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/design"/>
-  </url>
-  <url>
-    <loc>https://mirandafaria.com.br/pt/business</loc>
-    <lastmod>2026-09-05</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/business"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/business"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/business"/>
   </url>
   <url>
     <loc>https://mirandafaria.com.br/pt/work</loc>

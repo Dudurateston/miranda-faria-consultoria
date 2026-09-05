@@ -6,7 +6,7 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { WHATSAPP_URL, CORTE_GIF, FLOW_CREATIVE } from "@/lib/site";
+import { WHATSAPP_URL, CORTE_GIF } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 /**
@@ -15,7 +15,7 @@ import AutoVideo from "@/components/AutoVideo";
  * no mesmo dia) e a coluna geologica como metafora das camadas.
  * Cada vertical linka para a sua pagina propria.
  */
-const SLUGS = ["systems", "design", "business"];
+const SLUGS = ["gestao", "desenvolvimento", "design"];
 
 export default function Servicos() {
   const { lang, path } = useLang();
@@ -62,16 +62,7 @@ export default function Servicos() {
 
       <MfRule />
 
-      <section className="mf-srv mf-srv--flowbg" data-depth="0.30">
-        <img
-          className="mf-srv__flowbg"
-          src={FLOW_CREATIVE}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          width="1920"
-          height="1080"
-        />
+      <section className="mf-srv" data-depth="0.30">
         <div className="mf-srv__inner">
           <Reveal>
             <p className="mf-label">{t.verticalsLabel}</p>
@@ -107,15 +98,6 @@ export default function Servicos() {
       </section>
 
       <style>{`
-/* Fundo generativo — fluxo criativo por baixo da seção de abertura. */
-.mf-srv--flowbg{position:relative;overflow:hidden}
-.mf-srv__flowbg{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:0.10;pointer-events:none;
-  -webkit-mask-image:linear-gradient(to bottom,transparent,black 18%,black 82%,transparent);
-  mask-image:linear-gradient(to bottom,transparent,black 18%,black 82%,transparent);
-}
-.mf-srv--flowbg .mf-srv__inner{position:relative}
 
 .mf-srv{padding:var(--section-gap) var(--gutter)}
 .mf-srv__inner{max-width:var(--max-width-page);margin:0 auto}

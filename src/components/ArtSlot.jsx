@@ -139,7 +139,12 @@ export default function ArtSlot({ variant = "systems", name, alt = "" }) {
     };
   }, [src]);
 
-  const draw = VARIANTS[variant] ?? VARIANTS.systems;
+  // Taxonomia nova de servicos reaproveita as assinaturas visuais: a
+  // gestao herda o traco de planta (systems), o desenvolvimento herda
+  // o testemunho geologico (business), o design fica com os planos.
+  const VARIANT_ALIAS = { gestao: "systems", desenvolvimento: "business", design: "design" };
+  const key = VARIANT_ALIAS[variant] ?? variant;
+  const draw = VARIANTS[key] ?? VARIANTS.systems;
 
   return (
     <>

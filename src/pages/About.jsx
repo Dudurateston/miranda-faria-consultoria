@@ -7,7 +7,7 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { CELESTE_GIF, BRAND_FACADE, BRAND_FACADE_800, WHATSAPP_URL_SELLER, SELLERS_APP_URL } from "@/lib/site";
+import { CELESTE_GIF, WHATSAPP_URL_SELLER, SELLERS_APP_URL } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 export default function About() {
@@ -70,25 +70,9 @@ export default function About() {
           <Reveal>
             <p className="mf-label">{t.trajectoryLabel}</p>
           </Reveal>
-          <div className="mf-about__trajgrid">
-            <Reveal delay={140}>
-              <p className="mf-about__trajtext">{t.trajectory}</p>
-            </Reveal>
-            <Reveal delay={240}>
-              <figure className="mf-about__facade">
-                <img
-                  src={BRAND_FACADE}
-                  srcSet={`${BRAND_FACADE_800} 800w, ${BRAND_FACADE} 1920w`}
-                  sizes="(max-width: 900px) 92vw, 520px"
-                  alt={t.facadeCaption}
-                  loading="lazy"
-                  width="1920"
-                  height="1080"
-                />
-                <figcaption className="mf-label">{t.facadeCaption}</figcaption>
-              </figure>
-            </Reveal>
-          </div>
+          <Reveal delay={140}>
+            <p className="mf-about__trajtext">{t.trajectory}</p>
+          </Reveal>
         </div>
       </section>
 
@@ -146,14 +130,6 @@ export default function About() {
 
       <style>{`
 /* Trajetória: texto + arte generativa de marca lado a lado. */
-.mf-about__trajgrid{display:grid;grid-template-columns:1.5fr 1fr;gap:2.6rem;align-items:start}
-.mf-about__facade{margin:0;display:flex;flex-direction:column;gap:0.6rem}
-.mf-about__facade img{width:100%;display:block;border-radius:2px}
-.mf-about__facade figcaption{color:var(--color-text-ghost)}
-@media(max-width:900px){.mf-about__trajgrid{grid-template-columns:1fr}}
-
-.mf-about{padding:clamp(3rem,9vh,6rem) var(--gutter) clamp(3rem,7vh,5rem)}
-.mf-about__inner{max-width:var(--max-width-page);margin:0 auto}
 .mf-about__grid{display:grid;grid-template-columns:1fr;gap:3rem;align-items:start}
 @media(min-width:768px){
   .mf-about__grid{grid-template-columns:5fr 7fr;gap:clamp(2.5rem,6vw,5rem)}

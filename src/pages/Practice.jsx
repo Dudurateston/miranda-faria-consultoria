@@ -68,20 +68,27 @@ export default function Practice({ slug: slugProp }) {
             <Reveal delay={120}>
               <p className="mf-pr__gendesc">{p.gen.desc}</p>
             </Reveal>
-            <div className="mf-pr__genmedia">
-              <Reveal delay={180} className="mf-pr__genmain">
-                <figure className="mf-pr__genfig">
-                  <AutoVideo className="mf-pr__genvideo" src={DESIGN_PARTICLES} label={p.gen.capA} />
-                  <figcaption className="mf-label mf-pr__gencap">{p.gen.capA}</figcaption>
-                </figure>
-              </Reveal>
-              <Reveal delay={260} className="mf-pr__genside">
-                <figure className="mf-pr__genfig">
-                  <AutoVideo className="mf-pr__genvideo" src={DESIGN_SIGN} label={p.gen.capB} />
-                  <figcaption className="mf-label mf-pr__gencap">{p.gen.capB}</figcaption>
-                </figure>
-              </Reveal>
-            </div>
+          </div>
+
+          {/* Uma banda full-bleed — as partículas atravessam a página
+              sem moldura; a placa vem depois, peça única centrada.
+              As duas peças não competem mais uma com a outra. */}
+          <Reveal delay={180}>
+            <figure className="mf-pr__genband">
+              <AutoVideo
+                className="mf-pr__genbandvideo"
+                src={DESIGN_PARTICLES}
+                label={p.gen.capA}
+              />
+            </figure>
+          </Reveal>
+          <div className="mf-pr__geninner">
+            <Reveal delay={240}>
+              <figure className="mf-pr__genfig">
+                <AutoVideo className="mf-pr__genvideo" src={DESIGN_SIGN} label={p.gen.capB} />
+                <figcaption className="mf-label mf-pr__gencap">{p.gen.capB}</figcaption>
+              </figure>
+            </Reveal>
           </div>
         </section>
       )}
@@ -185,11 +192,12 @@ export default function Practice({ slug: slugProp }) {
 .mf-pr__geninner{max-width:var(--max-width-page);margin:0 auto;width:100%}
 .mf-pr__gentitle{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-md);line-height:1.05;margin:1rem 0 1.1rem}
 .mf-pr__gendesc{max-width:56ch;color:var(--color-text-secondary);font-size:var(--text-body-md);line-height:1.65}
-.mf-pr__genmedia{display:grid;grid-template-columns:1.55fr 1fr;gap:1.2rem;margin-top:2.6rem}
-.mf-pr__genfig{margin:0;display:flex;flex-direction:column;gap:0.6rem}
+.mf-pr__genband{margin:2.8rem calc(var(--gutter)*-1) 0;padding:0}
+.mf-pr__genbandvideo{width:100%;display:block;aspect-ratio:21/9;object-fit:cover;border-radius:0}
+.mf-pr__genfig{margin:2.8rem auto 0;max-width:720px;display:flex;flex-direction:column;gap:0.6rem}
 .mf-pr__genvideo{width:100%;display:block;border-radius:2px}
 .mf-pr__gencap{color:var(--color-text-ghost)}
-@media(max-width:900px){.mf-pr__genmedia{grid-template-columns:1fr}}
+@media(max-width:900px){.mf-pr__genbandvideo{aspect-ratio:16/9}}
 
 .mf-pr{padding:var(--section-gap) var(--gutter)}
 .mf-pr__inner{max-width:var(--max-width-page);margin:0 auto}
