@@ -182,16 +182,16 @@ export const copy = {
           {
             tag: "02",
             name: "Motion curves",
-            hint: "Three curves, three personalities.",
+            hint: "Drag across it to scrub time.",
             caption:
-              "Linear, exponential-out and elastic — the easing choreography that governs this site's motion, plotted and animated live. Each curve is a hand-written interpolation function, not a library timeline.",
+              "Linear, exponential-out and elastic — the easing choreography that governs this site's motion, drawn as hand-written math. Hover to freeze time under your cursor and read each curve's value; leave, and they dance on their own.",
           },
           {
             tag: "03",
             name: "Frame time",
-            hint: "16.7ms is the target.",
+            hint: "Press and drag — break the 60fps.",
             caption:
-              "This graph measures the real time of every frame of this page, right now. The line is your browser at work — performance is measured, not promised.",
+              "The real time of every frame of this page, measured live. Press and drag across the panel to inject load and watch the line climb over the 16.7ms budget — then release and see it recover. Performance is measured, not promised.",
           },
         ],
       },
@@ -214,19 +214,7 @@ export const copy = {
       location: "Based in Brazil (UTC−3) — full working-day overlap with US hours, partial with Europe.",
       facadeCaption: "Generative brand art — AI",
       trajectoryLabel: "Trajectory",
-      trajectory: "More than eight complete systems — brand, interface, data model and deployment, end to end. What has crossed this desk:",
-      trajItems: [
-        "Rota Forte — munck & crane rental · institutional site with an equipment catalogue and WhatsApp quoting",
-        "1000 Peças Truck Center — heavy auto parts · B2B catalogue without exposed prices, direct quoting",
-        "Motor Moura — auto parts & batteries · site, inventory system and a complete identity: brand kit, sales deck, print material",
-        "Queijos da Serra — artisanal cheese · lot-level inventory with FEFO and a storefront that takes the order on WhatsApp",
-        "Roda de Agronegócios — trade fair, 22nd edition · interactive floor map with five pricing tiers",
-        "SOLARSAT — satellite antennas & photovoltaic cleaning · brand and local-services site with WhatsApp quoting",
-        "Paulo Henrique — athlete & coach · presentation site with a performance lab the visitor uses",
-        "DJ Jotavê — performing artist · identity and presentation site for stage and promoters",
-        "Miranda Faria — own brand · generative identity, WebGL sign and this site",
-        "Hub de Vendas U.AI — own product · the reps' app that keeps every lead in order",
-      ],
+      trajectory: "Eight complete systems delivered across parts distribution, logistics, agribusiness, commerce and the arts — brand, interface, data model and deployment, end to end. Along the way: sites that sell in the silence of WhatsApp, inventories that correct themselves, identities printed on paper — and the app my own sales network runs on so no lead gets lost.",
       principlesLabel: "How I decide",
       principles: [
         {
@@ -299,6 +287,21 @@ export const copy = {
         "About half of new US businesses never reach year five. It is rarely the market that runs out — it is the structure underneath.",
       bandSource: "U.S. Bureau of Labor Statistics",
       verticalsLabel: "The solutions",
+      faq: [
+        {
+          q: "How much does it cost?",
+          a: "It depends on the leak — which is why the diagnosis exists. First I size what the delay, the app fee or the lost sale costs per month; the proposal arrives as a fraction of that annual saving. In an operation losing R$ 4,000/mo, a ~R$ 15k solution pays for itself in three months and gives back R$ 33k in the first year. An institutional site and a system sit in different ranges — the diagnosis tells which one is yours, with no surprises along the way.",
+        },
+        {
+          q: "How long until it's ready?",
+          a: "A system: weeks, not months. An institutional site: even less. The first navigable demo ships in the first week — you watch your problem being solved before paying for the whole project.",
+        },
+        {
+          q: "And after delivery?",
+          a: "The system is yours, in your name. If you want, maintenance and evolution stay with me — no lock-in, no strings.",
+        },
+      ],
+      faqLabel: "What they ask before closing",
       seeVertical: "See the solution",
       cards: {
         gestao: "The order that dies in a chat thread — in a system you own.",
@@ -312,6 +315,8 @@ export const copy = {
       lead: "How much leaks out every month?",
       intro:
         "Three questions and an estimate of what the problem costs — before any talk of price or technology. That is how I work: size the pain first, prescribe second.",
+      evidence:
+        "Two numbers worth keeping: answering a customer within 5 minutes makes you 21× more likely to qualify them than taking 30 — MIT/InsideSales. And the average company takes 42 hours to answer a lead — Harvard Business Review. A system exists to keep you on the right side of those numbers.",
       meta: "An estimate from market averages. The real diagnosis happens in the conversation.",
       steps: { pain: "The pain", revenue: "The size", urgency: "The urgency" },
       painQ: "Where does it hurt most today?",
@@ -370,7 +375,9 @@ export const copy = {
         copied: "Copied",
         back: "Back",
         howLabel: "How we estimated",
-        how: "Each pain maps to a market average: marketplace fees of 15–30% of revenue, hours lost to manual operation and unqualified inquiries, or the margin left on the table when decisions run on gut feel. The ranges are deliberately conservative; the honest number comes from the conversation.",
+        pricingNote:
+          "How the proposal arrives: as a fraction of the annual saving the diagnosis points to — never as a number in a vacuum. Price is born from context, not from a rate card.",
+        how: "Each pain maps to a market average: marketplace fees of 15–30% of revenue, hours lost to manual operation and unqualified inquiries — about a quarter of a business's week drains into repetitive tasks (Smartsheet) —, or the margin left on the table when decisions run on gut feel. The ranges are deliberately conservative: ~30% of the activities in most operations are automatable (McKinsey), and the estimate only counts what the basics recover. The honest number comes from the conversation.",
       },
     },
   },
@@ -532,16 +539,16 @@ export const copy = {
           {
             tag: "02",
             name: "Curvas de movimento",
-            hint: "Três curvas, três personalidades.",
+            hint: "Arraste por cima pra ler o tempo.",
             caption:
-              "Linear, exponencial de saída e elástica — a coreografia de easing que rege o movimento deste site, plotada e animada ao vivo. Cada curva é uma função de interpolação escrita à mão, não uma timeline de biblioteca.",
+              "Linear, exponencial de saída e elástica — a coreografia de easing que rege o movimento deste site, desenhada como matemática escrita à mão. Passe o cursor pra congelar o instante e ler o valor de cada curva; tire, e elas seguem dançando sozinhas.",
           },
           {
             tag: "03",
             name: "Tempo de quadro",
-            hint: "16,7ms é a meta.",
+            hint: "Pressione e arraste — quebre os 60fps.",
             caption:
-              "Este gráfico mede o tempo real de cada quadro desta página, agora. A linha é o seu navegador trabalhando — performance se mede, não se promete.",
+              "O tempo real de cada quadro desta página, medido ao vivo. Pressione e arraste pelo painel pra injetar carga e ver a linha subir acima da meta de 16,7ms — solte e veja ela se recuperar. Performance se mede, não se promete.",
           },
         ],
       },
@@ -564,19 +571,7 @@ export const copy = {
       location: "Atendimento remoto para todo o Brasil.",
       facadeCaption: "Arte generativa de marca — IA",
       trajectoryLabel: "Trajetória",
-      trajectory: "Mais do que oito sistemas completos — marca, interface, modelo de dados e publicação, de ponta a ponta. O que já passou por esta mesa:",
-      trajItems: [
-        "Rota Forte — locação de munck e guindaste · site institucional com catálogo de equipamentos e orçamento no WhatsApp",
-        "1000 Peças Truck Center — autopeças pesadas · catálogo B2B sem preço exposto, cotação direta",
-        "Motor Moura — autopeças e baterias · site, sistema de estoque e identidade completa: brand kit, sales deck e material de impressão",
-        "Queijos da Serra — queijos artesanais · estoque por lote com FEFO e vitrine que recebe o pedido no WhatsApp",
-        "Roda de Agronegócios — feira, 22ª edição · mapa de piso interativo com cinco faixas de preço",
-        "SOLARSAT — antenas e limpeza fotovoltaica · marca e site de serviços locais com orçamento no WhatsApp",
-        "Paulo Henrique — atleta e treinador · site de apresentação com laboratório de performance que o visitante usa",
-        "DJ Jotavê — artista · identidade e site de apresentação para palco e contratante",
-        "Miranda Faria — marca própria · identidade generativa, sign em WebGL e este site",
-        "Hub de Vendas U.AI — produto próprio · o app de representantes que mantém cada lead no lugar",
-      ],
+      trajectory: "Oito sistemas completos entregues em distribuição de peças, logística, agronegócio, comércio e arte — marca, interface, modelo de dados e publicação, de ponta a ponta. No caminho, sites que vendem no silêncio do WhatsApp, estoques que se corrigem sozinhos, identidades impressas em papel — e o aplicativo que a minha própria rede de vendas usa para não perder um lead.",
       principlesLabel: "Como eu decido",
       principles: [
         {
@@ -649,6 +644,21 @@ export const copy = {
         "6 em cada 10 empresas brasileiras não chegam ao quinto ano. Quase nunca falta mercado — falta estrutura por baixo.",
       bandSource: "IBGE · SEBRAE",
       verticalsLabel: "As soluções",
+      faq: [
+        {
+          q: "Quanto custa?",
+          a: "Depende do vazamento — e é por isso que o diagnóstico existe. Primeiro eu numero o que a demora, a taxa de app ou a venda perdida custam por mês; a proposta chega como fração dessa economia anual. Numa operação que perde R$ 4.000/mês, uma solução de cerca de R$ 15 mil se paga em três meses e devolve R$ 33 mil no primeiro ano. Site institucional e sistema têm faixas diferentes — o diagnóstico diz qual é o seu, sem surpresa no meio.",
+        },
+        {
+          q: "Em quanto tempo fica pronto?",
+          a: "Sistema: semanas, não meses. Site institucional: menos ainda. A primeira demo navegável sai na primeira semana — você vê o seu problema sendo resolvido antes de pagar o projeto inteiro.",
+        },
+        {
+          q: "E depois da entrega?",
+          a: "O sistema é seu, no seu nome. Se quiser, manutenção e evolução continuam comigo — sem fidelidade, sem amarração.",
+        },
+      ],
+      faqLabel: "O que perguntam antes de fechar",
       seeVertical: "Ver a solução",
       cards: {
         gestao: "O pedido que hoje morre na conversa — num sistema que é seu.",
@@ -662,6 +672,8 @@ export const copy = {
       lead: "Quanto está vazando por mês?",
       intro:
         "Três perguntas e uma estimativa do custo do seu problema — antes de falar de preço ou de tecnologia. É assim que eu trabalho: primeiro o tamanho da dor, depois a solução.",
+      evidence:
+        "Dois números para guardar: quem responde a um cliente em 5 minutos tem 21× mais chance de qualificá-lo do que quem demora 30 — MIT/InsideSales. E a média das empresas demora 42 horas para responder um lead — Harvard Business Review. Um sistema existe pra você ficar do lado certo desses números.",
       meta: "Estimativa a partir de médias de mercado. O diagnóstico de verdade acontece na conversa.",
       steps: { pain: "A dor", revenue: "O porte", urgency: "A urgência" },
       painQ: "Onde dói mais hoje?",
@@ -720,7 +732,9 @@ export const copy = {
         copied: "Copiado",
         back: "Voltar",
         howLabel: "Como estimamos",
-        how: "Cada dor mapeia uma média de mercado: comissões de 15–30% da receita no modelo marketplace, horas perdidas com operação manual e atendimento de curiosos, ou a margem que fica na mesa quando a decisão é no chute. As faixas são deliberadamente conservadoras; o número honesto sai da conversa.",
+        pricingNote:
+          "Como a proposta chega: como fração da economia anual que o diagnóstico apontar — nunca como número solto. O preço nasce do contexto, não da tabela.",
+        how: "Cada dor mapeia uma média de mercado: comissões de 15–30% da receita no modelo marketplace, horas perdidas com operação manual e atendimento de curiosos — cerca de um quarto da semana de um negócio escorre em tarefas repetitivas (Smartsheet) —, ou a margem que fica na mesa quando a decisão é no chute. As faixas são deliberadamente conservadoras: ~30% das atividades da maioria das operações são automatizáveis (McKinsey), e a estimativa conta só o que o básico recupera. O número honesto sai da conversa.",
       },
     },
   },

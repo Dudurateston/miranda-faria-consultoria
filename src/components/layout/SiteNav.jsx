@@ -171,6 +171,12 @@ export default function SiteNav({ revealAfterHero = false }) {
   .mf-nav__links::-webkit-scrollbar{display:none}
   .mf-nav__link,.mf-nav__lang{flex:0 0 auto}
   .mf-nav__lang{margin-left:auto;padding-left:1.3rem}
+  /* alvos de toque confortaveis: altura >= 44px em toda a fileira */
+  .mf-nav__link,.mf-nav__lang{
+    padding:0.85rem 0;
+    -webkit-tap-highlight-color:rgba(184,115,51,0.18);
+  }
+  .mf-nav__links{touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch}
 }
       `}</style>
     </>

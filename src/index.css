@@ -41,9 +41,9 @@
     --mf-stone: #8A8578;
     --mf-line: rgba(138,133,120,0.28);
 
-    --font-heading: 'Playfair Display', Didot, Georgia, serif;
+    --font-heading: 'Instrument Serif', Didot, Georgia, serif;
     --font-body: 'Inter', system-ui, sans-serif;
-    --font-display: 'Playfair Display', Didot, Georgia, serif;
+    --font-display: 'Instrument Serif', Didot, Georgia, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
 }

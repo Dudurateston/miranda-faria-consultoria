@@ -174,7 +174,7 @@ export default function LiquidMarkHero({
             >
               <span
                 style={{
-                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontFamily: "'Instrument Serif', Georgia, serif",
                   fontSize: "clamp(48px, 9vw, 90px)",
                   color: INK,
                   opacity: 0.15,
@@ -217,7 +217,7 @@ export default function LiquidMarkHero({
         >
           <h1
             style={{
-              fontFamily: "'Playfair Display', Didot, Georgia, serif",
+              fontFamily: "'Instrument Serif', Didot, Georgia, serif",
               fontWeight: 400,
               fontSize: "clamp(22px, 4vw, 42px)",
               letterSpacing: "0.2em",

@@ -126,6 +126,9 @@ export default function Footer() {
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-ghost);margin:0;
 }
+@media(max-width:859px){
+  .mf-foot__tag{font-size:11px;letter-spacing:0.14em;line-height:1.6;color:var(--color-text-secondary)}
+}
 .mf-foot__links{display:flex;flex-wrap:wrap;gap:1rem 1.8rem}
 
 .mf-foot__link{

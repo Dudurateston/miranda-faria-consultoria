@@ -47,6 +47,9 @@ export default function MotionCurves() {
       raf = 0,
       running = false,
       alive = true;
+    // sonda: hover congela o tempo sob o cursor e destaca a faixa
+    let hover = null; // {x, lane} | null
+    let prog = 0;
 
     const PAD_L = 14,
       PAD_R = 14,
@@ -70,9 +73,25 @@ export default function MotionCurves() {
         x1 = W - PAD_R,
         span = x1 - x0;
 
+      // sonda vertical quando o usuario esta lendo o painel
+      if (hover) {
+        const sx = x0 + prog * span;
+        ctx.strokeStyle = "rgba(224,138,95,0.55)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(sx, 4);
+        ctx.lineTo(sx, H - 4);
+        ctx.stroke();
+        ctx.font = "10px ui-monospace, monospace";
+        ctx.fillStyle = "rgba(224,138,95,0.9)";
+        ctx.textAlign = "right";
+        ctx.fillText("t=" + prog.toFixed(2), sx - 6, 14);
+      }
+
       CURVES.forEach((c, i) => {
         const cy = laneY(i, CURVES.length);
         const amp = Math.min(26, (H / CURVES.length - LANE_GAP) / 2.1);
+        const hot = hover && hover.lane === i;
 
         // linha-guia do percurso
         ctx.strokeStyle = "rgba(242,238,230,0.10)";
@@ -83,8 +102,8 @@ export default function MotionCurves() {
         ctx.stroke();
 
         // a curva em si: y = cy - f(x)*amp
-        ctx.strokeStyle = "rgba(242,238,230,0.34)";
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = hot ? "rgba(224,138,95,0.8)" : "rgba(242,238,230,0.34)";
+        ctx.lineWidth = hot ? 1.6 : 1.2;
         ctx.beginPath();
         for (let x = 0; x <= span; x += 2) {
           const t = x / span;
@@ -104,10 +123,16 @@ export default function MotionCurves() {
         // altura = valor interpolado pela curva
         const px = x0 + prog * span;
         const py = cy - c.f(prog) * amp;
-        ctx.fillStyle = i === 1 ? "rgba(224,138,95,0.95)" : "rgba(242,238,230,0.85)";
+        ctx.fillStyle = hot || i === 1 ? "rgba(224,138,95,0.95)" : "rgba(242,238,230,0.85)";
         ctx.beginPath();
-        ctx.arc(px, py, i === 1 ? 3.4 : 2.6, 0, Math.PI * 2);
+        ctx.arc(px, py, hot ? 4.2 : i === 1 ? 3.4 : 2.6, 0, Math.PI * 2);
         ctx.fill();
+        // leitura do valor na faixa sob o cursor
+        if (hot) {
+          ctx.fillStyle = "rgba(242,238,230,0.8)";
+          ctx.textAlign = "left";
+          ctx.fillText("f=" + c.f(prog).toFixed(2), x0 + 2, cy - amp - 2);
+        }
         // rastro do avanco sobre a linha-guia
         ctx.strokeStyle = "rgba(224,138,95,0.35)";
         ctx.lineWidth = 1;
@@ -121,7 +146,12 @@ export default function MotionCurves() {
     const frame = (now) => {
       if (!alive) return;
       if (running) {
-        const prog = (now % LOOP_MS) / LOOP_MS;
+        if (hover && hover.x != null) {
+          const span = W - PAD_L - PAD_R;
+          prog = Math.min(1, Math.max(0, (hover.x - PAD_L) / Math.max(1, span)));
+        } else {
+          prog = (now % LOOP_MS) / LOOP_MS;
+        }
         drawFrame(prog);
       }
       raf = requestAnimationFrame(frame);
@@ -148,6 +178,22 @@ export default function MotionCurves() {
     );
     io.observe(wrap);
 
+    const onMove = (e) => {
+      const r = canvas.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      // faixa mais proxima do cursor
+      let lane = 0, best = 1e9;
+      CURVES.forEach((_, i) => {
+        const d = Math.abs(y - laneY(i, CURVES.length));
+        if (d < best) { best = d; lane = i; }
+      });
+      hover = { x, lane };
+    };
+    const onLeave = () => { hover = null; };
+    canvas.addEventListener("pointermove", onMove);
+    canvas.addEventListener("pointerleave", onLeave);
+
     resize();
     window.addEventListener("resize", resize);
     if (reduced) {
@@ -161,15 +207,17 @@ export default function MotionCurves() {
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("resize", resize);
+      canvas.removeEventListener("pointermove", onMove);
+      canvas.removeEventListener("pointerleave", onLeave);
     };
   }, []);
 
   return (
-    <figure ref={wrapRef} className="mf-tf mf-tf--half" aria-label="Easing curves, live">
+    <figure ref={wrapRef} className="mf-tf mf-tf--half" aria-label="Easing curves, live" style={{ cursor: "crosshair" }}>
       <canvas ref={canvasRef} />
       <figcaption className="mf-tf__hud" aria-hidden="true">
         <span>easing · 0 libs</span>
-        <span>hand-written math</span>
+        <span>hover = scrub</span>
       </figcaption>
     </figure>
   );

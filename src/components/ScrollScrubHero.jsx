@@ -266,7 +266,7 @@ export default function ScrollScrubHero({
           >
             <p
               style={{
-                fontFamily: "'Playfair Display', Didot, Georgia, serif",
+                fontFamily: "'Instrument Serif', Didot, Georgia, serif",
                 fontSize: "clamp(24px, 4.8vw, 52px)",
                 letterSpacing: "0.2em",
                 textIndent: "0.2em",
@@ -358,7 +358,7 @@ export default function ScrollScrubHero({
           >
             <h1
               style={{
-                fontFamily: "'Playfair Display', Didot, Georgia, serif",
+                fontFamily: "'Instrument Serif', Didot, Georgia, serif",
                 fontWeight: 400,
                 fontSize: "clamp(24px, 4.8vw, 52px)",
                 letterSpacing: "0.2em",

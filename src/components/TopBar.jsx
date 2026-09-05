@@ -45,7 +45,7 @@ export default function TopBar({ heroVh = 1 }) {
         href="#topo"
         data-cursor="link"
         style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
+          fontFamily: "'Instrument Serif', Georgia, serif",
           fontWeight: 400,
           fontSize: 13,
           letterSpacing: "0.2em",

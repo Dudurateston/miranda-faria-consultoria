@@ -6,7 +6,7 @@ function H({ children }) {
   return (
     <h2
       style={{
-        fontFamily: "'Playfair Display', Georgia, serif",
+        fontFamily: "'Instrument Serif', Georgia, serif",
         fontWeight: 400,
         fontSize: "clamp(22px, 3vw, 30px)",
         letterSpacing: "0.02em",
@@ -48,7 +48,7 @@ export default function PrivacyPolicy() {
 
           <h1
             style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
+              fontFamily: "'Instrument Serif', Georgia, serif",
               fontWeight: 400,
               fontSize: "clamp(26px, 4vw, 40px)",
               letterSpacing: "0.2em",

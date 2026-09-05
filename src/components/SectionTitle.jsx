@@ -5,7 +5,7 @@ export default function SectionTitle({ children, as: Tag = "h2", className = "",
     <Tag
       className={className}
       style={{
-        fontFamily: "'Playfair Display', Georgia, serif",
+        fontFamily: "'Instrument Serif', Georgia, serif",
         fontWeight: 400,
         fontSize: "clamp(24px, 4vw, 38px)",
         letterSpacing: "0.2em",

@@ -218,7 +218,7 @@ export default function BrandAssembly() {
         >
           <h1
             style={{
-              fontFamily: "'Playfair Display', Didot, Georgia, serif",
+              fontFamily: "'Instrument Serif', Didot, Georgia, serif",
               fontWeight: 400,
               fontSize: "clamp(26px, 5.2vw, 56px)",
               letterSpacing: "0.2em",

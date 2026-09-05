@@ -191,6 +191,9 @@ export default function Insights() {
               <Reveal delay={140}>
                 <p className="mf-dg__intro">{t.intro}</p>
               </Reveal>
+              <Reveal delay={220}>
+                <p className="mf-dg__evidence">{t.evidence}</p>
+              </Reveal>
             </div>
           </div>
 
@@ -312,6 +315,7 @@ export default function Insights() {
                     {result.recoveryLabel} <strong className="mf-dg__recrange">{cur}{bare(recLo)}–{bare(recHi)}</strong> {result.perMonth}
                   </p>
                   <p className="mf-dg__recnote">{result.recoveryNote}</p>
+                  <p className="mf-dg__pricing">{result.pricingNote}</p>
                 </div>
 
                 <div className="mf-dg__sol">
@@ -473,6 +477,8 @@ export default function Insights() {
 }
 .mf-dg__recovery .mf-label{margin:0}
 .mf-dg__recrange{color:var(--mf-terracotta);font-weight:400;letter-spacing:0}
+.mf-dg__evidence{font-family:var(--font-mono);font-size:12px;line-height:1.7;color:var(--color-text-secondary);max-width:62ch;margin-top:1.1rem;border-left:2px solid var(--color-accent);padding-left:1rem}
+.mf-dg__pricing{font-family:var(--font-mono);font-size:12px;line-height:1.7;color:var(--color-text-secondary);margin-top:.75rem}
 .mf-dg__recnote{
   font-family:var(--font-body);font-weight:300;
   font-size:var(--text-body-md);line-height:var(--leading-body);

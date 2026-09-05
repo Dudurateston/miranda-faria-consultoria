@@ -4,6 +4,7 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
+import StrataPanel from "@/components/StrataPanel";
 
 /** Preview da Tecnologia — stack real em regua editorial + M animado. */
 export default function HomeTecnologia() {
@@ -30,16 +31,7 @@ export default function HomeTecnologia() {
           </Reveal>
         </div>
         <figure className="mf-tech__art" aria-hidden="true">
-          <span className="mf-strata">
-            {[...Array(7)].map((_, i) => (
-              <span
-                key={i}
-                className="mf-strata__l"
-                style={{ width: `${100 - i * 11}%`, animationDelay: `${0.35 + i * 0.4}s` }}
-              />
-            ))}
-            <span className="mf-strata__l mf-strata__l--copper" style={{ width: "55%", animationDelay: "2.9s" }} />
-          </span>
+          <StrataPanel />
         </figure>
       </div>
 
@@ -58,23 +50,8 @@ export default function HomeTecnologia() {
   min-height:clamp(240px,32vh,360px);
 }
 @media(min-width:860px){.mf-tech__art{align-self:stretch;min-height:100%}}
-.mf-strata{
-  display:flex;flex-direction:column-reverse;justify-content:space-between;
-  width:100%;height:100%;max-width:none;padding:clamp(10px,2vh,20px) 0;
-}
-.mf-strata__l{
-  display:block;height:1px;background:rgba(242,238,230,0.55);
-  opacity:0;
-  animation:mf-strata-cycle 10s var(--ease-in-out) infinite;
-}
-.mf-strata__l--copper{height:2px;background:var(--copper)}
-@keyframes mf-strata-cycle{
-  0%{opacity:0;transform:translateY(clamp(20px,4vh,40px))}
-  8%{opacity:1;transform:translateY(0)}
-  82%{opacity:1;transform:translateY(0)}
-  94%,100%{opacity:0;transform:translateY(0)}
-}
-@media(prefers-reduced-motion:reduce){.mf-strata__l{animation:none;opacity:1;transform:none}}
+.mf-strata__cv{width:100%;height:100%;display:block;touch-action:pan-y}
+@media(max-width:859px){.mf-tech__art{display:none}}
       `}</style>
     </section>
   );

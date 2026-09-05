@@ -97,6 +97,27 @@ export default function Servicos() {
         </div>
       </section>
 
+      <MfRule />
+
+      <section className="mf-faq" data-depth="0.30">
+        <div className="mf-faq__inner">
+          <Reveal>
+            <p className="mf-label">{t.faqLabel}</p>
+          </Reveal>
+          <div className="mf-faq__list">
+            {t.faq.map((item, i) => (
+              <Reveal key={i} delay={i * 100} className="mf-faq__item">
+                <span className="mf-faq__idx">{String(i + 1).padStart(2, "0")}</span>
+                <div className="mf-faq__body">
+                  <h3 className="mf-faq__q">{item.q}</h3>
+                  <p className="mf-faq__a">{item.a}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <style>{`
 
 .mf-srv{padding:var(--section-gap) var(--gutter)}
@@ -203,6 +224,34 @@ export default function Servicos() {
 @media(max-width:767px){
   .mf-srv__item{grid-template-columns:1fr;gap:0.5rem}
   .mf-srv__go{opacity:1}
+}
+.mf-faq{padding:var(--section-gap) var(--gutter)}
+.mf-faq__inner{max-width:var(--max-width-page);margin:0 auto}
+.mf-faq__list{display:flex;flex-direction:column}
+.mf-faq__item{
+  display:grid;grid-template-columns:4.5rem 1fr;
+  gap:0 clamp(1.5rem,4vw,3rem);
+  padding:clamp(1.6rem,3.5vh,2.4rem) 0;
+  border-bottom:1px solid var(--color-divider);
+}
+.mf-faq__item:first-child{border-top:1px solid var(--color-divider)}
+.mf-faq__idx{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);color:var(--color-text-ghost);
+}
+.mf-faq__q{
+  font-family:var(--font-display);font-weight:400;
+  font-size:var(--text-display-md);line-height:1.12;
+  letter-spacing:var(--tracking-display);color:var(--color-text-primary);
+  margin:0 0 0.75rem;
+}
+.mf-faq__a{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);line-height:var(--leading-body);
+  color:var(--color-text-secondary);max-width:62ch;margin:0;
+}
+@media(max-width:767px){
+  .mf-faq__item{grid-template-columns:1fr;gap:0.5rem}
 }
       `}</style>
     </>

@@ -34,6 +34,9 @@ export default function FrameTimeGraph() {
     let last = performance.now();
     let statAcc = 0,
       statFrames = 0;
+    // injetor de carga: pressionar e arrastar soma trabalho real por quadro
+    let load = 0; // 0..1
+    let drag = null; // {x0, load0} | null
 
     const Y_MAX = 40; // ms no topo do grafico
 
@@ -83,14 +86,41 @@ export default function FrameTimeGraph() {
         }
       });
 
+      // barra de carga injetada (canto inferior direito) com leitura
+      if (load > 0.005) {
+        const bw = 64;
+        const bx = W - bw - 12;
+        const by = H - 20;
+        ctx.strokeStyle = "rgba(242,238,230,0.25)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(bx, by, bw, 6);
+        ctx.fillStyle = "rgba(224,138,95,0.9)";
+        ctx.fillRect(bx + 1, by + 1, (bw - 2) * load, 4);
+        ctx.fillStyle = "rgba(224,138,95,0.8)";
+        ctx.font = "9px ui-monospace, monospace";
+        ctx.textAlign = "left";
+        ctx.fillText(Math.round(load * 100) + "%", bx, by - 3);
+      }
       // rotulo do eixo
       ctx.fillStyle = "rgba(242,238,230,0.35)";
       ctx.fillText("now →", W - 46, H - 8);
       ctx.fillText("frame time (ms)", 12, H - 8);
     };
 
+    const burn = (ms) => {
+      // ~1ms de trabalho por unidade: soma, multiplica e descarta
+      const iters = Math.floor(ms * 9000);
+      let acc = 0;
+      for (let i = 0; i < iters; i++) acc += Math.sqrt(i);
+      return acc;
+    };
+
     const frame = (now) => {
       if (!alive) return;
+      const t0 = performance.now();
+      // decai devagar quando nao esta sendo arrastado
+      if (!drag) load *= 0.985;
+      if (running && load > 0.005) burn(load * 18);
       const dt = now - last;
       last = now;
       if (running && dt > 0 && dt < 400) {
@@ -104,6 +134,7 @@ export default function FrameTimeGraph() {
           statAcc = 0;
           statFrames = 0;
         }
+        void t0;
         draw();
       }
       raf = requestAnimationFrame(frame);
@@ -131,6 +162,22 @@ export default function FrameTimeGraph() {
     );
     io.observe(wrap);
 
+    const onDown = (e) => {
+      canvas.setPointerCapture?.(e.pointerId);
+      drag = { x0: e.clientX, load0: load };
+    };
+    const onMove = (e) => {
+      if (!drag) return;
+      const dx = (e.clientX - drag.x0) / 180; // 180px = carga cheia
+      load = Math.min(1, Math.max(0, drag.load0 + dx));
+    };
+    const onUp = () => { drag = null; };
+    canvas.addEventListener("pointerdown", onDown);
+    canvas.addEventListener("pointermove", onMove);
+    canvas.addEventListener("pointerup", onUp);
+    canvas.addEventListener("pointercancel", onUp);
+    canvas.style.touchAction = "none"; // o drag e do painel, nao da pagina
+
     resize();
     window.addEventListener("resize", resize);
     if (!reduced) raf = requestAnimationFrame(frame);
@@ -140,16 +187,20 @@ export default function FrameTimeGraph() {
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("resize", resize);
+      canvas.removeEventListener("pointerdown", onDown);
+      canvas.removeEventListener("pointermove", onMove);
+      canvas.removeEventListener("pointerup", onUp);
+      canvas.removeEventListener("pointercancel", onUp);
     };
   }, []);
 
   return (
-    <figure ref={wrapRef} className="mf-tf mf-tf--half" aria-label="Real frame time, live">
+    <figure ref={wrapRef} className="mf-tf mf-tf--half" aria-label="Real frame time, live" style={{ cursor: "ew-resize" }}>
       <canvas ref={canvasRef} />
       <figcaption className="mf-tf__hud" aria-hidden="true">
         <span>{hud.ms > 0 ? `${hud.ms} ms/frame` : "—"}</span>
         <span>{hud.fps > 0 ? `${hud.fps} fps` : "measuring"}</span>
-        <span>measured live</span>
+        <span>drag → load</span>
       </figcaption>
     </figure>
   );
