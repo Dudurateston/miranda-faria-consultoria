@@ -73,6 +73,13 @@ export default function About() {
           <Reveal delay={140}>
             <p className="mf-about__trajtext">{t.trajectory}</p>
           </Reveal>
+          <ul className="mf-about__trajlist">
+            {(t.trajItems || []).map((item, i) => (
+              <li key={item} className="mf-about__trajitem">
+                <Reveal delay={200 + i * 50}>{item}</Reveal>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -176,6 +183,14 @@ export default function About() {
   font-size:var(--text-body-lg);line-height:var(--leading-body);
   color:var(--color-text-secondary);max-width:var(--max-width-body);margin:1.5rem 0 0;
 }
+.mf-about__trajlist{list-style:none;margin:2.4rem 0 0;padding:0;max-width:var(--max-width-body)}
+.mf-about__trajitem{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);line-height:var(--leading-body);
+  color:var(--color-text-secondary);
+  padding:0.85rem 0;border-bottom:1px solid var(--mf-rule);
+}
+.mf-about__trajitem:first-child{border-top:1px solid var(--mf-rule)}
 
 .mf-about__princ{padding:0 var(--gutter) var(--section-gap)}
 .mf-about__princgrid{display:grid;grid-template-columns:1fr;gap:2.2rem;margin-top:2.2rem}

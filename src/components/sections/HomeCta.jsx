@@ -29,12 +29,15 @@ export default function HomeCta() {
       </div>
 
       <style>{`
-.mf-cta{text-align:center}
+.mf-h.mf-cta{
+  text-align:center;overflow:hidden;
+  padding-block:clamp(8.5rem,20vh,14rem);
+}
 .mf-cta__wm{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:clamp(280px,46vw,560px);height:auto;aspect-ratio:16/9;opacity:0.40;pointer-events:none;user-select:none;
-  -webkit-mask-image:radial-gradient(closest-side,black 64%,transparent 100%);
-  mask-image:radial-gradient(closest-side,black 64%,transparent 100%);
+  position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);
+  width:clamp(280px,46vw,560px);height:auto;aspect-ratio:16/9;opacity:0.28;pointer-events:none;user-select:none;
+  -webkit-mask-image:radial-gradient(closest-side,black 54%,transparent 86%);
+  mask-image:radial-gradient(closest-side,black 54%,transparent 86%);
 }
 .mf-cta__inner{
   position:relative;display:flex;flex-direction:column;align-items:center;gap:2.2rem;

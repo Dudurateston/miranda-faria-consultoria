@@ -209,12 +209,24 @@ export const copy = {
       body: [
         "I'm a design engineer working across brand, product and data. I build complete web systems on my own — the identity, the interface, the database behind it and the deployment.",
         "Most of my work so far has been for operations with real inventory, real customers on the phone and real deadlines: parts distributors, logistics, retail. The kind of business where a broken system is not an abstraction.",
-        "I work solo and ship fast, using an orchestrated AI workflow through the mechanical parts of the build. Everything that leaves here passes through my hands before it reaches you.",
+        "I work solo, from brief to delivery — with AI as leverage through the build: it accelerates the code and the visual work; architecture, hierarchy and what gets cut stay mine to decide. Genuinely custom, without an agency's overhead. Everything that leaves here passes through my hands before it reaches you.",
       ],
       location: "Based in Brazil (UTC−3) — full working-day overlap with US hours, partial with Europe.",
       facadeCaption: "Generative brand art — AI",
       trajectoryLabel: "Trajectory",
-      trajectory: "Eight complete systems shipped across parts distribution, logistics, agribusiness, retail and the arts — brand, interface, data model and deployment, end to end.",
+      trajectory: "More than eight complete systems — brand, interface, data model and deployment, end to end. What has crossed this desk:",
+      trajItems: [
+        "Rota Forte — munck & crane rental · institutional site with an equipment catalogue and WhatsApp quoting",
+        "1000 Peças Truck Center — heavy auto parts · B2B catalogue without exposed prices, direct quoting",
+        "Motor Moura — auto parts & batteries · site, inventory system and a complete identity: brand kit, sales deck, print material",
+        "Queijos da Serra — artisanal cheese · lot-level inventory with FEFO and a storefront that takes the order on WhatsApp",
+        "Roda de Agronegócios — trade fair, 22nd edition · interactive floor map with five pricing tiers",
+        "SOLARSAT — satellite antennas & photovoltaic cleaning · brand and local-services site with WhatsApp quoting",
+        "Paulo Henrique — athlete & coach · presentation site with a performance lab the visitor uses",
+        "DJ Jotavê — performing artist · identity and presentation site for stage and promoters",
+        "Miranda Faria — own brand · generative identity, WebGL sign and this site",
+        "Hub de Vendas U.AI — own product · the reps' app that keeps every lead in order",
+      ],
       principlesLabel: "How I decide",
       principles: [
         {
@@ -318,7 +330,7 @@ export const copy = {
         {
           id: "curiosos",
           t: "Too many tire-kickers",
-          d: "Hours of the day spent answering people who never buy.",
+          d: "Hours of the day answering messages from people who never buy.",
         },
         {
           id: "pessoa",
@@ -547,12 +559,24 @@ export const copy = {
       body: [
         "Sou Eduardo Miranda Faria. Trabalho com tecnologia aplicada a negócio real — o tipo que tem estoque, cliente ligando e prazo apertado.",
         "Atendo empresas em todo o Brasil: distribuidoras, oficinas, transportadoras, comércio e prestadores de serviço. Gente que já faturou o suficiente para saber que planilha solta não escala mais.",
-        "Trabalho sozinho e entrego rápido. Uso IA em boa parte do processo — na construção dos sistemas e na criação visual —, e é por isso que consigo fazer sob medida por um preço que agência não alcança. O que sai daqui passa pela minha mão antes de chegar em você.",
+        "Trabalho sozinho, do briefing à entrega — com IA como alavanca em todo o processo: ela acelera o código e a criação visual; arquitetura, hierarquia e o que fica de fora continuam sendo decisão minha. Sob medida de verdade, sem o custo de uma agência. Tudo que sai daqui passa pela minha mão antes de chegar na sua.",
       ],
       location: "Atendimento remoto para todo o Brasil.",
       facadeCaption: "Arte generativa de marca — IA",
       trajectoryLabel: "Trajetória",
-      trajectory: "Oito sistemas completos entregues em distribuição de peças, logística, agronegócio, comércio e arte — marca, interface, modelo de dados e publicação, de ponta a ponta.",
+      trajectory: "Mais do que oito sistemas completos — marca, interface, modelo de dados e publicação, de ponta a ponta. O que já passou por esta mesa:",
+      trajItems: [
+        "Rota Forte — locação de munck e guindaste · site institucional com catálogo de equipamentos e orçamento no WhatsApp",
+        "1000 Peças Truck Center — autopeças pesadas · catálogo B2B sem preço exposto, cotação direta",
+        "Motor Moura — autopeças e baterias · site, sistema de estoque e identidade completa: brand kit, sales deck e material de impressão",
+        "Queijos da Serra — queijos artesanais · estoque por lote com FEFO e vitrine que recebe o pedido no WhatsApp",
+        "Roda de Agronegócios — feira, 22ª edição · mapa de piso interativo com cinco faixas de preço",
+        "SOLARSAT — antenas e limpeza fotovoltaica · marca e site de serviços locais com orçamento no WhatsApp",
+        "Paulo Henrique — atleta e treinador · site de apresentação com laboratório de performance que o visitante usa",
+        "DJ Jotavê — artista · identidade e site de apresentação para palco e contratante",
+        "Miranda Faria — marca própria · identidade generativa, sign em WebGL e este site",
+        "Hub de Vendas U.AI — produto próprio · o app de representantes que mantém cada lead no lugar",
+      ],
       principlesLabel: "Como eu decido",
       principles: [
         {
@@ -655,8 +679,8 @@ export const copy = {
         },
         {
           id: "curiosos",
-          t: "Atendo curioso demais",
-          d: "Horas do dia gastas respondendo quem não compra.",
+          t: "Muita mensagem de curioso, pouca venda",
+          d: "Horas do dia gastas respondendo mensagem de quem nunca compra — e o cliente de verdade espera.",
         },
         {
           id: "pessoa",
@@ -776,7 +800,7 @@ export const cases = {
       process:
         "Modelled the catalogue as real entities — product, category, brand, image — instead of flat rows. Built the admin panel first, so the client could load real data while the storefront was still being designed.",
       decisions:
-        "Chose an owner-operated admin over a service contract: the client registers products, categories and images without touching me. The data model allows a product to carry multiple brands and applications, which is how the parts business actually works.",
+        "Chose an owner-operated admin over a service contract: the client registers products, categories and images without touching me. The data model allows a product to carry multiple brands and applications — batteries, generators, stationary engines — which is how the parts business actually works.",
       impact:
         "The catalogue left the owner's head and became something the team can query. Registration no longer routes through one person.",
       media: { dir: "motormoura", shots: 3, video: true },
@@ -793,25 +817,25 @@ export const cases = {
       process:
         "Built the public presence and the catalogue structure together, so the storefront and the data model were designed against each other rather than one being retrofitted onto the other.",
       decisions:
-        "Kept the first release deliberately narrow: presence and catalogue structure, no checkout. Heavy parts sell through a quote conversation, and forcing a cart onto that would have fought the actual sales process.",
+        "Kept the first release deliberately narrow: presence and catalogue structure, no checkout — and no prices on the page. Heavy parts sell through a quote conversation, and forcing a cart or exposing a price would have fought the actual sales process.",
       impact:
         "The operation has a public surface and a catalogue that can grow without a rebuild.",
     },
     {
       slug: "rota-forte",
       practice: "desenvolvimento",
-      name: "Rota Forte Logística",
-      sector: "Logistics and transport",
+      name: "Rota Forte",
+      sector: "Munck and crane rental",
       year: "2026",
-      summary: "Site and digital structure for a logistics operation.",
+      summary: "Institutional site with an equipment catalogue — the quote starts on WhatsApp.",
       problem:
-        "A logistics operation that needed a credible public face for contract clients, and internal structure that did not depend on spreadsheets passed around by message.",
+        "A munck and crane rental living on the phone and word of mouth. Availability and price were answered from memory, and every enquiry reached the owner unprepared.",
       process:
-        "Designed the public site and the internal structure as one project, sharing a single visual system and a single data vocabulary.",
+        "Built the site around the fleet as a catalogue — each machine with its capacity and reach — with one route per page: quote on WhatsApp, with the equipment already named in the message.",
       decisions:
-        "Prioritised legibility for contract clients over visual novelty — in logistics, the site is a trust document before it is a brochure.",
+        "Availability and price stay off the page on purpose. Rental is a conversation about weight, height and date — a stale 'available now' would lie more than it sells. The page routes the enquiry; the conversation closes it.",
       impact:
-        "A public face that matches the size of the operation, and structure that no longer lives in message threads.",
+        "The enquiry arrives already informed — which machine, which job — and the answer is one message instead of phone tag.",
       media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
@@ -983,7 +1007,7 @@ export const cases = {
       process:
         "Modelei o catálogo como entidades de verdade — produto, categoria, marca, imagem — em vez de linhas soltas. Construí o painel administrativo primeiro, para o cliente já ir carregando dado real enquanto a vitrine ainda estava sendo desenhada.",
       decisions:
-        "Escolhi painel operado pelo dono em vez de contrato de manutenção: o cliente cadastra produto, categoria e imagem sem me acionar. O modelo de dados permite um produto carregar várias marcas e aplicações, que é como o negócio de peça funciona de fato.",
+        "Escolhi painel operado pelo dono em vez de contrato de manutenção: o cliente cadastra produto, categoria e imagem sem me acionar. O modelo de dados permite um produto carregar várias marcas e aplicações — baterias, geradores, motores estacionários —, que é como o negócio de peça funciona de fato.",
       impact:
         "O catálogo saiu da cabeça do dono e virou algo que a equipe consulta. O cadastro não passa mais por uma pessoa só.",
       media: { dir: "motormoura", shots: 3, video: true },
@@ -1000,25 +1024,25 @@ export const cases = {
       process:
         "Construí a presença pública e a estrutura de catálogo juntas, para a vitrine e o modelo de dados serem desenhados um contra o outro, em vez de um ser encaixado no outro depois.",
       decisions:
-        "Mantive a primeira entrega deliberadamente estreita: presença e estrutura de catálogo, sem carrinho. Peça pesada se vende por conversa de orçamento, e forçar um checkout ali brigaria com o processo real de venda.",
+        "Mantive a primeira entrega deliberadamente estreita: presença e estrutura de catálogo, sem carrinho — e sem preço na página. Peça pesada se vende por conversa de orçamento, e forçar checkout ou expor preço ali brigaria com o processo real de venda.",
       impact:
         "A operação tem superfície pública e um catálogo que cresce sem precisar refazer.",
     },
     {
       slug: "rota-forte",
       practice: "desenvolvimento",
-      name: "Rota Forte Logística",
-      sector: "Logística e transporte",
+      name: "Rota Forte",
+      sector: "Locação de munck e guindaste",
       year: "2026",
-      summary: "Site e estrutura digital para operação de logística.",
+      summary: "Site institucional com catálogo de equipamentos — o orçamento começa no WhatsApp.",
       problem:
-        "Operação de logística que precisava de uma cara pública crível para cliente de contrato, e de estrutura interna que não dependesse de planilha passando por mensagem.",
+        "Locadora de munck e guindaste vivendo de telefone e indicação. Disponibilidade e preço eram respondidos de memória, e cada pedido chegava pro dono sem contexto.",
       process:
-        "Desenhei o site público e a estrutura interna como um projeto só, com o mesmo sistema visual e o mesmo vocabulário de dados.",
+        "Construí o site em volta da frota como catálogo — cada máquina com capacidade e alcance — com um único caminho por página: orçamento no WhatsApp, com o equipamento já citado na mensagem.",
       decisions:
-        "Priorizei legibilidade para cliente de contrato em vez de novidade visual — em logística, o site é um documento de confiança antes de ser um folheto.",
+        "Disponibilidade e preço ficam fora da página de propósito. Locação é uma conversa sobre peso, altura e data — um 'disponível agora' velho mentiria mais do que venderia. A página encaminha o pedido; a conversa fecha.",
       impact:
-        "Uma cara pública do tamanho da operação, e estrutura que não mora mais em thread de mensagem.",
+        "O pedido chega já informado — qual máquina, qual serviço — e a resposta é uma mensagem em vez de pingue-pongue de telefone.",
       media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
@@ -1212,6 +1236,7 @@ export const practices = {
       proofs: [
         "MotorMoura: complete identity — logo, manual, business cards, seals and print kit.",
         "1000 Peças: brand, signage, uniform and social, from one identity system.",
+        "DJ Jotavê: identity and presentation site for stage and promoters.",
         "This site: identity, motion and code by the same hand you would hire.",
       ],
       casesLabel: "Built this way",
@@ -1327,8 +1352,9 @@ export const practices = {
       ],
       proofLabel: "Prova, não promessa",
       proofs: [
-        "DJ Jotavê: site de apresentação completo — identidade, agenda e material promocional.",
-        "Paulo Henrique: marca e interface feitas para o público de um atleta.",
+        "MotorMoura: identidade completa — logo, manual, cartões, selos e kit de impressão.",
+        "1000 Peças: marca, faixada, uniforme e social, de um sistema de identidade só.",
+        "DJ Jotavê: identidade e site de apresentação para palco e contratante.",
         "Este site: identidade, movimento e código pela mesma mão que você contrataria.",
       ],
       casesLabel: "Feitos assim",
