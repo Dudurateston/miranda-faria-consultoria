@@ -37,7 +37,7 @@ function useDocumentHead(lang, pathname) {
 
     const alternates = [
       ...LANGS.map((l) => ({ hreflang: l, href: origin + swapLangInPath(pathname, l) })),
-      { hreflang: "x-default", href: origin + swapLangInPath(pathname, "en") },
+      { hreflang: "x-default", href: origin + swapLangInPath(pathname, "pt") },
     ];
     alternates.forEach(({ hreflang, href }) => {
       const link = document.createElement("link");
