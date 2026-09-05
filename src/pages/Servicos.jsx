@@ -173,7 +173,8 @@ export default function Servicos() {
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-ghost);
 }
-.mf-srv__band img,\n.mf-srv__band video{
+.mf-srv__band img,
+.mf-srv__band video{
   width:100%;height:100%;object-fit:cover;display:block;opacity:0.32;
   -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 15%,black 85%,transparent 100%);
   mask-image:linear-gradient(90deg,transparent 0%,black 15%,black 85%,transparent 100%);

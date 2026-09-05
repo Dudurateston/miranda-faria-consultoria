@@ -39,6 +39,17 @@ export const LINKEDIN_URL = "https://www.linkedin.com";
    arte de marca — nunca como prova de escritorio fisico. */
 export const DESIGN_PARTICLES = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_particles2.mp4";
 export const DESIGN_SIGN = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_sign.mp4";
+export const DESIGN_POSTER = "/art/design_open_poster.jpg";
+
+/* Duas peças novas (Drive 05/09), as mais fortes do conjunto — as duas
+   terminam revelando o M, o que as torna assinatura e não enfeite:
+   CAMADAS: lajes de concreto em desordem que se organizam em estratos
+   limpos até o M aparecer na parede. É a tese da página em imagem —
+   caos que vira ordem. Loop costurado com dissolve de 0,8s.
+   VEIO: dolly por um cânion de estratos com um veio incandescente de
+   cobre no eixo. Fecha a página. Loop em vai-e-volta, sem corte. */
+export const DESIGN_LAYERS = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_camadas.mp4";
+export const DESIGN_SEAM = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_veio.mp4";
 export const BRAND_FACADE = "/art/brand-facade.webp";
 export const BRAND_FACADE_800 = "/art/brand-facade@800.webp";
 export const TEXTURE_MACRO = "/art/texture-macro.webp";

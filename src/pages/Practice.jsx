@@ -11,17 +11,21 @@ import { useLang } from "@/lib/i18n";
 import { usePageTitle } from "@/lib/usePageTitle";
 import { copy, getPractice, casesOfPractice, processSteps, designSteps } from "@/content/copy";
 import AutoVideo from "@/components/AutoVideo";
-import { DESIGN_PARTICLES, DESIGN_SIGN } from "@/lib/site";
+import { DESIGN_SIGN, DESIGN_POSTER, DESIGN_LAYERS, DESIGN_SEAM } from "@/lib/site";
 
 /**
  * As tres verticais — /systems, /design, /business — compartilham
  * estrutura e variam em conteudo e assinatura visual. Uma pagina so,
  * dirigida pelo slug, em vez de tres arquivos quase identicos.
  *
- * Cada aba e uma experiencia completa (DECISIONS.md): abre com a
- * assinatura propria, mostra o que entrega, o processo, e fecha com os
- * cases daquela disciplina. Os cases sao transversais — /work continua
- * listando todos.
+ * A aba Design tem abertura propria: a entrada do escritorio — o
+ * principal asset da pagina — abre o filme em tela cheia com o lead
+ * sobreposto; a vitrine generativa vira a tese "Gerar e barato.
+ * Escolher e o trabalho."; e o fecho e um discurso proprio, nao o lead
+ * generico do contato.
+ *
+ * Sem divisorias internas: o ritmo vem do espacamento e dos numeros,
+ * nao de linhas entre os itens — tudo continuo.
  */
 export default function Practice({ slug: slugProp }) {
   // Rotas estaticas passam o slug por prop; o param cobre o caso de a
@@ -44,52 +48,65 @@ export default function Practice({ slug: slugProp }) {
 
   if (!p) return <Navigate to={path()} replace />;
 
+  const isDesign = slug === "design";
   const list = casesOfPractice(lang, slug);
-  const steps = slug === "design" ? designSteps[lang] : processSteps[lang];
+  const steps = isDesign ? designSteps[lang] : processSteps[lang];
 
   return (
     <>
-      <PageHeader label={p.label} lead={p.lead} intro={p.intro} />
-
-      <ArtSlot variant={slug} name={slug} alt={p.artAlt} />
-
-      {/* Vitrine generativa — exclusiva da aba Design. Arte de marca
-          gerada e dirigida por IA: nunca vendida como escritorio
-          fisico, sempre assinada como trabalho proprio. */}
-      {slug === "design" && (
-        <section className="mf-pr__gen" data-depth="0.14" aria-labelledby="gen-title">
-          {/* Pedido do Eduardo: o video em cima — a banda abre a secao,
-              o texto vem depois dela, sem competencia visual. */}
-          <Reveal delay={60}>
-            <figure className="mf-pr__genband">
-              <AutoVideo
-                className="mf-pr__genbandvideo"
-                src={DESIGN_PARTICLES}
-                label={p.gen.capA}
-              />
-            </figure>
-          </Reveal>
-
-          <div className="mf-pr__geninner">
-            <Reveal>
-              <p className="mf-label">{p.gen.label}</p>
+      {isDesign ? (
+        <>
+          {/* ABERTURA — a entrada do escritorio em tela cheia, o lead
+              sobreposto. O video e o principal asset da pagina: nao e
+              mais um quadro no fim da vitrine, e o filme que abre. */}
+          <section className="mf-dsg-open" data-theme="dark" aria-labelledby="dsg-lead">
+            <AutoVideo
+              className="mf-dsg-open__video"
+              src={DESIGN_SIGN}
+              poster={DESIGN_POSTER}
+              label={p.gen.capB}
+            />
+            <div className="mf-dsg-open__veil" aria-hidden="true" />
+            <div className="mf-dsg-open__overlay">
+              <Reveal>
+                <p className="mf-label">{p.label}</p>
+              </Reveal>
+              <LineReveal as="h1" id="dsg-lead" className="mf-dsg-open__lead">
+                {p.lead}
+              </LineReveal>
+            </div>
+            <Reveal delay={340} className="mf-dsg-open__capwrap">
+              <span className="mf-label mf-dsg-open__cap">{p.gen.capB}</span>
             </Reveal>
-            <LineReveal as="h2" id="gen-title" className="mf-pr__gentitle">
-              {p.gen.title}
-            </LineReveal>
-            <Reveal delay={120}>
-              <p className="mf-pr__gendesc">{p.gen.desc}</p>
-            </Reveal>
-          </div>
-          <div className="mf-pr__geninner">
-            <Reveal delay={240}>
-              <figure className="mf-pr__genfig">
-                <AutoVideo className="mf-pr__genvideo" src={DESIGN_SIGN} label={p.gen.capB} />
-                <figcaption className="mf-label mf-pr__gencap">{p.gen.capB}</figcaption>
-              </figure>
-            </Reveal>
-          </div>
-        </section>
+          </section>
+
+          {/* INTRO — continua o filme em texto, na pagina clara. */}
+          <section className="mf-pr mf-dsg-intro" data-depth="0.08">
+            <div className="mf-pr__inner">
+              <Reveal>
+                <p className="mf-dsg-intro__p">{p.intro}</p>
+              </Reveal>
+            </div>
+          </section>
+
+          {/* TESE — o argumento da aba inteira em uma frase. */}
+          <section className="mf-pr" data-depth="0.16">
+            <div className="mf-pr__inner">
+              <Reveal>
+                <p className="mf-label">{p.gen.label}</p>
+              </Reveal>
+              <LineReveal as="h2" className="mf-dsg-thesis">{p.gen.title}</LineReveal>
+              <Reveal delay={120}>
+                <p className="mf-dsg-thesis__d">{p.gen.desc}</p>
+              </Reveal>
+            </div>
+          </section>
+        </>
+      ) : (
+        <>
+          <PageHeader label={p.label} lead={p.lead} intro={p.intro} />
+          <ArtSlot variant={slug} name={slug} alt={p.artAlt} />
+        </>
       )}
 
       <MfRule />
@@ -112,8 +129,6 @@ export default function Practice({ slug: slugProp }) {
         </div>
       </section>
 
-      <MfRule />
-
       {/* Processo — igual nas tres verticais, e esse e o argumento */}
       <section className="mf-pr" data-depth="0.34">
         <div className="mf-pr__inner">
@@ -134,6 +149,28 @@ export default function Practice({ slug: slugProp }) {
         </div>
       </section>
 
+      {/* BANDA — a arte generativa em movimento entre o processo e os
+          cases: a prova do metodo em tela cheia. */}
+      {isDesign && (
+        <section
+          className="mf-dsg-band"
+          aria-label={p.gen.capLayers ?? p.gen.capA}
+        >
+          <figure className="mf-dsg-band__fig">
+            <AutoVideo
+              className="mf-dsg-band__video"
+              src={DESIGN_LAYERS}
+              label={p.gen.capLayers ?? p.gen.capA}
+            />
+          </figure>
+          <Reveal delay={120} className="mf-dsg-band__capwrap">
+            <span className="mf-label mf-dsg-band__cap">
+              {p.gen.capLayers ?? p.gen.capA}
+            </span>
+          </Reveal>
+        </section>
+      )}
+
       {/* Os cases desta vertical */}
       {list.length > 0 && (
         <>
@@ -151,8 +188,11 @@ export default function Practice({ slug: slugProp }) {
                     className="mf-pr__case"
                     data-cursor="link"
                   >
-                    <h3 className="mf-pr__casename">{c.name}</h3>
-                    <span className="mf-label">{c.sector}</span>
+                    <span className="mf-pr__casehead">
+                      <h3 className="mf-pr__casename">{c.name}</h3>
+                      <span className="mf-label">{c.sector}</span>
+                    </span>
+                    <p className="mf-pr__casehook">{c.summary}</p>
                   </Link>
                 ))}
               </div>
@@ -166,19 +206,42 @@ export default function Practice({ slug: slugProp }) {
         </>
       )}
 
-      <MfRule />
+      {!isDesign && <MfRule />}
 
-      <section className="mf-pr" data-depth="0.94">
+      <section
+        className={`mf-pr ${isDesign ? "mf-dsg-close" : ""}`}
+        data-depth="0.94"
+        data-theme={isDesign ? "dark" : undefined}
+      >
+        {isDesign && (
+          <>
+            <AutoVideo
+              className="mf-dsg-close__video"
+              src={DESIGN_SEAM}
+              label={p.gen.capSeam ?? ""}
+            />
+            <div className="mf-dsg-close__veil" aria-hidden="true" />
+          </>
+        )}
         <div className="mf-pr__inner">
-          <LineReveal className="mf-pr__closing">{t.contact.lead}</LineReveal>
+          <LineReveal className="mf-pr__closing">
+            {p.closingLine ?? t.contact.lead}
+          </LineReveal>
           <Reveal delay={140}>
-            {p.closingCta ? (
-              <Link to={path(p.closingCta.to)} className="mf-pr__cta" data-cursor="link">
+            <Link
+              to={path("contact")}
+              className="mf-pr__cta mf-pr__cta--main"
+              data-cursor="link"
+            >
+              {p.closingCtaLabel ?? p.cta} →
+            </Link>
+            {p.closingCta && (
+              <Link
+                to={path(p.closingCta.to)}
+                className="mf-pr__cta mf-pr__cta--ghost"
+                data-cursor="link"
+              >
                 {p.closingCta.label} →
-              </Link>
-            ) : (
-              <Link to={path("contact")} className="mf-pr__cta" data-cursor="link">
-                {p.cta} →
               </Link>
             )}
           </Reveal>
@@ -186,28 +249,81 @@ export default function Practice({ slug: slugProp }) {
       </section>
 
       <style>{`
-/* Vitrine generativa (aba Design) — duas artes de marca em simbiose. */
-.mf-pr__gen{padding:var(--section-gap) var(--gutter)}
-.mf-pr__geninner{max-width:var(--max-width-page);margin:0 auto;width:100%}
-.mf-pr__gentitle{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-md);line-height:1.05;margin:1rem 0 1.1rem}
-.mf-pr__gendesc{max-width:56ch;color:var(--color-text-secondary);font-size:var(--text-body-md);line-height:1.65}
-.mf-pr__genband{margin:2.8rem calc(var(--gutter)*-1) 0;padding:0}
-.mf-pr__genbandvideo{width:100%;display:block;aspect-ratio:21/9;object-fit:cover;border-radius:0}
-.mf-pr__genfig{margin:2.8rem auto 0;max-width:720px;display:flex;flex-direction:column;gap:0.6rem}
-.mf-pr__genvideo{width:100%;display:block;border-radius:2px}
-.mf-pr__gencap{color:var(--color-text-ghost)}
-@media(max-width:900px){.mf-pr__genbandvideo{aspect-ratio:16/9}}
+/* ==== ABERTURA (Design) — entrada do escritorio em tela cheia ==== */
+.mf-dsg-open{position:relative;height:min(92vh,820px);min-height:560px;overflow:hidden}
+.mf-dsg-open__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mf-dsg-open__veil{position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(20,19,18,0.34) 0%,
+    rgba(20,19,18,0.02) 38%,
+    rgba(20,19,18,0.18) 62%,
+    rgba(20,19,18,0.72) 100%)}
+.mf-dsg-open__overlay{position:absolute;left:var(--gutter);right:var(--gutter);
+  bottom:clamp(4.5rem,14vh,8rem);max-width:var(--max-width-page);margin:0 auto}
+.mf-dsg-open__lead{font-family:var(--font-display);font-weight:400;
+  font-size:clamp(2.4rem,6.5vw,var(--text-display-xl));line-height:1.06;
+  letter-spacing:var(--tracking-display);color:var(--color-text-primary);
+  margin:0.9rem 0 0;max-width:14ch;text-wrap:balance}
+.mf-dsg-open__capwrap{position:absolute;right:var(--gutter);bottom:1.2rem}
+.mf-dsg-open__cap{color:rgba(245,241,234,0.55)}
+@media(max-width:760px){
+  .mf-dsg-open{height:78vh;min-height:480px}
+  .mf-dsg-open__lead{font-size:clamp(2rem,9vw,3rem);max-width:12ch}
+}
+
+/* ==== INTRO + TESE (Design) ==== */
+.mf-dsg-intro{padding-top:clamp(3.5rem,8vh,6rem)}
+.mf-dsg-intro__p{font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-lg);line-height:var(--leading-body);
+  color:var(--color-text-secondary);max-width:56ch;margin:0}
+.mf-dsg-thesis{font-family:var(--font-display);font-weight:400;
+  font-size:clamp(2.2rem,5.6vw,var(--text-display-xl));line-height:1.04;
+  letter-spacing:var(--tracking-display);color:var(--color-text-primary);
+  margin:1rem 0 1.3rem;max-width:20ch;text-wrap:balance}
+.mf-dsg-thesis__d{max-width:60ch;color:var(--color-text-secondary);
+  font-size:var(--text-body-md);line-height:1.65;margin:0}
+
+/* ==== BANDA — particulas full-bleed entre processo e cases ==== */
+.mf-dsg-band{position:relative;margin:0}
+.mf-dsg-band__fig{margin:0}
+.mf-dsg-band__video{width:100%;display:block;aspect-ratio:21/9;object-fit:cover}
+.mf-dsg-band__capwrap{position:absolute;left:var(--gutter);bottom:1.2rem}
+.mf-dsg-band__cap{color:rgba(245,241,234,0.6)}
+@media(max-width:900px){.mf-dsg-band__video{aspect-ratio:16/9}}
+
+/* ==== FECHAMENTO (Design) — o veio de cobre atras do convite ====
+   O video nao decora: o veio incandescente que corre no eixo do canion e a
+   mesma linha de cobre que atravessa o site. O veu escuro garante contraste
+   de texto (AA) sobre qualquer quadro do loop. */
+.mf-dsg-close{position:relative;overflow:hidden;isolation:isolate}
+.mf-dsg-close__video{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;z-index:0}
+.mf-dsg-close__veil{position:absolute;inset:0;z-index:1;
+  background:
+    radial-gradient(120% 90% at 50% 55%, rgba(20,19,18,0.28) 0%, rgba(20,19,18,0.82) 68%, rgba(20,19,18,0.94) 100%),
+    linear-gradient(180deg, rgba(20,19,18,0.9) 0%, rgba(20,19,18,0.4) 22%, rgba(20,19,18,0.5) 70%, rgba(20,19,18,0.92) 100%)}
+.mf-dsg-close .mf-pr__inner{position:relative;z-index:2;
+  padding-top:clamp(6rem,16vh,10rem);padding-bottom:clamp(6rem,16vh,10rem)}
+.mf-dsg-close .mf-pr__closing{color:var(--mf-bone,#F5F1EA)}
+.mf-dsg-close .mf-pr__cta{color:var(--mf-bone,#F5F1EA);
+  border-color:rgba(245,241,234,0.28)}
+.mf-dsg-close .mf-pr__cta--main{color:var(--mf-bone,#F5F1EA)}
+.mf-dsg-close .mf-pr__cta--ghost{color:rgba(245,241,234,0.62)}
+.mf-dsg-close .mf-pr__cta:hover{color:#fff;border-color:rgba(245,241,234,0.55)}
+@media(prefers-reduced-motion:reduce){
+  .mf-dsg-close__video{display:none}
+  .mf-dsg-close{background:var(--mf-graphite,#141414)}
+}
 
 .mf-pr{padding:var(--section-gap) var(--gutter)}
 .mf-pr__inner{max-width:var(--max-width-page);margin:0 auto}
 
-.mf-pr__grid{display:grid;grid-template-columns:1fr;gap:0;margin-top:2.5rem;
-  border-top:1px solid var(--color-divider)}
+/* Grid continuo — o ritmo vem do numero e do espaco, nao de linhas. */
+.mf-pr__grid{display:grid;grid-template-columns:1fr;gap:clamp(1.8rem,4vh,2.8rem);margin-top:2.5rem}
 @media(min-width:860px){
-  .mf-pr__grid{grid-template-columns:1fr 1fr;gap:0 clamp(2rem,5vw,4rem)}
+  .mf-pr__grid{grid-template-columns:1fr 1fr;gap:clamp(2rem,5vh,3.5rem) clamp(2rem,5vw,4rem)}
 }
-.mf-pr__item{display:flex;flex-direction:column;gap:0.8rem;
-  padding:clamp(1.8rem,3.5vh,2.6rem) 0;border-bottom:1px solid var(--color-divider)}
+.mf-pr__item{display:flex;flex-direction:column;gap:0.8rem;padding:0}
 .mf-pr__num{font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);color:var(--color-text-ghost)}
 .mf-pr__name{font-family:var(--font-display);font-weight:400;
@@ -217,9 +333,9 @@ export default function Practice({ slug: slugProp }) {
   font-size:var(--text-body-md);line-height:var(--leading-body);
   color:var(--color-text-secondary);margin:0;max-width:48ch}
 
-.mf-pr__steps{margin-top:2.5rem;border-top:1px solid var(--color-divider)}
+.mf-pr__steps{margin-top:2.5rem;display:flex;flex-direction:column;gap:clamp(1.8rem,4.5vh,3rem)}
 .mf-pr__step{display:grid;grid-template-columns:3.5rem 1fr;gap:0 clamp(1rem,3vw,2.5rem);
-  align-items:baseline;padding:1.6rem 0;border-bottom:1px solid var(--color-divider)}
+  align-items:baseline;padding:0}
 .mf-pr__stepnum{font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);color:var(--color-text-ghost)}
 .mf-pr__steptitle{font-family:var(--font-display);font-weight:400;
@@ -232,18 +348,22 @@ export default function Practice({ slug: slugProp }) {
   .mf-pr__step{grid-template-columns:1fr;gap:0.4rem}
 }
 
-.mf-pr__cases{margin-top:2.5rem;border-top:1px solid var(--color-divider)}
-.mf-pr__case{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;
-  gap:0.5rem 1.5rem;padding:clamp(1.4rem,3vh,2rem) 0;
-  border-bottom:1px solid var(--color-divider);
+.mf-pr__cases{margin-top:2.5rem;display:flex;flex-direction:column}
+.mf-pr__case{display:flex;flex-direction:column;gap:0.7rem;
+  padding:clamp(1.6rem,3.5vh,2.4rem) 0;
   text-decoration:none;color:inherit;
   transition:transform var(--duration-base) var(--ease-out-expo)}
 .mf-pr__case:hover{transform:translateX(14px)}
+.mf-pr__casehead{display:flex;flex-wrap:wrap;align-items:baseline;
+  justify-content:space-between;gap:0.4rem 1.5rem}
 .mf-pr__casename{font-family:var(--font-display);font-weight:400;
   font-size:var(--text-display-lg);line-height:1.08;
   letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:0;
   transition:color var(--duration-fast) var(--ease-in-out)}
 .mf-pr__case:hover .mf-pr__casename{color:var(--color-accent)}
+.mf-pr__casehook{font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);line-height:var(--leading-body);
+  color:var(--color-text-secondary);margin:0;max-width:64ch}
 
 .mf-pr__closing{font-family:var(--font-display);font-weight:400;
   font-size:var(--text-display-xl);line-height:var(--leading-display);
@@ -256,6 +376,11 @@ export default function Practice({ slug: slugProp }) {
   border-bottom:1px solid var(--color-accent);padding-bottom:4px;
   transition:opacity var(--duration-fast) var(--ease-in-out)}
 .mf-pr__cta:hover{opacity:0.65}
+.mf-pr__cta--ghost{margin-left:2.5rem;border-bottom-color:transparent;
+  color:var(--color-text-secondary)}
+@media(max-width:767px){
+  .mf-pr__cta--ghost{display:block;margin:1.2rem 0 0}
+}
 
 @media(prefers-reduced-motion:reduce){
   .mf-pr__case,.mf-pr__case:hover{transform:none;transition:none}

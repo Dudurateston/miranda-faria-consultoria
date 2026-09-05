@@ -65,7 +65,8 @@ export default function HomeInsights() {
 .mf-dgprev__artwrap{display:none}
 @media(min-width:860px){.mf-dgprev__artwrap{display:block}}
 .mf-dgprev__art{margin:0;aspect-ratio:4/3;overflow:hidden}
-.mf-dgprev__art img,\n.mf-dgprev__art video{width:100%;height:100%;object-fit:cover;display:block}
+.mf-dgprev__art img,
+.mf-dgprev__art video{width:100%;height:100%;object-fit:cover;display:block}
       `}</style>
     </section>
   );

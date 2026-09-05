@@ -53,8 +53,11 @@
     @apply border-border;
   }
 
+  /* NAO usar scroll-behavior:smooth aqui: o Lenis chama scrollTo a cada
+     quadro e o smooth nativo cancela cada chamada, congelando a pagina.
+     O scroll suave e' responsabilidade do Lenis; ancoras usam scrollIntoView. */
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
   }
 
   body {
@@ -70,6 +73,26 @@
     background: #B5502E;
     color: #F5F1EA;
   }
+}
+
+
+/* Lenis — regras obrigatorias da biblioteca. Sem elas o scroll suave briga
+   com o scroll nativo e a pagina trava (wheel cancelado, nada se move). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

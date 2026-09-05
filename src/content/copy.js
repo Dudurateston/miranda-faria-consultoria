@@ -1204,11 +1204,13 @@ export const practices = {
       artAlt: "Translucent planes composing, some still finding position",
       gen: {
         label: "GENERATIVE ART — AI",
-        title: "Design of every kind",
+        title: "Generating is cheap. Choosing is the work.",
         desc:
-          "Identity in motion, image, film and space — all of it designed and directed here. The pieces below were generated and art-directed with AI: copper particles for a brand that moves, and the Miranda Faria sign as a study of the mark out in the street.",
+          "AI generates dozens of directions in hours. That is not the design — it is raw material. The work is taste, judgement and direction, turning a forest of options into one identity. Every piece on this page — the copper particles, the entrance on the street, the motion of this site — was generated and directed here, by the same hand that signs the project.",
         capA: "Copper particles — identity in motion",
-        capB: "Miranda Faria sign — generative study",
+        capB: "Office entrance — generative study",
+        capLayers: "Disorder finding order — the method, in one shot",
+        capSeam: "The copper seam — what runs under every project",
       },
       deliverablesLabel: "What I deliver",
       deliverables: [
@@ -1237,6 +1239,8 @@ export const practices = {
         "This site: identity, motion and code by the same hand you would hire.",
       ],
       casesLabel: "Built this way",
+      closingLine: "Every company has a brand. Few have one that carries its price.",
+      closingCtaLabel: "Let's draw yours",
       closingCta: { label: "See the case of this site", to: "work/miranda-faria" },
       cta: "Start a project",
     },
@@ -1321,11 +1325,13 @@ export const practices = {
       artAlt: "Planos translúcidos se compondo, alguns ainda assentando",
       gen: {
         label: "ARTE GENERATIVA — IA",
-        title: "Design de todo tipo",
+        title: "Gerar é barato. Escolher é o trabalho.",
         desc:
-          "Identidade em movimento, imagem, filme e espaço — tudo desenhado e dirigido aqui. As peças abaixo foram geradas e dirigidas com IA: partículas de cobre para uma marca que se move, e a placa Miranda Faria como estudo da marca na rua.",
+          "A IA gera dezenas de direções em horas. Isso não é o design — é a matéria-prima. O trabalho é o gosto, o critério e a direção que transformam uma floresta de opções em uma identidade. Cada peça desta página — as partículas de cobre, a entrada na rua, o movimento do site — foi gerada e dirigida aqui, pela mesma mão que assina o projeto.",
         capA: "Partículas de cobre — identidade em movimento",
-        capB: "Placa Miranda Faria — estudo generativo",
+        capB: "Entrada do escritório — estudo generativo",
+        capLayers: "Desordem encontrando ordem — o método em um plano",
+        capSeam: "O veio de cobre — o que corre por baixo de cada projeto",
       },
       deliverablesLabel: "O que entrego",
       deliverables: [
@@ -1354,6 +1360,8 @@ export const practices = {
         "Este site: identidade, movimento e código pela mesma mão que você contrataria.",
       ],
       casesLabel: "Feitos assim",
+      closingLine: "Toda empresa tem uma marca. Poucas têm uma que sustenta o preço.",
+      closingCtaLabel: "Vamos desenhar a sua",
       closingCta: { label: "Ver o case deste site", to: "work/miranda-faria" },
       cta: "Começar um projeto",
     },
@@ -1407,20 +1415,20 @@ export const designSteps = {
     label: "Como funciona",
     steps: [
       {
-        t: "Diagnóstico da marca",
-        d: "Uma conversa mapeia onde a marca quebra: símbolo que não reduz, materiais que não conversam entre si. Sem custo.",
+        t: "Entender antes de desenhar",
+        d: "O diagnóstico é gratuito — e é onde o resultado se decide: o preço que a marca precisa sustentar, o cliente que precisa reconhecê-la, a superfície onde ela vai viver.",
       },
       {
-        t: "Direções",
-        d: "Estudos generativos e referências viram caminhos possíveis — você escolhe a direção com o material na mesa, não no escuro.",
+        t: "Direções, não promessas",
+        d: "Dezenas de estudos generativos em horas, não em semanas. Você escolhe com o material na mesa — e nenhuma direção chega até você sem ter passado pela minha mão primeiro.",
       },
       {
-        t: "Sistema visual",
-        d: "Símbolo, tipografia, cor e regras de uso — o conjunto que faz qualquer peça sair certa, de cartão a fachada.",
+        t: "Um sistema, não um logo",
+        d: "Símbolo, tipografia, cor e regras de uso — o conjunto que faz qualquer peça sair certa, do cartão à fachada, sem depender de quem desenhou.",
       },
       {
-        t: "Aplicação viva",
-        d: "A identidade entrega aplicada — impresso, social e web — com os arquivos organizados por uso.",
+        t: "Entregue viva",
+        d: "Impresso, social e web, com os arquivos organizados por uso. A identidade chega funcionando em toda parte — não em PDF.",
       },
     ],
   },
@@ -1428,20 +1436,20 @@ export const designSteps = {
     label: "How it runs",
     steps: [
       {
-        t: "Brand diagnosis",
-        d: "One conversation maps where the brand breaks: a symbol that won't reduce, materials that don't talk to each other. No cost.",
+        t: "Understand before drawing",
+        d: "The diagnosis is free — and it is where the outcome is decided: the price the brand must sustain, the client who must recognise it, the surface where it will live.",
       },
       {
-        t: "Directions",
-        d: "Generative studies and references become possible paths — you pick the direction with the work on the table, not in the dark.",
+        t: "Directions, not promises",
+        d: "Dozens of generative studies in hours, not weeks. You choose with the work on the table — and no direction reaches you without having passed through my hands first.",
       },
       {
-        t: "Visual system",
-        d: "Symbol, type, colour and usage rules — the set that makes every piece come out right, from card to facade.",
+        t: "A system, not a logo",
+        d: "Symbol, type, colour and usage rules — the set that makes any piece come out right, from card to facade, without depending on who drew it.",
       },
       {
-        t: "Living application",
-        d: "The identity ships applied — print, social and web — with files organised by use.",
+        t: "Delivered alive",
+        d: "Print, social and web, with files organised by use. The identity arrives working everywhere — not as a PDF.",
       },
     ],
   },
