@@ -138,14 +138,22 @@ export default function StrataPanel() {
       cv.addEventListener("pointermove", onMove);
       cv.addEventListener("pointerleave", onLeave);
     }
+    // Redimensionar no proximo quadro, fora do ciclo de entrega do
+    // ResizeObserver: escrita de canvas dentro do callback pode
+    // invalidar a entrega e gerar o aviso "ResizeObserver loop".
+    let roRaf = 0;
     const ro = new ResizeObserver(() => {
-      resize();
-      if (rm) drawStatic();
+      cancelAnimationFrame(roRaf);
+      roRaf = requestAnimationFrame(() => {
+        resize();
+        if (rm) drawStatic();
+      });
     });
     ro.observe(cv);
 
     return () => {
       if (raf) cancelAnimationFrame(raf);
+      if (roRaf) cancelAnimationFrame(roRaf);
       ro.disconnect();
       if (io) io.disconnect();
       cv.removeEventListener("pointermove", onMove);
