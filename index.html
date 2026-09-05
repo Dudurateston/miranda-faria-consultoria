@@ -38,9 +38,8 @@
     <!-- SEO do dominio: o site e uma SPA de duas rotas (/pt, /en) —
          canonical fixa a raiz, hreflang declara os dois idiomas. -->
     <link rel="canonical" href="https://mirandafaria.com.br/pt" />
-    <link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt" />
-    <link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en" />
-    <link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt" />
+    <!-- hreflang vivem no SiteLayout, atualizados por rota; aqui so causavam
+         duplicatas com x-default conflitante no head renderizado. -->
 
     <meta property="og:url" content="https://mirandafaria.com.br/pt" />
     <meta property="og:locale" content="pt_BR" />
