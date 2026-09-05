@@ -49,7 +49,10 @@ export default function HomeTecnologia() {
   margin:0;display:flex;justify-content:center;align-items:stretch;
   min-height:clamp(240px,32vh,360px);
 }
-@media(min-width:860px){.mf-tech__art{align-self:stretch;min-height:100%}}
+/* Altura FIXA no desktop: figure esticada + canvas height:100% +
+   ResizeObserver formam um loop de realimentacao que infla a secao em
+   ~650px quando entra na viewport (layout shift no meio do scroll). */
+@media(min-width:860px){.mf-tech__art{align-self:center;height:clamp(300px,46vh,540px)}}
 .mf-strata__cv{width:100%;height:100%;display:block;touch-action:pan-y}
 @media(max-width:859px){.mf-tech__art{display:none}}
       `}</style>

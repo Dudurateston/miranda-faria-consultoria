@@ -8,7 +8,7 @@ import { WHATSAPP_URL, HERO_LOOP_MP4, HERO_LOOP_MOBILE_MP4, HERO_LOOP_POSTER, M_
  * Hero imersiva: fundo 3D em loop (MP4, autoplay/muted/loop/playsinline)
  * coberto por um scrim para leitura, o M transparente como watermark
  * grande e translúcido no centro, marca e CTA "Fale comigo" (WhatsApp)
- * na frente, particulas de cobre flutuando e indicador "ROLE" no pe.
+ * na frente, particulas de cobre flutuando.
  */
 const MOTES = [
   { left: "12%", top: "22%", s: 3, d: 11, delay: 0 },
@@ -86,21 +86,6 @@ export default function HeroStage() {
         </a>
       </div>
 
-      <div className="mf-hero__scroll" aria-hidden="true">
-        <span className="mf-hero__scrolllabel">{t.scrollHint}</span>
-        <svg
-          className="mf-hero__chev"
-          viewBox="0 0 24 24"
-          width="14"
-          height="14"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        >
-          <path d="M4 9l8 8 8-8" />
-        </svg>
-      </div>
-
       <style>{`
 .mf-hero{
   position:relative;min-height:100svh;
@@ -170,16 +155,6 @@ export default function HeroStage() {
   box-shadow:0 0 32px rgba(179,122,96,0.35);
   transform:translateY(-2px);
 }
-.mf-hero__scroll{
-  position:absolute;left:50%;bottom:2rem;transform:translateX(-50%);z-index:2;
-  display:flex;flex-direction:column;align-items:center;gap:0.5rem;
-  color:rgba(245,241,234,0.6);
-}
-.mf-hero__scrolllabel{
-  font-family:var(--font-mono);font-size:var(--text-label);
-  letter-spacing:var(--tracking-label);text-transform:uppercase;
-}
-.mf-hero__chev{animation:mf-chev 1.8s var(--ease-in-out) infinite}
 @keyframes mf-chev{
   0%,100%{transform:translateY(0);opacity:0.5}
   50%{transform:translateY(6px);opacity:1}

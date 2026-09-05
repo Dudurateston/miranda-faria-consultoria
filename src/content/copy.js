@@ -60,7 +60,6 @@ export const copy = {
     home: {
       wordmark: "Miranda Faria",
       role: "Design Engineer & Creative Technologist",
-      scrollHint: "Scroll",
       thesis: {
         label: "What I do",
         lead: "I build the structure a business runs on.",
@@ -421,7 +420,6 @@ export const copy = {
     home: {
       wordmark: "Miranda Faria",
       role: "Consultoria & Tecnologia",
-      scrollHint: "Role",
       thesis: {
         label: "O que eu faço",
         lead: "Estruturo a base que sustenta o negócio.",

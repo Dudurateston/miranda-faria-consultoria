@@ -32,7 +32,10 @@ export default function SmoothScroll({ children }) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const lenis = new Lenis({
-      duration: 1.1,
+      // lerp em vez de duration: resposta imediata a cada tique da roda,
+      // sem a flutuacao de 1,1s por evento que fazia o scroll parecer
+      // pesado/bugado em trackpads e rodas rapidas.
+      lerp: 0.12,
       smoothWheel: true,
       touchMultiplier: 1.5,
       autoRaf: true,
