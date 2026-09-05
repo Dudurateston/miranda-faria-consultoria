@@ -58,6 +58,18 @@ export default function Practice({ slug: slugProp }) {
           fisico, sempre assinada como trabalho proprio. */}
       {slug === "design" && (
         <section className="mf-pr__gen" data-depth="0.14" aria-labelledby="gen-title">
+          {/* Pedido do Eduardo: o video em cima — a banda abre a secao,
+              o texto vem depois dela, sem competencia visual. */}
+          <Reveal delay={60}>
+            <figure className="mf-pr__genband">
+              <AutoVideo
+                className="mf-pr__genbandvideo"
+                src={DESIGN_PARTICLES}
+                label={p.gen.capA}
+              />
+            </figure>
+          </Reveal>
+
           <div className="mf-pr__geninner">
             <Reveal>
               <p className="mf-label">{p.gen.label}</p>
@@ -69,19 +81,6 @@ export default function Practice({ slug: slugProp }) {
               <p className="mf-pr__gendesc">{p.gen.desc}</p>
             </Reveal>
           </div>
-
-          {/* Uma banda full-bleed — as partículas atravessam a página
-              sem moldura; a placa vem depois, peça única centrada.
-              As duas peças não competem mais uma com a outra. */}
-          <Reveal delay={180}>
-            <figure className="mf-pr__genband">
-              <AutoVideo
-                className="mf-pr__genbandvideo"
-                src={DESIGN_PARTICLES}
-                label={p.gen.capA}
-              />
-            </figure>
-          </Reveal>
           <div className="mf-pr__geninner">
             <Reveal delay={240}>
               <figure className="mf-pr__genfig">

@@ -120,10 +120,11 @@ export default function StrataPanel() {
     const onLeave = () => { mouse.on = false; };
 
     resize();
+    let io = null;
     if (rm) {
       drawStatic();
     } else {
-      const io = new IntersectionObserver(
+      io = new IntersectionObserver(
         (es) => {
           es.forEach((en) => {
             visible = en.isIntersecting;

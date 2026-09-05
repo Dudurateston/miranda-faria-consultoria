@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Outlet, useLocation, useMatch } from "react-router-dom";
 import SiteNav from "@/components/layout/SiteNav";
 import Footer from "@/components/Footer";
@@ -70,7 +70,12 @@ export default function SiteLayout() {
       <SiteNav revealAfterHero={isHome} />
 
       <main id="conteudo" className={isHome ? undefined : "mf-shell__main"}>
-        <Outlet />
+        {/* Rotas lazy precisam de um limite Suspense: sem ele, a
+            navegacao por clique suspende a arvore inteira (React #426)
+            e a pagina fica em branco ate recarregar. */}
+        <Suspense fallback={<div className="mf-route-load" aria-hidden="true" />}>
+          <Outlet />
+        </Suspense>
       </main>
       <Footer />
       {lang === "pt" && <MobileWhatsAppBar />}

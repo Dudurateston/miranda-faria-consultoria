@@ -8,16 +8,29 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
 // Add page imports here
+// Paginas de conteudo importadas estaticamente: lazy sem Suspense no
+// router legacy derrubava a arvore inteira no clique (React #426) —
+// bug "pagina em branco ate recarregar". O JS delas e minusculo; o
+// peso do site esta na midia, nao aqui.
+import Work from "@/pages/Work";
+import Practice from "@/pages/Practice";
+import WorkCase from "@/pages/WorkCase";
+import HowIWork from "@/pages/HowIWork";
+import Servicos from "@/pages/Servicos";
+import Insights from "@/pages/Insights";
+import About from "@/pages/About";
+import Contact from "@/pages/Contact";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import Home from "@/pages/Home";
-const Work = React.lazy(() => import("@/pages/Work"));
-const Practice = React.lazy(() => import("@/pages/Practice"));
-const WorkCase = React.lazy(() => import("@/pages/WorkCase"));
-const HowIWork = React.lazy(() => import("@/pages/HowIWork"));
-const Servicos = React.lazy(() => import("@/pages/Servicos"));
-const Insights = React.lazy(() => import("@/pages/Insights"));
-const About = React.lazy(() => import("@/pages/About"));
-const Contact = React.lazy(() => import("@/pages/Contact"));
-const PrivacyPolicy = React.lazy(() => import("@/pages/PrivacyPolicy"));
+
+
+
+
+
+
+
+
+
 const Connect = React.lazy(() => import("@/pages/Connect"));
 const Login = React.lazy(() => import("@/pages/Login"));
 const Register = React.lazy(() => import("@/pages/Register"));

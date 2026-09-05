@@ -15,7 +15,9 @@ export const M_LOGO_HERO = "/art/m-logo-hero.webp";
 export const HERO_LOOP_MP4 = "/art/hero_loop.mp4";
 export const HERO_LOOP_MOBILE_MP4 = "/art/hero_loop_mobile.mp4";
 export const HERO_LOOP_POSTER = "/art/hero_loop_poster.webp";
-export const REELS_URL = "/art/reels.mp4";
+// Servidos do bucket publico miranda-faria no Supabase: qualidade original
+// (fonte 4K) sem pesar no bundle do app. Hero continua local (LCP).
+export const REELS_URL = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_reels.mp4";
 export const CORTE_GIF = "/art/corte.mp4";
 export const WATERMARK_GIF = "/art/watermark.webp";
 export const LOGO_ANIM_GIF = "/art/watermark_logo.webp";
@@ -35,8 +37,8 @@ export const LINKEDIN_URL = "https://www.linkedin.com";
 /* ---- Arte generativa (Drive "superagente base44", otimizada de 4K) ----
    Particulas de cobre e placa Miranda Faria: geradas por IA, usadas como
    arte de marca — nunca como prova de escritorio fisico. */
-export const DESIGN_PARTICLES = "/art/design-particles.mp4";
-export const DESIGN_SIGN = "/art/design-sign.mp4";
+export const DESIGN_PARTICLES = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_particles2.mp4";
+export const DESIGN_SIGN = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_sign.mp4";
 export const BRAND_FACADE = "/art/brand-facade.webp";
 export const BRAND_FACADE_800 = "/art/brand-facade@800.webp";
 export const TEXTURE_MACRO = "/art/texture-macro.webp";

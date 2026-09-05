@@ -94,3 +94,7 @@
   outline-offset: 3px;
   border-radius: 1px;
 }
+/* Fallback de rota lazy: filete terracota sutil enquanto o chunk carrega. */
+.mf-route-load{height:60vh;position:relative}
+.mf-route-load::after{content:"";position:absolute;left:50%;top:50%;width:88px;height:1px;background:var(--copper,#b06a4a);transform:translate(-50%,-50%);animation:mf-route-pulse 1s ease-in-out infinite}
+@keyframes mf-route-pulse{0%,100%{opacity:.25}50%{opacity:.9}}
