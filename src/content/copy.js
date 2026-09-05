@@ -157,9 +157,32 @@ export const copy = {
       },
       demo: {
         label: "Live, right now",
-        lead: "This panel is the pitch.",
-        body: "A vector flow field computed at 60 frames per second, reacting to your cursor. Written by hand in raw Canvas 2D — no Three.js, no GSAP, no animation library. The FPS counter is measured in your browser, not promised on a slide.",
-        hint: "Move your cursor over the field.",
+        lead: "Three proofs running on this page.",
+        body:
+          "Nothing below is video, GIF or slide: three panels computing right now, in your browser, with zero animation libraries. If it holds 60 frames per second, it's because the math holds — measured, not promised.",
+        items: [
+          {
+            tag: "01",
+            name: "Vector field",
+            hint: "Move your cursor over the field.",
+            caption:
+              "Hundreds of particles in a flow field that reacts to your cursor. Raw Canvas 2D — no Three.js, no GSAP, zero dependencies. The FPS in the corner is measured in your browser.",
+          },
+          {
+            tag: "02",
+            name: "Motion curves",
+            hint: "Three curves, three personalities.",
+            caption:
+              "Linear, exponential-out and elastic — the easing choreography that governs this site's motion, plotted and animated live. Each curve is a hand-written interpolation function, not a library timeline.",
+          },
+          {
+            tag: "03",
+            name: "Frame time",
+            hint: "16.7ms is the target.",
+            caption:
+              "This graph measures the real time of every frame of this page, right now. The line is your browser at work — performance is measured, not promised.",
+          },
+        ],
       },
       ai: {
         label: "On AI",
@@ -304,6 +327,14 @@ export const copy = {
         solutionSee: "See the solution",
         cta: "Message on WhatsApp with the diagnosis ready",
         restart: "Run it again",
+        perDay: "per business day",
+        recoveryLabel: "Recoverable",
+        recoveryNote:
+          "Operations like this usually recover a good part of that within the first quarter — the rest is profit that was being left on the table.",
+        reading: "This is the price of leaving things as they are — not a quote, a leak.",
+        copyCta: "Copy result",
+        copied: "Copied",
+        back: "Back",
         howLabel: "How we estimated",
         how: "Each pain maps to a market average: marketplace fees of 15–30% of revenue, hours lost to manual operation and unqualified inquiries, or the margin left on the table when decisions run on gut feel. The ranges are deliberately conservative; the honest number comes from the conversation.",
       },
@@ -442,9 +473,32 @@ export const copy = {
       },
       demo: {
         label: "Ao vivo, agora",
-        lead: "Este painel é o pitch.",
-        body: "Um campo vetorial calculado a 60 quadros por segundo, reagindo ao seu cursor. Escrito à mão em Canvas 2D puro — sem Three.js, sem GSAP, sem biblioteca de animação. O contador de FPS é medido no seu navegador, não prometido no slide.",
-        hint: "Passe o cursor sobre o campo.",
+        lead: "Três provas rodando nesta página.",
+        body:
+          "Nada abaixo é vídeo, GIF ou slide: são três painéis calculando neste instante, no seu navegador, sem nenhuma biblioteca de animação. Se está segurando 60 quadros por segundo, é porque a matemática aguenta — medida, não prometida.",
+        items: [
+          {
+            tag: "01",
+            name: "Campo vetorial",
+            hint: "Passe o cursor sobre o campo.",
+            caption:
+              "Centenas de partículas num campo de fluxo que reage ao seu cursor. Canvas 2D puro — sem Three.js, sem GSAP, zero dependências. O FPS do canto é medido no seu navegador.",
+          },
+          {
+            tag: "02",
+            name: "Curvas de movimento",
+            hint: "Três curvas, três personalidades.",
+            caption:
+              "Linear, exponencial de saída e elástica — a coreografia de easing que rege o movimento deste site, plotada e animada ao vivo. Cada curva é uma função de interpolação escrita à mão, não uma timeline de biblioteca.",
+          },
+          {
+            tag: "03",
+            name: "Tempo de quadro",
+            hint: "16,7ms é a meta.",
+            caption:
+              "Este gráfico mede o tempo real de cada quadro desta página, agora. A linha é o seu navegador trabalhando — performance se mede, não se promete.",
+          },
+        ],
       },
       ai: {
         label: "Sobre IA",
@@ -589,6 +643,14 @@ export const copy = {
         solutionSee: "Ver a solução",
         cta: "Falar no WhatsApp com o diagnóstico pronto",
         restart: "Refazer o diagnóstico",
+        perDay: "por dia útil",
+        recoveryLabel: "Recuperável",
+        recoveryNote:
+          "Operações como essa costumam recuperar boa parte disso já no primeiro trimestre — o resto é lucro que ficava na mesa.",
+        reading: "É o preço de manter as coisas como estão — não um orçamento, um vazamento.",
+        copyCta: "Copiar resultado",
+        copied: "Copiado",
+        back: "Voltar",
         howLabel: "Como estimamos",
         how: "Cada dor mapeia uma média de mercado: comissões de 15–30% da receita no modelo marketplace, horas perdidas com operação manual e atendimento de curiosos, ou a margem que fica na mesa quando a decisão é no chute. As faixas são deliberadamente conservadoras; o número honesto sai da conversa.",
       },

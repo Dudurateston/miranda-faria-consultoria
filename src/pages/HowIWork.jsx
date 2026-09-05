@@ -7,6 +7,8 @@ import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import TerraformCanvas from "@/components/TerraformCanvas";
+import MotionCurves from "@/components/MotionCurves";
+import FrameTimeGraph from "@/components/FrameTimeGraph";
 import { usePageTitle } from "@/lib/usePageTitle";
 import { CORTE_GIF } from "@/lib/site";
 
@@ -78,11 +80,36 @@ export default function HowIWork() {
           <Reveal delay={140}>
             <p className="mf-hiw__demobody">{t.demo.body}</p>
           </Reveal>
-          <Reveal delay={220}>
-            <p className="mf-hiw__demohint">{t.demo.hint}</p>
-          </Reveal>
-          <Reveal delay={280}>
-            <TerraformCanvas />
+          <Reveal delay={240}>
+            <div className="mf-hiw__demogrid">
+              <div className="mf-hiw__democell mf-hiw__democell--wide">
+                <TerraformCanvas />
+                <div className="mf-hiw__democap">
+                  <span className="mf-hiw__demotag">{t.demo.items[0].tag}</span>
+                  <span className="mf-hiw__demoname">{t.demo.items[0].name}</span>
+                  <span className="mf-hiw__democapd">{t.demo.items[0].caption}</span>
+                  <span className="mf-hiw__demohint">{t.demo.items[0].hint}</span>
+                </div>
+              </div>
+              <div className="mf-hiw__democell">
+                <MotionCurves />
+                <div className="mf-hiw__democap">
+                  <span className="mf-hiw__demotag">{t.demo.items[1].tag}</span>
+                  <span className="mf-hiw__demoname">{t.demo.items[1].name}</span>
+                  <span className="mf-hiw__democapd">{t.demo.items[1].caption}</span>
+                  <span className="mf-hiw__demohint">{t.demo.items[1].hint}</span>
+                </div>
+              </div>
+              <div className="mf-hiw__democell">
+                <FrameTimeGraph />
+                <div className="mf-hiw__democap">
+                  <span className="mf-hiw__demotag">{t.demo.items[2].tag}</span>
+                  <span className="mf-hiw__demoname">{t.demo.items[2].name}</span>
+                  <span className="mf-hiw__democapd">{t.demo.items[2].caption}</span>
+                  <span className="mf-hiw__demohint">{t.demo.items[2].hint}</span>
+                </div>
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -150,16 +177,41 @@ export default function HowIWork() {
   font-size:var(--text-body-lg);line-height:var(--leading-body);
   color:var(--color-text-secondary);max-width:58ch;margin:1.6rem 0 0;
 }
+.mf-hiw__demogrid{
+  display:grid;grid-template-columns:1fr;gap:1.6rem;margin-top:1.8rem;
+}
+@media(min-width:860px){.mf-hiw__demogrid{grid-template-columns:1fr 1fr}}
+.mf-hiw__democell{display:flex;flex-direction:column}
+.mf-hiw__democell--wide{grid-column:1 / -1}
+.mf-hiw__democap{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:0.35rem 0.9rem;
+  margin:0.85rem 0 0;padding:0 0.2rem;
+}
+.mf-hiw__demotag{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);color:var(--mf-terracotta);
+}
+.mf-hiw__demoname{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-primary);
+}
+.mf-hiw__democapd{
+  flex-basis:100%;font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);line-height:var(--leading-body);
+  color:var(--color-text-secondary);max-width:58ch;
+}
 .mf-hiw__demohint{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--mf-terracotta);margin:1.2rem 0 1.6rem;
+  color:var(--mf-terracotta);flex-basis:100%;margin-top:0.15rem;
 }
 .mf-tf{
   position:relative;margin:0;height:clamp(280px,44vh,420px);
   border:1px solid var(--color-divider);background:#16130f;
   cursor:crosshair;
 }
+.mf-tf--half{height:clamp(200px,30vh,260px)}
 .mf-tf canvas{display:block;width:100%;height:100%}
 .mf-tf__hud{
   position:absolute;right:0.9rem;bottom:0.75rem;

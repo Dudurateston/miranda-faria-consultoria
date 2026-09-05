@@ -74,7 +74,6 @@ export default function HeroStage() {
       <div ref={content} className="mf-hero__content" style={{ opacity: 0 }}>
         <h1 className="mf-hero__title">{t.wordmark}</h1>
         <p className="mf-hero__role">{t.role}</p>
-        <span className="mf-hero__rule" aria-hidden="true" />
         <a
           href={WHATSAPP_URL}
           target="_blank"
@@ -155,12 +154,8 @@ export default function HeroStage() {
   letter-spacing:0.4em;text-transform:uppercase;
   color:rgba(245,241,234,0.75);margin:1.4rem 0 0;
 }
-.mf-hero__rule{
-  display:block;width:64px;height:1px;
-  background:var(--mf-terracotta);margin:2.4rem auto 0;
-}
 .mf-hero__cta{
-  margin-top:2.4rem;
+  margin-top:3.2rem;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--bone);border:1px solid var(--mf-terracotta);

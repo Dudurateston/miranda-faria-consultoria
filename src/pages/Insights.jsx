@@ -143,6 +143,14 @@ export default function Insights() {
   const shown = useCountUp(leak, phase === 3);
   const result = t.result;
 
+  // desdobramentos do vazamento: dia util e faixa recuperavel
+  const bare = (n) => round100(n).toLocaleString(lang === "pt" ? "pt-BR" : "en-US");
+  const cur = lang === "pt" ? "R$ " : "$";
+  const daily = leak / 22; // ~22 dias uteis
+  const recLo = leak * 0.35,
+    recHi = leak * 0.6;
+  const [copied, setCopied] = useState(false);
+
   const painLabel = pain != null ? t.pains.find((p) => p.id === pain)?.t : "";
   const revLabel = revenue != null ? t.revenues[revenue] : "";
   const urgLabel = urgency != null ? t.urgencies.find((u) => u.id === urgency)?.t : "";
@@ -150,11 +158,25 @@ export default function Insights() {
 
   const waText = encodeURIComponent(
     lang === "pt"
-      ? `Olá Eduardo. Fiz o diagnóstico no site:\n• Dor: ${painLabel}\n• Faturamento: ${revLabel}\n• Urgência: ${urgLabel}\n• Vazamento estimado: ${fmt("pt", leak)}/mês\nQuero conversar sobre a solução — ${sol?.t}.`
-      : `Hi Eduardo. I ran the diagnosis on your site:\n• Pain: ${painLabel}\n• Revenue: ${revLabel}\n• Urgency: ${urgLabel}\n• Estimated leak: ${fmt("en", leak)}/mo\nI'd like to talk about the fix — ${sol?.t}.`
+      ? `Olá Eduardo. Fiz o diagnóstico no site:\n• Dor: ${painLabel}\n• Faturamento: ${revLabel}\n• Urgência: ${urgLabel}\n• Vazamento estimado: ${fmt("pt", leak)}/mês (${fmt("pt", daily)} por dia útil)\n• Recuperável: ${cur}${bare(recLo)}–${bare(recHi)}/mês\nQuero conversar sobre a solução — ${sol?.t}.`
+      : `Hi Eduardo. I ran the diagnosis on your site:\n• Pain: ${painLabel}\n• Revenue: ${revLabel}\n• Urgency: ${urgLabel}\n• Estimated leak: ${fmt("en", leak)}/mo (${fmt("en", daily)} per business day)\n• Recoverable: ${cur}${bare(recLo)}–${bare(recHi)}/mo\nI'd like to talk about the fix — ${sol?.t}.`
   );
 
   const stepNames = [t.steps.pain, t.steps.revenue, t.steps.urgency];
+
+  const copyResult = async () => {
+    const plain =
+      lang === "pt"
+        ? `Diagnóstico — Miranda Faria\n• Dor: ${painLabel}\n• Faturamento: ${revLabel}\n• Urgência: ${urgLabel}\n• Vazamento estimado: ${fmt("pt", leak)}/mês (${fmt("pt", daily)} por dia útil)\n• Recuperável: ${cur}${bare(recLo)}–${bare(recHi)}/mês\n• Solução apontada: ${sol?.t}`
+        : `Diagnosis — Miranda Faria\n• Pain: ${painLabel}\n• Revenue: ${revLabel}\n• Urgency: ${urgLabel}\n• Estimated leak: ${fmt("en", leak)}/mo (${fmt("en", daily)} per business day)\n• Recoverable: ${cur}${bare(recLo)}–${bare(recHi)}/mo\n• Suggested fix: ${sol?.t}`;
+    try {
+      await navigator.clipboard.writeText(plain);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    } catch {
+      /* clipboard indisponivel: o botao simplesmente nao marca */
+    }
+  };
 
   return (
     <>
@@ -217,6 +239,9 @@ export default function Insights() {
             {/* PASSO 1 — o porte */}
             {phase === 1 && (
               <div className="mf-dg__panel" key="p1">
+                <button type="button" className="mf-dg__back" onClick={() => setPhase(0)}>
+                  ← {result.back}
+                </button>
                 <h2 className="mf-dg__q">{t.revenueQ}</h2>
                 <p className="mf-dg__hint">{t.revenueHint}</p>
                 <div className="mf-dg__opts mf-dg__opts--rev">
@@ -238,6 +263,9 @@ export default function Insights() {
             {/* PASSO 2 — a urgencia */}
             {phase === 2 && (
               <div className="mf-dg__panel" key="p2">
+                <button type="button" className="mf-dg__back" onClick={() => setPhase(1)}>
+                  ← {result.back}
+                </button>
                 <h2 className="mf-dg__q">{t.urgencyQ}</h2>
                 <div className="mf-dg__opts mf-dg__opts--urg">
                   {t.urgencies.map((u) => (
@@ -269,12 +297,22 @@ export default function Insights() {
                   {result.perMonth}
                   <span className="mf-dg__sep">·</span>
                   {fmt(lang, leak * 12)} {result.perYear}
+                  <span className="mf-dg__sep">·</span>
+                  {fmt(lang, daily)} {result.perDay}
                 </p>
+                <p className="mf-dg__reading">{result.reading}</p>
                 {urgency === "now" && (
                   <p className="mf-dg__delay">
                     {result.delayCost} <strong>{fmt(lang, leak)}</strong>.
                   </p>
                 )}
+
+                <div className="mf-dg__recovery">
+                  <p className="mf-label">
+                    {result.recoveryLabel} <strong className="mf-dg__recrange">{cur}{bare(recLo)}–{bare(recHi)}</strong> {result.perMonth}
+                  </p>
+                  <p className="mf-dg__recnote">{result.recoveryNote}</p>
+                </div>
 
                 <div className="mf-dg__sol">
                   <p className="mf-label">{result.solutionLabel}</p>
@@ -295,6 +333,9 @@ export default function Insights() {
                   >
                     {result.cta} →
                   </a>
+                  <button type="button" className="mf-dg__again" onClick={copyResult}>
+                    {copied ? result.copied : result.copyCta}
+                  </button>
                   <button
                     type="button"
                     className="mf-dg__again"
@@ -421,6 +462,29 @@ export default function Insights() {
   margin:1.4rem 0 0;
 }
 .mf-dg__delay strong{color:var(--mf-terracotta);font-weight:400}
+.mf-dg__reading{
+  font-family:var(--font-display);font-weight:400;font-style:italic;
+  font-size:var(--text-body-lg);line-height:var(--leading-body);
+  color:var(--color-text-secondary);margin:1.1rem 0 0;max-width:46ch;
+}
+.mf-dg__recovery{
+  margin-top:2rem;padding:1.25rem 1.4rem;
+  border:1px solid var(--color-divider);
+}
+.mf-dg__recovery .mf-label{margin:0}
+.mf-dg__recrange{color:var(--mf-terracotta);font-weight:400;letter-spacing:0}
+.mf-dg__recnote{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);line-height:var(--leading-body);
+  color:var(--color-text-secondary);margin:0.6rem 0 0;max-width:52ch;
+}
+.mf-dg__back{
+  background:none;border:0;cursor:pointer;padding:0;margin-bottom:0.9rem;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);
+}
+.mf-dg__back:hover{color:var(--color-text-primary)}
 
 .mf-dg__sol{
   margin-top:2.5rem;padding:1.6rem 0 0;border-top:1px solid var(--color-divider);
