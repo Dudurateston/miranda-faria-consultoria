@@ -37,7 +37,7 @@ export default function HomeServicos() {
               <Link key={slug} to={path(slug)} className="mf-card" data-cursor="link">
                 <img className="mf-card__gif" src={gif} alt="" loading="lazy" />
                 <span className="mf-card__label">{p.label}</span>
-                <p className="mf-card__lead">{p.lead}</p>
+                <p className="mf-card__lead">{t.servicos.cards?.[slug] ?? p.lead}</p>
                 <span className="mf-card__go">{t.servicos.seeVertical} →</span>
               </Link>
             );
@@ -97,11 +97,12 @@ export default function HomeServicos() {
 @media(hover:none){.mf-card:hover{transform:none;box-shadow:none}}
 
 .mf-cards__metrics{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem 2.5rem;
-  margin-top:3rem;padding-top:2rem;border-top:1px solid var(--mf-rule);
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1.8rem 2.5rem;
+  margin-top:3.25rem;padding-top:2.25rem;margin-bottom:clamp(1.5rem,4vh,3rem);
+  border-top:1px solid var(--mf-rule);
 }
 @media(min-width:860px){.mf-cards__metrics{grid-template-columns:repeat(4,1fr)}}
-.mf-metric{display:flex;flex-direction:column;gap:0.5rem}
+.mf-metric{display:flex;flex-direction:column;gap:0.8rem}
 .mf-metric__n{
   font-family:var(--font-display);font-weight:400;
   font-size:var(--text-display-lg);line-height:1;

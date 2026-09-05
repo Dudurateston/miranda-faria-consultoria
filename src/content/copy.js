@@ -41,7 +41,7 @@ export const copy = {
       about: "About",
       services: "Services",
       technology: "Technology",
-      insights: "Insights",
+      insights: "Diagnosis",
       contact: "Contact",
       toggle: "Ver em português",
     },
@@ -90,7 +90,13 @@ export const copy = {
         stack: ["React", "Next.js", "Tailwind CSS", "Node.js", "Python", "Figma", "AI / LLMs", "Automation"],
         cta: "Learn more",
       },
-      insightsPreview: { cta: "See all insights" },
+      insightsPreview: {
+        label: "Diagnosis",
+        lead: "What does it cost to leave it unsolved?",
+        intro:
+          "Three questions and an estimate of what the problem drains per month — the same diagnosis I run in a first conversation, in forty seconds.",
+        cta: "Run the diagnosis",
+      },
       finalCta: { lead: "Let's talk.", cta: "Message on WhatsApp" },
     },
     work: {
@@ -148,6 +154,12 @@ export const copy = {
           "AI / LLMs — leverage across the mechanical parts",
           "REST APIs — systems that talk to systems",
         ],
+      },
+      demo: {
+        label: "Live, right now",
+        lead: "This panel is the pitch.",
+        body: "A vector flow field computed at 60 frames per second, reacting to your cursor. Written by hand in raw Canvas 2D — no Three.js, no GSAP, no animation library. The FPS counter is measured in your browser, not promised on a slide.",
+        hint: "Move your cursor over the field.",
       },
       ai: {
         label: "On AI",
@@ -231,35 +243,70 @@ export const copy = {
       bandSource: "U.S. Bureau of Labor Statistics",
       verticalsLabel: "The solutions",
       seeVertical: "See the solution",
+      cards: {
+        systems: "The order that dies in a chat thread — in a system you own.",
+        design: "Brand and interface that justify the premium.",
+        business: "Decisions that stop being guesswork: a panel that updates itself.",
+      },
       cta: "Start a project",
     },
-    insights: {
-      label: "Insights",
-      lead: "Notes from the work.",
+    diag: {
+      label: "Diagnosis",
+      lead: "How much leaks out every month?",
       intro:
-        "Short technical notes on how systems, design and data hold together — written from the field, not from a deck.",
-      items: [
+        "Three questions and an estimate of what the problem costs — before any talk of price or technology. That is how I work: size the pain first, prescribe second.",
+      meta: "An estimate from market averages. The real diagnosis happens in the conversation.",
+      steps: { pain: "The pain", revenue: "The size", urgency: "The urgency" },
+      painQ: "Where does it hurt most today?",
+      painHint: "Pick the main one.",
+      pains: [
         {
-          tag: "Data",
-          t: "The data model comes before the dashboard",
-          d: "A panel nobody trusts is a spreadsheet with better lighting. Before any chart, decide what is stored, what is derived and how the pieces relate — the dashboard is the last layer, not the first.",
+          id: "marketplace",
+          t: "I depend on a marketplace",
+          d: "iFood, Rappi, Instagram — the middleman takes a cut of every sale and owns the customer.",
         },
         {
-          tag: "AI",
-          t: "Leverage, not shortcut",
-          d: "AI writes the mechanical code and drafts the first visual directions. It does not decide the architecture, the hierarchy or what gets cut. Generation is cheap; selection is the work.",
+          id: "excel",
+          t: "I run on spreadsheets",
+          d: "Inventory, orders and cash flow in Excel — or in someone's head.",
         },
         {
-          tag: "Systems",
-          t: "The owner is the second user",
-          d: "A system the client cannot operate alone is a subscription disguised as a product. Every project ships with the admin in the client's hands and the infrastructure in their name.",
+          id: "curiosos",
+          t: "Too many tire-kickers",
+          d: "Hours of the day spent answering people who never buy.",
         },
         {
-          tag: "Design",
-          t: "Load time is the first impression",
-          d: "Before any animation, the visitor judges the weight of the page. A site that opens slowly reads as carelessness — and no showcase fixes a broken first impression.",
+          id: "pessoa",
+          t: "I depend on one person",
+          d: "If they leave, the process and the clients leave with them.",
+        },
+        {
+          id: "cego",
+          t: "I can't see where sales come from",
+          d: "Pricing and stock decisions by gut feel.",
         },
       ],
+      revenueQ: "Approximate monthly revenue?",
+      revenueHint: "Ranges — no exact number needed here.",
+      revenues: ["Up to $10k", "$10–30k", "$30–100k", "$100k+"],
+      urgencyQ: "When do you want this solved?",
+      urgencies: [
+        { id: "now", t: "It's bleeding now", d: "Every month of delay costs real money." },
+        { id: "months", t: "In the next few months", d: "Planned — but it can't slide forever." },
+        { id: "later", t: "Planning for next year", d: "I want the size of it first." },
+      ],
+      result: {
+        label: "Your estimated leak",
+        perMonth: "per month",
+        perYear: "per year",
+        delayCost: "Every month of delay costs about",
+        solutionLabel: "What fixes it",
+        solutionSee: "See the solution",
+        cta: "Message on WhatsApp with the diagnosis ready",
+        restart: "Run it again",
+        howLabel: "How we estimated",
+        how: "Each pain maps to a market average: marketplace fees of 15–30% of revenue, hours lost to manual operation and unqualified inquiries, or the margin left on the table when decisions run on gut feel. The ranges are deliberately conservative; the honest number comes from the conversation.",
+      },
     },
   },
 
@@ -279,7 +326,7 @@ export const copy = {
       about: "Sobre",
       services: "Serviços",
       technology: "Tecnologia",
-      insights: "Insights",
+      insights: "Diagnóstico",
       contact: "Contato",
       toggle: "View in English",
     },
@@ -328,7 +375,13 @@ export const copy = {
         stack: ["React", "Next.js", "Tailwind CSS", "Node.js", "Python", "Figma", "IA / LLMs", "Automações"],
         cta: "Saiba mais",
       },
-      insightsPreview: { cta: "Ver todos os insights" },
+      insightsPreview: {
+        label: "Diagnóstico",
+        lead: "Quanto custa não resolver?",
+        intro:
+          "Três perguntas e uma estimativa do que o problema drena por mês — o mesmo diagnóstico que eu faria numa primeira conversa, em quarenta segundos.",
+        cta: "Fazer o diagnóstico",
+      },
       finalCta: { lead: "Vamos conversar.", cta: "Chamar no WhatsApp" },
     },
     work: {
@@ -386,6 +439,12 @@ export const copy = {
           "IA / LLMs — alavanca nas partes mecânicas",
           "APIs REST — sistemas que conversam com sistemas",
         ],
+      },
+      demo: {
+        label: "Ao vivo, agora",
+        lead: "Este painel é o pitch.",
+        body: "Um campo vetorial calculado a 60 quadros por segundo, reagindo ao seu cursor. Escrito à mão em Canvas 2D puro — sem Three.js, sem GSAP, sem biblioteca de animação. O contador de FPS é medido no seu navegador, não prometido no slide.",
+        hint: "Passe o cursor sobre o campo.",
       },
       ai: {
         label: "Sobre IA",
@@ -469,35 +528,70 @@ export const copy = {
       bandSource: "IBGE · SEBRAE",
       verticalsLabel: "As soluções",
       seeVertical: "Ver a solução",
+      cards: {
+        systems: "O pedido que hoje morre na conversa — num sistema que é seu.",
+        design: "Marca e interface que sustentam o preço premium.",
+        business: "Decisão que deixa de ser chute: painel que atualiza sozinho.",
+      },
       cta: "Começar um projeto",
     },
-    insights: {
-      label: "Insights",
-      lead: "Notas do trabalho.",
+    diag: {
+      label: "Diagnóstico",
+      lead: "Quanto está vazando por mês?",
       intro:
-        "Notas curtas sobre como sistema, design e dado se sustentam juntos — escritas do campo, não do slide.",
-      items: [
+        "Três perguntas e uma estimativa do custo do seu problema — antes de falar de preço ou de tecnologia. É assim que eu trabalho: primeiro o tamanho da dor, depois a solução.",
+      meta: "Estimativa a partir de médias de mercado. O diagnóstico de verdade acontece na conversa.",
+      steps: { pain: "A dor", revenue: "O porte", urgency: "A urgência" },
+      painQ: "Onde dói mais hoje?",
+      painHint: "Escolha o principal.",
+      pains: [
         {
-          tag: "Dados",
-          t: "O modelo de dados vem antes do painel",
-          d: "Painel em que ninguém confia é planilha com iluminação melhor. Antes de qualquer gráfico: o que é guardado, o que é calculado e como as peças se relacionam — o painel é a última camada, não a primeira.",
+          id: "marketplace",
+          t: "Dependo de marketplace",
+          d: "iFood, Rappi, Instagram — o meio fica com comissão em cada venda e com o cliente.",
         },
         {
-          tag: "IA",
-          t: "Alavanca, não atalho",
-          d: "A IA escreve o código mecânico e rascunha as primeiras direções visuais. Ela não decide arquitetura, hierarquia, nem o que sai fora. Gerar é barato; escolher é o trabalho.",
+          id: "excel",
+          t: "Vivo de planilha e papel",
+          d: "Estoque, pedido e caixa no Excel — ou na cabeça de alguém.",
         },
         {
-          tag: "Sistemas",
-          t: "O dono é o segundo usuário",
-          d: "Sistema que o cliente não opera sozinho é assinatura disfarçada de produto. Todo projeto sai com o painel na mão do cliente e a infraestrutura no nome dele.",
+          id: "curiosos",
+          t: "Atendo curioso demais",
+          d: "Horas do dia gastas respondendo quem não compra.",
         },
         {
-          tag: "Design",
-          t: "O carregamento é a primeira impressão",
-          d: "Antes de qualquer animação, o visitante julga o peso da página. Site que abre devagar comunica descuido — e nenhuma vitrine conserta a primeira impressão furada.",
+          id: "pessoa",
+          t: "Dependo de uma pessoa",
+          d: "Se ela sai, o processo e os clientes saem junto.",
+        },
+        {
+          id: "cego",
+          t: "Não sei de onde vêm as vendas",
+          d: "Decisão de preço e estoque no chute.",
         },
       ],
+      revenueQ: "Faturamento mensal aproximado?",
+      revenueHint: "Faixas — ninguém precisa de número exato aqui.",
+      revenues: ["Até R$ 10 mil", "R$ 10–30 mil", "R$ 30–100 mil", "Mais de R$ 100 mil"],
+      urgencyQ: "Quando você quer resolver?",
+      urgencies: [
+        { id: "now", t: "Já está sangrando", d: "Cada mês de atraso custa dinheiro de verdade." },
+        { id: "months", t: "Nos próximos meses", d: "Está no plano — mas não pode empurrar pra sempre." },
+        { id: "later", t: "Planejando o ano que vem", d: "Quero entender o tamanho antes." },
+      ],
+      result: {
+        label: "Seu vazamento estimado",
+        perMonth: "por mês",
+        perYear: "por ano",
+        delayCost: "Cada mês de atraso custa cerca de",
+        solutionLabel: "O que resolve",
+        solutionSee: "Ver a solução",
+        cta: "Falar no WhatsApp com o diagnóstico pronto",
+        restart: "Refazer o diagnóstico",
+        howLabel: "Como estimamos",
+        how: "Cada dor mapeia uma média de mercado: comissões de 15–30% da receita no modelo marketplace, horas perdidas com operação manual e atendimento de curiosos, ou a margem que fica na mesa quando a decisão é no chute. As faixas são deliberadamente conservadoras; o número honesto sai da conversa.",
+      },
     },
   },
 };
@@ -635,15 +729,16 @@ export const cases = {
       sector: "Miranda Faria",
       year: "2026",
       summary:
-        "The brand, the design system, the motion and the code — the most direct example of what I ship.",
+        "The brand, the design system, the motion, the shader and the code — the most direct example of what I ship. Every image below is a capture of the running site, not a mockup.",
       problem:
         "I needed a portfolio that demonstrated the claim rather than asserting it: if I say I do brand, product and data as one, the site itself has to be the proof.",
       process:
-        "Brand first — palette, type, the geological strata motif — then a token system, then the code. The hero went through a long sequence of failed approaches (a 65-frame scroll sequence, manual vectorisation, a liquid-metal shader) before the direction settled on procedurally generated motion with no external image dependency.",
+        "Brand first — palette, type, the geological strata motif — then a token system, then the code. The hero is a hand-written WebGL shader: a liquid metal M with no video, no image sequence, no library — raw GLSL computed per frame. The homepage went through a long sequence of failed approaches (a 65-frame scroll sequence, manual vectorisation) before the direction settled on procedural motion with no external asset.",
       decisions:
-        "Documented every abandoned path in the repository rather than quietly deleting it, so the reasoning survives. Chose real /en and /pt routes over a hash toggle, for correct indexing. Removed the contact form entirely: a direct link converts better than a field.",
+        "The diagnosis engine — three questions that quantify the visitor's leak before any talk of price — is real arithmetic running in the page, not a form. The technology section carries a 60fps flow-field in raw Canvas 2D with zero animation dependencies, and an FPS counter measured in your browser rather than promised on a slide. Documented every abandoned path in the repository. Real /en and /pt routes over a hash toggle. No contact form: a direct link converts better than a field.",
       impact:
-        "The site is the case. Everything visible here was designed, built and deployed by one person.",
+        "The site is the case. Shader, canvas, motion system, two languages, the diagnostic engine and every line of CSS — designed, built and deployed by one person, in weeks, not quarters.",
+      media: { dir: "miranda-faria", shots: 5, video: true },
     },
   ],
   pt: [
@@ -773,15 +868,16 @@ export const cases = {
       sector: "Miranda Faria",
       year: "2026",
       summary:
-        "A marca, o design system, o movimento e o código — o exemplo mais direto do que eu entrego.",
+        "A marca, o design system, o movimento, o shader e o código — o exemplo mais direto do que eu entrego. Cada imagem abaixo é captura do site rodando, não mockup.",
       problem:
         "Eu precisava de um portfólio que demonstrasse a afirmação em vez de declará-la: se eu digo que faço marca, produto e dado como uma coisa só, o site tem que ser a prova.",
       process:
-        "Marca primeiro — paleta, tipografia, o motivo de estratos geológicos — depois o sistema de tokens, depois o código. A hero passou por uma sequência longa de caminhos que falharam (sequência de 65 quadros, vetorização manual, shader de metal líquido) antes da direção assentar em movimento gerado proceduralmente, sem depender de imagem externa.",
+        "Marca primeiro — paleta, tipografia, o motivo de estratos geológicos — depois o sistema de tokens, depois o código. A hero é um shader WebGL escrito à mão: um M de metal líquido sem vídeo, sem sequência de imagens, sem biblioteca — GLSL puro, calculado quadro a quadro. A home passou por uma sequência longa de caminhos que falharam (sequência de 65 quadros, vetorização manual) antes da direção assentar em movimento procedural, sem asset externo.",
       decisions:
-        "Documentei cada caminho abandonado no repositório em vez de apagar em silêncio, para o raciocínio sobreviver. Escolhi rotas reais /en e /pt em vez de toggle por hash, para indexar direito. Removi o formulário de contato por completo: link direto converte mais que campo para preencher.",
+        "O motor de diagnóstico — três perguntas que quantificam o vazamento do visitante antes de qualquer conversa sobre preço — é aritmética real rodando na página, não formulário. A aba Tecnologia carrega um campo de fluxo a 60fps em Canvas 2D puro, zero dependências de animação, com contador de FPS medido no seu navegador em vez de prometido no slide. Cada caminho abandonado está documentado no repositório. Rotas reais /en e /pt em vez de toggle por hash. Sem formulário de contato: link direto converte mais que campo para preencher.",
       impact:
-        "O site é o case. Tudo que está visível aqui foi desenhado, construído e publicado por uma pessoa.",
+        "O site é o case. Shader, canvas, sistema de movimento, dois idiomas, o motor de diagnóstico e cada linha de CSS — desenhado, construído e publicado por uma pessoa, em semanas, não em trimestres.",
+      media: { dir: "miranda-faria", shots: 5, video: true },
     },
   ],
 };
@@ -869,6 +965,7 @@ export const practices = {
         "This site: identity, motion and code by the same hand you would hire.",
       ],
       casesLabel: "Built this way",
+      closingCta: { label: "See the case of this site", to: "work/miranda-faria" },
       cta: "Start a project",
     },
     business: {
@@ -974,9 +1071,10 @@ export const practices = {
       proofs: [
         "DJ Jotavê: site de apresentação completo — identidade, agenda e material promocional.",
         "Paulo Henrique: marca e interface feitas para o público de um atleta.",
-        "Este site: identidade, movimento e código pela mesma mão que você contratarias.",
+        "Este site: identidade, movimento e código pela mesma mão que você contrataria.",
       ],
       casesLabel: "Feitos assim",
+      closingCta: { label: "Ver o case deste site", to: "work/miranda-faria" },
       cta: "Começar um projeto",
     },
     business: {

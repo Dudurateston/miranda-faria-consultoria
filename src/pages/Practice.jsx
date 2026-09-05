@@ -131,9 +131,15 @@ export default function Practice({ slug: slugProp }) {
         <div className="mf-pr__inner">
           <LineReveal className="mf-pr__closing">{t.contact.lead}</LineReveal>
           <Reveal delay={140}>
-            <Link to={path("contact")} className="mf-pr__cta" data-cursor="link">
-              {p.cta} →
-            </Link>
+            {p.closingCta ? (
+              <Link to={path(p.closingCta.to)} className="mf-pr__cta" data-cursor="link">
+                {p.closingCta.label} →
+              </Link>
+            ) : (
+              <Link to={path("contact")} className="mf-pr__cta" data-cursor="link">
+                {p.cta} →
+              </Link>
+            )}
           </Reveal>
         </div>
       </section>

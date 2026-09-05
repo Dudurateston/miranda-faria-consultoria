@@ -1,51 +1,321 @@
-import React from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { CELESTE_GIF } from "@/lib/site";
+import { WHATSAPP_URL_BARE } from "@/lib/site";
 
 /**
- * Insights — notas tecnicas curtas, escritas do campo. Cada nota e
- * conteudo completo na propria pagina (titulo + corpo), com a carta
- * celeste animada como contraponto visual do cabecalho.
+ * Diagnóstico — o instrumento que substituiu a página de insights.
+ *
+ * A metodologia que Eduardo usa em vendas, virada ferramenta: quantificar
+ * o custo da dor ANTES de falar de preço. Três perguntas — dor, porte,
+ * urgência — e uma estimativa do vazamento mensal, com a solução
+ * mapeada e o lead chegando no WhatsApp já qualificado. Tudo client-side,
+ * sem formulário, sem fricção: cada resposta avança sozinha.
  */
+
+/** Faixas de faturamento (mesma ordem de copy.diag.revenues). */
+const REVENUE = { pt: [8_000, 20_000, 60_000, 180_000], en: [8_000, 20_000, 60_000, 180_000] };
+
+/** Modelo por dor: função(receita) -> vazamento mensal estimado. */
+const LEAK_MODEL = {
+  marketplace: (r) => r * 0.2, // comissão média de 15–30% fica no meio
+  excel: (r) => 1600 + r * 0.02, // horas de operação manual + erro de digitação
+  curiosos: (r) => 2400 + r * 0.01, // ~10h/semana com quem não compra
+  pessoa: (r) => r * 0.12, // carteira e processo que saem junto com a pessoa
+  cego: (r) => r * 0.04, // margem na mesa: decisão de preço e estoque no chute
+};
+
+/** Dor -> solução que resolve, e para onde ela aponta. */
+const SOLUTION = {
+  pt: {
+    marketplace: {
+      practice: "systems",
+      t: "Casa própria digital",
+      d: "Catálogo e pedido direto, sem comissão no meio. O dinheiro cai na sua conta e o cliente fica no seu banco.",
+    },
+    excel: {
+      practice: "business",
+      t: "Painel que atualiza sozinho",
+      d: "A planilha manual vira sistema — e o processo para de depender da memória de alguém.",
+    },
+    curiosos: {
+      practice: "systems",
+      t: "Sistema que filtra",
+      d: "FAQ, qualificação e orçamento automático: o lead chega pronto e o curioso se atende sozinho.",
+    },
+    pessoa: {
+      practice: "systems",
+      t: "CRM próprio",
+      d: "O histórico do cliente fica no sistema, não na cabeça de quem pode sair amanhã.",
+    },
+    cego: {
+      practice: "business",
+      t: "Dashboards de decisão",
+      d: "Venda, margem e estoque numa tela só: o padrão aparece e a decisão deixa de ser chute.",
+    },
+  },
+  en: {
+    marketplace: {
+      practice: "systems",
+      t: "Your own digital storefront",
+      d: "Catalogue and ordering direct, no commission in the middle. The money lands in your account and the customer stays in your database.",
+    },
+    excel: {
+      practice: "business",
+      t: "A panel that updates itself",
+      d: "The manual spreadsheet becomes a system — the process stops depending on someone's memory.",
+    },
+    curiosos: {
+      practice: "systems",
+      t: "A system that filters",
+      d: "FAQ, qualification and automatic quoting: the lead arrives ready and the tire-kicker self-serves.",
+    },
+    pessoa: {
+      practice: "systems",
+      t: "Your own CRM",
+      d: "The customer history lives in the system, not in the head of whoever might leave tomorrow.",
+    },
+    cego: {
+      practice: "business",
+      t: "Decision dashboards",
+      d: "Sales, margin and stock on one screen: the pattern shows up and the decision stops being a guess.",
+    },
+  },
+};
+
+const round100 = (n) => Math.round(n / 100) * 100;
+const fmt = (lang, n) =>
+  lang === "pt"
+    ? "R$ " + round100(n).toLocaleString("pt-BR")
+    : "$" + round100(n).toLocaleString("en-US");
+
+/** Contador que sobe do zero ate o alvo — o numero do vazamento. */
+function useCountUp(target, active, ms = 1100) {
+  const [v, setV] = useState(0);
+  const raf = useRef(0);
+  useEffect(() => {
+    if (!active) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setV(target);
+      return;
+    }
+    const t0 = performance.now();
+    const tick = (t) => {
+      const p = Math.min((t - t0) / ms, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setV(target * eased);
+      if (p < 1) raf.current = requestAnimationFrame(tick);
+    };
+    raf.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf.current);
+  }, [target, active, ms]);
+  return v;
+}
+
 export default function Insights() {
-  const { lang } = useLang();
-  const t = copy[lang].insights;
+  const { lang, path } = useLang();
+  const t = copy[lang].diag;
   usePageTitle(t.label);
+
+  const [pain, setPain] = useState(null);
+  const [revenue, setRevenue] = useState(null);
+  const [urgency, setUrgency] = useState(null);
+  const [phase, setPhase] = useState(0); // 0 dor · 1 porte · 2 urgencia · 3 resultado
+  const timer = useRef(0);
+
+  const pick = (setter, nextPhase) => (v) => {
+    setter(v);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setPhase(nextPhase), 260);
+  };
+
+  const leak = useMemo(() => {
+    if (phase !== 3 || pain == null || revenue == null) return 0;
+    const r = REVENUE[lang][revenue];
+    return LEAK_MODEL[pain](r);
+  }, [phase, pain, revenue, lang]);
+
+  const shown = useCountUp(leak, phase === 3);
+  const result = t.result;
+
+  const painLabel = pain != null ? t.pains.find((p) => p.id === pain)?.t : "";
+  const revLabel = revenue != null ? t.revenues[revenue] : "";
+  const urgLabel = urgency != null ? t.urgencies.find((u) => u.id === urgency)?.t : "";
+  const sol = pain != null ? SOLUTION[lang][pain] : null;
+
+  const waText = encodeURIComponent(
+    lang === "pt"
+      ? `Olá Eduardo. Fiz o diagnóstico no site:\n• Dor: ${painLabel}\n• Faturamento: ${revLabel}\n• Urgência: ${urgLabel}\n• Vazamento estimado: ${fmt("pt", leak)}/mês\nQuero conversar sobre a solução — ${sol?.t}.`
+      : `Hi Eduardo. I ran the diagnosis on your site:\n• Pain: ${painLabel}\n• Revenue: ${revLabel}\n• Urgency: ${urgLabel}\n• Estimated leak: ${fmt("en", leak)}/mo\nI'd like to talk about the fix — ${sol?.t}.`
+  );
+
+  const stepNames = [t.steps.pain, t.steps.revenue, t.steps.urgency];
 
   return (
     <>
-      <section className="mf-ins" data-depth="0.08">
-        <div className="mf-ins__inner">
-          <div className="mf-ins__head">
+      <section className="mf-dg" data-depth="0.08">
+        <div className="mf-dg__inner">
+          <div className="mf-dg__head">
             <div>
               <Reveal>
                 <p className="mf-label">{t.label}</p>
               </Reveal>
-              <LineReveal as="h1" className="mf-ins__lead">{t.lead}</LineReveal>
+              <LineReveal as="h1" className="mf-dg__lead">{t.lead}</LineReveal>
               <Reveal delay={140}>
-                <p className="mf-ins__intro">{t.intro}</p>
+                <p className="mf-dg__intro">{t.intro}</p>
               </Reveal>
             </div>
-            <Reveal delay={200} className="mf-ins__artwrap">
-              <figure className="mf-ins__art">
-                <img src={CELESTE_GIF} alt="" loading="lazy" />
-              </figure>
-            </Reveal>
           </div>
 
-          <div className="mf-ins__list">
-            {t.items.map((it, i) => (
-              <Reveal key={i} delay={i * 90} className="mf-ins__item">
-                <span className="mf-label mf-ins__tag">{it.tag}</span>
-                <h2 className="mf-ins__t">{it.t}</h2>
-                <p className="mf-ins__d">{it.d}</p>
-              </Reveal>
-            ))}
+          <div className="mf-dg__stage">
+            {/* indicador de passos */}
+            <div className="mf-dg__steps" role="group" aria-label="steps">
+              {stepNames.map((s, i) => (
+                <React.Fragment key={s}>
+                  <button
+                    type="button"
+                    className="mf-dg__step"
+                    data-state={phase === i ? "now" : phase > i ? "done" : "todo"}
+                    onClick={() => phase > i && setPhase(i)}
+                    disabled={phase < i}
+                  >
+                    <span className="mf-dg__stepn">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="mf-dg__stepl">{s}</span>
+                  </button>
+                  {i < 2 && <span className="mf-dg__steprule" aria-hidden="true" />}
+                </React.Fragment>
+              ))}
+            </div>
+
+            {/* PASSO 0 — a dor */}
+            {phase === 0 && (
+              <div className="mf-dg__panel" key="p0">
+                <h2 className="mf-dg__q">{t.painQ}</h2>
+                <p className="mf-dg__hint">{t.painHint}</p>
+                <div className="mf-dg__opts mf-dg__opts--pain">
+                  {t.pains.map((p) => (
+                    <button
+                      key={p.id}
+                      type="button"
+                      className="mf-dg__opt"
+                      data-on={pain === p.id ? "true" : "false"}
+                      onClick={() => pick(setPain, 1)(p.id)}
+                    >
+                      <span className="mf-dg__optt">{p.t}</span>
+                      <span className="mf-dg__optd">{p.d}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* PASSO 1 — o porte */}
+            {phase === 1 && (
+              <div className="mf-dg__panel" key="p1">
+                <h2 className="mf-dg__q">{t.revenueQ}</h2>
+                <p className="mf-dg__hint">{t.revenueHint}</p>
+                <div className="mf-dg__opts mf-dg__opts--rev">
+                  {t.revenues.map((r, i) => (
+                    <button
+                      key={r}
+                      type="button"
+                      className="mf-dg__opt mf-dg__opt--rev"
+                      data-on={revenue === i ? "true" : "false"}
+                      onClick={() => pick(setRevenue, 2)(i)}
+                    >
+                      <span className="mf-dg__optt">{r}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* PASSO 2 — a urgencia */}
+            {phase === 2 && (
+              <div className="mf-dg__panel" key="p2">
+                <h2 className="mf-dg__q">{t.urgencyQ}</h2>
+                <div className="mf-dg__opts mf-dg__opts--urg">
+                  {t.urgencies.map((u) => (
+                    <button
+                      key={u.id}
+                      type="button"
+                      className="mf-dg__opt mf-dg__opt--urg"
+                      data-on={urgency === u.id ? "true" : "false"}
+                      onClick={() => {
+                        setUrgency(u.id);
+                        clearTimeout(timer.current);
+                        timer.current = setTimeout(() => setPhase(3), 260);
+                      }}
+                    >
+                      <span className="mf-dg__optt">{u.t}</span>
+                      <span className="mf-dg__optd">{u.d}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* RESULTADO */}
+            {phase === 3 && sol && (
+              <div className="mf-dg__panel mf-dg__panel--result" key="p3">
+                <p className="mf-label">{result.label}</p>
+                <p className="mf-dg__num">{fmt(lang, shown)}</p>
+                <p className="mf-dg__per">
+                  {result.perMonth}
+                  <span className="mf-dg__sep">·</span>
+                  {fmt(lang, leak * 12)} {result.perYear}
+                </p>
+                {urgency === "now" && (
+                  <p className="mf-dg__delay">
+                    {result.delayCost} <strong>{fmt(lang, leak)}</strong>.
+                  </p>
+                )}
+
+                <div className="mf-dg__sol">
+                  <p className="mf-label">{result.solutionLabel}</p>
+                  <h3 className="mf-dg__solt">{sol.t}</h3>
+                  <p className="mf-dg__sold">{sol.d}</p>
+                  <Link to={path(sol.practice)} className="mf-dg__sollink" data-cursor="link">
+                    {result.solutionSee} →
+                  </Link>
+                </div>
+
+                <div className="mf-dg__ctas">
+                  <a
+                    className="mf-dg__wa"
+                    href={`${WHATSAPP_URL_BARE}?text=${waText}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    data-cursor="link"
+                  >
+                    {result.cta} →
+                  </a>
+                  <button
+                    type="button"
+                    className="mf-dg__again"
+                    onClick={() => {
+                      setPain(null);
+                      setRevenue(null);
+                      setUrgency(null);
+                      setPhase(0);
+                    }}
+                  >
+                    {result.restart}
+                  </button>
+                </div>
+
+                <details className="mf-dg__how">
+                  <summary>{result.howLabel}</summary>
+                  <p>{result.how}</p>
+                </details>
+                <p className="mf-dg__meta">{t.meta}</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -53,46 +323,160 @@ export default function Insights() {
       <MfRule />
 
       <style>{`
-.mf-ins{padding:var(--section-gap) var(--gutter)}
-.mf-ins__inner{max-width:var(--max-width-page);margin:0 auto}
-.mf-ins__head{display:grid;grid-template-columns:1fr;gap:2.5rem;align-items:end}
-@media(min-width:860px){.mf-ins__head{grid-template-columns:7fr 5fr;gap:clamp(2.5rem,6vw,5rem)}}
-.mf-ins__lead{
+.mf-dg{padding:var(--section-gap) var(--gutter)}
+.mf-dg__inner{max-width:var(--max-width-page);margin:0 auto}
+.mf-dg__lead{
   font-family:var(--font-display);font-weight:400;
   font-size:var(--text-display-lg);line-height:var(--leading-display);
   letter-spacing:var(--tracking-display);color:var(--color-text-primary);
   margin:1.25rem 0 0;max-width:16ch;text-wrap:balance;
 }
-.mf-ins__intro{
+.mf-dg__intro{
   font-family:var(--font-body);font-weight:300;
   font-size:var(--text-body-lg);line-height:var(--leading-body);
-  color:var(--color-text-secondary);max-width:var(--max-width-body);margin:2rem 0 0;
+  color:var(--color-text-secondary);max-width:56ch;margin:2rem 0 0;
 }
-.mf-ins__art{margin:0;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--color-divider)}
-.mf-ins__art img{width:100%;height:100%;object-fit:cover;display:block}
 
-.mf-ins__list{display:flex;flex-direction:column;margin-top:3.5rem}
-.mf-ins__item{
-  padding:clamp(2rem,4.5vh,3rem) 0;
-  border-top:1px solid var(--color-divider);
-  display:grid;grid-template-columns:8.5rem 1fr;gap:0.8rem clamp(1.5rem,4vw,3rem);
+.mf-dg__stage{
+  margin-top:3.5rem;border-top:1px solid var(--color-divider);
+  padding-top:2rem;
 }
-.mf-ins__item:last-child{border-bottom:1px solid var(--color-divider)}
-.mf-ins__tag{align-self:start;color:var(--color-text-ghost)}
-.mf-ins__t{
+/* indicador de passos */
+.mf-dg__steps{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
+.mf-dg__step{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  background:none;border:0;padding:0.25rem 0;cursor:default;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);
+}
+.mf-dg__step[data-state="now"]{color:var(--color-text-primary)}
+.mf-dg__step[data-state="done"]{color:var(--mf-terracotta);cursor:pointer}
+.mf-dg__step:disabled{cursor:default}
+.mf-dg__stepn{opacity:0.7}
+.mf-dg__steprule{width:clamp(1.2rem,4vw,3rem);height:1px;background:var(--color-divider)}
+
+/* paineis */
+.mf-dg__panel{margin-top:2.25rem;animation:mf-dg-in 0.5s var(--ease-out-expo) both}
+@keyframes mf-dg-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.mf-dg__panel{animation:none}}
+.mf-dg__q{
   font-family:var(--font-display);font-weight:400;
   font-size:var(--text-display-md);line-height:1.16;
-  letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:0;
-  max-width:24ch;text-wrap:balance;
+  color:var(--color-text-primary);margin:0;max-width:24ch;text-wrap:balance;
 }
-.mf-ins__d{
+.mf-dg__hint{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);margin:0.6rem 0 0;
+}
+
+/* opcoes */
+.mf-dg__opts{display:grid;grid-template-columns:1fr;gap:0.8rem;margin-top:1.75rem}
+@media(min-width:860px){
+  .mf-dg__opts--pain{grid-template-columns:1fr 1fr}
+  .mf-dg__opts--rev{grid-template-columns:repeat(4,1fr)}
+  .mf-dg__opts--urg{grid-template-columns:repeat(3,1fr)}
+}
+.mf-dg__opt{
+  display:flex;flex-direction:column;gap:0.5rem;text-align:left;
+  background:transparent;border:1px solid var(--color-divider);
+  padding:1.15rem 1.25rem;cursor:pointer;
+  transition:border-color var(--duration-fast) var(--ease-in-out),
+             background-color var(--duration-fast) var(--ease-in-out),
+             transform var(--duration-fast) var(--ease-in-out);
+}
+.mf-dg__opt:hover{border-color:rgba(242,238,230,0.4);transform:translateY(-2px)}
+.mf-dg__opt[data-on="true"]{
+  border-color:var(--mf-terracotta);
+  background:rgba(179,122,96,0.08);
+}
+.mf-dg__optt{
+  font-family:var(--font-display);font-weight:400;
+  font-size:var(--text-body-lg);line-height:1.25;color:var(--color-text-primary);
+}
+.mf-dg__optd{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);line-height:var(--leading-body);
+  color:var(--color-text-secondary);
+}
+
+/* resultado */
+.mf-dg__panel--result{max-width:var(--max-width-body)}
+.mf-dg__num{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(3rem,8vw,5.5rem);line-height:1;letter-spacing:-0.01em;
+  color:var(--color-text-primary);margin:0.9rem 0 0;
+  font-variant-numeric:tabular-nums;
+}
+.mf-dg__per{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);margin:0.9rem 0 0;
+}
+.mf-dg__sep{margin:0 0.6rem;opacity:0.5}
+.mf-dg__delay{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-lg);color:var(--color-text-secondary);
+  margin:1.4rem 0 0;
+}
+.mf-dg__delay strong{color:var(--mf-terracotta);font-weight:400}
+
+.mf-dg__sol{
+  margin-top:2.5rem;padding:1.6rem 0 0;border-top:1px solid var(--color-divider);
+}
+.mf-dg__solt{
+  font-family:var(--font-display);font-weight:400;
+  font-size:var(--text-display-md);line-height:1.16;
+  color:var(--color-text-primary);margin:0.9rem 0 0;max-width:24ch;text-wrap:balance;
+}
+.mf-dg__sold{
   font-family:var(--font-body);font-weight:300;
   font-size:var(--text-body-lg);line-height:var(--leading-body);
-  color:var(--color-text-secondary);margin:1.1rem 0 0;max-width:58ch;
+  color:var(--color-text-secondary);margin:0.8rem 0 0;max-width:56ch;
 }
-@media(max-width:767px){
-  .mf-ins__item{grid-template-columns:1fr;gap:0.5rem}
-  .mf-ins__d{max-width:100%}
+.mf-dg__sollink{
+  display:inline-block;margin-top:1.1rem;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--mf-terracotta);text-decoration:none;
+}
+.mf-dg__sollink:hover{opacity:0.65}
+
+.mf-dg__ctas{display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem;margin-top:2.5rem}
+.mf-dg__wa{
+  display:inline-block;
+  background:var(--mf-terracotta);color:#16130f;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  padding:1rem 1.5rem;text-decoration:none;
+  transition:opacity var(--duration-fast) var(--ease-in-out);
+}
+.mf-dg__wa:hover{opacity:0.82}
+.mf-dg__again{
+  background:none;border:0;cursor:pointer;padding:0;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);
+}
+.mf-dg__again:hover{color:var(--color-text-primary)}
+
+.mf-dg__how{margin-top:2.5rem;border-top:1px solid var(--color-divider);padding-top:1.2rem}
+.mf-dg__how summary{
+  cursor:pointer;font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);list-style-position:inside;
+}
+.mf-dg__how summary:hover{color:var(--color-text-primary)}
+.mf-dg__how p{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);line-height:var(--leading-body);
+  color:var(--color-text-secondary);margin:0.9rem 0 0;max-width:64ch;
+}
+.mf-dg__meta{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);color:var(--color-text-ghost);
+  margin:2rem 0 0;
 }
       `}</style>
     </>

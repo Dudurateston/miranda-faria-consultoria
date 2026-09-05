@@ -6,6 +6,7 @@ import LineReveal from "@/components/LineReveal";
 import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
+import TerraformCanvas from "@/components/TerraformCanvas";
 import { usePageTitle } from "@/lib/usePageTitle";
 import { CORTE_GIF } from "@/lib/site";
 
@@ -67,6 +68,27 @@ export default function HowIWork() {
         </div>
       </section>
 
+      {/* Demo ao vivo — a prova da capacidade rodando no navegador do visitante. */}
+      <section className="mf-hiw__demo" data-depth="0.80">
+        <div className="mf-hiw__demoinner">
+          <Reveal>
+            <p className="mf-label">{t.demo.label}</p>
+          </Reveal>
+          <LineReveal className="mf-hiw__demolead">{t.demo.lead}</LineReveal>
+          <Reveal delay={140}>
+            <p className="mf-hiw__demobody">{t.demo.body}</p>
+          </Reveal>
+          <Reveal delay={220}>
+            <p className="mf-hiw__demohint">{t.demo.hint}</p>
+          </Reveal>
+          <Reveal delay={280}>
+            <TerraformCanvas />
+          </Reveal>
+        </div>
+      </section>
+
+      <MfRule />
+
       <section className="mf-hiw__ai" data-depth="0.90">
         <div className="mf-hiw__aiinner">
           <Reveal>
@@ -114,6 +136,40 @@ export default function HowIWork() {
 @media(max-width:767px){
   .mf-hiw__layer{grid-template-columns:1fr;gap:0.6rem}
 }
+
+.mf-hiw__demo{padding:var(--section-gap) var(--gutter)}
+.mf-hiw__demoinner{max-width:var(--max-width-page);margin:0 auto}
+.mf-hiw__demolead{
+  font-family:var(--font-display);font-weight:400;
+  font-size:var(--text-display-lg);line-height:var(--leading-display);
+  letter-spacing:var(--tracking-display);color:var(--color-text-primary);
+  margin:1.25rem 0 0;max-width:16ch;text-wrap:balance;
+}
+.mf-hiw__demobody{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-lg);line-height:var(--leading-body);
+  color:var(--color-text-secondary);max-width:58ch;margin:1.6rem 0 0;
+}
+.mf-hiw__demohint{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--mf-terracotta);margin:1.2rem 0 1.6rem;
+}
+.mf-tf{
+  position:relative;margin:0;height:clamp(280px,44vh,420px);
+  border:1px solid var(--color-divider);background:#16130f;
+  cursor:crosshair;
+}
+.mf-tf canvas{display:block;width:100%;height:100%}
+.mf-tf__hud{
+  position:absolute;right:0.9rem;bottom:0.75rem;
+  display:flex;gap:1.25rem;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);
+  pointer-events:none;
+}
+@media(max-width:767px){.mf-tf__hud span:nth-child(3){display:none}}
 
 .mf-hiw__ai{padding:var(--section-gap) var(--gutter)}
 .mf-hiw__aiinner{max-width:var(--max-width-page);margin:0 auto}
