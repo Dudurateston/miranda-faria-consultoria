@@ -20,7 +20,9 @@ export const CASE_SLUGS = [
   "motormoura",
   "1000-pecas",
   "rota-forte",
+  "dj-jotave",
   "miranda-faria",
+  "roda-agro-marca",
 ];
 
 export const copy = {
@@ -861,6 +863,23 @@ export const cases = {
       media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
+      slug: "dj-jotave",
+      practice: "desenvolvimento",
+      name: "DJ Jotavê",
+      sector: "Artist",
+      year: "2025",
+      summary: "Full presentation site where colour is the signature: each section changes the whole page.",
+      problem:
+        "An artist whose bookings ran entirely through social media DMs, with no single place a promoter could go to see the work, the schedule and the press material.",
+      process:
+        "Designed and built end to end. The page is staged like a set: the hero opens in hot pink, and as the visitor scrolls the entire site changes colour — cyan for the SoundCloud sets, lime for the agenda, purple for booking. SoundCloud players, the event list and the WhatsApp booking are live, not screenshots.",
+      decisions:
+        "Colour as system, not decoration: the change carries the narrative instead of decorating it. Scroll choreography — Lenis with GSAP ScrollTrigger on a single ticker — worked out here first; that system is the direct ancestor of the one running on this site.",
+      impact:
+        "One address for promoters: sets, agenda and booking in the same place — and a page that reads like the show, not like an archive.",
+      media: { dir: "dj-jotave", shots: 3, video: true },
+    },
+    {
       slug: "miranda-faria",
       practice: "design",
       name: "This site",
@@ -911,6 +930,23 @@ export const cases = {
       impact:
         "The yard transmits trust before the first conversation.",
       media: { dir: "1000-pecas-marca", shots: 3, video: false },
+    },
+    {
+      slug: "roda-agro-marca",
+      practice: "design",
+      name: "Roda de Agronegócios — Identity",
+      sector: "Events — agribusiness",
+      year: "2026",
+      summary: "Identity for the 22nd edition: seal, system and a promo kit every exhibitor applies.",
+      problem:
+        "A regional fair in its 22nd edition with exhibitors promoting their presence in any which way — each one inventing their own art, none of it recognisably the same event.",
+      process:
+        "Edition seal in gear, palette and type set, then the piece that carries it all: a promo kit in two ratios where the exhibitor drops their own logo into a reserved area. The brand governs the system; the exhibitor keeps their content.",
+      decisions:
+        "The kit is a template, not a finished art: the dashed area says whose message it is, and everything around it stays the event's. Two ratios — post and story — cover the whole feed.",
+      impact:
+        "The edition's social campaign ran on this system: 79.6 thousand views in the period, over 200 new followers — one visual language across every exhibitor's post.",
+      media: { dir: "roda-agro-marca", shots: 2, video: false },
     },
   ],
   pt: [
@@ -1021,6 +1057,23 @@ export const cases = {
       media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
+      slug: "dj-jotave",
+      practice: "desenvolvimento",
+      name: "DJ Jotavê",
+      sector: "Artista",
+      year: "2025",
+      summary: "Site de apresentação completo em que a cor é a assinatura: cada seção muda a página inteira.",
+      problem:
+        "Um artista cujos bookings corriam inteiramente por DM de rede social, sem um endereço único onde um produtor pudesse ver o trabalho, a agenda e o material de divulgação.",
+      process:
+        "Desenhado e construído de ponta a ponta. A página é encenada como um set: o hero abre em rosa vibrante e, conforme o visitante rola, o site inteiro muda de cor — ciano nos sets do SoundCloud, verde na agenda, roxo no booking. Os players do SoundCloud, a lista de eventos e o agendamento por WhatsApp são vivos, não screenshots.",
+      decisions:
+        "Cor como sistema, não decoração: a mudança conduz a narrativa em vez de enfeitá-la. Coreografia de scroll — Lenis com GSAP ScrollTrigger num ticker só — resolvida aqui primeiro; esse sistema é o ancestral direto do que roda neste site.",
+      impact:
+        "Um endereço pra produtor: sets, agenda e booking no mesmo lugar — e uma página que se lê como o show, não como um arquivo.",
+      media: { dir: "dj-jotave", shots: 3, video: true },
+    },
+    {
       slug: "miranda-faria",
       practice: "design",
       name: "Este site",
@@ -1071,6 +1124,23 @@ export const cases = {
       impact:
         "O pátio transmite confiança antes da primeira conversa.",
       media: { dir: "1000-pecas-marca", shots: 3, video: false },
+    },
+    {
+      slug: "roda-agro-marca",
+      practice: "design",
+      name: "Roda de Agronegócios — Identidade",
+      sector: "Eventos — agronegócio",
+      year: "2026",
+      summary: "Identidade da 22ª edição: selo, sistema e um kit que cada expositor aplica.",
+      problem:
+        "Uma feira regional na 22ª edição com expositores divulgando presença cada um por si — cada um inventando a própria arte, nada disso reconhecível como o mesmo evento.",
+      process:
+        "Selo da edição em engrenagem, paleta e tipografia definidas, e a peça que carrega tudo: um kit de divulgação em duas proporções em que o expositor solta a própria logo numa área reservada. A marca governa o sistema; o conteúdo é do expositor.",
+      decisions:
+        "O kit é template, não arte fechada: a área pontilhada diz de quem é a mensagem, e tudo ao redor permanece da feira. Duas proporções — post e story — cobrem o feed inteiro.",
+      impact:
+        "A campanha social da edição rodou nesse sistema: 79,6 mil visualizações no período e mais de 200 novos seguidores — uma linguagem visual única em cada post de expositor.",
+      media: { dir: "roda-agro-marca", shots: 2, video: false },
     },
   ],
 };
@@ -1332,6 +1402,51 @@ export const practices = {
  * Os quatro passos sao os mesmos nas tres verticais, e isso e o
  * argumento: o processo nao muda conforme o que voce compra.
  */
+export const designSteps = {
+  pt: {
+    label: "Como funciona",
+    steps: [
+      {
+        t: "Diagnóstico da marca",
+        d: "Uma conversa mapeia onde a marca quebra: símbolo que não reduz, materiais que não conversam entre si. Sem custo.",
+      },
+      {
+        t: "Direções",
+        d: "Estudos generativos e referências viram caminhos possíveis — você escolhe a direção com o material na mesa, não no escuro.",
+      },
+      {
+        t: "Sistema visual",
+        d: "Símbolo, tipografia, cor e regras de uso — o conjunto que faz qualquer peça sair certa, de cartão a fachada.",
+      },
+      {
+        t: "Aplicação viva",
+        d: "A identidade entrega aplicada — impresso, social e web — com os arquivos organizados por uso.",
+      },
+    ],
+  },
+  en: {
+    label: "How it runs",
+    steps: [
+      {
+        t: "Brand diagnosis",
+        d: "One conversation maps where the brand breaks: a symbol that won't reduce, materials that don't talk to each other. No cost.",
+      },
+      {
+        t: "Directions",
+        d: "Generative studies and references become possible paths — you pick the direction with the work on the table, not in the dark.",
+      },
+      {
+        t: "Visual system",
+        d: "Symbol, type, colour and usage rules — the set that makes every piece come out right, from card to facade.",
+      },
+      {
+        t: "Living application",
+        d: "The identity ships applied — print, social and web — with files organised by use.",
+      },
+    ],
+  },
+};
+
 export const processSteps = {
   en: {
     label: "How it runs",

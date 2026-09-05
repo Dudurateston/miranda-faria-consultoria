@@ -31,11 +31,35 @@
     <meta property="og:site_name" content="Miranda Faria" />
     <meta property="og:title" content="Miranda Faria — Design Engineer &amp; Creative Technologist" />
     <meta property="og:description" content="Brand, product and data as one system — designed and shipped by one person." />
-    <meta property="og:image" content="/og.png" />
+    <meta property="og:image" content="https://mirandafaria.com.br/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+
+    <!-- SEO do dominio: o site e uma SPA de duas rotas (/pt, /en) —
+         canonical fixa a raiz, hreflang declara os dois idiomas. -->
+    <link rel="canonical" href="https://mirandafaria.com.br/pt" />
+    <link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt" />
+    <link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en" />
+    <link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt" />
+
+    <meta property="og:url" content="https://mirandafaria.com.br/pt" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Dado estruturado: quem assina o site — pessoa, nao empresa. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Miranda Faria",
+      "url": "https://mirandafaria.com.br",
+      "jobTitle": "Design Engineer",
+      "description": "Design, development and data systems — designed and shipped by one person.",
+      "knowsAbout": ["Brand Identity", "Web Development", "Data Systems", "Creative Technology"]
+    }
+    </script>
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="/og.png" />
+    <meta name="twitter:image" content="https://mirandafaria.com.br/og.png" />
   </head>
   <body>
     <div id="root"></div>

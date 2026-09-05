@@ -100,11 +100,25 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/work/rota-forte"/>
   </url>
   <url>
+    <loc>https://mirandafaria.com.br/en/work/dj-jotave</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/dj-jotave"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/dj-jotave"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/work/dj-jotave"/>
+  </url>
+  <url>
     <loc>https://mirandafaria.com.br/en/work/miranda-faria</loc>
     <lastmod>2026-09-05</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/miranda-faria"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/miranda-faria"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/work/miranda-faria"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/en/work/roda-agro-marca</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/roda-agro-marca"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/roda-agro-marca"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/work/roda-agro-marca"/>
   </url>
   <url>
     <loc>https://mirandafaria.com.br/pt</loc>
@@ -205,10 +219,24 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/work/rota-forte"/>
   </url>
   <url>
+    <loc>https://mirandafaria.com.br/pt/work/dj-jotave</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/dj-jotave"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/dj-jotave"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/work/dj-jotave"/>
+  </url>
+  <url>
     <loc>https://mirandafaria.com.br/pt/work/miranda-faria</loc>
     <lastmod>2026-09-05</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/miranda-faria"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/miranda-faria"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/work/miranda-faria"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/pt/work/roda-agro-marca</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/roda-agro-marca"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/roda-agro-marca"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/en/work/roda-agro-marca"/>
   </url>
 </urlset>

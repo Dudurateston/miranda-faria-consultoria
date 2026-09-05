@@ -9,7 +9,7 @@ import LineReveal from "@/components/LineReveal";
 import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { copy, getPractice, casesOfPractice, processSteps } from "@/content/copy";
+import { copy, getPractice, casesOfPractice, processSteps, designSteps } from "@/content/copy";
 import AutoVideo from "@/components/AutoVideo";
 import { DESIGN_PARTICLES, DESIGN_SIGN } from "@/lib/site";
 
@@ -45,7 +45,7 @@ export default function Practice({ slug: slugProp }) {
   if (!p) return <Navigate to={path()} replace />;
 
   const list = casesOfPractice(lang, slug);
-  const steps = processSteps[lang];
+  const steps = slug === "design" ? designSteps[lang] : processSteps[lang];
 
   return (
     <>
