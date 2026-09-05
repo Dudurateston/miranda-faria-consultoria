@@ -284,12 +284,12 @@ export const copy = {
       lead: "Three solutions, one operating principle.",
       intro:
         "Systems, design and business intelligence — each shippable alone, designed to work as one.",
-      metricsLabel: "How I deliver",
+      metricsLabel: "How I deliver — in numbers",
       metrics: [
-        { n: "01", d: "The diagnosis — the size of the pain first, the price after." },
-        { n: "02", d: "The demo in week one: your problem solved and visible, before paying for the whole project." },
-        { n: "03", d: "Delivery in your name — you run it, the data and access are yours." },
-        { n: "04", d: "Then, upkeep and evolution if you want them — no lock-in, no strings." },
+        { n: "21x", d: "A lead answered within 5 minutes is 21 times more likely to become a conversation (MIT). Every system I ship answers on the spot — no lead left waiting." },
+        { n: "7 days", d: "A working demo in week one: your problem solved and visible, before paying for the whole project." },
+        { n: "R$ 1,000", d: "From a R$ 1,000 website to a fully bespoke system. The diagnosis sizes the pain first — the price comes after, with no surprises." },
+        { n: "100%", d: "Delivery in your name: you run it, the data and access are yours. No lock-in, no strings — upkeep and evolution only if you want them." },
       ],
       bandLayers: ["Surface", "System", "Data", "Foundation"],
       bandStat:
@@ -653,12 +653,12 @@ export const copy = {
       lead: "Três soluções, um princípio de operação.",
       intro:
         "Sistemas, design e gestão — cada um entrega sozinho, todos desenhados para funcionar como um só.",
-      metricsLabel: "Como entrego",
+      metricsLabel: "Como entrego — em números",
       metrics: [
-        { n: "01", d: "O diagnóstico — primeiro o tamanho da dor, depois o preço." },
-        { n: "02", d: "A demo na primeira semana: o seu problema resolvido pra ver, antes de pagar o projeto inteiro." },
-        { n: "03", d: "A entrega no seu nome — você opera, os dados e o acesso são seus." },
-        { n: "04", d: "Depois, evolução e manutenção se você quiser — sem fidelidade, sem amarração." },
+        { n: "21x", d: "Lead respondido em 5 minutos tem 21 vezes mais chance de virar conversa (MIT). Todo sistema que entrego responde na hora — nenhum lead esfria na espera." },
+        { n: "7 dias", d: "Demo funcional na primeira semana: o seu problema resolvido pra ver, antes de pagar o projeto inteiro." },
+        { n: "R$ 1.000", d: "Do site a partir de R$ 1.000 ao sistema sob medida. O diagnóstico dimensiona a dor primeiro — o preço vem depois, sem surpresa." },
+        { n: "100%", d: "Entrega no seu nome: você opera, os dados e o acesso são seus. Sem fidelidade, sem amarração — evolução e manutenção só se você quiser." },
       ],
       bandLayers: ["Superfície", "Sistema", "Dados", "Fundação"],
       bandStat:
