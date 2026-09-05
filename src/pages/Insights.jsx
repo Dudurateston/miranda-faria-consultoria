@@ -6,6 +6,7 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
+import { trackDiagnosis } from "@/lib/siteAnalytics";
 import { WHATSAPP_URL_BARE } from "@/lib/site";
 
 /**
@@ -126,6 +127,14 @@ export default function Insights() {
   const [revenue, setRevenue] = useState(null);
   const [urgency, setUrgency] = useState(null);
   const [phase, setPhase] = useState(0); // 0 dor · 1 porte · 2 urgencia · 3 resultado
+  const trackedResult = useRef(false);
+  useEffect(() => {
+    if (phase === 3 && !trackedResult.current) {
+      trackedResult.current = true;
+      // medicao propria (LGPD): so as escolhas, nada pessoal
+      trackDiagnosis(JSON.stringify({ pain, revenue, urgency }));
+    }
+  }, [phase]);
   const timer = useRef(0);
 
   const pick = (setter, nextPhase) => (v) => {

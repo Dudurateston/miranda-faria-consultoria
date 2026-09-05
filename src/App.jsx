@@ -1,5 +1,7 @@
 import React, { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster"
+import SiteAnalytics from "@/components/SiteAnalytics"
+import ConsentBanner from "@/components/ConsentBanner"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Navigate, Route, Routes, useParams } from 'react-router-dom';
@@ -142,10 +144,13 @@ function App() {
             <ScrollToTop />
             {/* Dentro do Router: a rampa de fundo precisa recalcular na
                 troca de rota, senao a pagina nova herda a profundidade
-                da anterior ate o proximo tick. */}
+                da anterior ate o proximo tick. O SiteAnalytics tambem
+                precisa do contexto de rotas (pageview por navegacao). */}
+            <SiteAnalytics />
             <AuthenticatedApp />
           </Router>
           <Toaster />
+          <ConsentBanner />
         </SmoothScroll>
       </QueryClientProvider>
     </AuthProvider>

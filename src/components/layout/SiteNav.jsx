@@ -286,13 +286,15 @@ export default function SiteNav({ revealAfterHero = false }) {
   pointer-events:none;user-select:none;
 }
 
+/* Mobile: a barra e so marca + menu — o WhatsApp vive dentro do
+   overlay (e na barra flutuante). Uma identidade, uma acao. */
 @media(max-width:859px){
   .mf-nav{gap:0.6rem}
   .mf-nav__links{display:none}
-  .mf-nav__burger{display:flex}
-  .mf-nav__brand{flex:1 1 auto;min-width:0}
+  .mf-nav__burger{display:flex;margin-left:auto}
+  .mf-nav__brand{flex:0 1 auto;min-width:0}
   .mf-nav__logo{height:26px;width:auto}
-  .mf-nav__cta{padding:0.55rem 1rem}
+  .mf-nav__cta{display:none}
 }
 @media(min-width:860px){
   .mf-mnav{display:none}

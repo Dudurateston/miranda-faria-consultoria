@@ -266,6 +266,13 @@ export const copy = {
       wa: "Message on WhatsApp",
       app: "Open the reps' app",
     },
+    consent: {
+      title: "Privacy notice",
+      text: "This site uses first-party measurement only — no third-party trackers — to learn which pages help and which don't. No personal data is collected.",
+      accept: "Accept",
+      decline: "Essential only",
+      policy: "Policy",
+    },
     footer: {
       tagline: "Miranda Faria · Design Engineer & Creative Technologist",
       privacy: "Privacy",
@@ -627,6 +634,13 @@ export const copy = {
         "Quem vende comigo não vai no improviso: scripts testados, treino contínuo e uma central que organiza cada lead. Se quer estrutura por trás da sua comissão, chama no WhatsApp — ou entra direto no app dos vendedores.",
       wa: "Falar no WhatsApp",
       app: "Entrar no app dos vendedores",
+    },
+    consent: {
+      title: "Aviso de privacidade",
+      text: "Este site usa medição própria, sem rastreadores de terceiros, para saber quais páginas ajudam — e quais atrapalham. Nenhum dado pessoal é coletado.",
+      accept: "Aceitar",
+      decline: "Só o necessário",
+      policy: "Política",
     },
     footer: {
       tagline: "Miranda Faria · Consultoria & Tecnologia · Brasil",
