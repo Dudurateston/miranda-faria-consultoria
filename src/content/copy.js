@@ -55,6 +55,8 @@ export const copy = {
       technology: "Technology",
       insights: "Diagnosis",
       contact: "Contact",
+      menu: "Open menu",
+      close: "Close",
       toggle: "Ver em português",
     },
     home: {
@@ -108,7 +110,7 @@ export const copy = {
           "Three questions and an estimate of what the problem drains per month — the same diagnosis I run in a first conversation, in forty seconds.",
         cta: "Run the diagnosis",
       },
-      finalCta: { lead: "Let's talk.", cta: "Message on WhatsApp" },
+      finalCta: { label: "Next step", lead: "Let's talk.", cta: "Message on WhatsApp" },
     },
     work: {
       label: "Work",
@@ -275,12 +277,12 @@ export const copy = {
       lead: "Three solutions, one operating principle.",
       intro:
         "Systems, design and business intelligence — each shippable alone, designed to work as one.",
-      metricsLabel: "In numbers",
+      metricsLabel: "How I deliver",
       metrics: [
-        { n: "8+", d: "projects delivered across sites and systems" },
-        { n: "24h", d: "to respond — straight from who builds it" },
-        { n: "3", d: "disciplines that combine: system, design and data" },
-        { n: "100%", d: "tailor-made, from briefing to delivery" },
+        { n: "01", d: "The diagnosis — the size of the pain first, the price after." },
+        { n: "02", d: "The demo in week one: your problem solved and visible, before paying for the whole project." },
+        { n: "03", d: "Delivery in your name — you run it, the data and access are yours." },
+        { n: "04", d: "Then, upkeep and evolution if you want them — no lock-in, no strings." },
       ],
       bandLayers: ["Surface", "System", "Data", "Foundation"],
       bandStat:
@@ -415,6 +417,8 @@ export const copy = {
       technology: "Tecnologia",
       insights: "Diagnóstico",
       contact: "Contato",
+      menu: "Abrir o menu",
+      close: "Fechar",
       toggle: "View in English",
     },
     home: {
@@ -468,7 +472,7 @@ export const copy = {
           "Três perguntas e uma estimativa do que o problema drena por mês — o mesmo diagnóstico que eu faria numa primeira conversa, em quarenta segundos.",
         cta: "Fazer o diagnóstico",
       },
-      finalCta: { lead: "Vamos conversar.", cta: "Chamar no WhatsApp" },
+      finalCta: { label: "Próximo passo", lead: "Vamos conversar.", cta: "Chamar no WhatsApp" },
     },
     work: {
       label: "Trabalhos",
@@ -635,12 +639,12 @@ export const copy = {
       lead: "Três soluções, um princípio de operação.",
       intro:
         "Sistemas, design e gestão — cada um entrega sozinho, todos desenhados para funcionar como um só.",
-      metricsLabel: "Em números",
+      metricsLabel: "Como entrego",
       metrics: [
-        { n: "8+", d: "projetos entregues entre sites e sistemas" },
-        { n: "24h", d: "para resposta — direto com quem executa" },
-        { n: "3", d: "frentes que se combinam: sistema, design e dados" },
-        { n: "100%", d: "sob medida, do briefing à entrega" },
+        { n: "01", d: "O diagnóstico — primeiro o tamanho da dor, depois o preço." },
+        { n: "02", d: "A demo na primeira semana: o seu problema resolvido pra ver, antes de pagar o projeto inteiro." },
+        { n: "03", d: "A entrega no seu nome — você opera, os dados e o acesso são seus." },
+        { n: "04", d: "Depois, evolução e manutenção se você quiser — sem fidelidade, sem amarração." },
       ],
       bandLayers: ["Superfície", "Sistema", "Dados", "Fundação"],
       bandStat:

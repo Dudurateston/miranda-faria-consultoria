@@ -14,6 +14,9 @@ export default function HomeCta() {
     <section className="mf-h mf-cta">
       <img className="mf-cta__wm" src={WATERMARK_GIF} alt="" loading="lazy" width="640" height="360" aria-hidden="true" />
       <div className="mf-h__inner mf-cta__inner">
+        <Reveal>
+          <p className="mf-label mf-cta__label">{t.label}</p>
+        </Reveal>
         <LineReveal className="mf-cta__lead">{t.lead}</LineReveal>
         <Reveal delay={180}>
           <a
@@ -31,14 +34,17 @@ export default function HomeCta() {
       <style>{`
 .mf-h.mf-cta{
   text-align:center;overflow:hidden;
-  padding-block:clamp(8.5rem,20vh,14rem);
+  padding-block:clamp(7rem,16vh,11rem);
 }
 .mf-cta__wm{
-  position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);
-  width:clamp(280px,46vw,560px);height:auto;aspect-ratio:16/9;opacity:0.28;pointer-events:none;user-select:none;
-  -webkit-mask-image:radial-gradient(closest-side,black 54%,transparent 86%);
-  mask-image:radial-gradient(closest-side,black 54%,transparent 86%);
+  /* Centrada no palco e mais suave: a marca sustenta, nao salta aos
+     olhos — a secao volta a parecer parte do sitio, nao um adesivo. */
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:clamp(240px,40vw,480px);height:auto;aspect-ratio:16/9;opacity:0.2;pointer-events:none;user-select:none;
+  -webkit-mask-image:radial-gradient(closest-side,black 58%,transparent 88%);
+  mask-image:radial-gradient(closest-side,black 58%,transparent 88%);
 }
+.mf-cta__label{margin:0}
 .mf-cta__inner{
   position:relative;display:flex;flex-direction:column;align-items:center;gap:2.2rem;
 }

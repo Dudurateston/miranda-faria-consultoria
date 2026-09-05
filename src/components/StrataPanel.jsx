@@ -36,6 +36,7 @@ export default function StrataPanel() {
     let W = 0, H = 0, dpr = 1;
     let mouse = { x: -1, y: -1, on: false };
     let mx = 0, my = 0; // suavizados
+    let focus = 0.32; // 1 quando o cursor esta sobre o painel
     let raf = 0, visible = false, t = 0;
 
     const resize = () => {
@@ -55,6 +56,7 @@ export default function StrataPanel() {
 
     const draw = (time, m) => {
       ctx.clearRect(0, 0, W, H);
+      const f = focus; // o painel descansa — so acende quem chega perto
       const bump = (ly) => {
         if (!m || !m.on) return 0;
         const d = Math.abs(ly * H - m.y);
@@ -72,7 +74,7 @@ export default function StrataPanel() {
       LAYERS.forEach((l) => {
         const dx = bump(l.y);
         const y = l.y * H;
-        ctx.fillStyle = `rgba(242,238,230,${l.a})`;
+        ctx.fillStyle = `rgba(242,238,230,${l.a * f})`;
         ctx.fillRect(dx * 0.4, y, W * 0.06, l.w);
         ctx.fillRect(dx * 0.55 + W * 0.14, y, W * 0.1, l.w);
         ctx.fillRect(dx * 0.75 + W * 0.34, y, W * 0.22, l.w);
@@ -86,9 +88,9 @@ export default function StrataPanel() {
         const d = Math.abs(cy - m.y);
         glow = Math.max(0, 1 - d / 160);
       }
-      ctx.fillStyle = `rgba(184,115,51,${0.5 + glow * 0.5})`;
+      ctx.fillStyle = `rgba(184,115,51,${0.22 + 0.3 * f + glow * 0.5 * f})`;
       ctx.shadowColor = "rgba(184,115,51,0.55)";
-      ctx.shadowBlur = 6 + glow * 18;
+      ctx.shadowBlur = 4 + glow * 20 * f;
       ctx.fillRect(cdx * 0.5 + W * 0.08, cy, W * 0.84, 2);
       ctx.shadowBlur = 0;
       // varredura lenta (leitura do instrumento)
@@ -97,7 +99,7 @@ export default function StrataPanel() {
         const sx = p * W;
         const grad = ctx.createLinearGradient(sx - 60, 0, sx + 60, 0);
         grad.addColorStop(0, "rgba(242,238,230,0)");
-        grad.addColorStop(0.5, "rgba(242,238,230,0.05)");
+        grad.addColorStop(0.5, `rgba(242,238,230,${0.05 * f})`);
         grad.addColorStop(1, "rgba(242,238,230,0)");
         ctx.fillStyle = grad;
         ctx.fillRect(sx - 60, 0, 120, H);
@@ -105,9 +107,10 @@ export default function StrataPanel() {
     };
 
     const tick = (ts) => {
-      // lerp do cursor
+      // lerp do cursor e do foco: reposo quase invisivel -> hover acende
       mx += ((mouse.on ? mouse.x : -1) - mx) * 0.12;
       my += ((mouse.on ? mouse.y : my) - my) * 0.14;
+      focus += ((mouse.on ? 1 : 0.32) - focus) * 0.09;
       t = ts;
       draw(t, { x: mx, y: my, on: mouse.on || my > 0 });
       raf = requestAnimationFrame(tick);

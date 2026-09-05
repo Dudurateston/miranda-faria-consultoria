@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "@/components/TransitionLink";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
@@ -18,6 +18,7 @@ import AutoVideo from "@/components/AutoVideo";
 const SLUGS = ["gestao", "desenvolvimento", "design"];
 
 export default function Servicos() {
+  const [open, setOpen] = useState(-1);
   const { lang, path } = useLang();
   const t = copy[lang].servicos;
   usePageTitle(t.label, "servicos");
@@ -106,12 +107,23 @@ export default function Servicos() {
           </Reveal>
           <div className="mf-faq__list">
             {t.faq.map((item, i) => (
-              <Reveal key={i} delay={i * 100} className="mf-faq__item">
+              <Reveal
+                key={i}
+                delay={i * 100}
+                className={`mf-faq__item${open === i ? " is-open" : ""}`}
+              >
                 <span className="mf-faq__idx">{String(i + 1).padStart(2, "0")}</span>
-                <div className="mf-faq__body">
+                <button
+                  type="button"
+                  className="mf-faq__body"
+                  aria-expanded={open === i}
+                  onClick={() => setOpen(open === i ? -1 : i)}
+                >
                   <h3 className="mf-faq__q">{item.q}</h3>
-                  <p className="mf-faq__a">{item.a}</p>
-                </div>
+                  <div className="mf-faq__answer">
+                    <p className="mf-faq__a">{item.a}</p>
+                  </div>
+                </button>
               </Reveal>
             ))}
           </div>
@@ -141,14 +153,14 @@ export default function Servicos() {
 @media(min-width:860px){.mf-srv__metrics{grid-template-columns:repeat(4,1fr)}}
 .mf-srv__metric{display:flex;flex-direction:column;gap:0.5rem}
 .mf-srv__num{
-  font-family:var(--font-display);font-weight:400;
-  font-size:var(--text-display-lg);line-height:1;
-  color:var(--color-text-primary);
+  font-family:var(--font-mono);font-size:12px;
+  letter-spacing:var(--tracking-label);
+  color:var(--color-accent);
 }
 .mf-srv__numd{
-  font-family:var(--font-mono);font-size:var(--text-label);
-  letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-ghost);
+  font-family:var(--font-body);font-weight:300;
+  font-size:1.02rem;line-height:1.55;
+  color:var(--color-text-secondary);
 }
 .mf-srv__band{margin:3.5rem 0 0;aspect-ratio:21/9;overflow:hidden;position:relative}
 .mf-srv__layers{
@@ -256,12 +268,36 @@ export default function Servicos() {
 .mf-faq{padding:var(--section-gap) var(--gutter)}
 .mf-faq__inner{max-width:var(--max-width-page);margin:0 auto}
 .mf-faq__list{display:flex;flex-direction:column}
+/* FAQ compacto: pergunta pequena, resposta escondida. No hover e
+   no toque a resposta desliza e a pergunta acende — a secao apoia,
+   nao domina. */
 .mf-faq__item{
   display:grid;grid-template-columns:4.5rem 1fr;
   gap:0 clamp(1.5rem,4vw,3rem);
-  padding:clamp(1.1rem,2.4vh,1.6rem) 0;
+  padding:clamp(0.9rem,2vh,1.2rem) 0;
   border-bottom:1px solid var(--color-divider);
 }
+.mf-faq__body{
+  display:block;width:100%;padding:0;margin:0;text-align:inherit;
+  background:none;border:0;font:inherit;color:inherit;cursor:pointer;
+}
+.mf-faq__answer{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows 0.45s var(--ease-out-expo);
+}
+.mf-faq__answer > p{overflow:hidden;min-height:0}
+.mf-faq__q{
+  transition:color var(--duration-fast) var(--ease-in-out);
+}
+.mf-faq__item:hover .mf-faq__q,
+.mf-faq__item.is-open .mf-faq__q{color:var(--color-accent)}
+.mf-faq__item:hover .mf-faq__idx,
+.mf-faq__item.is-open .mf-faq__idx{color:var(--color-accent)}
+@media (hover:hover) and (pointer:fine){
+  .mf-faq__item:hover .mf-faq__answer{grid-template-rows:1fr}
+}
+.mf-faq__item.is-open .mf-faq__answer{grid-template-rows:1fr}
+.mf-faq__a{padding-top:0.55rem}
 .mf-faq__item:first-child{border-top:1px solid var(--color-divider)}
 .mf-faq__idx{
   font-family:var(--font-mono);font-size:11px;

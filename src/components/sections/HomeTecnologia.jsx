@@ -37,7 +37,7 @@ export default function HomeTecnologia() {
 
       <style>{`
 .mf-tech{display:grid;grid-template-columns:1fr;gap:3rem;align-items:center}
-@media(min-width:860px){.mf-tech{grid-template-columns:7fr 5fr;gap:clamp(2.5rem,6vw,5rem)}}
+@media(min-width:860px){.mf-tech{grid-template-columns:7fr 5fr;gap:clamp(2.5rem,6vw,5rem);align-items:stretch}}
 .mf-tech__stack{list-style:none;margin:2.25rem 0 0;padding:0}
 .mf-tech__stack li{
   padding:0.9rem 0;border-bottom:1px solid var(--mf-rule);
@@ -46,14 +46,16 @@ export default function HomeTecnologia() {
 }
 .mf-tech__stack li:first-child{border-top:1px solid var(--mf-rule)}
 .mf-tech__art{
-  margin:0;display:flex;justify-content:center;align-items:stretch;
+  /* O corte fica do tamanho da grade de informacoes ao lado — a
+     altura da linha vem do texto, o canvas apenas preenche. O canvas
+     em absolute nao contribui com altura (evita o loop de
+     realimentacao do ResizeObserver). */
+  margin:0;position:relative;overflow:hidden;
   min-height:clamp(240px,32vh,360px);
 }
-/* Altura FIXA no desktop: figure esticada + canvas height:100% +
-   ResizeObserver formam um loop de realimentacao que infla a secao em
-   ~650px quando entra na viewport (layout shift no meio do scroll). */
-@media(min-width:860px){.mf-tech__art{align-self:center;height:clamp(300px,46vh,540px)}}
-.mf-strata__cv{width:100%;height:100%;display:block;touch-action:pan-y}
+@media(min-width:860px){.mf-tech__art{align-self:stretch;height:auto;min-height:0}}
+.mf-strata__cv{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.mf-strata__cv{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
 @media(max-width:859px){.mf-tech__art{display:none}}
       `}</style>
     </section>

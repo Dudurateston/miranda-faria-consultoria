@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { WHATSAPP_URL_BARE, M_LOGO } from "@/lib/site";
@@ -19,6 +19,21 @@ export default function SiteNav({ revealAfterHero = false }) {
   const t = copy[lang].nav;
   const home = copy[lang].home;
   const [show, setShow] = useState(!revealAfterHero);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+
+  // o menu de tela cheia fecha sozinho ao navegar, no ESC e trava o
+  // scroll do corpo enquanto esta aberto
+  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") setMenuOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
 
   useEffect(() => {
     if (!revealAfterHero) {
@@ -87,7 +102,59 @@ export default function SiteNav({ revealAfterHero = false }) {
         >
           {t.contact}
         </a>
+
+        {/* Mobile: o menu de tela cheia — duas linhas que viram X. */}
+        <button
+          type="button"
+          className="mf-nav__burger"
+          aria-expanded={menuOpen}
+          aria-controls="mf-mnav"
+          aria-label={menuOpen ? t.close : t.menu}
+          onClick={() => setMenuOpen((o) => !o)}
+          data-cursor="link"
+        >
+          <span />
+          <span />
+        </button>
       </header>
+
+      {/* Overlay de tela cheia: rotulos grandes em serif, entrada
+          em cascata, M na marca d'agua e o WhatsApp embaixo. */}
+      <div className="mf-mnav" id="mf-mnav" data-open={menuOpen ? "true" : "false"} aria-hidden={!menuOpen}>
+        <nav className="mf-mnav__list" aria-label={t.home}>
+          {links.map((l, i) => (
+            <NavLink
+              key={l.to}
+              to={l.to}
+              style={{ transitionDelay: `${menuOpen ? 120 + i * 70 : 0}ms` }}
+              className={({ isActive }) => `mf-mnav__link${isActive ? " is-active" : ""}`}
+              data-cursor="link"
+              onClick={() => setMenuOpen(false)}
+            >
+              {l.label}
+            </NavLink>
+          ))}
+        </nav>
+        <div className="mf-mnav__foot">
+          <button
+            type="button"
+            className="mf-mnav__lang"
+            onClick={() => setLang(otherLang)}
+            lang={otherLang === "pt" ? "pt-BR" : "en"}
+          >
+            {t.toggle}
+          </button>
+          <a
+            href={WHATSAPP_URL_BARE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mf-mnav__cta"
+          >
+            {t.contact}
+          </a>
+        </div>
+        <img className="mf-mnav__wm" src={M_LOGO} alt="" aria-hidden="true" />
+      </div>
 
       <style>{`
 .mf-nav{
@@ -153,30 +220,83 @@ export default function SiteNav({ revealAfterHero = false }) {
 }
 .mf-nav__cta:hover{background:var(--mf-terracotta);color:var(--bone)}
 
-/* Em telas estreitas: marca + contato em cima, rotulos rolaveis
-   embaixo. Nada some — esconder a navegacao custa visita. */
+/* ===== Mobile: header de uma linha + menu de tela cheia =====
+   A fileira rolavel de rotulos virou overlay — a pagina respira e a
+   navegacao ganha o palco quando pedida. */
+.mf-nav__burger{
+  display:none;width:44px;height:44px;margin:0 -0.6rem 0 0.4rem;
+  flex-direction:column;justify-content:center;align-items:center;gap:7px;
+  background:none;border:0;cursor:pointer;
+  -webkit-tap-highlight-color:rgba(184,115,51,0.18);
+}
+.mf-nav__burger span{
+  display:block;width:24px;height:1.5px;background:var(--color-text-primary);
+  transition:transform var(--duration-base) var(--ease-out-expo),
+             opacity var(--duration-fast) var(--ease-in-out);
+}
+.mf-nav__burger[aria-expanded="true"] span:first-child{transform:translateY(4.25px) rotate(45deg)}
+.mf-nav__burger[aria-expanded="true"] span:last-child{transform:translateY(-4.25px) rotate(-45deg)}
+
+.mf-mnav{
+  position:fixed;inset:0;z-index:55;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:calc(var(--nav-height) + 2rem) var(--gutter) 2.5rem;
+  background:#141414;color:var(--bone);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity 0.4s var(--ease-in-out),visibility 0.4s;
+}
+.mf-mnav[data-open="true"]{opacity:1;visibility:visible;pointer-events:auto}
+.mf-mnav__list{display:flex;flex-direction:column;gap:0.2rem;position:relative;z-index:1}
+.mf-mnav__link{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(2.1rem,10vw,3.2rem);line-height:1.22;
+  letter-spacing:var(--tracking-display);
+  color:var(--bone);text-decoration:none;
+  display:inline-block;width:max-content;max-width:100%;
+  padding:0.45rem 0;
+  transform:translateY(24px);opacity:0;
+  transition:transform 0.55s var(--ease-out-expo),opacity 0.45s var(--ease-in-out),color var(--duration-fast) var(--ease-in-out);
+  -webkit-tap-highlight-color:rgba(184,115,51,0.18);
+}
+.mf-mnav[data-open="true"] .mf-mnav__link{transform:translateY(0);opacity:1}
+.mf-mnav__link.is-active,
+.mf-mnav__link:hover{color:var(--mf-terracotta)}
+.mf-mnav__link.is-active{border-bottom:1px solid var(--mf-terracotta)}
+.mf-mnav__foot{
+  display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;
+  margin-top:2.8rem;position:relative;z-index:1;
+}
+.mf-mnav__lang{
+  background:none;border:1px solid rgba(245,242,237,0.35);color:var(--bone);
+  font-family:var(--font-mono);font-size:12px;letter-spacing:var(--tracking-label);
+  text-transform:uppercase;padding:0.8rem 1.2rem;cursor:pointer;
+  transition:border-color var(--duration-fast) var(--ease-in-out);
+}
+.mf-mnav__lang:hover{border-color:var(--bone)}
+.mf-mnav__cta{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:var(--tracking-label);
+  text-transform:uppercase;text-decoration:none;
+  color:var(--bone);background:var(--mf-terracotta);
+  padding:0.8rem 1.4rem;
+}
+.mf-mnav__wm{
+  position:absolute;left:50%;bottom:-6%;transform:translateX(-50%);
+  width:min(72vw,420px);height:auto;opacity:0.07;
+  filter:invert(1) brightness(1.1);
+  pointer-events:none;user-select:none;
+}
+
 @media(max-width:859px){
-  .mf-nav{
-    height:auto;flex-wrap:wrap;align-items:center;
-    gap:0.35rem;padding:0.55rem var(--gutter) 0;
-  }
+  .mf-nav{gap:0.6rem}
+  .mf-nav__links{display:none}
+  .mf-nav__burger{display:flex}
   .mf-nav__brand{flex:1 1 auto;min-width:0}
   .mf-nav__logo{height:26px;width:auto}
-  .mf-nav__cta{order:2;padding:0.45rem 0.9rem}
-  .mf-nav__links{
-    order:3;margin-left:0;flex:1 0 100%;
-    gap:1.2rem;overflow-x:auto;scrollbar-width:none;
-    padding:0.25rem 0 0.45rem;
-  }
-  .mf-nav__links::-webkit-scrollbar{display:none}
-  .mf-nav__link,.mf-nav__lang{flex:0 0 auto}
-  .mf-nav__lang{margin-left:auto;padding-left:1.2rem}
-  /* alvos de toque confortaveis: altura ~44px em toda a fileira */
-  .mf-nav__link,.mf-nav__lang{
-    padding:0.95rem 0;
-    -webkit-tap-highlight-color:rgba(184,115,51,0.18);
-  }
-  .mf-nav__links{touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch}
+  .mf-nav__cta{padding:0.55rem 1rem}
+}
+@media(min-width:860px){
+  .mf-mnav{display:none}
+  .mf-nav__burger{display:none}
 }
       `}</style>
     </>

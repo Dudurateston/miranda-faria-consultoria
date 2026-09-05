@@ -57,14 +57,27 @@ export default function HomeInsights() {
 }
 .mf-dgprev__chips{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.75rem}
 .mf-dgprev__chip{
-  font-family:var(--font-mono);font-size:var(--text-label);
+  /* As dores nao sao texto corrido — sao o que doi. Filete de cobre
+     e leve lavagem as destacam sem virar bula. */
+  font-family:var(--font-mono);font-size:12px;
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-secondary);
-  padding:0.1rem 0;
+  color:var(--color-text-primary);
+  border-left:2px solid var(--mf-terracotta);
+  padding:0.45rem 0.7rem 0.45rem 0.8rem;
+  background:rgba(242,238,230,0.03);
+  transition:background var(--duration-fast) var(--ease-in-out),
+             transform var(--duration-base) var(--ease-out-expo);
 }
+.mf-dgprev__chip:hover{background:rgba(184,115,51,0.12);transform:translateY(-1px)}
 .mf-dgprev__artwrap{display:none}
-@media(min-width:860px){.mf-dgprev__artwrap{display:block}}
-.mf-dgprev__art{margin:0;aspect-ratio:4/3;overflow:hidden}
+@media(min-width:860px){.mf-dgprev{align-items:stretch}.mf-dgprev__artwrap{display:block;align-self:stretch}}
+.mf-dgprev__art{
+  /* A carta celeste integrada: preenche a coluna e as bordas se
+     dissolvem no fundo — em simbiose, sem moldura de video. */
+  margin:0;height:100%;min-height:300px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 14%,black 86%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,black 14%,black 86%,transparent 100%);
+}
 .mf-dgprev__art img,
 .mf-dgprev__art video{width:100%;height:100%;object-fit:cover;display:block}
       `}</style>

@@ -52,8 +52,6 @@ export const DESIGN_LAYERS = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v
 export const DESIGN_SEAM = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_veio.mp4";
 
 const SUPA_PUB = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria";
-export const ABOUT_M_REVEAL = `${SUPA_PUB}/about/m-reveal.mp4`;
-export const ABOUT_M_REVEAL_POSTER = `${SUPA_PUB}/about/m-reveal_poster.jpg`;
 export const BRAND_FACADE = "/art/brand-facade.webp";
 export const BRAND_FACADE_800 = "/art/brand-facade@800.webp";
 export const TEXTURE_MACRO = "/art/texture-macro.webp";
