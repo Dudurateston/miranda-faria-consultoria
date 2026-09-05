@@ -24,11 +24,6 @@ const cases = [
     d: "Site e estrutura digital para operação de logística.",
   },
   {
-    nome: "DJ Jotavê",
-    setor: "Artista",
-    d: "Site de apresentação completo: identidade, agenda e material de divulgação.",
-  },
-  {
     nome: "Este site",
     setor: "Miranda Faria",
     d: "A marca, a animação de abertura, o design e o código. Você acabou de percorrer o exemplo mais direto do que eu entrego — e ele foi feito em dias, não em meses.",

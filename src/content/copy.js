@@ -20,7 +20,6 @@ export const CASE_SLUGS = [
   "motormoura",
   "1000-pecas",
   "rota-forte",
-  "dj-jotave",
   "miranda-faria",
 ];
 
@@ -862,22 +861,6 @@ export const cases = {
       media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
-      slug: "dj-jotave",
-      practice: "desenvolvimento",
-      name: "DJ Jotavê",
-      sector: "Artist",
-      year: "2025",
-      summary: "Full presentation site: identity, schedule and promotional material.",
-      problem:
-        "An artist whose bookings ran entirely through social media DMs, with no single place a promoter could go to see the work, the schedule and the press material.",
-      process:
-        "Built identity and site together. This is the project where the scroll system — Lenis with GSAP ScrollTrigger on a single ticker — was first worked out; that system is the direct ancestor of the one running on this site.",
-      decisions:
-        "Chose scroll choreography over a static portfolio grid: for a performer, the site had to have a sense of motion and staging, not just be an archive.",
-      impact:
-        "One address for promoters, with the schedule and press material in the same place as the work.",
-    },
-    {
       slug: "miranda-faria",
       practice: "design",
       name: "This site",
@@ -894,38 +877,6 @@ export const cases = {
       impact:
         "The site is the case. Shader, canvas, motion system, two languages, the diagnostic engine and every line of CSS — designed, built and deployed by one person, in weeks, not quarters.",
       media: { dir: "miranda-faria", shots: 5, video: true },
-    },
-    {
-      slug: "queijos-serra-loja",
-      practice: "desenvolvimento",
-      name: "Queijos da Serra — Loja",
-      sector: "Artisanal cheese retail",
-      year: "2024",
-      summary: "A shop counter that now takes orders over WhatsApp — typed, ahead of time.",
-      problem:
-        "A cheese shop in a small Minas Gerais town selling only across the counter. No way to browse the case before visiting, and no way to order ahead for pickup.",
-      process:
-        "The shop's catalogue became a page, in the shop's own language. The order is assembled on WhatsApp and arrives as a ready message.",
-      decisions:
-        "WhatsApp instead of a shopping cart: no payment machinery to maintain, and the order lands in the channel the shop already answers. Pickup at the counter kept the operation local instead of inventing logistics.",
-      impact:
-        "The counter stopped being the only entrance — the order arrives typed, and the shop answers from the counter it already owns.",
-    },
-    {
-      slug: "solarsat",
-      practice: "desenvolvimento",
-      name: "SOLARSAT",
-      sector: "Technical services — antennas and solar cleaning",
-      year: "2026",
-      summary: "Local technical services with the quote one tap away.",
-      problem:
-        "A satellite antenna installation and photovoltaic panel cleaning business in Piumhi and region, living on word of mouth. The work was good; the findability was zero.",
-      process:
-        "A services page that says exactly what is done, where it is done, and what it costs to ask. The quote request goes to WhatsApp with the service already in the message.",
-      decisions:
-        "Wrote the region into the copy instead of a generic 'we serve your area' — local search is won by naming the territory. Kept the two services as equals rather than hiding the newer one.",
-      impact:
-        "The phone number stopped being a rumour: the site hands over the enquiry, pre-filled.",
     },
     {
       slug: "motormoura-marca",
@@ -1070,22 +1021,6 @@ export const cases = {
       media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
-      slug: "dj-jotave",
-      practice: "desenvolvimento",
-      name: "DJ Jotavê",
-      sector: "Artista",
-      year: "2025",
-      summary: "Site de apresentação completo: identidade, agenda e material de divulgação.",
-      problem:
-        "Artista com a agenda inteira rodando por DM de rede social, sem um lugar único onde o contratante visse o trabalho, a agenda e o material de imprensa.",
-      process:
-        "Identidade e site construídos juntos. É o projeto onde o sistema de scroll — Lenis com GSAP ScrollTrigger num ticker único — foi resolvido pela primeira vez; esse sistema é o ancestral direto do que roda neste site.",
-      decisions:
-        "Escolhi coreografia de scroll em vez de grade estática de portfólio: para quem se apresenta, o site precisava ter movimento e encenação, não ser só um arquivo.",
-      impact:
-        "Um endereço só para contratante, com agenda e material de imprensa no mesmo lugar do trabalho.",
-    },
-    {
       slug: "miranda-faria",
       practice: "design",
       name: "Este site",
@@ -1102,38 +1037,6 @@ export const cases = {
       impact:
         "O site é o case. Shader, canvas, sistema de movimento, dois idiomas, o motor de diagnóstico e cada linha de CSS — desenhado, construído e publicado por uma pessoa, em semanas, não em trimestres.",
       media: { dir: "miranda-faria", shots: 5, video: true },
-    },
-    {
-      slug: "queijos-serra-loja",
-      practice: "desenvolvimento",
-      name: "Queijos da Serra — Loja",
-      sector: "Varejo de queijos artesanais",
-      year: "2024",
-      summary: "Um balcão que agora recebe pedido por WhatsApp — digitado, com antecedência.",
-      problem:
-        "Uma loja de queijos no interior de Minas vendendo só no balcão. Sem como ver o estoque antes de visitar, sem como encomendar com antecedência para retirar.",
-      process:
-        "O catálogo da loja virou página, na linguagem da própria loja. O pedido se monta no WhatsApp e chega como mensagem pronta.",
-      decisions:
-        "WhatsApp em vez de carrinho de compras: sem maquinário de pagamento pra manter, e o pedido cai no canal que a loja já atende. Retirada no balcão manteve a operação local — nenhuma logística inventada.",
-      impact:
-        "O balcão deixou de ser a única porta de entrada — o pedido chega digitado, e a loja responde do balcão que já tem.",
-    },
-    {
-      slug: "solarsat",
-      practice: "desenvolvimento",
-      name: "SOLARSAT",
-      sector: "Serviços técnicos — antenas e limpeza solar",
-      year: "2026",
-      summary: "Serviços técnicos locais com o orçamento a um toque de distância.",
-      problem:
-        "Instalação de antenas parabólicas e limpeza de painéis fotovoltaicos em Piumhi e região, vivendo de indicação boca a boca. O serviço era bom; a encontrabilidade, zero.",
-      process:
-        "Uma página de serviços que diz exatamente o que é feito, onde é feito, e quanto custa perguntar. O orçamento vai pro WhatsApp com o serviço já na mensagem.",
-      decisions:
-        "Escrevi a região na copy em vez de um genérico 'atendemos sua área' — busca local se ganha nomeando o território. Mantive os dois serviços como iguais, sem esconder o mais novo.",
-      impact:
-        "O telefone deixou de ser boato: o site entrega o pedido, pré-preenchido.",
     },
     {
       slug: "motormoura-marca",
@@ -1260,7 +1163,7 @@ export const practices = {
       proofs: [
         "MotorMoura: complete identity — logo, manual, business cards, seals and print kit.",
         "1000 Peças: brand, signage, uniform and social, from one identity system.",
-        "DJ Jotavê: identity and presentation site for stage and promoters.",
+        "Roda de Agronegócios: identity for the 22nd edition — central seal, invitation and promotional pieces.",
         "This site: identity, motion and code by the same hand you would hire.",
       ],
       casesLabel: "Built this way",
@@ -1297,7 +1200,6 @@ export const practices = {
       proofs: [
         "Rota Forte: a page whose only job is to route the right enquiry to WhatsApp — and it does.",
         "Paulo Henrique: a presentation site with a performance lab the visitor actually uses.",
-        "Queijos da Serra — Loja and SOLARSAT: storefronts where the order and the quote start on WhatsApp.",
       ],
       casesLabel: "Built this way",
       cta: "Start a project",
@@ -1378,7 +1280,7 @@ export const practices = {
       proofs: [
         "MotorMoura: identidade completa — logo, manual, cartões, selos e kit de impressão.",
         "1000 Peças: marca, faixada, uniforme e social, de um sistema de identidade só.",
-        "DJ Jotavê: identidade e site de apresentação para palco e contratante.",
+        "Roda de Agronegócios: identidade da 22ª edição — selo central, convite e peças de divulgação.",
         "Este site: identidade, movimento e código pela mesma mão que você contrataria.",
       ],
       casesLabel: "Feitos assim",
@@ -1415,7 +1317,6 @@ export const practices = {
       proofs: [
         "Rota Forte: uma página cujo único trabalho é levar o orçamento certo pro WhatsApp — e ela leva.",
         "Paulo Henrique: site de apresentação com um laboratório de performance que o visitante usa de verdade.",
-        "Queijos da Serra — Loja e SOLARSAT: vitrines em que o pedido e o orçamento começam no WhatsApp.",
       ],
       casesLabel: "Feitos assim",
       cta: "Começar um projeto",
