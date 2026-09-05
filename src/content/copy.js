@@ -820,6 +820,7 @@ export const cases = {
         "Kept the first release deliberately narrow: presence and catalogue structure, no checkout — and no prices on the page. Heavy parts sell through a quote conversation, and forcing a cart or exposing a price would have fought the actual sales process.",
       impact:
         "The operation has a public surface and a catalogue that can grow without a rebuild.",
+      media: { dir: "1000-pecas", shots: 3, video: true },
     },
     {
       slug: "rota-forte",
@@ -1027,6 +1028,7 @@ export const cases = {
         "Mantive a primeira entrega deliberadamente estreita: presença e estrutura de catálogo, sem carrinho — e sem preço na página. Peça pesada se vende por conversa de orçamento, e forçar checkout ou expor preço ali brigaria com o processo real de venda.",
       impact:
         "A operação tem superfície pública e um catálogo que cresce sem precisar refazer.",
+      media: { dir: "1000-pecas", shots: 3, video: true },
     },
     {
       slug: "rota-forte",
