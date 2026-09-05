@@ -4,7 +4,8 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice } from "@/content/copy";
-import { CORTE_GIF, CELESTE_GIF, GEO_GIF } from "@/lib/site";
+import { CORTE_GIF, CELESTE_GIF, GEO_GIF, DESIGN_PARTICLES } from "@/lib/site";
+import AutoVideo from "@/components/AutoVideo";
 
 /**
  * As tres verticais em cards creme sobre o grafite, cada um com um GIF
@@ -13,7 +14,7 @@ import { CORTE_GIF, CELESTE_GIF, GEO_GIF } from "@/lib/site";
  */
 const VERTICALS = [
   { slug: "systems", gif: CORTE_GIF },
-  { slug: "design", gif: CELESTE_GIF },
+  { slug: "design", gif: DESIGN_PARTICLES },
   { slug: "business", gif: GEO_GIF },
 ];
 
@@ -35,7 +36,7 @@ export default function HomeServicos() {
             if (!p) return null;
             return (
               <Link key={slug} to={path(slug)} className="mf-card" data-cursor="link">
-                <img className="mf-card__gif" src={gif} alt="" loading="lazy" />
+                <AutoVideo className="mf-card__gif" src={gif} />
                 <span className="mf-card__label">{p.label}</span>
                 <p className="mf-card__lead">{t.servicos.cards?.[slug] ?? p.lead}</p>
                 <span className="mf-card__go">{t.servicos.seeVertical} →</span>

@@ -120,7 +120,7 @@ function useCountUp(target, active, ms = 1100) {
 export default function Insights() {
   const { lang, path } = useLang();
   const t = copy[lang].diag;
-  usePageTitle(t.label);
+  usePageTitle(t.label, "insights");
 
   const [pain, setPain] = useState(null);
   const [revenue, setRevenue] = useState(null);

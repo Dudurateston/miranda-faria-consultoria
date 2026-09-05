@@ -7,28 +7,17 @@ import { LANGS, useLang, swapLangInPath } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 
 /**
- * Mantem no <head> a description e os alternates de idioma. Feito a mao
- * em vez de puxar react-helmet: sao poucas tags e uma dependencia a
- * menos para carregar.
+ * Mantem no <head> os alternates de idioma. Feito a mao em vez de
+ * puxar react-helmet: sao poucas tags e uma dependencia a menos.
  *
- * O <title> NAO e definido aqui — cada pagina o define via
- * usePageTitle. Efeito de filho roda antes de efeito de pai, entao um
- * title escrito aqui sobrescreveria o da pagina.
+ * O <title> e a description NAO sao definidos aqui — cada pagina os
+ * define via usePageTitle. Efeito de filho roda antes de efeito de pai,
+ * entao qualquer tag escrita aqui sobrescreveria a da pagina.
  */
 function useDocumentHead(lang, pathname) {
   useEffect(() => {
     const meta = copy[lang].meta;
 
-    const setMeta = (name, content) => {
-      let el = document.querySelector(`meta[name="${name}"]`);
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute("name", name);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("content", content);
-    };
-    setMeta("description", meta.description);
 
     // hreflang: cada idioma aponta para o equivalente exato da rota atual.
     const existing = document.querySelectorAll('link[data-mf-alt="1"]');
@@ -74,8 +63,12 @@ export default function SiteLayout() {
           CSS puro, sem laco de animacao proprio. */}
       <div className="mf-progress" aria-hidden="true" />
 
+      {/* Teclado primeiro: pular direto pro conteudo. Invisivel ate Tab. */}
+      <a href="#conteudo" className="mf-skip">{copy[lang].meta.skip}</a>
+
       {/* A nav so espera a hero passar na home; nas internas aparece de cara. */}
       <SiteNav revealAfterHero={isHome} />
+
       <main id="conteudo" className={isHome ? undefined : "mf-shell__main"}>
         <Outlet />
       </main>
@@ -99,3 +92,16 @@ export default function SiteLayout() {
     </div>
   );
 }
+
+<style>{`
+.mf-skip{
+  position:fixed;top:0.75rem;left:0.75rem;z-index:300;
+  transform:translateY(-300%);
+  transition:transform var(--duration-fast) var(--ease-in-out);
+  background:var(--mf-graphite);color:var(--bone);
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  padding:0.7rem 1.1rem;text-decoration:none;
+}
+.mf-skip:focus-visible{transform:translateY(0);outline-offset:0}
+`}</style>

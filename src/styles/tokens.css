@@ -13,6 +13,7 @@
 
   /* DESTAQUE — único, usado com moderação */
   --copper: #B5502E;
+  --copper-text: #A6481F;
   --copper-light: #E08A5F;
 
   /* SUPORTE */
@@ -40,7 +41,7 @@
   --color-text-primary: var(--ink);
   --color-text-secondary: var(--ink-dim);
   --color-text-ghost: var(--ink-ghost);
-  --color-accent: var(--copper);
+  --color-accent: var(--copper-text, #A6481F);
   --color-divider: var(--hairline);
   --color-whatsapp: #25D366;
 
@@ -116,7 +117,7 @@
   --color-text-primary: var(--ink);
   --color-text-secondary: var(--ink-dim);
   --color-text-ghost: var(--ink-ghost);
-  --color-accent: var(--copper);
+  --color-accent: var(--copper-text, #A6481F);
   --color-divider: var(--hairline);
 }
 

@@ -30,6 +30,17 @@ export const copy = {
       title: "Miranda Faria — Design Engineer & Creative Technologist",
       description:
         "I design and build complete web systems — brand, product and data as one — solo, using an orchestrated AI workflow.",
+      skip: "Skip to content",
+      pages: {
+        home: "Complete web systems — brand, product and data as one — built solo, shipped fast.",
+        work: "Six systems delivered end to end, across parts distribution, logistics, agribusiness, retail and the arts.",
+        servicos: "Three solutions, one operating principle: systems, design and business intelligence.",
+        about: "Design engineer working across brand, product and data — technology applied to a business that actually exists.",
+        how: "How a project runs here: diagnosis first, demo in the first week, delivery in the owner's hands.",
+        insights: "Three questions and an estimate of what the problem costs — before any talk of price.",
+        contact: "Bring the problem, not a spec. Same-day response, straight from who builds it.",
+        practice: "Custom systems the owner operates without calling me — catalogue, inventory, ordering and panels.",
+      },
     },
     nav: {
       home: "Home",
@@ -201,6 +212,7 @@ export const copy = {
         "I work solo and ship fast, using an orchestrated AI workflow through the mechanical parts of the build. Everything that leaves here passes through my hands before it reaches you.",
       ],
       location: "Based in Brazil (UTC−3) — full working-day overlap with US hours, partial with Europe.",
+      facadeCaption: "Generative brand art — AI",
       trajectoryLabel: "Trajectory",
       trajectory: "Eight complete systems shipped across parts distribution, logistics, agribusiness, retail and the arts — brand, interface, data model and deployment, end to end.",
       principlesLabel: "How I decide",
@@ -220,6 +232,7 @@ export const copy = {
       ],
     },
     contact: {
+      signCaption: "The brand on the street — generative study (AI)",
       label: "Contact",
       lead: "Tell me where it's stuck.",
       body: "The fastest path is a short call. Bring the problem, not a spec — figuring out what to build is part of the work.",
@@ -355,6 +368,17 @@ export const copy = {
       title: "Miranda Faria — Consultoria & Tecnologia",
       description:
         "Sistemas sob medida, BI, automação e identidade visual para negócios que já não cabem mais na planilha.",
+      skip: "Pular para o conteúdo",
+      pages: {
+        home: "Sistemas completos — marca, produto e dados como um só — construídos sob medida, entregues rápido.",
+        work: "Seis sistemas entregues de ponta a ponta: distribuição de peças, logística, agronegócio, comércio e arte.",
+        servicos: "Três soluções, um princípio de operação: sistemas, design e gestão.",
+        about: "Design engineer entre marca, produto e dados — tecnologia aplicada a negócio que existe de verdade.",
+        how: "Como um projeto corre por aqui: diagnóstico primeiro, demo na primeira semana, entrega na mão do dono.",
+        insights: "Três perguntas e uma estimativa do custo do seu problema — antes de falar de preço ou tecnologia.",
+        contact: "Traga o problema, não a especificação. Resposta no mesmo dia, direto com quem executa.",
+        practice: "Sistemas sob medida que o dono opera sem me ligar — catálogo, estoque, pedidos e painéis.",
+      },
     },
     nav: {
       home: "Início",
@@ -526,6 +550,7 @@ export const copy = {
         "Trabalho sozinho e entrego rápido. Uso IA em boa parte do processo — na construção dos sistemas e na criação visual —, e é por isso que consigo fazer sob medida por um preço que agência não alcança. O que sai daqui passa pela minha mão antes de chegar em você.",
       ],
       location: "Atendimento remoto para todo o Brasil.",
+      facadeCaption: "Arte generativa de marca — IA",
       trajectoryLabel: "Trajetória",
       trajectory: "Oito sistemas completos entregues em distribuição de peças, logística, agronegócio, comércio e arte — marca, interface, modelo de dados e publicação, de ponta a ponta.",
       principlesLabel: "Como eu decido",
@@ -545,6 +570,7 @@ export const copy = {
       ],
     },
     contact: {
+      signCaption: "A marca na rua — estudo generativo (IA)",
       label: "Conversar",
       lead: "Me conta onde está travando.",
       body: "O caminho mais rápido é uma conversa curta. Traga o problema, não a especificação — descobrir o que construir faz parte do trabalho.",
@@ -1023,6 +1049,14 @@ export const practices = {
       intro:
         "Identity, design system and the applied pieces. AI generates the first drafts — Lovart for imagery, code for the system — and every piece passes through my hands before it ships. That is the difference between leverage and a shortcut.",
       artAlt: "Translucent planes composing, some still finding position",
+      gen: {
+        label: "GENERATIVE ART — AI",
+        title: "Design of every kind",
+        desc:
+          "Identity in motion, image, film and space — all of it designed and directed here. The pieces below were generated and art-directed with AI: copper particles for a brand that moves, and the Miranda Faria sign as a study of the mark out in the street.",
+        capA: "Copper particles — identity in motion",
+        capB: "Miranda Faria sign — generative study",
+      },
       deliverablesLabel: "What I deliver",
       deliverables: [
         {
@@ -1132,6 +1166,14 @@ export const practices = {
       intro:
         "Identidade, design system e as peças de aplicação. A IA gera os primeiros rascunhos — Lovart para imagem, código para o sistema — e cada peça passa pela minha mão antes de sair. É essa a diferença entre alavanca e atalho.",
       artAlt: "Planos translúcidos se compondo, alguns ainda assentando",
+      gen: {
+        label: "ARTE GENERATIVA — IA",
+        title: "Design de todo tipo",
+        desc:
+          "Identidade em movimento, imagem, filme e espaço — tudo desenhado e dirigido aqui. As peças abaixo foram geradas e dirigidas com IA: partículas de cobre para uma marca que se move, e a placa Miranda Faria como estudo da marca na rua.",
+        capA: "Partículas de cobre — identidade em movimento",
+        capB: "Placa Miranda Faria — estudo generativo",
+      },
       deliverablesLabel: "O que entrego",
       deliverables: [
         {

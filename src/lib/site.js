@@ -14,20 +14,14 @@ export const M_LOGO =
   "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/015bf096c_M_logo_transparent.png";
 export const M_LOGO_HERO =
   "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/0204f27fe_7bdd40216_Image3.png";
-export const HERO_LOOP_MP4 =
-  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/df560ff36_hero_loop.mp4";
-export const REELS_URL =
-  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/13127e3ed_reels_quem_somos_v3.mp4";
-export const CORTE_GIF =
-  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/46ce274a3_corte_rocha_sedimentar_animacao.gif";
-export const WATERMARK_GIF =
-  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/e6824e2c1_watermark_M_animado.gif";
-export const LOGO_ANIM_GIF =
-  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/6c0f1617c_miranda_faria_logo_animation.gif";
-export const GEO_GIF =
-  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/5b0ef9b65_coluna_geologica_16x9.gif";
-export const CELESTE_GIF =
-  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/9890a2c0a_carta_celeste_animacao.gif";
+export const HERO_LOOP_MP4 = "/art/hero_loop.mp4";
+export const HERO_LOOP_POSTER = "/art/hero_loop_poster.webp";
+export const REELS_URL = "/art/reels.mp4";
+export const CORTE_GIF = "/art/corte.mp4";
+export const WATERMARK_GIF = "/art/watermark.webp";
+export const LOGO_ANIM_GIF = "/art/watermark_logo.webp";
+export const GEO_GIF = "/art/geo.mp4";
+export const CELESTE_GIF = "/art/celeste.mp4";
 export const WHATSAPP_DISPLAY = "(37) 99951-2146";
 export const EMAIL = "contato@mirandafaria.com.br";
 export const MARCA = "Miranda Faria";
@@ -38,3 +32,13 @@ export const CALENDLY_URL = "https://calendly.com/edumirandamf";
 // TODO(pendencia): confirmar a URL real do perfil. Registrado como
 // pendencia aberta no RECAP.md — hoje aponta para a home do LinkedIn.
 export const LINKEDIN_URL = "https://www.linkedin.com";
+
+/* ---- Arte generativa (Drive "superagente base44", otimizada de 4K) ----
+   Particulas de cobre e placa Miranda Faria: geradas por IA, usadas como
+   arte de marca — nunca como prova de escritorio fisico. */
+export const DESIGN_PARTICLES = "/art/design-particles.mp4";
+export const DESIGN_SIGN = "/art/design-sign.mp4";
+export const BRAND_FACADE = "/art/brand-facade.webp";
+export const BRAND_FACADE_800 = "/art/brand-facade@800.webp";
+export const TEXTURE_MACRO = "/art/texture-macro.webp";
+export const FLOW_CREATIVE = "/art/flow-creative.webp";

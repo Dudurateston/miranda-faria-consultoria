@@ -14,7 +14,7 @@ import { usePageTitle } from "@/lib/usePageTitle";
  * para quem so visita a pagina principal.
  */
 export default function Home() {
-  usePageTitle(null);
+  usePageTitle(null, "home");
 
   return (
     <div className="mf-home" data-theme="dark">

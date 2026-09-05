@@ -29,11 +29,15 @@
     --radius: 0.25rem;
 
     --mf-terracotta: #b37a60;
+    /* Terracotta p/ TEXTO pequeno em fundo claro — b37a60 reprova WCAG AA (3,2:1). */
+    --mf-terracotta-deep: #8F604A;
     --mf-graphite: #141414;
     --mf-rule: #2a2a2a;
     --mf-ink: #1A1A18;
     --mf-bone: #F5F1EA;
     --mf-copper: #B5502E;
+    /* Cobre em texto pequeno: B5502E fica em 4,49:1, um fio abaixo do AA. */
+    --mf-copper-text: #A6481F;
     --mf-stone: #8A8578;
     --mf-line: rgba(138,133,120,0.28);
 
@@ -72,4 +76,21 @@
   html {
     scroll-behavior: auto;
   }
+  /* Revezar e revelar continuam legiveis; so a decoracao para.
+     Videos seguem: sao conteudo, nao enfeite. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Foco visivel em todo o site — o unico outline que o design permite,
+   na cor do cobre, aparece so por teclado. */
+:focus-visible {
+  outline: 2px solid var(--mf-copper, #B5502E);
+  outline-offset: 3px;
+  border-radius: 1px;
 }

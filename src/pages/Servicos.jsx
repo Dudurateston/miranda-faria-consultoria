@@ -6,7 +6,8 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { WHATSAPP_URL, CORTE_GIF } from "@/lib/site";
+import { WHATSAPP_URL, CORTE_GIF, FLOW_CREATIVE } from "@/lib/site";
+import AutoVideo from "@/components/AutoVideo";
 
 /**
  * Servicos — visao geral das tres verticais, com numeros reais da
@@ -19,7 +20,7 @@ const SLUGS = ["systems", "design", "business"];
 export default function Servicos() {
   const { lang, path } = useLang();
   const t = copy[lang].servicos;
-  usePageTitle(t.label);
+  usePageTitle(t.label, "servicos");
 
   return (
     <>
@@ -44,7 +45,7 @@ export default function Servicos() {
 
           <Reveal delay={200}>
             <figure className="mf-srv__band">
-              <img src={CORTE_GIF} alt="" loading="lazy" />
+              <AutoVideo src={CORTE_GIF} />
               <figcaption className="mf-srv__layers" aria-hidden="true">
                 {t.bandLayers.map((l, i) => (
                   <span key={i} className="mf-srv__layer">{l}</span>
@@ -61,7 +62,16 @@ export default function Servicos() {
 
       <MfRule />
 
-      <section className="mf-srv" data-depth="0.30">
+      <section className="mf-srv mf-srv--flowbg" data-depth="0.30">
+        <img
+          className="mf-srv__flowbg"
+          src={FLOW_CREATIVE}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          width="1920"
+          height="1080"
+        />
         <div className="mf-srv__inner">
           <Reveal>
             <p className="mf-label">{t.verticalsLabel}</p>
@@ -97,6 +107,16 @@ export default function Servicos() {
       </section>
 
       <style>{`
+/* Fundo generativo — fluxo criativo por baixo da seção de abertura. */
+.mf-srv--flowbg{position:relative;overflow:hidden}
+.mf-srv__flowbg{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0.10;pointer-events:none;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,black 18%,black 82%,transparent);
+  mask-image:linear-gradient(to bottom,transparent,black 18%,black 82%,transparent);
+}
+.mf-srv--flowbg .mf-srv__inner{position:relative}
+
 .mf-srv{padding:var(--section-gap) var(--gutter)}
 .mf-srv__inner{max-width:var(--max-width-page);margin:0 auto}
 .mf-srv__lead{
@@ -150,7 +170,7 @@ export default function Servicos() {
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-ghost);
 }
-.mf-srv__band img{
+.mf-srv__band img,\n.mf-srv__band video{
   width:100%;height:100%;object-fit:cover;display:block;opacity:0.32;
   -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 15%,black 85%,transparent 100%);
   mask-image:linear-gradient(90deg,transparent 0%,black 15%,black 85%,transparent 100%);

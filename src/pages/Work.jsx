@@ -13,7 +13,7 @@ export default function Work() {
   const t = copy[lang].work;
   const list = cases[lang];
   const listRef = useRef(null);
-  usePageTitle(t.label);
+  usePageTitle(t.label, "work");
 
   useScrollStagger(listRef, { selector: ".mf-work__item", stagger: 0.09, y: 34 });
 

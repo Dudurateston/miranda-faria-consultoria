@@ -6,6 +6,8 @@ import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
 import { WHATSAPP_URL, EMAIL, WHATSAPP_DISPLAY, WHATSAPP_URL_SELLER, SELLERS_APP_URL } from "@/lib/site";
+import AutoVideo from "@/components/AutoVideo";
+import { DESIGN_SIGN } from "@/lib/site";
 
 /**
  * Contato — CTA direto no WhatsApp no topo e, abaixo, o formulario
@@ -18,7 +20,7 @@ export default function Contact() {
   const t = copy[lang].contact;
   const s = copy[lang].sellers;
   const f = t.form;
-  usePageTitle(t.label);
+  usePageTitle(t.label, "contact");
 
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
@@ -111,6 +113,13 @@ export default function Contact() {
             </div>
           </Reveal>
 
+          <Reveal delay={280}>
+            <figure className="mf-contact__art">
+              <AutoVideo className="mf-contact__artvideo" src={DESIGN_SIGN} label={t.signCaption} />
+              <figcaption className="mf-label">{t.signCaption}</figcaption>
+            </figure>
+          </Reveal>
+
           <Reveal delay={320}>
             <div className="mf-form">
               <p className="mf-label">{f.title}</p>
@@ -169,6 +178,11 @@ export default function Contact() {
       </section>
 
       <style>{`
+/* Âncora visual da marca — estudo generativo, nao escritorio fisico. */
+.mf-contact__art{margin:3.2rem 0 0;display:flex;flex-direction:column;gap:0.6rem;max-width:720px}
+.mf-contact__artvideo{width:100%;display:block;border-radius:2px}
+.mf-contact__art figcaption{color:var(--color-text-ghost)}
+
 .mf-contact{
   min-height:calc(100vh - var(--nav-height));
   padding:var(--section-gap) var(--gutter);
@@ -223,7 +237,7 @@ export default function Contact() {
 .mf-contact__sellerslinks a{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--mf-terracotta);text-decoration:none;
+  color:var(--mf-terracotta-deep);text-decoration:none;
 }
 .mf-contact__sellerslinks a:nth-child(2){color:var(--color-text-secondary)}
 .mf-contact__sellerslinks a:hover{opacity:0.7}

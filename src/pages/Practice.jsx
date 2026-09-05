@@ -10,6 +10,8 @@ import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { usePageTitle } from "@/lib/usePageTitle";
 import { copy, getPractice, casesOfPractice, processSteps } from "@/content/copy";
+import AutoVideo from "@/components/AutoVideo";
+import { DESIGN_PARTICLES, DESIGN_SIGN } from "@/lib/site";
 
 /**
  * As tres verticais — /systems, /design, /business — compartilham
@@ -33,7 +35,7 @@ export default function Practice({ slug: slugProp }) {
   const t = copy[lang];
 
   // Antes do return antecipado: hook nao pode ficar atras de condicional.
-  usePageTitle(p ? p.label : t.nav.work);
+  usePageTitle(p ? p.label : t.nav.work, "practice");
 
   const deliverRef = useRef(null);
   const stepsRef = useRef(null);
@@ -50,6 +52,39 @@ export default function Practice({ slug: slugProp }) {
       <PageHeader label={p.label} lead={p.lead} intro={p.intro} />
 
       <ArtSlot variant={slug} name={slug} alt={p.artAlt} />
+
+      {/* Vitrine generativa — exclusiva da aba Design. Arte de marca
+          gerada e dirigida por IA: nunca vendida como escritorio
+          fisico, sempre assinada como trabalho proprio. */}
+      {slug === "design" && (
+        <section className="mf-pr__gen" data-depth="0.14" aria-labelledby="gen-title">
+          <div className="mf-pr__geninner">
+            <Reveal>
+              <p className="mf-label">{p.gen.label}</p>
+            </Reveal>
+            <LineReveal as="h2" id="gen-title" className="mf-pr__gentitle">
+              {p.gen.title}
+            </LineReveal>
+            <Reveal delay={120}>
+              <p className="mf-pr__gendesc">{p.gen.desc}</p>
+            </Reveal>
+            <div className="mf-pr__genmedia">
+              <Reveal delay={180} className="mf-pr__genmain">
+                <figure className="mf-pr__genfig">
+                  <AutoVideo className="mf-pr__genvideo" src={DESIGN_PARTICLES} label={p.gen.capA} />
+                  <figcaption className="mf-label mf-pr__gencap">{p.gen.capA}</figcaption>
+                </figure>
+              </Reveal>
+              <Reveal delay={260} className="mf-pr__genside">
+                <figure className="mf-pr__genfig">
+                  <AutoVideo className="mf-pr__genvideo" src={DESIGN_SIGN} label={p.gen.capB} />
+                  <figcaption className="mf-label mf-pr__gencap">{p.gen.capB}</figcaption>
+                </figure>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+      )}
 
       <MfRule />
 
@@ -145,6 +180,17 @@ export default function Practice({ slug: slugProp }) {
       </section>
 
       <style>{`
+/* Vitrine generativa (aba Design) — duas artes de marca em simbiose. */
+.mf-pr__gen{padding:var(--section-gap) var(--gutter)}
+.mf-pr__geninner{max-width:var(--max-width-page);margin:0 auto;width:100%}
+.mf-pr__gentitle{font-family:var(--font-display);font-weight:400;font-size:var(--text-display-md);line-height:1.05;margin:1rem 0 1.1rem}
+.mf-pr__gendesc{max-width:56ch;color:var(--color-text-secondary);font-size:var(--text-body-md);line-height:1.65}
+.mf-pr__genmedia{display:grid;grid-template-columns:1.55fr 1fr;gap:1.2rem;margin-top:2.6rem}
+.mf-pr__genfig{margin:0;display:flex;flex-direction:column;gap:0.6rem}
+.mf-pr__genvideo{width:100%;display:block;border-radius:2px}
+.mf-pr__gencap{color:var(--color-text-ghost)}
+@media(max-width:900px){.mf-pr__genmedia{grid-template-columns:1fr}}
+
 .mf-pr{padding:var(--section-gap) var(--gutter)}
 .mf-pr__inner{max-width:var(--max-width-page);margin:0 auto}
 

@@ -5,6 +5,7 @@ import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { CELESTE_GIF } from "@/lib/site";
+import AutoVideo from "@/components/AutoVideo";
 
 /**
  * Preview do Diagnóstico — a home vende a ferramenta, não a lista.
@@ -41,7 +42,7 @@ export default function HomeInsights() {
         </div>
         <Reveal delay={180} className="mf-dgprev__artwrap">
           <figure className="mf-dgprev__art">
-            <img src={CELESTE_GIF} alt="" loading="lazy" />
+            <AutoVideo src={CELESTE_GIF} />
           </figure>
         </Reveal>
       </div>
@@ -64,7 +65,7 @@ export default function HomeInsights() {
 .mf-dgprev__artwrap{display:none}
 @media(min-width:860px){.mf-dgprev__artwrap{display:block}}
 .mf-dgprev__art{margin:0;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--color-divider)}
-.mf-dgprev__art img{width:100%;height:100%;object-fit:cover;display:block}
+.mf-dgprev__art img,\n.mf-dgprev__art video{width:100%;height:100%;object-fit:cover;display:block}
       `}</style>
     </section>
   );
