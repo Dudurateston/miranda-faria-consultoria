@@ -5,7 +5,7 @@ import { base44 } from "@/api/base44Client";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { WHATSAPP_URL, EMAIL, WHATSAPP_DISPLAY } from "@/lib/site";
+import { WHATSAPP_URL, EMAIL, WHATSAPP_DISPLAY, WHATSAPP_URL_SELLER, SELLERS_APP_URL } from "@/lib/site";
 
 /**
  * Contato — CTA direto no WhatsApp no topo e, abaixo, o formulario
@@ -16,6 +16,7 @@ import { WHATSAPP_URL, EMAIL, WHATSAPP_DISPLAY } from "@/lib/site";
 export default function Contact() {
   const { lang } = useLang();
   const t = copy[lang].contact;
+  const s = copy[lang].sellers;
   const f = t.form;
   usePageTitle(t.label);
 
@@ -93,6 +94,21 @@ export default function Contact() {
 
           <Reveal delay={260}>
             <p className="mf-label mf-contact__response">{t.response} · {WHATSAPP_DISPLAY}</p>
+          </Reveal>
+
+          <Reveal delay={300}>
+            <div className="mf-contact__sellers">
+              <p className="mf-label">{s.label}</p>
+              <p className="mf-contact__sellersd">{s.lead}</p>
+              <div className="mf-contact__sellerslinks">
+                <a href={WHATSAPP_URL_SELLER} target="_blank" rel="noopener noreferrer" data-cursor="link">
+                  {s.wa} →
+                </a>
+                <a href={SELLERS_APP_URL} target="_blank" rel="noopener noreferrer" data-cursor="link">
+                  {s.app} ↗
+                </a>
+              </div>
+            </div>
           </Reveal>
 
           <Reveal delay={320}>
@@ -194,6 +210,23 @@ export default function Contact() {
 }
 .mf-contact__secondary:hover{color:var(--color-accent);border-color:var(--color-accent)}
 .mf-contact__response{margin:2.5rem 0 0}
+.mf-contact__sellers{
+  margin-top:2.5rem;padding:1.25rem 1.4rem;
+  border:1px solid var(--color-divider);
+}
+.mf-contact__sellersd{
+  font-family:var(--font-display);font-weight:400;
+  font-size:var(--text-body-lg);color:var(--color-text-primary);
+  margin:0.6rem 0 0;
+}
+.mf-contact__sellerslinks{display:flex;flex-wrap:wrap;gap:0.6rem 2rem;margin-top:0.9rem}
+.mf-contact__sellerslinks a{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--mf-terracotta);text-decoration:none;
+}
+.mf-contact__sellerslinks a:nth-child(2){color:var(--color-text-secondary)}
+.mf-contact__sellerslinks a:hover{opacity:0.7}
 
 .mf-form{margin-top:4.5rem;padding-top:3rem;border-top:1px solid var(--color-divider)}
 .mf-form__body{

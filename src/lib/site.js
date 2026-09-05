@@ -5,6 +5,9 @@ export const WHATSAPP_URL =
 export const WHATSAPP_URL_BARE = "https://wa.me/5537999512146";
 export const WHATSAPP_URL_SITE =
   "https://wa.me/5537999512146?text=Olá%20Eduardo,%20vi%20seu%20site%20e%20gostaria%20de%20conversar";
+export const WHATSAPP_URL_SELLER =
+  "https://wa.me/5537999512146?text=Olá%20Eduardo,%20quero%20ser%20vendedor%20e%20fazer%20parte%20do%20time";
+export const SELLERS_APP_URL = "https://vendas-uai-hub.base44.app";
 
 // Assets oficiais — logo principal transparente, hero em MP4 e mídias de seção.
 export const M_LOGO =

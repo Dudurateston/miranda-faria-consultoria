@@ -3,7 +3,7 @@ import Link from "@/components/TransitionLink";
 
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
-import { LINKEDIN_URL, M_LOGO, LOGO_ANIM_GIF } from "@/lib/site";
+import { LINKEDIN_URL, M_LOGO, LOGO_ANIM_GIF, SELLERS_APP_URL } from "@/lib/site";
 
 /**
  * Rodape grafite, fechando o site no mesmo campo da home. O M e um
@@ -72,6 +72,15 @@ export default function Footer() {
             >
               {t.footer.linkedin}
             </a>
+            <a
+              href={SELLERS_APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="link"
+              className="mf-foot__link mf-foot__link--sellers"
+            >
+              {t.footer.sellers} ↗
+            </a>
             <Link to="/privacidade" data-cursor="link" className="mf-foot__link">
               {t.footer.privacy}
             </Link>
@@ -128,6 +137,7 @@ export default function Footer() {
 .mf-foot__link:hover{color:var(--color-accent)}
 .mf-foot__meta{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.8rem}
 
+.mf-foot__link--sellers{color:var(--mf-terracotta)}
 .mf-foot__copy{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;

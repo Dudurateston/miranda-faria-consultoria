@@ -243,10 +243,19 @@ export const copy = {
         sent: "Received — I'll be in touch today.",
       },
     },
+    sellers: {
+      label: "Sales reps",
+      lead: "Want to sell with us?",
+      body:
+        "Who sells with me doesn't improvise: tested scripts, continuous training and a hub that keeps every lead in order. If you want structure behind your commission, message me — or jump straight into the reps' app.",
+      wa: "Message on WhatsApp",
+      app: "Open the reps' app",
+    },
     footer: {
       tagline: "Miranda Faria · Design Engineer & Creative Technologist",
       privacy: "Privacy",
       linkedin: "LinkedIn",
+      sellers: "Sales reps' app",
     },
     servicos: {
       label: "Services",
@@ -559,10 +568,19 @@ export const copy = {
         sent: "Recebido — retorno hoje.",
       },
     },
+    sellers: {
+      label: "Vendedores",
+      lead: "Quer vender com a gente?",
+      body:
+        "Quem vende comigo não vai no improviso: scripts testados, treino contínuo e uma central que organiza cada lead. Se quer estrutura por trás da sua comissão, chama no WhatsApp — ou entra direto no app dos vendedores.",
+      wa: "Falar no WhatsApp",
+      app: "Entrar no app dos vendedores",
+    },
     footer: {
       tagline: "Miranda Faria · Consultoria & Tecnologia · Brasil",
       privacy: "Política de Privacidade",
       linkedin: "LinkedIn",
+      sellers: "App dos vendedores",
     },
     servicos: {
       label: "Serviços",

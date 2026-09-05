@@ -7,11 +7,12 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { CELESTE_GIF } from "@/lib/site";
+import { CELESTE_GIF, WHATSAPP_URL_SELLER, SELLERS_APP_URL } from "@/lib/site";
 
 export default function About() {
   const { lang, path } = useLang();
   const t = copy[lang].about;
+  const s = copy[lang].sellers;
   const nav = copy[lang].nav;
   usePageTitle(t.label);
 
@@ -92,6 +93,30 @@ export default function About() {
         </div>
       </section>
 
+      <section className="mf-about__sellers" data-depth="0.32">
+        <div className="mf-about__inner">
+          <Reveal>
+            <p className="mf-label">{s.label}</p>
+          </Reveal>
+          <LineReveal as="h2" className="mf-about__sellerslead">
+            {s.lead}
+          </LineReveal>
+          <Reveal delay={120}>
+            <p className="mf-about__sellersbody">{s.body}</p>
+          </Reveal>
+          <Reveal delay={200}>
+            <div className="mf-about__sellersctas">
+              <a href={WHATSAPP_URL_SELLER} target="_blank" rel="noopener noreferrer" className="mf-about__sellerswa" data-cursor="link">
+                {s.wa} →
+              </a>
+              <a href={SELLERS_APP_URL} target="_blank" rel="noopener noreferrer" className="mf-about__sellersapp" data-cursor="link">
+                {s.app} ↗
+              </a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       <MfRule />
 
       <section className="mf-about__cta" data-depth="0.34">
@@ -166,6 +191,31 @@ export default function About() {
   color:var(--color-text-secondary);margin:0;
 }
 
+.mf-about__sellers{padding:0 var(--gutter) var(--section-gap)}
+.mf-about__sellerslead{
+  font-family:var(--font-display);font-weight:400;
+  font-size:var(--text-display-md);line-height:var(--leading-display);
+  letter-spacing:var(--tracking-display);color:var(--color-text-primary);
+  margin:1rem 0 0;max-width:24ch;text-wrap:balance;
+}
+.mf-about__sellersbody{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-lg);line-height:var(--leading-body);
+  color:var(--color-text-secondary);max-width:58ch;margin:1.1rem 0 0;
+}
+.mf-about__sellersctas{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 2rem;margin-top:1.6rem}
+.mf-about__sellerswa{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--mf-terracotta);text-decoration:none;
+}
+.mf-about__sellerswa:hover{opacity:0.7}
+.mf-about__sellersapp{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-secondary);text-decoration:none;
+}
+.mf-about__sellersapp:hover{color:var(--color-text-primary)}
 .mf-about__cta{padding:clamp(2.5rem,6vh,4rem) var(--gutter) var(--section-gap)}
 .mf-about__ctalink{
   font-family:var(--font-display);font-weight:400;
