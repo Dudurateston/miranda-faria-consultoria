@@ -673,6 +673,7 @@ export const cases = {
         "Chose an owner-operated admin over a service contract: the client registers products, categories and images without touching me. The data model allows a product to carry multiple brands and applications, which is how the parts business actually works.",
       impact:
         "The catalogue left the owner's head and became something the team can query. Registration no longer routes through one person.",
+      media: { dir: "motormoura", shots: 3, video: true },
     },
     {
       slug: "1000-pecas",
@@ -705,6 +706,7 @@ export const cases = {
         "Prioritised legibility for contract clients over visual novelty — in logistics, the site is a trust document before it is a brochure.",
       impact:
         "A public face that matches the size of the operation, and structure that no longer lives in message threads.",
+      media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
       slug: "dj-jotave",
@@ -812,6 +814,7 @@ export const cases = {
         "Escolhi painel operado pelo dono em vez de contrato de manutenção: o cliente cadastra produto, categoria e imagem sem me acionar. O modelo de dados permite um produto carregar várias marcas e aplicações, que é como o negócio de peça funciona de fato.",
       impact:
         "O catálogo saiu da cabeça do dono e virou algo que a equipe consulta. O cadastro não passa mais por uma pessoa só.",
+      media: { dir: "motormoura", shots: 3, video: true },
     },
     {
       slug: "1000-pecas",
@@ -844,6 +847,7 @@ export const cases = {
         "Priorizei legibilidade para cliente de contrato em vez de novidade visual — em logística, o site é um documento de confiança antes de ser um folheto.",
       impact:
         "Uma cara pública do tamanho da operação, e estrutura que não mora mais em thread de mensagem.",
+      media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
       slug: "dj-jotave",
