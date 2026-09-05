@@ -60,11 +60,11 @@ export default function HomeInsights() {
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-secondary);
-  border:1px solid var(--color-divider);padding:0.55rem 0.9rem;
+  padding:0.1rem 0;
 }
 .mf-dgprev__artwrap{display:none}
 @media(min-width:860px){.mf-dgprev__artwrap{display:block}}
-.mf-dgprev__art{margin:0;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--color-divider)}
+.mf-dgprev__art{margin:0;aspect-ratio:4/3;overflow:hidden}
 .mf-dgprev__art img,\n.mf-dgprev__art video{width:100%;height:100%;object-fit:cover;display:block}
       `}</style>
     </section>
