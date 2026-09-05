@@ -28,6 +28,8 @@ export default function TerraformCanvas() {
       running = false,
       alive = true;
     const mouse = { x: -9999, y: -9999, on: false };
+    // cliques/toques viram ondas: empurrao radial que decai em ~0.9s
+    const pulses = [];
     let parts = [];
     let fps = 60;
     let last = performance.now();
@@ -71,6 +73,7 @@ export default function TerraformCanvas() {
 
     const frame = (now) => {
       if (!alive) return;
+      while (pulses.length && now - pulses[0].t > 950) pulses.shift();
       if (running) {
         acc += now - last;
         frames++;
@@ -88,6 +91,17 @@ export default function TerraformCanvas() {
           const a = field(p.x, p.y, t);
           let vx = Math.cos(a) * p.sp;
           let vy = Math.sin(a) * p.sp;
+          for (const pu of pulses) {
+            const pdx = p.x - pu.x;
+            const pdy = p.y - pu.y;
+            const pd = Math.sqrt(pdx * pdx + pdy * pdy) || 1;
+            const age = (now - pu.t) / 900;
+            if (age < 1) {
+              const f = (1 - age) * 340 / (pd + 24);
+              vx += (pdx / pd) * f;
+              vy += (pdy / pd) * f;
+            }
+          }
           if (mouse.on) {
             const dx = p.x - mouse.x;
             const dy = p.y - mouse.y;
@@ -134,6 +148,10 @@ export default function TerraformCanvas() {
     );
     io.observe(wrap);
 
+    const onDown = (e) => {
+      const r = canvas.getBoundingClientRect();
+      pulses.push({ x: e.clientX - r.left, y: e.clientY - r.top, t: performance.now() });
+    };
     const onMove = (e) => {
       const rect = canvas.getBoundingClientRect();
       mouse.x = e.clientX - rect.left;
@@ -148,6 +166,7 @@ export default function TerraformCanvas() {
     resize();
     window.addEventListener("resize", resize);
     canvas.addEventListener("pointermove", onMove);
+    canvas.addEventListener("pointerdown", onDown);
     canvas.addEventListener("pointerleave", onLeave);
 
     if (reduced) {
@@ -175,6 +194,7 @@ export default function TerraformCanvas() {
       io.disconnect();
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("pointermove", onMove);
+      canvas.removeEventListener("pointerdown", onDown);
       canvas.removeEventListener("pointerleave", onLeave);
     };
   }, []);
@@ -184,7 +204,7 @@ export default function TerraformCanvas() {
       <canvas ref={canvasRef} />
       <figcaption className="mf-tf__hud" aria-hidden="true">
         <span>{hud.fps} FPS</span>
-        <span>{hud.n} particles</span>
+        <span>{hud.n} particles · click = wave</span>
         <span>Canvas 2D · 0 dependencies</span>
       </figcaption>
     </figure>

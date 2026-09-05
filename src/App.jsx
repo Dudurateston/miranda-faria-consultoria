@@ -1,3 +1,4 @@
+import React, { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
@@ -8,21 +9,21 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
 // Add page imports here
 import Home from "@/pages/Home";
-import Work from "@/pages/Work";
-import Practice from "@/pages/Practice";
-import WorkCase from "@/pages/WorkCase";
-import HowIWork from "@/pages/HowIWork";
-import Servicos from "@/pages/Servicos";
-import Insights from "@/pages/Insights";
-import About from "@/pages/About";
-import Contact from "@/pages/Contact";
-import PrivacyPolicy from "@/pages/PrivacyPolicy";
-import Connect from "@/pages/Connect";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
-import ForgotPassword from "@/pages/ForgotPassword";
-import ResetPassword from "@/pages/ResetPassword";
-import OAuthConsent from "@/pages/OAuthConsent";
+const Work = React.lazy(() => import("@/pages/Work"));
+const Practice = React.lazy(() => import("@/pages/Practice"));
+const WorkCase = React.lazy(() => import("@/pages/WorkCase"));
+const HowIWork = React.lazy(() => import("@/pages/HowIWork"));
+const Servicos = React.lazy(() => import("@/pages/Servicos"));
+const Insights = React.lazy(() => import("@/pages/Insights"));
+const About = React.lazy(() => import("@/pages/About"));
+const Contact = React.lazy(() => import("@/pages/Contact"));
+const PrivacyPolicy = React.lazy(() => import("@/pages/PrivacyPolicy"));
+const Connect = React.lazy(() => import("@/pages/Connect"));
+const Login = React.lazy(() => import("@/pages/Login"));
+const Register = React.lazy(() => import("@/pages/Register"));
+const ForgotPassword = React.lazy(() => import("@/pages/ForgotPassword"));
+const ResetPassword = React.lazy(() => import("@/pages/ResetPassword"));
+const OAuthConsent = React.lazy(() => import("@/pages/OAuthConsent"));
 import SmoothScroll from "@/components/SmoothScroll";
 import CopperCursor from "@/components/CopperCursor";
 import SiteLayout from "@/components/layout/SiteLayout";

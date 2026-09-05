@@ -15,7 +15,7 @@ const TARGET = 16.7;
 export default function FrameTimeGraph() {
   const canvasRef = useRef(null);
   const wrapRef = useRef(null);
-  const [hud, setHud] = useState({ ms: 0, fps: 0 });
+  const [hud, setHud] = useState({ ms: 0, fps: 0, verdict: "" });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -130,7 +130,12 @@ export default function FrameTimeGraph() {
         statFrames++;
         if (statAcc >= 400) {
           const avg = statAcc / statFrames;
-          setHud({ ms: Math.min(99, Math.round(avg * 10) / 10), fps: Math.round(1000 / avg) });
+          const fps = Math.round(1000 / avg);
+          const verdict =
+            fps >= 55 ? "✓ seu aparelho segura 60fps"
+            : fps >= 40 ? "seu aparelho segura bem"
+            : "seu aparelho sofre — solte o drag";
+          setHud({ ms: Math.min(99, Math.round(avg * 10) / 10), fps, verdict });
           statAcc = 0;
           statFrames = 0;
         }
@@ -200,7 +205,7 @@ export default function FrameTimeGraph() {
       <figcaption className="mf-tf__hud" aria-hidden="true">
         <span>{hud.ms > 0 ? `${hud.ms} ms/frame` : "—"}</span>
         <span>{hud.fps > 0 ? `${hud.fps} fps` : "measuring"}</span>
-        <span>drag → load</span>
+        <span>{hud.verdict || "drag → load"}</span>
       </figcaption>
     </figure>
   );

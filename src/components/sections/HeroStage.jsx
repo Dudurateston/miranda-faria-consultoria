@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
-import { WHATSAPP_URL, HERO_LOOP_MP4, HERO_LOOP_POSTER, M_LOGO_HERO } from "@/lib/site";
+import { WHATSAPP_URL, HERO_LOOP_MP4, HERO_LOOP_MOBILE_MP4, HERO_LOOP_POSTER, M_LOGO_HERO } from "@/lib/site";
 
 /**
  * Hero imersiva: fundo 3D em loop (MP4, autoplay/muted/loop/playsinline)
@@ -46,7 +46,7 @@ export default function HeroStage() {
     <section className="mf-hero" data-theme="dark" aria-label={t.wordmark}>
       <video
         className="mf-hero__bg"
-        src={HERO_LOOP_MP4}
+        src={typeof window !== "undefined" && window.innerWidth < 860 ? HERO_LOOP_MOBILE_MP4 : HERO_LOOP_MP4}
         poster={HERO_LOOP_POSTER}
         autoPlay
         muted

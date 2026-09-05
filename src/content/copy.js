@@ -289,16 +289,20 @@ export const copy = {
       verticalsLabel: "The solutions",
       faq: [
         {
+          q: "What do you do, exactly?",
+          a: "Every project starts in one of two places: a problem to solve — the spreadsheet that locks up, the order that gets lost, the lead that goes cold — or an idea to bring to life — brand, concept, a whole business. From there I own the whole thing: identity, interface, system and data. Made-to-measure delivery: no templates, and the proposal describes exactly what will exist at the end.",
+        },
+        {
+          q: "Do you do BI or data analysis?",
+          a: "It's part of the delivery. The system doesn't just record: it models the data you already have and turns it into dashboards, reports and indicators — the number that changes a decision, visible in real time. Inventory, sales, cash: what lives in spreadsheets today becomes business reading.",
+        },
+        {
           q: "How much does it cost?",
-          a: "It depends on the leak — which is why the diagnosis exists. First I size what the delay, the app fee or the lost sale costs per month; the proposal arrives as a fraction of that annual saving. In an operation losing R$ 4,000/mo, a ~R$ 15k solution pays for itself in three months and gives back R$ 33k in the first year. An institutional site and a system sit in different ranges — the diagnosis tells which one is yours, with no surprises along the way.",
+          a: "From a simple site starting at R$ 1,000 to complex systems where the only limit is imagination. The range depends on the scope — which is why the diagnosis exists: in an operation losing R$ 4,000/mo, a ~R$ 15k solution pays for itself in three months and gives back R$ 33k in the first year. The proposal arrives made to measure, as a fraction of the value the project returns.",
         },
         {
-          q: "How long until it's ready?",
-          a: "A system: weeks, not months. An institutional site: even less. The first navigable demo ships in the first week — you watch your problem being solved before paying for the whole project.",
-        },
-        {
-          q: "And after delivery?",
-          a: "The system is yours, in your name. If you want, maintenance and evolution stay with me — no lock-in, no strings.",
+          q: "How long until it's ready — and after delivery?",
+          a: "A system: weeks, not months. A site: even less. The first navigable demo ships in the first week — you watch your problem being solved before paying for the whole project. After that, the system is yours, in your name. If you want, maintenance and evolution stay with me — no lock-in, no strings.",
         },
       ],
       faqLabel: "What they ask before closing",
@@ -646,16 +650,20 @@ export const copy = {
       verticalsLabel: "As soluções",
       faq: [
         {
+          q: "O que você faz, exatamente?",
+          a: "Todo projeto nasce de um de dois lugares: um problema pra resolver — a planilha que trava, o pedido que se perde, o lead que esfria — ou uma ideia pra tirar do papel — marca, conceito, negócio inteiro. Desse ponto em diante eu cuido do todo: identidade, interface, sistema e dados. Entrega sob medida: nada de template, a proposta descreve exatamente o que vai existir no fim.",
+        },
+        {
+          q: "Faz BI ou análise de dados?",
+          a: "Faz parte da entrega. O sistema não fica só registrando: modela os dados que você já tem e transforma em painéis, relatórios e indicadores — o número que muda a decisão, visível na hora. Estoque, vendas, caixa: o que hoje mora em planilha vira leitura de negócio.",
+        },
+        {
           q: "Quanto custa?",
-          a: "Depende do vazamento — e é por isso que o diagnóstico existe. Primeiro eu numero o que a demora, a taxa de app ou a venda perdida custam por mês; a proposta chega como fração dessa economia anual. Numa operação que perde R$ 4.000/mês, uma solução de cerca de R$ 15 mil se paga em três meses e devolve R$ 33 mil no primeiro ano. Site institucional e sistema têm faixas diferentes — o diagnóstico diz qual é o seu, sem surpresa no meio.",
+          a: "Do site simples a partir de R$ 1.000 ao sistema complexo onde o único limite é a imaginação. A faixa depende do alcance — e é por isso que o diagnóstico existe: numa operação que perde R$ 4.000/mês, uma solução de cerca de R$ 15 mil se paga em três meses e devolve R$ 33 mil no primeiro ano. A proposta chega sob medida, como fração do valor que o projeto devolve.",
         },
         {
-          q: "Em quanto tempo fica pronto?",
-          a: "Sistema: semanas, não meses. Site institucional: menos ainda. A primeira demo navegável sai na primeira semana — você vê o seu problema sendo resolvido antes de pagar o projeto inteiro.",
-        },
-        {
-          q: "E depois da entrega?",
-          a: "O sistema é seu, no seu nome. Se quiser, manutenção e evolução continuam comigo — sem fidelidade, sem amarração.",
+          q: "Em quanto tempo fica pronto — e depois da entrega?",
+          a: "Sistema: semanas, não meses. Site: menos ainda. A primeira demo navegável sai na primeira semana — você vê o seu problema sendo resolvido antes de pagar o projeto inteiro. Depois, o sistema é seu, no seu nome. Se quiser, manutenção e evolução continuam comigo — sem fidelidade, sem amarração.",
         },
       ],
       faqLabel: "O que perguntam antes de fechar",

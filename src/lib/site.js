@@ -15,6 +15,7 @@ export const M_LOGO =
 export const M_LOGO_HERO =
   "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/0204f27fe_7bdd40216_Image3.png";
 export const HERO_LOOP_MP4 = "/art/hero_loop.mp4";
+export const HERO_LOOP_MOBILE_MP4 = "/art/hero_loop_mobile.mp4";
 export const HERO_LOOP_POSTER = "/art/hero_loop_poster.webp";
 export const REELS_URL = "/art/reels.mp4";
 export const CORTE_GIF = "/art/corte.mp4";

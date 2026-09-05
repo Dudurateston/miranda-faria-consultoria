@@ -158,22 +158,22 @@ export default function SiteNav({ revealAfterHero = false }) {
 @media(max-width:859px){
   .mf-nav{
     height:auto;flex-wrap:wrap;align-items:center;
-    gap:0.8rem;padding:0.7rem var(--gutter) 0;
+    gap:0.35rem;padding:0.55rem var(--gutter) 0;
   }
   .mf-nav__brand{flex:1 1 auto;min-width:0}
-  .mf-nav__logo{height:32px;width:auto}
-  .mf-nav__cta{order:2}
+  .mf-nav__logo{height:26px;width:auto}
+  .mf-nav__cta{order:2;padding:0.45rem 0.9rem}
   .mf-nav__links{
     order:3;margin-left:0;flex:1 0 100%;
-    gap:1.3rem;overflow-x:auto;scrollbar-width:none;
-    padding:0.45rem 0 0.7rem;
+    gap:1.2rem;overflow-x:auto;scrollbar-width:none;
+    padding:0.25rem 0 0.45rem;
   }
   .mf-nav__links::-webkit-scrollbar{display:none}
   .mf-nav__link,.mf-nav__lang{flex:0 0 auto}
-  .mf-nav__lang{margin-left:auto;padding-left:1.3rem}
-  /* alvos de toque confortaveis: altura >= 44px em toda a fileira */
+  .mf-nav__lang{margin-left:auto;padding-left:1.2rem}
+  /* alvos de toque confortaveis: altura ~44px em toda a fileira */
   .mf-nav__link,.mf-nav__lang{
-    padding:0.85rem 0;
+    padding:0.95rem 0;
     -webkit-tap-highlight-color:rgba(184,115,51,0.18);
   }
   .mf-nav__links{touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch}
