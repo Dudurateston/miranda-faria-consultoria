@@ -3,7 +3,6 @@ import Link from "@/components/TransitionLink";
 import { Navigate, useParams } from "react-router-dom";
 import PageHeader from "@/components/layout/PageHeader";
 import MfRule from "@/components/MfRule";
-import ArtSlot from "@/components/ArtSlot";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useScrollStagger } from "@/hooks/useScrollStagger";
@@ -12,6 +11,8 @@ import { usePageTitle } from "@/lib/usePageTitle";
 import { copy, getPractice, casesOfPractice, processSteps, designSteps } from "@/content/copy";
 import AutoVideo from "@/components/AutoVideo";
 import { DESIGN_SIGN, DESIGN_POSTER, DESIGN_LAYERS, DESIGN_SEAM } from "@/lib/site";
+import LedgerFlow from "@/components/LedgerFlow";
+import VisitorFlow from "@/components/VisitorFlow";
 
 /**
  * As tres verticais — /systems, /design, /business — compartilham
@@ -20,7 +21,7 @@ import { DESIGN_SIGN, DESIGN_POSTER, DESIGN_LAYERS, DESIGN_SEAM } from "@/lib/si
  *
  * A aba Design tem abertura propria: a entrada do escritorio — o
  * principal asset da pagina — abre o filme em tela cheia com o lead
- * sobreposto; a vitrine generativa vira a tese "Gerar e barato.
+ * sobreposto; a vitrine generativa vira a tese "Qualquer um gera.
  * Escolher e o trabalho."; e o fecho e um discurso proprio, nao o lead
  * generico do contato.
  *
@@ -105,7 +106,17 @@ export default function Practice({ slug: slugProp }) {
       ) : (
         <>
           <PageHeader label={p.label} lead={p.lead} intro={p.intro} />
-          <ArtSlot variant={slug} name={slug} alt={p.artAlt} />
+
+          {/* ASSINATURA VIVA — a tese da vertical em canvas, tocavel:
+              a planilha que decide (Gestao) e os visitantes que viram
+              conversa (Desenvolvimento). */}
+          <section className="mf-pr__artband" data-depth="0.14">
+            {slug === "gestao" ? (
+              <LedgerFlow label={p.artLabel} hint={p.artHint} alt={p.artAlt} />
+            ) : (
+              <VisitorFlow label={p.artLabel} hint={p.artHint} alt={p.artAlt} />
+            )}
+          </section>
 
           {/* TESE — cada vertical com o seu argumento em uma frase,
               no mesmo padrao da aba Design. */}
@@ -367,6 +378,14 @@ export default function Practice({ slug: slugProp }) {
   color:var(--color-text-secondary);margin:0;max-width:48ch}
 
 .mf-pr__steps{margin-top:2.5rem;display:flex;flex-direction:column;gap:clamp(1.8rem,4.5vh,3rem)}
+.mf-pr__artband{padding:0;margin:0}
+.mf-sig{position:relative;margin:0;height:clamp(360px,56vh,580px);overflow:hidden;background:var(--color-bg)}
+.mf-sig__canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
+.mf-sig__cap{position:absolute;left:clamp(1.1rem,4vw,3.2rem);bottom:1.1rem;display:flex;flex-direction:column;gap:.25rem;padding:.7rem .95rem;background:var(--color-bg);opacity:.92;pointer-events:none;max-width:min(78vw,34ch)}
+.mf-sig__label{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent)}
+.mf-sig__hint{font-size:13px;line-height:1.5;color:var(--color-text-secondary)}
+.mf-sig__count{font-family:var(--font-mono);color:var(--color-accent)}
+@media (max-width:640px){.mf-sig{height:clamp(300px,46vh,420px)}.mf-sig__hint{font-size:12px}}
 .mf-pr__proofs{margin-top:2.5rem;display:grid;grid-template-columns:1fr;gap:clamp(1.6rem,4vh,2.6rem)}
 @media(min-width:860px){.mf-pr__proofs{grid-template-columns:1fr 1fr;gap:clamp(2rem,5vh,3.5rem) clamp(2rem,5vw,4rem)}}
 .mf-pr__proof{display:flex;gap:1rem;align-items:baseline}

@@ -177,7 +177,7 @@ export const copy = {
             name: "Vector field",
             hint: "Move your cursor over the field.",
             caption:
-              "Hundreds of particles in a flow field that reacts to your cursor. Raw Canvas 2D — no Three.js, no GSAP, zero dependencies. The FPS in the corner is measured in your browser.",
+              "Hundreds of particles in a flow field that reacts to your cursor. Raw Canvas 2D, zero dependencies, drawn in real time. The FPS in the corner is measured in your browser.",
           },
           {
             tag: "02",
@@ -537,7 +537,7 @@ export const copy = {
             name: "Campo vetorial",
             hint: "Passe o cursor sobre o campo.",
             caption:
-              "Centenas de partículas num campo de fluxo que reage ao seu cursor. Canvas 2D puro — sem Three.js, sem GSAP, zero dependências. O FPS do canto é medido no seu navegador.",
+              "Centenas de partículas num campo de fluxo que reage ao seu cursor. Canvas 2D puro, zero dependências, desenhado em tempo real. O FPS do canto é medido no seu navegador.",
           },
           {
             tag: "02",
@@ -1163,38 +1163,40 @@ export const practices = {
       label: "Systems & Management",
       lead: "Software the owner runs, not me.",
       intro:
-        "The order lands on WhatsApp, someone writes it in a notebook, and at month's end someone recounts it all by hand. I turn that operation into a system: catalogue, inventory, orders and dashboards on a real database — run by whoever owns the business, with me out of the path. Weeks, not months.",
-      artAlt: "Blueprint linework resolving into built structure",
+        "The order lands on WhatsApp. One person copies it to a notebook, another forgets to write it down, a third one writes it twice. At month's end, someone recounts the same pile to find out how much the company sold — and the number still disagrees with the next person's. I turn that operation into a system: catalogue, inventory, orders and dashboards on a real database, entered and run by whoever owns the business. First version live in weeks; from then on, the system learns what the business asks of it — not the other way around.",
+      artAlt: "A grid of recorded cells where a decision is born and propagates on its own",
+      artLabel: "MANAGEMENT — THE SYSTEM, LIVE",
+      artHint: "Each dot is a recorded fact. Tap a cell: the decision propagates on its own.",
       thesis: {
         label: "MANAGEMENT — THE THESIS",
         title: "A spreadsheet is memory. A system is decision.",
         desc:
-          "Every company with a process runs on memory today: whoever remembers, handles it. The spreadsheet records the past; the system decides the present — the order that doesn't depend on who read the message, the stock that warns before it runs out, the number nobody assembles by month's end. The difference between the two is the difference between operating and reacting.",
+          "Every company with a process runs on memory today: whoever remembers, handles it — and whoever takes a vacation, freezes the operation. The spreadsheet is the past written down; the system is the present deciding on its own: the order that doesn't depend on who read the message, the stock that warns before it runs out, the number nobody reassembles by month's end. The difference between the two is the difference between operating and reacting — and between a business that depends on people and a business that works.",
       },
       deliverablesLabel: "What I deliver",
       deliverables: [
         {
           t: "Catalogue and inventory",
-          d: "Products, categories, brands and images modelled as real entities, not spreadsheet rows. Searchable, filterable, and editable by the person who owns the business.",
+          d: "Products, categories, brands and photos modelled as real entities — not spreadsheet rows. One-tap search, filters a salesperson actually understands, edits the owner makes alone. Inventory stops being that notebook and starts warning you before it runs out.",
         },
         {
           t: "Ordering and workflow",
-          d: "Orders that stop dying inside a message thread. Status, history and a record of who did what, in one place.",
+          d: "The order that stops dying inside a message thread: each one is born with status, history and an owner. Nobody resends screenshots, nobody asks whether it shipped — the system answers before the question exists.",
         },
         {
           t: "Dashboards and data",
-          d: "Sales, stock and margin on one screen that updates itself. The monthly report stops being something someone assembles by hand.",
+          d: "Sales, stock and margin on one screen that updates itself. The monthly report stops being someone's afternoon watching the month go by — the panel is born ready, every day.",
         },
         {
           t: "Ownership",
-          d: "The client registers, edits and publishes without calling me — the data and the access are theirs. I step out of the operation and the system keeps running.",
+          d: "The client registers, edits and publishes without calling me. The data is theirs, the access is theirs, the password is theirs. I step out of the operation and the system keeps running — that is the goal, not the risk.",
         },
       ],
       proofLabel: "Proof, not promise",
       proofs: [
         "MotorMoura and 1000 Peças: catalogues a customer can browse and a quote flow that runs without a phone call.",
-        "Queijos da Serra: lot-level inventory with FEFO ordering and expiry-tiered alerts.",
-        "The monthly report replaced by a panel that updates itself.",
+        "Queijos da Serra: lot-level inventory with FEFO ordering and expiry-tiered alerts — the expiry warns before it becomes a loss.",
+        "The monthly report replaced by a panel that updates itself — a closing that took an afternoon now takes a minute.",
       ],
       casesLabel: "Built this way",
       cta: "Start a project",
@@ -1204,11 +1206,11 @@ export const practices = {
       label: "Design",
       lead: "Brand and interface, made fast without looking fast.",
       intro:
-        "Identity, design system and the applied pieces. AI generates the first drafts — Lovart for imagery, code for the system — and every piece passes through my hands before it ships. That is the difference between leverage and a shortcut.",
+        "Identity, design system and the applied pieces. AI generates the first drafts — imagery and code — and every piece passes through my hands before it ships. That is the difference between leverage and a shortcut.",
       artAlt: "Translucent planes composing, some still finding position",
       gen: {
         label: "GENERATIVE ART — AI",
-        title: "Generating is cheap. Choosing is the work.",
+        title: "Anyone can generate. Choosing is the work.",
         desc:
           "AI generates dozens of directions in hours. That is not the design — it is raw material. The work is taste, judgement and direction, turning a forest of options into one identity. Every piece on this page — the copper particles, the entrance on the street, the motion of this site — was generated and directed here, by the same hand that signs the project.",
         capA: "Copper particles — identity in motion",
@@ -1228,7 +1230,7 @@ export const practices = {
         },
         {
           t: "AI-assisted exploration",
-          d: "Dozens of directions generated in hours instead of days. The generation is cheap; the selection is the work, and the selection is mine.",
+          d: "Dozens of directions generated in hours instead of days. Anyone can generate; the selection is the work, and the selection is mine.",
         },
         {
           t: "Design that ships",
@@ -1253,37 +1255,40 @@ export const practices = {
       label: "Development",
       lead: "Sites that work the lead, not just present it.",
       intro:
-        "Institutional site, landing page or WhatsApp-first storefront — the front door of the business, built for the shortest path to conversation. The visitor leaves the page straight into the chat, and a change requested in the morning ships the same day. Days of project, not quarters.",
-      artAlt: "A geological core sample sectioned into layers of data",
+        "Institutional site, landing page or WhatsApp-first storefront — the front door of the business, built for the shortest path to conversation. Every section closes on a next step; the visitor leaves the page straight into the chat, with the message already addressed. A change requested in the morning ships the same day. Days of project, not quarters.",
+      artAlt: "Dots wandering the page, turning to copper and leaving through the conversation",
+      artLabel: "DEVELOPMENT — THE CONVERSATION",
+      artHint: "Each dot is a visitor; copper is the one who converts. Lead them with your cursor.",
       thesis: {
         label: "DEVELOPMENT — THE THESIS",
         title: "A website isn't a shop window. It's the first salesperson.",
         desc:
-          "The visitor decides in seconds whether to ask or give up. So the whole page is built to end in conversation: every section closes on a next step, and the message arrives with context — where they came from, what they saw, what they want. Presence that doesn't generate conversation is just cost.",
+          "The visitor decides in seconds whether to ask or give up — and the lead answered first buys more: replying within five minutes multiplies by 21 the chance of qualifying the conversation. So the whole page is built to end in conversation: every section closes on a next step, and the message arrives with context — where they came from, what they saw, what they want. Presence that doesn't generate conversation is just cost; a site that does is the company's first salesperson.",
       },
       deliverablesLabel: "What I deliver",
       deliverables: [
         {
           t: "Institutional site",
-          d: "The business presented properly: what it does, for whom, and why it charges what it charges. Real copy, no template smell.",
+          d: "The business presented properly: what it does, for whom, and why it charges what it charges. Copy written to sell — not to fill a layout — and not one sentence that smells of template.",
         },
         {
           t: "WhatsApp-first pages",
-          d: "Pages built so the next step is a tap: the message arrives with context — what the visitor saw, what they want. Quote, booking, order — the conversation starts already informed.",
+          d: "The next step always one tap away: the message arrives with context — what the visitor saw, what they wanted. Quote, booking, order: the conversation starts already informed, and the salesperson answers in minutes.",
         },
         {
           t: "Capture and presentation",
-          d: "Galleries, catalogues and calculators that make the visitor do something measurable before leaving.",
+          d: "Galleries, catalogues and calculators that make the visitor do something measurable before leaving — because a visit that leaves no trace doesn't exist for any analysis.",
         },
         {
           t: "Hosting and upkeep",
-          d: "Fast, hosted, domain in the client's name. Changes ship in hours when the business asks.",
+          d: "Fast, hosted, domain in the client's name. Changes ship in hours when the business asks — and the site keeps working every day, no day off, no salary.",
         },
       ],
       proofLabel: "Proof, not promise",
       proofs: [
         "Rota Forte: a page whose only job is to route the right enquiry to WhatsApp — and it does.",
         "Paulo Henrique: a presentation site with a performance lab the visitor actually uses.",
+        "1000 Peças: an institutional catalogue that routes quotes to the chat without exposing price — the sales strategy becomes interface.",
       ],
       casesLabel: "Built this way",
       cta: "Start a project",
@@ -1296,38 +1301,40 @@ export const practices = {
       label: "Sistemas & Gestão",
       lead: "Sistema que o dono opera, não eu.",
       intro:
-        "O pedido chega no WhatsApp, alguém anota no caderno, e no fim do mês alguém reconta tudo na mão. Eu viro essa operação em sistema: catálogo, estoque, pedidos e painéis sobre um banco de dados de verdade — operado por quem é dono do negócio, sem mim no caminho. Semanas, não meses.",
-      artAlt: "Traço de planta baixa se resolvendo em estrutura construída",
+        "O pedido chega no WhatsApp. Uma pessoa copia pro caderno, outra esquece de anotar, uma terceira anota duas vezes. No fim do mês, alguém reconta a mesma pilha pra descobrir quanto a empresa vendeu — e o número ainda sai diferente do outro. Eu viro essa operação em sistema: catálogo, estoque, pedido e painel sobre um banco de dados de verdade, cadastrado e operado por quem é dono do negócio. Primeira versão rodando em semanas; depois, o sistema aprende o que a empresa pede — não o contrário.",
+      artAlt: "Uma grade de células anotadas onde uma decisão nasce e se propaga sozinha",
+      artLabel: "GESTÃO — O SISTEMA AO VIVO",
+      artHint: "Cada ponto é um dado anotado. Toque numa célula: a decisão se propaga sozinha.",
       thesis: {
         label: "GESTÃO — A TESE",
         title: "Planilha é memória. Sistema é decisão.",
         desc:
-          "Toda empresa com processo roda hoje na memória de quem atende: quem lembra, resolve. A planilha registra o passado; o sistema decide o presente — o pedido que não depende de quem leu a mensagem, o estoque que avisa antes de faltar, o número que ninguém precisa montar no fim do mês. A diferença entre os dois é a diferença entre operar e reagir.",
+          "Toda empresa com processo roda hoje na memória de quem atende: quem lembra, resolve — e quem tira férias, trava a operação. A planilha é o passado anotado; o sistema é o presente decidindo sozinho: o pedido que não depende de quem leu a mensagem, o estoque que avisa antes de faltar, o número que ninguém precisa remontar no fim do mês. A diferença entre os dois é a diferença entre operar e reagir — e entre um negócio que depende de gente e um negócio que funciona.",
       },
       deliverablesLabel: "O que entrego",
       deliverables: [
         {
           t: "Catálogo e estoque",
-          d: "Produtos, categorias, marcas e imagens modelados como entidades de verdade, não linhas de planilha. Buscáveis, filtráveis, editáveis por quem é dono do negócio.",
+          d: "Produtos, categorias, marcas e fotos modelados como entidades de verdade — não como linhas de planilha. Busca em um toque, filtro que o vendedor entende, edição que o dono faz sozinho. O estoque deixa de ser aquele caderno e passa a avisar antes de faltar.",
         },
         {
           t: "Pedidos e fluxo",
-          d: "O pedido que deixa de morrer dentro de uma conversa. Status, histórico e registro de quem fez o quê, num lugar só.",
+          d: "O pedido que deixa de morrer dentro de uma conversa: cada um nasce com status, histórico e dono. Ninguém reenvia print, ninguém pergunta se já saiu — o sistema responde antes de pergunta existir.",
         },
         {
           t: "Painéis e dados",
-          d: "Venda, estoque e margem numa tela que atualiza sozinha. O relatório mensal deixa de ser algo que alguém monta à mão.",
+          d: "Venda, estoque e margem numa tela que atualiza sozinha. O relatório mensal deixa de ser uma tarde de alguém vendo o mês passar — o painel já nasce pronto, todos os dias.",
         },
         {
           t: "Propriedade",
-          d: "O cliente cadastra, edita e publica sem me ligar — os dados e o acesso são dele. Eu saio da operação e o sistema continua rodando.",
+          d: "O cliente cadastra, edita e publica sem me ligar. Os dados são dele, o acesso é dele, a senha é dele. Eu saio da operação e o sistema continua rodando — isso é o objetivo, não o risco.",
         },
       ],
       proofLabel: "Prova, não promessa",
       proofs: [
         "MotorMoura e 1000 Peças: catálogos que o cliente navega e um fluxo de orçamento que roda sem telefonema.",
-        "Queijos da Serra: estoque por lote com ordenação FEFO e alertas escalonados por validade.",
-        "O relatório mensal substituído por um painel que atualiza sozinho.",
+        "Queijos da Serra: estoque por lote com ordenação FEFO e alertas escalonados por validade — o vencimento avisa antes de virar prejuízo.",
+        "O relatório mensal substituído por um painel que atualiza sozinho — fechamento que era tarde virou minuto.",
       ],
       casesLabel: "Feitos assim",
       cta: "Começar um projeto",
@@ -1337,11 +1344,11 @@ export const practices = {
       label: "Design",
       lead: "Marca e interface, rápido sem parecer apressado.",
       intro:
-        "Identidade, design system e as peças de aplicação. A IA gera os primeiros rascunhos — Lovart para imagem, código para o sistema — e cada peça passa pela minha mão antes de sair. É essa a diferença entre alavanca e atalho.",
+        "Identidade, design system e as peças de aplicação. A IA gera os primeiros rascunhos — imagem e código — e cada peça passa pela minha mão antes de sair. É essa a diferença entre alavanca e atalho.",
       artAlt: "Planos translúcidos se compondo, alguns ainda assentando",
       gen: {
         label: "ARTE GENERATIVA — IA",
-        title: "Gerar é barato. Escolher é o trabalho.",
+        title: "Qualquer um gera. Escolher é o trabalho.",
         desc:
           "A IA gera dezenas de direções em horas. Isso não é o design — é a matéria-prima. O trabalho é o gosto, o critério e a direção que transformam uma floresta de opções em uma identidade. Cada peça desta página — as partículas de cobre, a entrada na rua, o movimento do site — foi gerada e dirigida aqui, pela mesma mão que assina o projeto.",
         capA: "Partículas de cobre — identidade em movimento",
@@ -1361,7 +1368,7 @@ export const practices = {
         },
         {
           t: "Exploração com IA",
-          d: "Dezenas de direções geradas em horas, não em dias. Gerar é barato; escolher é o trabalho, e a escolha é minha.",
+          d: "Dezenas de direções geradas em horas, não em dias. Qualquer um gera; escolher é o trabalho, e a escolha é minha.",
         },
         {
           t: "Design que vira código",
@@ -1386,37 +1393,40 @@ export const practices = {
       label: "Desenvolvimento",
       lead: "Site que trabalha o lead, não só apresenta.",
       intro:
-        "Site institucional, landing page ou vitrine WhatsApp-first — a porta de entrada do negócio, feita para o caminho mais curto até a conversa. O visitante sai da página direto no chat, e a mudança pedida de manhã sobe no mesmo dia. Dias de projeto, não trimestres.",
-      artAlt: "Um testemunho geológico seccionado em camadas de dados",
+        "Site institucional, landing page ou vitrine WhatsApp-first — a porta de entrada do negócio, construída pro caminho mais curto até a conversa. Cada seção fecha num próximo passo; o visitante sai da página direto no chat, com a mensagem já endereçada. A mudança pedida de manhã sobe no mesmo dia. Dias de projeto, não trimestres.",
+      artAlt: "Pontos que vagam pela página, convertem em cobre e saem pela conversa",
+      artLabel: "DESENVOLVIMENTO — A CONVERSA",
+      artHint: "Cada ponto é um visitante; o cobre é quem converte. Conduza-os com o cursor.",
       thesis: {
         label: "DESENVOLVIMENTO — A TESE",
         title: "Um site não é vitrine. É o primeiro vendedor.",
         desc:
-          "O visitante decide em segundos se pergunta ou desiste. Por isso a página inteira é construída para terminar em conversa: cada seção fecha num próximo passo, e a mensagem chega com contexto — de onde veio, o que viu, o que quer. Presença que não gera conversa é só custo.",
+          "O visitante decide em segundos se pergunta ou desiste — e o lead atendido primeiro compra mais: responder em cinco minutos multiplica por 21 a chance de qualificar a conversa. Por isso a página inteira é construída para terminar em conversa: cada seção fecha num próximo passo, e a mensagem chega com contexto — de onde veio, o que viu, o que quer. Presença que não gera conversa é só custo; site que gera é o primeiro vendedor da empresa.",
       },
       deliverablesLabel: "O que entrego",
       deliverables: [
         {
           t: "Site institucional",
-          d: "O negócio apresentado direito: o que faz, para quem, e por que cobra o que cobra. Texto de verdade, sem cheiro de template.",
+          d: "O negócio apresentado direito: o que faz, pra quem, e por que cobra o que cobra. Texto escrito pra vender — não pra preencher layout — e nenhuma frase com cheiro de template.",
         },
         {
           t: "Páginas WhatsApp-first",
-          d: "Páginas feitas para o próximo passo ser um toque: a mensagem chega com contexto — o que o visitante viu, o que ele quer. Orçamento, agendamento, pedido — a conversa começa já informada.",
+          d: "O próximo passo sempre a um toque: a mensagem chega com contexto — o que o visitante viu, o que ele queria. Orçamento, agendamento, pedido: a conversa começa já informada, e o vendedor responde em minutos.",
         },
         {
           t: "Captura e apresentação",
-          d: "Galerias, catálogos e calculadoras que fazem o visitante fazer algo mensurável antes de ir embora.",
+          d: "Galerias, catálogos e calculadoras que fazem o visitante fazer algo mensurável antes de ir embora — porque visita que não deixa rastro não existe pra análise nenhuma.",
         },
         {
           t: "Hospedagem e manutenção",
-          d: "Rápido, hospedado, domínio no nome do cliente. Mudança sobe em horas quando o negócio pede.",
+          d: "Rápido, hospedado, domínio no nome do cliente. Mudança sobe em horas quando o negócio pede — e o site segue trabalhando todos os dias, sem folga, sem salário.",
         },
       ],
       proofLabel: "Prova, não promessa",
       proofs: [
         "Rota Forte: uma página cujo único trabalho é levar o orçamento certo pro WhatsApp — e ela leva.",
         "Paulo Henrique: site de apresentação com um laboratório de performance que o visitante usa de verdade.",
+        "1000 Peças: catálogo institucional que leva o orçamento pro chat sem expor preço — a estratégia comercial vira interface.",
       ],
       casesLabel: "Feitos assim",
       cta: "Começar um projeto",

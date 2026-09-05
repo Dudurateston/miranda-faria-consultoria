@@ -7,7 +7,7 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { CELESTE_GIF, WHATSAPP_URL_SELLER, SELLERS_APP_URL } from "@/lib/site";
+import { CELESTE_GIF, WHATSAPP_URL_SELLER, SELLERS_APP_URL, ABOUT_M_REVEAL, ABOUT_M_REVEAL_POSTER } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 export default function About() {
@@ -31,6 +31,16 @@ export default function About() {
                   {t.portraitFallback}
                 </span>
                 <figcaption className="mf-label mf-about__caption">{t.name}</figcaption>
+              </figure>
+              {/* O M se construindo — o mesmo alfabeto da marca em
+                  movimento, embaixo do retrato. Vertical como a coluna. */}
+              <figure className="mf-about__media" aria-hidden="true">
+                <AutoVideo
+                  className="mf-about__mvideo"
+                  src={ABOUT_M_REVEAL}
+                  poster={ABOUT_M_REVEAL_POSTER}
+                  label={t.name}
+                />
               </figure>
             </Reveal>
 
@@ -135,6 +145,8 @@ export default function About() {
   .mf-about__grid{grid-template-columns:5fr 7fr;gap:clamp(2.5rem,6vw,5rem)}
 }
 
+.mf-about__media{margin:clamp(1.4rem,3.5vh,2.4rem) 0 0}
+.mf-about__mvideo{display:block;width:100%;height:auto;aspect-ratio:9/16;object-fit:cover;background:var(--color-bg)}
 .mf-about__portrait{
   margin:0;position:relative;width:100%;aspect-ratio:4/5;
   background:var(--paper);border:1px solid var(--color-divider);

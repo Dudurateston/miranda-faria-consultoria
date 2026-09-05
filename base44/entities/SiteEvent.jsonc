@@ -1,0 +1,53 @@
+{
+  // Eventos first-party do site — pageviews, cliques, scroll, sessões.
+  // Mesmo padrão já usado na Rota Forte (SiteEvent) e 1000 Peças
+  // (SiteAnalytics). Gravado pelo visitante anônimo via SDK public.
+  "name": "SiteEvent",
+  "type": "object",
+  "public_permissions": {
+    "create": true
+  },
+  "properties": {
+    "event_type": {
+      "type": "string"
+    },
+    // pageview | cta_whatsapp | scroll | session_start | consent | video_play
+    "page": {
+      "type": "string"
+    },
+    "element": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "lang": {
+      "type": "string",
+      "enum": ["pt", "en"]
+    },
+    "device": {
+      "type": "string"
+    },
+    // desktop | mobile | tablet
+    "referrer": {
+      "type": "string"
+    },
+    "utm_source": {
+      "type": "string"
+    },
+    "utm_medium": {
+      "type": "string"
+    },
+    "utm_campaign": {
+      "type": "string"
+    },
+    "extra_data": {
+      "type": "string"
+    },
+    // json livre: scroll %, dwell s, video id, consentimento etc.
+    "created_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

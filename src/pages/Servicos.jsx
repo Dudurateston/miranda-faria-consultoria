@@ -189,8 +189,27 @@ export default function Servicos() {
   text-decoration:none;color:inherit;
 }
 .mf-srv__item:first-child{border-top:1px solid var(--color-divider)}
+/* A solucao e um caminho, nao um titulo: hairline de cobre que nasce
+   no hover e um chip de acao sempre visivel — impossivel nao perceber
+   que e clicavel. */
+.mf-srv__item{
+  position:relative;
+  transition:background var(--duration-base) var(--ease-in-out);
+}
+.mf-srv__item::before{
+  content:"";position:absolute;left:calc(-1 * var(--gutter));top:0;bottom:0;
+  width:2px;background:var(--color-accent);
+  transform:scaleY(0);transform-origin:top;
+  transition:transform var(--duration-base) var(--ease-out-expo);
+}
+.mf-srv__item:hover{background:rgba(166,72,31,0.045)}
+.mf-srv__item:hover::before{transform:scaleY(1)}
 .mf-srv__item:hover .mf-srv__name{color:var(--color-accent)}
-.mf-srv__item:hover .mf-srv__go{opacity:1;transform:translateX(6px)}
+.mf-srv__item:hover .mf-srv__go{
+  background:var(--color-accent);color:var(--color-bg);
+  border-color:var(--color-accent);
+  transform:translateX(4px);
+}
 .mf-srv__idx{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);color:var(--color-text-ghost);
@@ -207,11 +226,19 @@ export default function Servicos() {
   color:var(--color-text-secondary);margin:0.5rem 0 0;
 }
 .mf-srv__go{
-  font-family:var(--font-mono);font-size:var(--text-label);
-  letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-secondary);opacity:0.6;
-  transition:opacity var(--duration-fast) var(--ease-in-out),
+  align-self:center;
+  font-family:var(--font-mono);font-size:12px;letter-spacing:var(--tracking-label);
+  text-transform:uppercase;white-space:nowrap;
+  color:var(--color-accent);border:1px solid rgba(166,72,31,0.45);
+  padding:0.55rem 0.95rem;border-radius:999px;
+  transition:background var(--duration-fast) var(--ease-in-out),
+             color var(--duration-fast) var(--ease-in-out),
+             border-color var(--duration-fast) var(--ease-in-out),
              transform var(--duration-base) var(--ease-out-expo);
+}
+@media(max-width:767px){
+  .mf-srv__item{grid-template-columns:1fr;gap:0.6rem}
+  .mf-srv__go{justify-self:start;margin-top:0.2rem}
 }
 .mf-srv__cta{
   display:inline-block;margin-top:2.75rem;
@@ -232,24 +259,27 @@ export default function Servicos() {
 .mf-faq__item{
   display:grid;grid-template-columns:4.5rem 1fr;
   gap:0 clamp(1.5rem,4vw,3rem);
-  padding:clamp(1.6rem,3.5vh,2.4rem) 0;
+  padding:clamp(1.1rem,2.4vh,1.6rem) 0;
   border-bottom:1px solid var(--color-divider);
 }
 .mf-faq__item:first-child{border-top:1px solid var(--color-divider)}
 .mf-faq__idx{
-  font-family:var(--font-mono);font-size:var(--text-label);
+  font-family:var(--font-mono);font-size:11px;
   letter-spacing:var(--tracking-label);color:var(--color-text-ghost);
+  padding-top:0.35rem;
 }
+/* FAQ apoia, nao compete: pergunta em corpo maior, resposta discreta.
+   O protagonismo da pagina e das solucoes acima. */
 .mf-faq__q{
-  font-family:var(--font-display);font-weight:400;
-  font-size:var(--text-display-md);line-height:1.12;
-  letter-spacing:var(--tracking-display);color:var(--color-text-primary);
-  margin:0 0 0.75rem;
+  font-family:var(--font-body);font-weight:400;
+  font-size:1.22rem;line-height:1.3;
+  color:var(--color-text-primary);
+  margin:0 0 0.4rem;
 }
 .mf-faq__a{
   font-family:var(--font-body);font-weight:300;
-  font-size:var(--text-body-md);line-height:var(--leading-body);
-  color:var(--color-text-secondary);max-width:62ch;margin:0;
+  font-size:0.95rem;line-height:var(--leading-body);
+  color:var(--color-text-tertiary);max-width:58ch;margin:0;
 }
 @media(max-width:767px){
   .mf-faq__item{grid-template-columns:1fr;gap:0.5rem}
