@@ -32,6 +32,17 @@ export default function LineReveal({
 
     let tween;
     let cancelled = false;
+    let tries = 0;
+    let auditTimer = null;
+    let resizeTimer = null;
+
+    const killTween = () => {
+      if (tween) {
+        if (tween.scrollTrigger) tween.scrollTrigger.kill();
+        tween.kill();
+        tween = null;
+      }
+    };
 
     const build = () => {
       const words = text.split(/\s+/).filter(Boolean);
@@ -75,7 +86,8 @@ export default function LineReveal({
         el.appendChild(lineEl);
         inners.push(inner);
       });
-      // 3. animar
+      // 3. animar. Ao terminar, o clip deixa de ser necessario — se a
+      // quebra mudar depois (fonte/resize), o texto nunca fica cortado.
       gsap.set(el, { opacity: 1 });
       gsap.set(inners, { yPercent: 110 });
       tween = gsap.to(inners, {
@@ -85,7 +97,42 @@ export default function LineReveal({
         stagger,
         delay,
         scrollTrigger: { trigger: el, start, once: true },
+        onComplete: () => {
+          el.querySelectorAll(".lr__line").forEach((l) => {
+            l.style.overflow = "visible";
+          });
+        },
       });
+      tries += 1;
+      // 4. auditoria: se alguma linha embrulhou dentro do clip, a
+      // medicao ficou velha (fonte carregou tarde, layout assentou
+      // depois). Re-medir. Maximo 3 tentativas contra loop.
+      auditTimer = setTimeout(() => {
+        if (cancelled) return;
+        // Metrica imune ao translateY da animacao (scrollHeight conta o
+        // transform e daria falso positivo): se o inner (uma "linha"
+        // medida) tem altura maior que a caixa da linha, o agrupamento
+        // mediu errado e o texto embrulha dentro do clip.
+        const bad = Array.from(el.querySelectorAll(".lr__line")).some((l) => {
+          const inner = l.querySelector(".lr__inner");
+          if (!inner) return false;
+          return inner.getBoundingClientRect().height > l.getBoundingClientRect().height + 3;
+        });
+        if (bad && tries < 3) {
+          killTween();
+          build();
+        }
+      }, 350);
+    };
+
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (cancelled) return;
+        killTween();
+        tries = 0;
+        build();
+      }, 180);
     };
 
     if (document.fonts && document.fonts.ready) {
@@ -93,13 +140,14 @@ export default function LineReveal({
     } else {
       build();
     }
+    window.addEventListener("resize", onResize);
 
     return () => {
       cancelled = true;
-      if (tween) {
-        if (tween.scrollTrigger) tween.scrollTrigger.kill();
-        tween.kill();
-      }
+      clearTimeout(auditTimer);
+      clearTimeout(resizeTimer);
+      window.removeEventListener("resize", onResize);
+      killTween();
     };
   }, [text, stagger, duration, delay, start]);
 

@@ -516,7 +516,7 @@ export default function Insights() {
 .mf-dg__ctas{display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem;margin-top:2.5rem}
 .mf-dg__wa{
   display:inline-block;
-  background:var(--mf-terracotta);color:#16130f;
+  background:var(--mf-terracotta);color:var(--bone);
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   padding:1rem 1.5rem;text-decoration:none;

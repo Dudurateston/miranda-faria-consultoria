@@ -106,6 +106,20 @@ export default function Practice({ slug: slugProp }) {
         <>
           <PageHeader label={p.label} lead={p.lead} intro={p.intro} />
           <ArtSlot variant={slug} name={slug} alt={p.artAlt} />
+
+          {/* TESE — cada vertical com o seu argumento em uma frase,
+              no mesmo padrao da aba Design. */}
+          <section className="mf-pr mf-dsg-intro" data-depth="0.16">
+            <div className="mf-pr__inner">
+              <Reveal>
+                <p className="mf-label">{p.thesis.label}</p>
+              </Reveal>
+              <LineReveal as="h2" className="mf-dsg-thesis">{p.thesis.title}</LineReveal>
+              <Reveal delay={120}>
+                <p className="mf-dsg-thesis__d">{p.thesis.desc}</p>
+              </Reveal>
+            </div>
+          </section>
         </>
       )}
 
@@ -168,6 +182,25 @@ export default function Practice({ slug: slugProp }) {
               {p.gen.capLayers ?? p.gen.capA}
             </span>
           </Reveal>
+        </section>
+      )}
+
+      {/* PROVAS — escritas no copy desde o comeco e nunca renderizadas. */}
+      {p.proofs && p.proofs.length > 0 && (
+        <section className="mf-pr" data-depth="0.46">
+          <div className="mf-pr__inner">
+            <Reveal>
+              <p className="mf-label">{p.proofLabel}</p>
+            </Reveal>
+            <div className="mf-pr__proofs mf-stage">
+              {p.proofs.map((pr, i) => (
+                <Reveal key={i} delay={i * 90} className="mf-pr__proof">
+                  <span className="mf-pr__num">{String(i + 1).padStart(2, "0")}</span>
+                  <p className="mf-pr__prooftext">{pr}</p>
+                </Reveal>
+              ))}
+            </div>
+          </div>
         </section>
       )}
 
@@ -334,6 +367,10 @@ export default function Practice({ slug: slugProp }) {
   color:var(--color-text-secondary);margin:0;max-width:48ch}
 
 .mf-pr__steps{margin-top:2.5rem;display:flex;flex-direction:column;gap:clamp(1.8rem,4.5vh,3rem)}
+.mf-pr__proofs{margin-top:2.5rem;display:grid;grid-template-columns:1fr;gap:clamp(1.6rem,4vh,2.6rem)}
+@media(min-width:860px){.mf-pr__proofs{grid-template-columns:1fr 1fr;gap:clamp(2rem,5vh,3.5rem) clamp(2rem,5vw,4rem)}}
+.mf-pr__proof{display:flex;gap:1rem;align-items:baseline}
+.mf-pr__prooftext{margin:0;font-size:var(--text-body-md);line-height:1.65;color:var(--color-text-secondary)}
 .mf-pr__step{display:grid;grid-template-columns:3.5rem 1fr;gap:0 clamp(1rem,3vw,2.5rem);
   align-items:baseline;padding:0}
 .mf-pr__stepnum{font-family:var(--font-mono);font-size:var(--text-label);
@@ -357,7 +394,7 @@ export default function Practice({ slug: slugProp }) {
 .mf-pr__casehead{display:flex;flex-wrap:wrap;align-items:baseline;
   justify-content:space-between;gap:0.4rem 1.5rem}
 .mf-pr__casename{font-family:var(--font-display);font-weight:400;
-  font-size:var(--text-display-lg);line-height:1.08;
+  font-size:var(--text-display-md);line-height:1.12;
   letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:0;
   transition:color var(--duration-fast) var(--ease-in-out)}
 .mf-pr__case:hover .mf-pr__casename{color:var(--color-accent)}

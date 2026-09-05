@@ -1163,8 +1163,14 @@ export const practices = {
       label: "Systems & Management",
       lead: "Software the owner runs, not me.",
       intro:
-        "Catalogues, inventory, ordering, admin panels and the numbers behind them, on a real database with an interface the client operates without calling me. Delivery is measured in weeks, not months.",
+        "The order lands on WhatsApp, someone writes it in a notebook, and at month's end someone recounts it all by hand. I turn that operation into a system: catalogue, inventory, orders and dashboards on a real database — run by whoever owns the business, with me out of the path. Weeks, not months.",
       artAlt: "Blueprint linework resolving into built structure",
+      thesis: {
+        label: "MANAGEMENT — THE THESIS",
+        title: "A spreadsheet is memory. A system is decision.",
+        desc:
+          "Every company with a process runs on memory today: whoever remembers, handles it. The spreadsheet records the past; the system decides the present — the order that doesn't depend on who read the message, the stock that warns before it runs out, the number nobody assembles by month's end. The difference between the two is the difference between operating and reacting.",
+      },
       deliverablesLabel: "What I deliver",
       deliverables: [
         {
@@ -1181,7 +1187,7 @@ export const practices = {
         },
         {
           t: "Ownership",
-          d: "The client registers, edits and publishes without me — and hosting ends up in their name. I leave, the system keeps running.",
+          d: "The client registers, edits and publishes without calling me — the data and the access are theirs. I step out of the operation and the system keeps running.",
         },
       ],
       proofLabel: "Proof, not promise",
@@ -1247,8 +1253,14 @@ export const practices = {
       label: "Development",
       lead: "Sites that work the lead, not just present it.",
       intro:
-        "Institutional sites, landing pages and WhatsApp-first storefronts. Structure to convert: the visitor arrives at the conversation instead of at a dead form. Launched in days, not quarters.",
+        "Institutional site, landing page or WhatsApp-first storefront — the front door of the business, built for the shortest path to conversation. The visitor leaves the page straight into the chat, and a change requested in the morning ships the same day. Days of project, not quarters.",
       artAlt: "A geological core sample sectioned into layers of data",
+      thesis: {
+        label: "DEVELOPMENT — THE THESIS",
+        title: "A website isn't a shop window. It's the first salesperson.",
+        desc:
+          "The visitor decides in seconds whether to ask or give up. So the whole page is built to end in conversation: every section closes on a next step, and the message arrives with context — where they came from, what they saw, what they want. Presence that doesn't generate conversation is just cost.",
+      },
       deliverablesLabel: "What I deliver",
       deliverables: [
         {
@@ -1284,8 +1296,14 @@ export const practices = {
       label: "Sistemas & Gestão",
       lead: "Sistema que o dono opera, não eu.",
       intro:
-        "Catálogo, estoque, pedidos, painéis administrativos e os números por trás deles, sobre um banco de dados de verdade com interface que o cliente opera sem me ligar. Entrega medida em semanas, não meses.",
+        "O pedido chega no WhatsApp, alguém anota no caderno, e no fim do mês alguém reconta tudo na mão. Eu viro essa operação em sistema: catálogo, estoque, pedidos e painéis sobre um banco de dados de verdade — operado por quem é dono do negócio, sem mim no caminho. Semanas, não meses.",
       artAlt: "Traço de planta baixa se resolvendo em estrutura construída",
+      thesis: {
+        label: "GESTÃO — A TESE",
+        title: "Planilha é memória. Sistema é decisão.",
+        desc:
+          "Toda empresa com processo roda hoje na memória de quem atende: quem lembra, resolve. A planilha registra o passado; o sistema decide o presente — o pedido que não depende de quem leu a mensagem, o estoque que avisa antes de faltar, o número que ninguém precisa montar no fim do mês. A diferença entre os dois é a diferença entre operar e reagir.",
+      },
       deliverablesLabel: "O que entrego",
       deliverables: [
         {
@@ -1302,7 +1320,7 @@ export const practices = {
         },
         {
           t: "Propriedade",
-          d: "O cliente cadastra, edita e publica sem mim — e a hospedagem fica no nome dele. Eu saio, o sistema continua rodando.",
+          d: "O cliente cadastra, edita e publica sem me ligar — os dados e o acesso são dele. Eu saio da operação e o sistema continua rodando.",
         },
       ],
       proofLabel: "Prova, não promessa",
@@ -1368,8 +1386,14 @@ export const practices = {
       label: "Desenvolvimento",
       lead: "Site que trabalha o lead, não só apresenta.",
       intro:
-        "Sites institucionais, landing pages e vitrines WhatsApp-first. Estrutura para converter: o visitante chega na conversa em vez de chegar num formulário morto. No ar em dias, não em trimestres.",
+        "Site institucional, landing page ou vitrine WhatsApp-first — a porta de entrada do negócio, feita para o caminho mais curto até a conversa. O visitante sai da página direto no chat, e a mudança pedida de manhã sobe no mesmo dia. Dias de projeto, não trimestres.",
       artAlt: "Um testemunho geológico seccionado em camadas de dados",
+      thesis: {
+        label: "DESENVOLVIMENTO — A TESE",
+        title: "Um site não é vitrine. É o primeiro vendedor.",
+        desc:
+          "O visitante decide em segundos se pergunta ou desiste. Por isso a página inteira é construída para terminar em conversa: cada seção fecha num próximo passo, e a mensagem chega com contexto — de onde veio, o que viu, o que quer. Presença que não gera conversa é só custo.",
+      },
       deliverablesLabel: "O que entrego",
       deliverables: [
         {

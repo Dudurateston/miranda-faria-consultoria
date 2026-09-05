@@ -28,7 +28,7 @@
     --ring: 15 60% 45%;
     --radius: 0.25rem;
 
-    --mf-terracotta: #b37a60;
+    --mf-terracotta: #A6481F;
     /* Terracotta p/ TEXTO pequeno em fundo claro — b37a60 reprova WCAG AA (3,2:1). */
     --mf-terracotta-deep: #8F604A;
     --mf-graphite: #141414;
@@ -121,3 +121,38 @@ html.lenis body {
 .mf-route-load{height:60vh;position:relative}
 .mf-route-load::after{content:"";position:absolute;left:50%;top:50%;width:88px;height:1px;background:var(--copper,#b06a4a);transform:translate(-50%,-50%);animation:mf-route-pulse 1s ease-in-out infinite}
 @keyframes mf-route-pulse{0%,100%{opacity:.25}50%{opacity:.9}}
+
+/* ===== ALVOS DE TOQUE (mobile) — auditoria 05/09: CTAs e links com
+   18-34px de altura. WCAG/iOS pedem 44px minimos. ===== */
+@media (max-width: 768px) {
+  .mf-nav__brand,
+  .mf-nav__cta,
+  .mf-nav__link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .mf-h__cta,
+  .mf-srv__cta,
+  .mf-pr__cta,
+  .mf-ph__cta,
+  .mf-cta__btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.1rem;
+  }
+  .mf-foot__link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .mf-foot__links,
+  .mf-foot__meta {
+    row-gap: 10px;
+  }
+  .mf-foot__tag {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}

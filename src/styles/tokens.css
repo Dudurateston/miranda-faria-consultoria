@@ -57,7 +57,7 @@
   --text-display-md: clamp(1.25rem, 2.2vw, 1.9rem);
   --text-body-lg: clamp(1.0625rem, 1.4vw, 1.25rem);
   --text-body-md: clamp(0.9375rem, 1.05vw, 1.0625rem);
-  --text-label: clamp(0.625rem, 0.72vw, 0.6875rem);
+  --text-label: clamp(0.6875rem, 0.85vw, 0.75rem);
 
   /* MEDIDAS TIPOGRÁFICAS */
   --tracking-display: 0.02em;

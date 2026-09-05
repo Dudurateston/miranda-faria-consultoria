@@ -81,7 +81,7 @@ export default function HomeServicos() {
 .mf-card__lead{
   position:relative;
   font-family:var(--font-display);font-weight:400;
-  font-size:var(--text-display-md);line-height:1.2;
+  font-size:clamp(1.25rem, 1.7vw, 1.5rem);line-height:1.28;
   color:var(--ink);margin:0;
 }
 .mf-card__go{

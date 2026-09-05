@@ -116,8 +116,8 @@ export default function SiteNav({ revealAfterHero = false }) {
   color:var(--color-text-primary);
 }
 .mf-nav__role{
-  font-family:var(--font-mono);font-size:9px;
-  letter-spacing:0.24em;text-transform:uppercase;
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.2em;text-transform:uppercase;
   color:var(--color-text-secondary);
 }
 
