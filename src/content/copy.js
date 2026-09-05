@@ -757,7 +757,7 @@ export const cases = {
       name: "Roda de Agronegócios",
       sector: "Agribusiness trade fair",
       year: "2026",
-      media: { dir: "roda-agro", shots: 3, video: false },
+      media: { dir: "roda-agro", shots: 3, video: true },
       summary:
         "Exhibition space sold from an interactive floor map, across five pricing tiers.",
       problem:
@@ -965,7 +965,7 @@ export const cases = {
       name: "Roda de Agronegócios",
       sector: "Feira de agronegócio",
       year: "2026",
-      media: { dir: "roda-agro", shots: 3, video: false },
+      media: { dir: "roda-agro", shots: 3, video: true },
       summary:
         "Venda de estande por mapa interativo, em cinco faixas de cota.",
       problem:
