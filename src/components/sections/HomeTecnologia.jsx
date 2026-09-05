@@ -31,11 +31,11 @@ export default function HomeTecnologia() {
         </div>
         <figure className="mf-tech__art" aria-hidden="true">
           <span className="mf-strata">
-            {[...Array(6)].map((_, i) => (
+            {[...Array(7)].map((_, i) => (
               <span
                 key={i}
                 className="mf-strata__l"
-                style={{ width: `${100 - i * 9}%`, animationDelay: `${0.35 + i * 0.4}s` }}
+                style={{ width: `${100 - i * 11}%`, animationDelay: `${0.35 + i * 0.4}s` }}
               />
             ))}
             <span className="mf-strata__l mf-strata__l--copper" style={{ width: "55%", animationDelay: "2.9s" }} />
@@ -53,10 +53,14 @@ export default function HomeTecnologia() {
   letter-spacing:0.08em;color:var(--color-text-secondary);
 }
 .mf-tech__stack li:first-child{border-top:1px solid var(--mf-rule)}
-.mf-tech__art{margin:0;display:flex;justify-content:center;align-items:flex-end}
+.mf-tech__art{
+  margin:0;display:flex;justify-content:center;align-items:stretch;
+  min-height:clamp(240px,32vh,360px);
+}
+@media(min-width:860px){.mf-tech__art{align-self:stretch;min-height:100%}}
 .mf-strata{
-  display:flex;flex-direction:column-reverse;gap:clamp(11px,2.4vh,19px);
-  width:100%;max-width:340px;padding:6px 0;
+  display:flex;flex-direction:column-reverse;justify-content:space-between;
+  width:100%;height:100%;max-width:none;padding:clamp(10px,2vh,20px) 0;
 }
 .mf-strata__l{
   display:block;height:1px;background:rgba(242,238,230,0.55);
@@ -65,7 +69,7 @@ export default function HomeTecnologia() {
 }
 .mf-strata__l--copper{height:2px;background:var(--copper)}
 @keyframes mf-strata-cycle{
-  0%{opacity:0;transform:translateY(22px)}
+  0%{opacity:0;transform:translateY(clamp(20px,4vh,40px))}
   8%{opacity:1;transform:translateY(0)}
   82%{opacity:1;transform:translateY(0)}
   94%,100%{opacity:0;transform:translateY(0)}
