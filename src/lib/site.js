@@ -10,10 +10,8 @@ export const WHATSAPP_URL_SELLER =
 export const SELLERS_APP_URL = "https://vendas-uai-hub.base44.app";
 
 // Assets oficiais — logo principal transparente, hero em MP4 e mídias de seção.
-export const M_LOGO =
-  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/015bf096c_M_logo_transparent.png";
-export const M_LOGO_HERO =
-  "https://base44.app/api/apps/69d13abf1923f13a0fcdbf60/files/mp/public/69d13abf1923f13a0fcdbf60/0204f27fe_7bdd40216_Image3.png";
+export const M_LOGO = "/art/m-logo-320.webp";
+export const M_LOGO_HERO = "/art/m-logo-hero.webp";
 export const HERO_LOOP_MP4 = "/art/hero_loop.mp4";
 export const HERO_LOOP_MOBILE_MP4 = "/art/hero_loop_mobile.mp4";
 export const HERO_LOOP_POSTER = "/art/hero_loop_poster.webp";
