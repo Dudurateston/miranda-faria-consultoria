@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@base44/sdk": "^0.8.48",
-    "@base44/vite-plugin": "^1.0.35",
+    "@base44/vite-plugin": "^1.0.36",
     "@fontsource/instrument-serif": "^5.3.0",
     "@fontsource/inter": "^5.3.0",
     "@fontsource/jetbrains-mono": "^5.3.0",
