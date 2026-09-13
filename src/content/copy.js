@@ -268,7 +268,7 @@ export const copy = {
     },
     consent: {
       title: "Privacy notice",
-      text: "This site uses first-party measurement only — no third-party trackers — to learn which pages help and which don't. No personal data is collected.",
+      text: "This site uses anonymous first-party measurement and Google Analytics to learn which pages help and which don't. First-party measurement collects no personal data; Analytics uses Google cookies (see the Policy page).",
       accept: "Accept",
       decline: "Essential only",
       policy: "Policy",
@@ -637,7 +637,7 @@ export const copy = {
     },
     consent: {
       title: "Aviso de privacidade",
-      text: "Este site usa medição própria, sem rastreadores de terceiros, para saber quais páginas ajudam — e quais atrapalham. Nenhum dado pessoal é coletado.",
+      text: "Este site usa medição própria anônima e o Google Analytics para saber quais páginas ajudam — e quais atrapalham. A medição própria não coleta dado pessoal; o Analytics usa cookies do Google (política de privacidade na página Política).",
       accept: "Aceitar",
       decline: "Só o necessário",
       policy: "Política",

@@ -14,7 +14,7 @@ const SECTIONS = [
   {
     t: "Em uma frase",
     p: [
-      "Este site usa apenas medição própria: eventos anônimos que dizem quais páginas ajudam e quais atrapalham. Não usamos rastreadores de terceiros, não usamos Google Analytics, não vendemos e não compartilhamos dados com ninguém.",
+      "Este site usa medição própria anônima — eventos que dizem quais páginas ajudam e quais atrapalham — e, também, o Google Analytics para medir visitas e comportamento. Não vendemos e não compartilhamos dados com ninguém além do processamento do próprio Google Analytics, que usa cookies sob a política de privacidade do Google.",
     ],
   },
   {
@@ -28,12 +28,13 @@ const SECTIONS = [
     p: [
       "Com o seu aceite no aviso de privacidade, registramos: as páginas visitadas, a origem da visita (de onde você veio e parâmetros de campanha), a categoria do aparelho (celular, tablet ou computador), o idioma da visita, cliques nos botões de WhatsApp e a conclusão do diagnóstico — apenas as respostas escolhidas, nada que identifique você.",
       "O que nunca registramos: nome, e-mail, telefone, IP armazenado, ou qualquer dado que permita identify você. A sessão é um número aleatório guardado apenas no seu navegador, que expira após 30 minutos de inatividade.",
+      "Além dessa medição própria, o Google Analytics registra visitas e navegação por meio de cookies do Google, nos termos da política de privacidade deles. Nenhuma informação sua que apareça aqui no site é enviada a ele.",
     ],
   },
   {
     t: "Consentimento e revogação",
     p: [
-      "Nada é gravado antes de você aceitar. Se mudar de ideia, revogue abaixo ou limpe os dados do site no seu navegador — a revogação é imediata.",
+      "A medição própria nada grava antes do seu aceite. O Google Analytics, por decisão de quem publica o site, carrega desde o primeiro acesso; para não ser medido por ele, bloqueie ou limpe os cookies do navegador. Para a medição própria, revogue abaixo — a revogação é imediata.",
     ],
   },
   {
