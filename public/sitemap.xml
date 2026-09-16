@@ -30,6 +30,13 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/design"/>
   </url>
   <url>
+    <loc>https://mirandafaria.com.br/en/automacao</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/automacao"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/automacao"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/automacao"/>
+  </url>
+  <url>
     <loc>https://mirandafaria.com.br/en/work</loc>
     <lastmod>2026-09-16</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work"/>
@@ -100,13 +107,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/rota-forte"/>
   </url>
   <url>
-    <loc>https://mirandafaria.com.br/en/work/dj-jotave</loc>
-    <lastmod>2026-09-16</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/dj-jotave"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/dj-jotave"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/dj-jotave"/>
-  </url>
-  <url>
     <loc>https://mirandafaria.com.br/en/work/miranda-faria</loc>
     <lastmod>2026-09-16</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/miranda-faria"/>
@@ -114,11 +114,53 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/miranda-faria"/>
   </url>
   <url>
+    <loc>https://mirandafaria.com.br/en/work/motormoura-marca</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/motormoura-marca"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/motormoura-marca"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/motormoura-marca"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/en/work/1000-pecas-marca</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/1000-pecas-marca"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/1000-pecas-marca"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/1000-pecas-marca"/>
+  </url>
+  <url>
     <loc>https://mirandafaria.com.br/en/work/roda-agro-marca</loc>
     <lastmod>2026-09-16</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/roda-agro-marca"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/roda-agro-marca"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/roda-agro-marca"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/en/work/uaiso-travel</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/uaiso-travel"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/uaiso-travel"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/uaiso-travel"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/en/work/advogados-lco</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/advogados-lco"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/advogados-lco"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/advogados-lco"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/en/work/sevalho-controladoria</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/sevalho-controladoria"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/sevalho-controladoria"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/sevalho-controladoria"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/en/work/vaf-global</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/vaf-global"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/vaf-global"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/vaf-global"/>
   </url>
   <url>
     <loc>https://mirandafaria.com.br/pt</loc>
@@ -147,6 +189,13 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/design"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/design"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/design"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/pt/automacao</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/automacao"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/automacao"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/automacao"/>
   </url>
   <url>
     <loc>https://mirandafaria.com.br/pt/work</loc>
@@ -219,13 +268,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/rota-forte"/>
   </url>
   <url>
-    <loc>https://mirandafaria.com.br/pt/work/dj-jotave</loc>
-    <lastmod>2026-09-16</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/dj-jotave"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/dj-jotave"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/dj-jotave"/>
-  </url>
-  <url>
     <loc>https://mirandafaria.com.br/pt/work/miranda-faria</loc>
     <lastmod>2026-09-16</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/miranda-faria"/>
@@ -233,10 +275,52 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/miranda-faria"/>
   </url>
   <url>
+    <loc>https://mirandafaria.com.br/pt/work/motormoura-marca</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/motormoura-marca"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/motormoura-marca"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/motormoura-marca"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/pt/work/1000-pecas-marca</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/1000-pecas-marca"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/1000-pecas-marca"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/1000-pecas-marca"/>
+  </url>
+  <url>
     <loc>https://mirandafaria.com.br/pt/work/roda-agro-marca</loc>
     <lastmod>2026-09-16</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/roda-agro-marca"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/roda-agro-marca"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/roda-agro-marca"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/pt/work/uaiso-travel</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/uaiso-travel"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/uaiso-travel"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/uaiso-travel"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/pt/work/advogados-lco</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/advogados-lco"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/advogados-lco"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/advogados-lco"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/pt/work/sevalho-controladoria</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/sevalho-controladoria"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/sevalho-controladoria"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/sevalho-controladoria"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/pt/work/vaf-global</loc>
+    <lastmod>2026-09-16</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/en/work/vaf-global"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/pt/work/vaf-global"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/pt/work/vaf-global"/>
   </url>
 </urlset>

@@ -1,0 +1,97 @@
+{
+  "uaiso-travel": {
+    "url": "https://uaisotravel.com",
+    "http_status": 200,
+    "dom_time": 1.4776461124420166,
+    "ssl_error": null,
+    "js_errors": [],
+    "res_4xx": [],
+    "title": "Uai Sô Travel | Viagens personalizadas com alma mineira",
+    "lang": "pt-BR",
+    "lorem_found": false,
+    "empty_page": false,
+    "broken_imgs": [
+      {
+        "src": "https://uaisotravel.com/assets/founder-liliam-home-20260903-BkYZ3M9v.jpg",
+        "complete": false,
+        "naturalWidth": 0,
+        "naturalHeight": 0
+      },
+      {
+        "src": "https://uaisotravel.com/assets/logo-uai-so-travel-full-DszMGk9v.png",
+        "complete": false,
+        "naturalWidth": 900,
+        "naturalHeight": 822
+      }
+    ],
+    "internal_target": "https://uaisotravel.com/index.html",
+    "overflow_info": {
+      "scrollWidth": 430,
+      "clientWidth": 390,
+      "hasOverflow": true
+    },
+    "body_snippet": "Pular para o conteúdo Início Destinos Como funciona Sobre nós Planejar viagem Conversar no WhatsApp ↗ Seu roteiro, do seu jeito.  A gente cuida do caminho.  Viagens personalizadas para quem quer descobrir o mundo no próprio ritmo. Você conta seus desejos; a Uai Sô Travel planeja e acompanha a jornad"
+  },
+  "advogados-lco": {
+    "url": "https://advogadoslco.com.br",
+    "http_status": 200,
+    "dom_time": 0.6747598648071289,
+    "ssl_error": null,
+    "js_errors": [],
+    "res_4xx": [],
+    "title": "LCO Advogados | Societário, Tributário e Patrimonial",
+    "lang": "pt-BR",
+    "lorem_found": false,
+    "empty_page": false,
+    "broken_imgs": [],
+    "internal_target": "https://advogadoslco.com.br/sobre.html",
+    "overflow_info": {
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "hasOverflow": false
+    },
+    "body_snippet": "LCO ADVOCACIA  atendimento@advogadoslco.com.br +55 (11) 9 2027-5202 INÍCIO O ESCRITÓRIO ÁREAS DE ATUAÇÃO ARTIGOS CONTATO ENTRE EM CONTATO LCO ADVOGADOS Estrutura jurídica sob medida para decisões societárias, tributárias e patrimoniais.  Boutique jurídica dedicada a negócios e patrimônio.  AGENDE UM"
+  },
+  "sevalho-controladoria": {
+    "url": "https://sevalhocontroladoria.com.br",
+    "http_status": 200,
+    "dom_time": 0.9740550518035889,
+    "ssl_error": null,
+    "js_errors": [],
+    "res_4xx": [
+      "404: https://sevalhocontroladoria.com.br/sobre.html"
+    ],
+    "title": "Sevalho Controladoria | Gestão Empresarial, Governança e Inteligência Financeira para PMEs",
+    "lang": "pt-BR",
+    "lorem_found": false,
+    "empty_page": false,
+    "broken_imgs": [],
+    "internal_target": "https://sevalhocontroladoria.com.br/sobre.html",
+    "overflow_info": {
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "hasOverflow": false
+    },
+    "body_snippet": "Home Sobre Soluções Metodologia Contato DIAGNÓSTICO GRATUITO DESEMPENHO ECONÔMICO, FINANCEIRO E OPERACIONAL Pare de apagar incêndios. Assuma o controle real do seu negócio.  Ajudamos pequenas e médias empresas a saírem do caos operacional, apurando resultado econômico, estruturando modelagem finance"
+  },
+  "vaf-global": {
+    "url": "https://vafglobal.com.br",
+    "http_status": 200,
+    "dom_time": 0.5481340885162354,
+    "ssl_error": null,
+    "js_errors": [],
+    "res_4xx": [],
+    "title": "VAF Global | Coordenação de Negócios Internacionais",
+    "lang": "pt-BR",
+    "lorem_found": false,
+    "empty_page": false,
+    "broken_imgs": [],
+    "internal_target": "https://vafglobal.com.br/index.html",
+    "overflow_info": {
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "hasOverflow": false
+    },
+    "body_snippet": "Ir para o conteúdo principal VAF Global Início Quem Somos Serviços ▾ Corredor Estratégico Contato FALE COM A VAF  GLOBAL DEAL DESK · BRASIL · PORTUGAL · EMIRADOS  Conectamos decisões, capital e contrapartes em operações internacionais.  Uma frente estratégica para quem precisa comprar, vender, inves"
+  }
+}

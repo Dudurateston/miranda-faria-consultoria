@@ -20,9 +20,14 @@ export const CASE_SLUGS = [
   "motormoura",
   "1000-pecas",
   "rota-forte",
-  "dj-jotave",
   "miranda-faria",
+  "motormoura-marca",
+  "1000-pecas-marca",
   "roda-agro-marca",
+  "uaiso-travel",
+  "advogados-lco",
+  "sevalho-controladoria",
+  "vaf-global",
 ];
 
 export const copy = {
@@ -40,7 +45,7 @@ export const copy = {
         how: "How a project runs here: diagnosis first, demo in the first week, delivery in the owner's hands.",
         insights: "Three questions and an estimate of what the problem costs — before any talk of price.",
         contact: "Bring the problem, not a spec. Same-day response, straight from who builds it.",
-        practice: "Management systems, websites and identity — one hand from diagnosis to delivery.",
+        practice: "Management systems, websites, automation and identity — one hand from diagnosis to delivery.",
       },
     },
     nav: {
@@ -64,7 +69,7 @@ export const copy = {
       role: "Design Engineer & Creative Technologist",
       thesis: {
         label: "What I do",
-        lead: "Sites, systems and automation for the business that outgrew the spreadsheet.",
+        lead: "I build the structure a business runs on.",
         body: "Brand, product and data as one system — designed and shipped by one person, so nothing is lost in the handoff between a design team, a front-end team and a data team.",
       },
       pitch: {
@@ -95,7 +100,7 @@ export const copy = {
         lead: "Tell me where it's stuck.",
         cta: "Book a call",
       },
-      heroCta: "Book a call",
+      heroCta: "Get in touch",
       sobrePreview: { label: "About", cta: "Learn more" },
       techPreview: {
         label: "Technology",
@@ -110,13 +115,13 @@ export const copy = {
           "Three questions and an estimate of what the problem drains per month — the same diagnosis I run in a first conversation, in forty seconds.",
         cta: "Run the diagnosis",
       },
-      finalCta: { label: "Next step", lead: "Let's talk.", cta: "Message on WhatsApp" },
+      finalCta: { label: "Next step", lead: "Tell me where it breaks — the answer lands the same day.", cta: "Message on WhatsApp" },
     },
     work: {
       label: "Work",
       lead: "Systems in the field.",
       intro:
-        "Eight projects, each shipped end to end — brand, interface, data model and deployment. Screens and recordings only: client systems are never linked publicly.",
+        "Projects shipped end to end — brand, interface, data model and deployment, across nine sectors. Those with their own domain are linked live: go see for yourself. The client-confidential ones stay on screens and recordings.",
       viewCase: "Read the case",
       sections: {
         problem: "Problem",
@@ -125,7 +130,15 @@ export const copy = {
         impact: "Impact",
       },
       factsSector: "Sector",
+      factsRole: "Role",
       factsYear: "Year",
+      linkLabel: "See it live",
+      filterLabel: "Filter the work",
+      filterSector: "SECTOR",
+      filterSolution: "SOLUTION",
+      filterAll: "All",
+      emptyFilter: "No project in this cut yet — it exists, it just hasn't shipped. Clear the filter and take the full tour.",
+      clearFilter: "Clear filter",
       factsPractice: "Solution",
       factsDelivery: "Delivered",
       factsDeliverySystems: "Complete system",
@@ -281,14 +294,13 @@ export const copy = {
     },
     servicos: {
       label: "Services",
-      lead: "Three solutions, one operating principle.",
+      lead: "Four solutions, one operating principle.",
       intro:
-        "Systems, design and business intelligence — each shippable alone, designed to work as one.",
+        "Systems, design, business intelligence and automation — each shippable alone, designed to work as one.",
       metricsLabel: "How I deliver — in numbers",
       metrics: [
-        { n: "21x", d: "A lead answered within 5 minutes is 21 times more likely to become a conversation (MIT). Every system I ship answers on the spot — no lead left waiting." },
+        { n: "18", d: "Systems live in production, each on a real database — catalogue, orders, payment. Not slides: running software." },
         { n: "7 days", d: "A working demo in week one: your problem solved and visible, before paying for the whole project." },
-        { n: "R$ 1,000", d: "From a R$ 1,000 website to a fully bespoke system. The diagnosis sizes the pain first — the price comes after, with no surprises." },
         { n: "100%", d: "Delivery in your name: you run it, the data and access are yours. No lock-in, no strings — upkeep and evolution only if you want them." },
       ],
       bandLayers: ["Surface", "System", "Data", "Foundation"],
@@ -307,7 +319,7 @@ export const copy = {
         },
         {
           q: "How much does it cost?",
-          a: "From a simple site starting at R$ 1,000 to complex systems where the only limit is imagination. The range depends on the scope — which is why the diagnosis exists: in an operation losing R$ 4,000/mo, a ~R$ 15k solution pays for itself in three months and gives back R$ 33k in the first year. The proposal arrives made to measure, as a fraction of the value the project returns.",
+          a: "The scope sets the price — which is exactly why the diagnosis exists: it sizes the pain first, and the price comes after, in the conversation, together with the made-to-measure proposal. No generic price list: what you receive describes exactly what will exist at the end.",
         },
         {
           q: "How long until it's ready — and after delivery?",
@@ -409,7 +421,7 @@ export const copy = {
         how: "Como um projeto corre por aqui: diagnóstico primeiro, demo na primeira semana, entrega na mão do dono.",
         insights: "Três perguntas e uma estimativa do custo do seu problema — antes de falar de preço ou tecnologia.",
         contact: "Traga o problema, não a especificação. Resposta no mesmo dia, direto com quem executa.",
-        practice: "Sistemas de gestão, sites e identidade — uma mão só do diagnóstico à entrega.",
+        practice: "Sistemas de gestão, sites, automação e identidade — uma mão só do diagnóstico à entrega.",
       },
     },
     nav: {
@@ -433,7 +445,7 @@ export const copy = {
       role: "Consultoria & Tecnologia",
       thesis: {
         label: "O que eu faço",
-        lead: "Sites, sistemas e automação para o negócio que não cabe mais na planilha.",
+        lead: "Estruturo a base que sustenta o negócio.",
         body: "Catálogos, painéis e processos que funcionam sem depender de mim todo dia. A infraestrutura fica no seu nome — você opera, eu saio de cena.",
       },
       pitch: {
@@ -464,7 +476,7 @@ export const copy = {
         lead: "Me conta onde está travando.",
         cta: "Chamar no WhatsApp",
       },
-      heroCta: "Chamar no WhatsApp",
+      heroCta: "Fale comigo",
       sobrePreview: { label: "Sobre", cta: "Saiba mais" },
       techPreview: {
         label: "Tecnologia",
@@ -479,13 +491,13 @@ export const copy = {
           "Três perguntas e uma estimativa do que o problema drena por mês — o mesmo diagnóstico que eu faria numa primeira conversa, em quarenta segundos.",
         cta: "Fazer o diagnóstico",
       },
-      finalCta: { label: "Próximo passo", lead: "Vamos conversar.", cta: "Chamar no WhatsApp" },
+      finalCta: { label: "Próximo passo", lead: "Me conta onde trava — a resposta chega no mesmo dia.", cta: "Chamar no WhatsApp" },
     },
     work: {
       label: "Trabalhos",
       lead: "Projetos em campo.",
       intro:
-        "Oito projetos entregues de ponta a ponta — marca, interface, banco de dados e publicação. Só imagem e vídeo: os sistemas dos clientes nunca são linkados publicamente.",
+        "Projetos entregues de ponta a ponta — marca, interface, banco de dados e publicação, em nove setores. Os que têm domínio próprio estão linkados ao vivo: entre e veja. Os confidenciais seguem em imagem e vídeo.",
       viewCase: "Ler o case",
       sections: {
         problem: "Problema",
@@ -494,7 +506,15 @@ export const copy = {
         impact: "Resultado",
       },
       factsSector: "Setor",
+      factsRole: "Papel",
       factsYear: "Ano",
+      linkLabel: "Ver ao vivo",
+      filterLabel: "Filtrar os trabalhos",
+      filterSector: "SETOR",
+      filterSolution: "SOLUÇÃO",
+      filterAll: "Todos",
+      emptyFilter: "Ainda não tem projeto nesse recorte — existe, só ainda não saiu. Limpe o filtro e veja o índice inteiro.",
+      clearFilter: "Limpar filtro",
       factsPractice: "Solução",
       factsDelivery: "Entregue",
       factsDeliverySystems: "Sistema completo",
@@ -650,14 +670,13 @@ export const copy = {
     },
     servicos: {
       label: "Serviços",
-      lead: "Três soluções, um princípio de operação.",
+      lead: "Quatro soluções, um princípio de operação.",
       intro:
-        "Sistemas, design e gestão — cada um entrega sozinho, todos desenhados para funcionar como um só.",
+        "Sistemas, design, gestão e automação — cada um entrega sozinho, todos desenhados para funcionar como um só.",
       metricsLabel: "Como entrego — em números",
       metrics: [
-        { n: "21x", d: "Lead respondido em 5 minutos tem 21 vezes mais chance de virar conversa (MIT). Todo sistema que entrego responde na hora — nenhum lead esfria na espera." },
+        { n: "18", d: "Sistemas em operação, cada um com banco de dados real — catálogo, pedido, pagamento. Não é slide: é software rodando." },
         { n: "7 dias", d: "Demo funcional na primeira semana: o seu problema resolvido pra ver, antes de pagar o projeto inteiro." },
-        { n: "R$ 1.000", d: "Do site a partir de R$ 1.000 ao sistema sob medida. O diagnóstico dimensiona a dor primeiro — o preço vem depois, sem surpresa." },
         { n: "100%", d: "Entrega no seu nome: você opera, os dados e o acesso são seus. Sem fidelidade, sem amarração — evolução e manutenção só se você quiser." },
       ],
       bandLayers: ["Superfície", "Sistema", "Dados", "Fundação"],
@@ -676,7 +695,7 @@ export const copy = {
         },
         {
           q: "Quanto custa?",
-          a: "Do site simples a partir de R$ 1.000 ao sistema complexo onde o único limite é a imaginação. A faixa depende do alcance — e é por isso que o diagnóstico existe: numa operação que perde R$ 4.000/mês, uma solução de cerca de R$ 15 mil se paga em três meses e devolve R$ 33 mil no primeiro ano. A proposta chega sob medida, como fração do valor que o projeto devolve.",
+          a: "O escopo define o preço — e é por isso que o diagnóstico existe: ele dimensiona a dor primeiro, e o preço vem depois, na conversa, junto com a proposta sob medida. Nada de tabela genérica: o que você recebe descreve exatamente o que vai existir no fim.",
         },
         {
           q: "Em quanto tempo fica pronto — e depois da entrega?",
@@ -775,6 +794,7 @@ export const cases = {
     {
       slug: "queijos-serra",
       practice: "gestao",
+      role: "Direção, design e desenvolvimento",
       name: "Queijos da Serra",
       sector: "Artisanal cheese production",
       year: "2024",
@@ -793,6 +813,7 @@ export const cases = {
     {
       slug: "roda-agro",
       practice: "desenvolvimento",
+      role: "Direção, design e desenvolvimento",
       name: "Roda de Agronegócios",
       sector: "Agribusiness trade fair",
       year: "2026",
@@ -811,6 +832,7 @@ export const cases = {
     {
       slug: "paulo-henrique",
       practice: "desenvolvimento",
+      role: "Direção, design e desenvolvimento",
       name: "Paulo Henrique",
       sector: "Athlete and performance coach",
       year: "2026",
@@ -829,6 +851,7 @@ export const cases = {
     {
       slug: "motormoura",
       practice: "gestao",
+      role: "Direção, design e desenvolvimento",
       name: "MotorMoura",
       sector: "Auto parts distribution",
       year: "2026",
@@ -843,10 +866,12 @@ export const cases = {
       impact:
         "The catalogue left the owner's head and became something the team can query. Registration no longer routes through one person.",
       media: { dir: "motormoura", shots: 3, video: false },
+      link: "https://motormouraequipamentos.com.br",
     },
     {
       slug: "1000-pecas",
       practice: "gestao",
+      role: "Direção, design e desenvolvimento",
       name: "1000 Peças Truck Center",
       sector: "Heavy vehicle parts",
       year: "2026",
@@ -864,6 +889,7 @@ export const cases = {
     {
       slug: "rota-forte",
       practice: "desenvolvimento",
+      role: "Direção, design e desenvolvimento",
       name: "Rota Forte",
       sector: "Munck and crane rental",
       year: "2026",
@@ -879,25 +905,9 @@ export const cases = {
       media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
-      slug: "dj-jotave",
-      practice: "desenvolvimento",
-      name: "DJ Jotavê",
-      sector: "Artist",
-      year: "2025",
-      summary: "Full presentation site where colour is the signature: each section changes the whole page.",
-      problem:
-        "An artist whose bookings ran entirely through social media DMs, with no single place a promoter could go to see the work, the schedule and the press material.",
-      process:
-        "Designed and built end to end. The page is staged like a set: the hero opens in hot pink, and as the visitor scrolls the entire site changes colour — cyan for the SoundCloud sets, lime for the agenda, purple for booking. SoundCloud players, the event list and the WhatsApp booking are live, not screenshots.",
-      decisions:
-        "Colour as system, not decoration: the change carries the narrative instead of decorating it. Scroll choreography — Lenis with GSAP ScrollTrigger on a single ticker — worked out here first; that system is the direct ancestor of the one running on this site.",
-      impact:
-        "One address for promoters: sets, agenda and booking in the same place — and a page that reads like the show, not like an archive.",
-      media: { dir: "dj-jotave", shots: 3, video: true },
-    },
-    {
       slug: "miranda-faria",
       practice: "design",
+      role: "Direção, design e desenvolvimento",
       name: "This site",
       sector: "Miranda Faria",
       year: "2026",
@@ -916,6 +926,7 @@ export const cases = {
     {
       slug: "motormoura-marca",
       practice: "design",
+      role: "Direção, design e desenvolvimento",
       name: "MotorMoura — Identity",
       sector: "Auto parts distribution",
       year: "2026",
@@ -933,6 +944,7 @@ export const cases = {
     {
       slug: "1000-pecas-marca",
       practice: "design",
+      role: "Direção, design e desenvolvimento",
       name: "1000 Peças — Identity",
       sector: "Heavy vehicle parts",
       year: "2026",
@@ -950,6 +962,7 @@ export const cases = {
     {
       slug: "roda-agro-marca",
       practice: "design",
+      role: "Direção, design e desenvolvimento",
       name: "Roda de Agronegócios — Identity",
       sector: "Events — agribusiness",
       year: "2026",
@@ -964,11 +977,91 @@ export const cases = {
         "The edition's social campaign ran on this system: 79.6 thousand views in the period, over 200 new followers — one visual language across every exhibitor's post.",
       media: { dir: "roda-agro-marca", shots: 2, video: false },
     },
+    {
+      slug: "uaiso-travel",
+      practice: "desenvolvimento",
+      role: "Studio project · with Thales Machado Souza",
+      name: "Uai Sô Travel",
+      sector: "Bespoke travel agency",
+      year: "2026",
+      media: { dir: "uaiso-travel", shots: 3, video: false },
+      summary:
+        "A bespoke travel agency: curated itineraries with the quote delivered straight into a WhatsApp conversation.",
+      problem:
+        "Travelers who want a tailored itinerary don't fit shelf packages — and the agency lived entirely inside WhatsApp, with no storefront that showed its way of traveling.",
+      process:
+        "An institutional site presenting domestic and international destinations, handing the trip over through a planning form or a direct conversation.",
+      decisions:
+        "The site sells curation, not packages: every destination reads as a proposed experience, and price is never the door — the conversation is.",
+      impact:
+        "The agency gained a storefront of its own: the client arrives already fluent in the travel style, and the next step is a conversation, not a catalogue.",
+    },
+    {
+      slug: "advogados-lco",
+      practice: "desenvolvimento",
+      role: "Studio project · with Thales Machado Souza",
+      name: "LCO Advogados",
+      sector: "Corporate law boutique",
+      year: "2026",
+      media: { dir: "advogados-lco", shots: 3, video: false },
+      link: "https://advogadoslco.com.br",
+      summary:
+        "A corporate-law boutique — corporate, tax and wealth structuring — in a site that builds trust before the first conversation.",
+      problem:
+        "A client's legal structure is not sold off a price table: it takes authority, clear practice areas and a direct path to the partner in charge.",
+      process:
+        "Institutional site with explicit practice areas and three intake channels: WhatsApp, e-mail and a scheduling form.",
+      decisions:
+        "Boutique sobriety over the generic law-firm template: few sections, direct copy, and the CTA is a conversation with the lawyer — not a faceless form.",
+      impact:
+        "Qualified contact started arriving: whoever reaches out already knows the practice area they need and who they will talk to.",
+    },
+    {
+      slug: "sevalho-controladoria",
+      practice: "desenvolvimento",
+      role: "Studio project · with Thales Machado Souza",
+      name: "Sevalho Controladoria",
+      sector: "Financial controllership",
+      year: "2026",
+      media: { dir: "sevalho-controladoria", shots: 3, video: false },
+      link: "https://sevalhocontroladoria.com.br",
+      summary:
+        "Financial controllership consulting: a free diagnosis as the front door for SMBs trying to leave the financial chaos behind.",
+      problem:
+        "An SMB owner who does not know the company's real result does not hire consulting from a service description — he hires when someone names his pain.",
+      process:
+        "A capture landing page with one clear offer: a free diagnosis, direct WhatsApp, and the promise of finding the real economic result.",
+      decisions:
+        "One page, one offer, one step. No service menu: the invitation is the diagnosis, and the relationship starts there.",
+      impact:
+        "Sales conversations began arriving pre-qualified: whoever enters through the diagnosis has already qualified themselves.",
+    },
+    {
+      slug: "vaf-global",
+      practice: "desenvolvimento",
+      role: "Studio project · with Thales Machado Souza",
+      name: "VAF Global",
+      sector: "International deal desk",
+      year: "2026",
+      media: { dir: "vaf-global", shots: 3, video: false },
+      link: "https://vafglobal.com.br",
+      summary:
+        "An international deal desk: business intermediation between Brazil, Portugal and the UAE, written in corporate-grade Portuguese.",
+      problem:
+        "International deals die of distance: counterparty, capital and decision scattered, with no channel that translated the operation for the decision-maker.",
+      process:
+        "An institutional portal positioning the practice — M&A, foreign trade, B2B expansion — and capturing counterparties through a form.",
+      decisions:
+        "The register of an international firm, not a startup landing: content hierarchy, proof of network, and a clear invitation to counterparties.",
+      impact:
+        "The site does the pre-commercial work: it filters, explains and routes whoever fits before the first meeting.",
+    }
   ],
   pt: [
     {
       slug: "queijos-serra",
       practice: "gestao",
+      role: "Direção, design e desenvolvimento",
       name: "Queijos da Serra",
       sector: "Produção de queijo artesanal",
       year: "2024",
@@ -987,6 +1080,7 @@ export const cases = {
     {
       slug: "roda-agro",
       practice: "desenvolvimento",
+      role: "Direção, design e desenvolvimento",
       name: "Roda de Agronegócios",
       sector: "Feira de agronegócio",
       year: "2026",
@@ -1005,6 +1099,7 @@ export const cases = {
     {
       slug: "paulo-henrique",
       practice: "desenvolvimento",
+      role: "Direção, design e desenvolvimento",
       name: "Paulo Henrique",
       sector: "Atleta e coach de performance",
       year: "2026",
@@ -1023,6 +1118,7 @@ export const cases = {
     {
       slug: "motormoura",
       practice: "gestao",
+      role: "Direção, design e desenvolvimento",
       name: "MotorMoura",
       sector: "Distribuidora de autopeças",
       year: "2026",
@@ -1037,10 +1133,12 @@ export const cases = {
       impact:
         "O catálogo saiu da cabeça do dono e virou algo que a equipe consulta. O cadastro não passa mais por uma pessoa só.",
       media: { dir: "motormoura", shots: 3, video: false },
+      link: "https://motormouraequipamentos.com.br",
     },
     {
       slug: "1000-pecas",
       practice: "gestao",
+      role: "Direção, design e desenvolvimento",
       name: "1000 Peças Truck Center",
       sector: "Peças para caminhão",
       year: "2026",
@@ -1058,6 +1156,7 @@ export const cases = {
     {
       slug: "rota-forte",
       practice: "desenvolvimento",
+      role: "Direção, design e desenvolvimento",
       name: "Rota Forte",
       sector: "Locação de munck e guindaste",
       year: "2026",
@@ -1073,25 +1172,9 @@ export const cases = {
       media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
-      slug: "dj-jotave",
-      practice: "desenvolvimento",
-      name: "DJ Jotavê",
-      sector: "Artista",
-      year: "2025",
-      summary: "Site de apresentação completo em que a cor é a assinatura: cada seção muda a página inteira.",
-      problem:
-        "Um artista cujos bookings corriam inteiramente por DM de rede social, sem um endereço único onde um produtor pudesse ver o trabalho, a agenda e o material de divulgação.",
-      process:
-        "Desenhado e construído de ponta a ponta. A página é encenada como um set: o hero abre em rosa vibrante e, conforme o visitante rola, o site inteiro muda de cor — ciano nos sets do SoundCloud, verde na agenda, roxo no booking. Os players do SoundCloud, a lista de eventos e o agendamento por WhatsApp são vivos, não screenshots.",
-      decisions:
-        "Cor como sistema, não decoração: a mudança conduz a narrativa em vez de enfeitá-la. Coreografia de scroll — Lenis com GSAP ScrollTrigger num ticker só — resolvida aqui primeiro; esse sistema é o ancestral direto do que roda neste site.",
-      impact:
-        "Um endereço pra produtor: sets, agenda e booking no mesmo lugar — e uma página que se lê como o show, não como um arquivo.",
-      media: { dir: "dj-jotave", shots: 3, video: true },
-    },
-    {
       slug: "miranda-faria",
       practice: "design",
+      role: "Direção, design e desenvolvimento",
       name: "Este site",
       sector: "Miranda Faria",
       year: "2026",
@@ -1110,6 +1193,7 @@ export const cases = {
     {
       slug: "motormoura-marca",
       practice: "design",
+      role: "Direção, design e desenvolvimento",
       name: "MotorMoura — Identidade",
       sector: "Distribuidora de autopeças",
       year: "2026",
@@ -1127,6 +1211,7 @@ export const cases = {
     {
       slug: "1000-pecas-marca",
       practice: "design",
+      role: "Direção, design e desenvolvimento",
       name: "1000 Peças — Identidade",
       sector: "Desmanche de caminhões",
       year: "2026",
@@ -1144,6 +1229,7 @@ export const cases = {
     {
       slug: "roda-agro-marca",
       practice: "design",
+      role: "Direção, design e desenvolvimento",
       name: "Roda de Agronegócios — Identidade",
       sector: "Eventos — agronegócio",
       year: "2026",
@@ -1158,6 +1244,85 @@ export const cases = {
         "A campanha social da edição rodou nesse sistema: 79,6 mil visualizações no período e mais de 200 novos seguidores — uma linguagem visual única em cada post de expositor.",
       media: { dir: "roda-agro-marca", shots: 2, video: false },
     },
+    {
+      slug: "uaiso-travel",
+      practice: "desenvolvimento",
+      role: "Projeto do escritório · com Thales Machado Souza",
+      name: "Uai Sô Travel",
+      sector: "Turismo sob medida",
+      year: "2026",
+      media: { dir: "uaiso-travel", shots: 3, video: false },
+      summary:
+        "Agência de viagens sob medida: roteiros por curadoria, com a cotação chegando direto na conversa de WhatsApp.",
+      problem:
+        "Quem quer roteiro personalizado não cabe em pacote de prateleira — e a agência vivia só dentro do WhatsApp, sem vitrine que mostrasse o jeito dela de viajar.",
+      process:
+        "Institucional que apresenta destinos nacionais e internacionais e entrega o roteiro por formulário de planejamento ou conversa direta.",
+      decisions:
+        "O site vende curadoria, não pacote: cada destino aparece como proposta de experiência, e o preço nunca é a porta de entrada — a conversa é.",
+      impact:
+        "A agência ganhou vitrine própria: o cliente chega já entendendo o estilo de viagem, e o próximo passo é uma conversa, não um catálogo.",
+    },
+    {
+      slug: "advogados-lco",
+      practice: "desenvolvimento",
+      role: "Projeto do escritório · com Thales Machado Souza",
+      name: "LCO Advogados",
+      sector: "Advocacia empresarial",
+      year: "2026",
+      media: { dir: "advogados-lco", shots: 3, video: false },
+      link: "https://advogadoslco.com.br",
+      summary:
+        "Boutique jurídica de advocacia empresarial — societário, tributário e patrimonial — em um site que constrói confiança antes da primeira conversa.",
+      problem:
+        "A estrutura jurídica do cliente não se vende por tabela de preço: precisa de autoridade, clareza de áreas de atuação e um caminho direto até o sócio responsável.",
+      process:
+        "Institucional com as áreas explicitadas e captação em três canais: WhatsApp, e-mail e formulário de agendamento.",
+      decisions:
+        "Sobriedade de boutique em vez do template genérico de escritório: poucas seções, texto direto, e o CTA é a conversa com o advogado — não um formulário sem rosto.",
+      impact:
+        "O escritório passou a receber contato qualificado: quem chega já sabe a área que precisa e com quem vai falar.",
+    },
+    {
+      slug: "sevalho-controladoria",
+      practice: "desenvolvimento",
+      role: "Projeto do escritório · com Thales Machado Souza",
+      name: "Sevalho Controladoria",
+      sector: "Controladoria e finanças",
+      year: "2026",
+      media: { dir: "sevalho-controladoria", shots: 3, video: false },
+      link: "https://sevalhocontroladoria.com.br",
+      summary:
+        "Consultoria de controladoria com o diagnóstico gratuito como porta de entrada para PMEs que querem sair do caos financeiro.",
+      problem:
+        "O dono de PME que não sabe o resultado real do próprio negócio não contrata consultoria por descrição de serviço — contrata quando alguém nomeia a dor dele.",
+      process:
+        "Landing de captação com uma oferta clara: diagnóstico gratuito, WhatsApp direto e a promessa de apurar o resultado econômico real.",
+      decisions:
+        "Uma página, uma oferta, um passo. Sem menu de serviços: o convite é o diagnóstico, e a relação começa nele.",
+      impact:
+        "A conversa de vendas passou a chegar pronta: quem entra pelo diagnóstico já se qualificou sozinho.",
+    },
+    {
+      slug: "vaf-global",
+      practice: "desenvolvimento",
+      role: "Projeto do escritório · com Thales Machado Souza",
+      name: "VAF Global",
+      sector: "Negócios internacionais",
+      year: "2026",
+      media: { dir: "vaf-global", shots: 3, video: false },
+      link: "https://vafglobal.com.br",
+      summary:
+        "Deal desk internacional: intermediação de negócios entre Brasil, Portugal e Emirados, apresentada em português de empresa.",
+      problem:
+        "Negócio internacional morre de distância: contraparte, capital e decisão espalhados, sem um canal que traduzisse a operação para quem decide.",
+      process:
+        "Portal institucional que posiciona a atuação — fusões e aquisições, comércio exterior, expansão B2B — e captura contrapartes por formulário.",
+      decisions:
+        "Registro de empresa internacional em vez de landing de startup: hierarquia de conteúdo, prova de rede e um convite claro a contrapartes.",
+      impact:
+        "O site faz o trabalho pré-comercial: filtra, explica e encaminha quem tem fit antes da primeira reunião.",
+    }
   ],
 };
 
@@ -1172,7 +1337,7 @@ export const cases = {
  * sections/ComoFunciona.jsx — as duas secoes antigas que nunca tinham
  * sido portadas.
  */
-export const PRACTICE_SLUGS = ["gestao", "desenvolvimento", "design"];
+export const PRACTICE_SLUGS = ["gestao", "desenvolvimento", "design", "automacao"];
 
 export const practices = {
   en: {
@@ -1311,9 +1476,93 @@ export const practices = {
       casesLabel: "Built this way",
       cta: "Start a project",
     },
+    automacao: {
+      slug: "automacao",
+      label: "Automation",
+      lead: "The repetitive work leaves human hands.",
+      intro:
+        "A client asks for a price at 11 pm and nobody answers. The order lands in one channel, gets copied into another, typed twice — and the second copy comes out wrong. The product record is a salesperson's free text, and now nobody finds anything. I connect the dots: service that answers instantly, data that flows on its own between system, sheet and messaging, routines that run overnight with nobody pressing a button. Automation is not fewer people — it is the same people deciding only what matters. And it runs through everything I deliver: the management system warns the owner on its own, the website forwards the lead with full context, the design serves the same state to machine and human.",
+      artAlt: "A stream where loose information enters and structured data comes out",
+      artLabel: "AUTOMATION — THE FLOW, LIVE",
+      artHint: "Data goes in one way and comes out organized. No manual copy in between.",
+      thesis: {
+        label: "AUTOMATION — THE THESIS",
+        title: "Every manual copy is an error waiting to happen.",
+        desc:
+          "Each time data passes from one hand to another, the operation pays a tax: time, error, rework. Automation cuts that tax — the message becomes a record, the record becomes a charge, the report assembles itself. What is left of the day becomes decision.",
+      },
+      deliverablesLabel: "What I deliver",
+      deliverables: [
+        {
+          t: "Service that answers on its own",
+          d: "WhatsApp and Instagram connected to the system: frequent questions answered on the spot, quotes forwarded with full context, and the lead arrives as a record — not as a screenshot lost in a group chat.",
+        },
+        {
+          t: "Integration between systems",
+          d: "The form feeds the sheet, the sheet talks to the panel, the order is born in one place and shows up in the other. No double typing, no 'let me check here'.",
+        },
+        {
+          t: "Routines that run by themselves",
+          d: "Weekly report on Monday morning, low-stock warning, backups and syncs outside business hours. Repetitive work has a schedule — and it is not yours.",
+        },
+        {
+          t: "AI where text becomes data",
+          d: "Loose description in, structured record out: brand, model, year, category — read by AI, checked by a human. Years of messy archives become a searchable catalogue.",
+        },
+      ],
+      proofLabel: "Proof in the field",
+      proofs: [
+        "MotorMoura: the dealer's free text — a road train described in three words — becomes a structured record read by AI: brand, model, year, power. On the same record, the system estimates which parts that equipment is likely to buy.",
+        "Automation integrated with every other solution: in management, the low-stock alert is born on its own; on the website, the form delivers the lead ready; on WhatsApp, the first answer arrives before the coffee gets cold.",
+      ],
+      casesLabel: "Where it shows up",
+      cta: "Tell me what is still manual.",
+    },
   },
 
   pt: {
+    automacao: {
+      slug: "automacao",
+      label: "Automação",
+      lead: "O trabalho repetitivo sai da mão humana.",
+      intro:
+        "O cliente pergunta o preço às 23h e ninguém responde. O pedido chega num canal, é copiado no outro, digita-se duas vezes — e a segunda sai errada. A ficha do produto é o texto solto do vendedor, e ninguém acha mais nada. Eu conecto os pontos: atendimento que responde na hora, dado que flui sozinho entre sistema, planilha e mensagem, rotina que roda de madrugada sem ninguém apertar botão. Automação não é menos gente — é a mesma gente cuidando só do que decide. E ela atravessa tudo o que eu entrego: o sistema de gestão avisa o dono sozinho, o site encaminha o lead com o contexto pronto, o design serve o mesmo estado pra máquina e pra pessoa.",
+      artAlt: "Um fluxo onde a informação solta entra e o dado estruturado sai",
+      artLabel: "AUTOMAÇÃO — O FLUXO, AO VIVO",
+      artHint: "O dado entra de um jeito e sai organizado. Sem cópia manual no meio.",
+      thesis: {
+        label: "AUTOMAÇÃO — A TESE",
+        title: "Toda cópia manual é um erro esperando acontecer.",
+        desc:
+          "Cada vez que um dado passa de uma mão pra outra, a operação paga imposto: tempo, erro, retrabalho. Automação corta esse imposto — a mensagem vira cadastro, o cadastro vira cobrança, o relatório se monta sozinho. O que sobra do dia vira decisão.",
+      },
+      deliverablesLabel: "O que eu entrego",
+      deliverables: [
+        {
+          t: "Atendimento que responde sozinho",
+          d: "WhatsApp e Instagram conectados ao sistema: pergunta frequente respondida na hora, orçamento encaminhado com o contexto pronto, e o lead chega cadastrado — não como print perdido no grupo.",
+        },
+        {
+          t: "Integração entre sistemas",
+          d: "O formulário alimenta a planilha, a planilha conversa com o painel, o pedido nasce num lugar e aparece no outro. Sem digitação dupla, sem 'deixa eu conferir aqui'.",
+        },
+        {
+          t: "Rotinas que rodam sozinhas",
+          d: "Relatório semanal na segunda de manhã, aviso de estoque no limite, backup e sincronização fora do horário. O trabalho repetitivo tem hora marcada — e não é a sua.",
+        },
+        {
+          t: "IA onde o texto vira dado",
+          d: "Descrição solta entra, ficha estruturada sai: marca, modelo, ano, categoria — lido por IA, conferido por gente. O acervo bagunçado de anos vira catálogo pesquisável.",
+        },
+      ],
+      proofLabel: "Prova em campo",
+      proofs: [
+        "MotorMoura: o texto livre do lojista — uma carreta descrita em três palavras — vira ficha estruturada lida por IA: marca, modelo, ano, potência. Na mesma ficha, o sistema estima as peças que aquele equipamento tende a comprar.",
+        "Automação integrada às outras soluções: na gestão, o alerta de estoque nasce sozinho; no site, o formulário entrega o lead pronto; no WhatsApp, a primeira resposta chega antes do café esfriar.",
+      ],
+      casesLabel: "Onde isso aparece",
+      cta: "Me diz o que ainda é manual.",
+    },
     gestao: {
       slug: "gestao",
       label: "Sistemas & Gestão",

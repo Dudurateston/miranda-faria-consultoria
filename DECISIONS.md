@@ -93,3 +93,13 @@ LinkedIn/CV confirmados, hospedagem definitiva da imagem da logo
 | Foto no Sobre | ADIADA — fallback tipográfico é decisão de design, não buraco |
 | x-default | /pt (público neutro do negócio é o Brasil) |
 | © rodapé | © 2026 (atualizado na Etapa 2; revisar anualmente) |
+
+## Rodada 16/09 (fim do dia) — Miranda Faria Copy
+
+- **REVERSÃO (16/09)**: preços e métricas MIT/R\$ fora do /servicos e do FAQ — escopo define preço, sem tabela. Métrica "18 sistemas em produção" no lugar.
+- **REVERSÃO (16/09)**: cases com domínio próprio voltam a ter LINK ao vivo (portão 8.4 de qualidade primeiro). Aprovados: MotorMoura, LCO, Sevalho, VAF. Uai Sô Travel reprovou no mobile (overflow 40px) → case com prints, sem link.
+- DJ Jotavê removido DE NOVO (reintroduzido indevidamente pelo checkout de commit antigo).
+- `role` (papel) em todos os 14 cases; projetos do escritório marcados "com Thales Machado Souza".
+- Filtro por setor e solução no /work, estado na URL (?setor=&solucao=), aria-pressed, empty state.
+- **HERO — A REDE VIVA (nova)**: sem vídeo, sem logo M, sem telemetria. Rede generativa: 4 nós-mãe (gestão/desenvolvimento/design/automação) + satélites (projetos), fios se desenham, pulsos de cobre correm como sinal. GSAP dirige a montagem (expo.out); anime.js revela o título letra a letra. Canvas 2D, IO pause, reduced-motion estático. Videos hero_loop*.mp4 removidos do pacote (-4,2MB).
+- animejs@3.2.2 adicionado como dependência.

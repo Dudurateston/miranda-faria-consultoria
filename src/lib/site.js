@@ -12,9 +12,6 @@ export const SELLERS_APP_URL = "https://vendas-uai-hub.base44.app";
 // Assets oficiais — logo principal transparente, hero em MP4 e mídias de seção.
 export const M_LOGO = "/art/m-logo-320.webp";
 export const M_LOGO_HERO = "/art/m-logo-hero.webp";
-export const HERO_LOOP_MP4 = "/art/hero_loop.mp4";
-export const HERO_LOOP_MOBILE_MP4 = "/art/hero_loop_mobile.mp4";
-export const HERO_LOOP_POSTER = "/art/hero_loop_poster.webp";
 // Servidos do bucket publico miranda-faria no Supabase: qualidade original
 // (fonte 4K) sem pesar no bundle do app. Hero continua local (LCP).
 export const REELS_URL = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_reels.mp4";
@@ -24,7 +21,7 @@ export const LOGO_ANIM_GIF = "/art/watermark_logo.webp";
 export const GEO_GIF = "/art/geo.mp4";
 export const CELESTE_GIF = "/art/celeste.mp4";
 export const WHATSAPP_DISPLAY = "(37) 99951-2146";
-export const EMAIL = "contato@mirandafaria.com.br";
+export const EMAIL = "edumirandamf@gmail.com";
 export const MARCA = "Miranda Faria";
 
 // CTA internacional: agendamento em vez de WhatsApp (DECISIONS.md).

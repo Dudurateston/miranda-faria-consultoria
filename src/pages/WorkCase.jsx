@@ -49,6 +49,7 @@ export default function WorkCase() {
               <div className="mf-case__meta">
                 <span className="mf-label">{item.sector}</span>
                 <span className="mf-label">{item.year}</span>
+                {item.role && <span className="mf-label mf-case__role">{item.role}</span>}
               </div>
             </Reveal>
             <Reveal delay={200}>
@@ -57,8 +58,9 @@ export default function WorkCase() {
           </div>
         </header>
 
-        {/* Capturas reais do sistema. Nunca link para o app do cliente
-            (DECISIONS.md) — so imagem e video. */}
+        {/* Capturas reais do sistema. Cases com dominio proprio
+            (DECISIONS.md, regra revertida 16/09) ganham link ao vivo —
+            aprovados no portao de qualidade 8.4. */}
         <div className="mf-case__inner mf-case__mediawrap">
           <Reveal delay={120}>
             <CaseMedia media={item.media} name={item.name} />
@@ -84,6 +86,18 @@ export default function WorkCase() {
                 </span>
               </li>
             </ul>
+            {item.link && (
+              <a
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                hrefLang="pt"
+                className="mf-case__live"
+                data-cursor="link"
+              >
+                ↗ {t.linkLabel}{lang === "en" ? " · in Portuguese" : ""}
+              </a>
+            )}
           </Reveal>
         </div>
 
@@ -138,6 +152,16 @@ export default function WorkCase() {
 }
 @media(min-width:860px){.mf-case__facts{grid-template-columns:repeat(4,1fr)}}
 .mf-case__facts li{display:flex;flex-direction:column;gap:0.35rem}
+.mf-case__role{color:var(--color-text-ghost)}
+.mf-case__live{
+  display:inline-flex;align-items:center;gap:0.4rem;margin-top:1.2rem;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-accent);text-decoration:none;
+  border-bottom:1px solid currentColor;padding-bottom:0.15rem;min-height:24px;
+  transition:opacity var(--duration-fast) var(--ease-in-out);
+}
+.mf-case__live:hover{opacity:0.72}
 .mf-case__factk{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
