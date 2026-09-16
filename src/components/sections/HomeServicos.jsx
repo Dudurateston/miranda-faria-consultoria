@@ -152,6 +152,8 @@ export default function HomeServicos() {
   .mf-metric{padding:1.3rem 0 0;border-left:none !important}
   .mf-metric + .mf-metric{border-left:none;border-top:1px solid var(--mf-rule)}
 }
+.mf-srow__go{display:inline-block;transition:transform 0.35s var(--ease-out-expo)}
+.mf-srow:hover .mf-srow__go{transform:translateX(6px)}
 `}</style>
     </section>
   );

@@ -641,15 +641,15 @@ export default function HeroStage() {
   margin-top:3.2rem;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--bone);background:var(--mf-copper,#B5502E);border:1px solid var(--mf-copper,#B5502E);
+  color:var(--bone);background:var(--mf-terracotta,#A6481F);border:1px solid var(--mf-terracotta,#A6481F);
   padding:1rem 2.4rem;text-decoration:none;
   transition:background var(--duration-fast) var(--ease-in-out),
              box-shadow var(--duration-base) var(--ease-in-out),
              transform var(--duration-base) var(--ease-out-expo);
 }
 .mf-hero__cta:hover{
-  background:rgba(179,122,96,0.18);
-  box-shadow:0 0 32px rgba(179,122,96,0.35);
+  background:#8F3E1F;border-color:#8F3E1F;
+  box-shadow:0 6px 24px rgba(166,72,31,0.28);
   transform:translateY(-2px);
 }
 .mf-hero__hint{

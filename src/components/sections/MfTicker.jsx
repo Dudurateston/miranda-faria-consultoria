@@ -39,6 +39,7 @@ const MfTicker = memo(function MfTicker({ lang = "pt" }) {
           color:var(--mf-copper,#B5502E);
         }
         @keyframes mf-ticker{to{transform:translateX(-50%)}}
+        .mf-ticker:hover .mf-ticker__track{animation-play-state:paused}
         @media (prefers-reduced-motion: reduce){.mf-ticker__track{animation:none}
           .mf-ticker__seq:nth-child(2){display:none}}
       `}</style>

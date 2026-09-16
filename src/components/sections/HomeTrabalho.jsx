@@ -121,6 +121,8 @@ export default function HomeTrabalho() {
   .mf-trow__go{grid-area:g;opacity:1;transform:none;margin-top:0.5rem}
   .mf-trow:hover{padding-left:0}
 }
+.mf-trow__go{display:inline-block;transition:transform 0.35s var(--ease-out-expo)}
+.mf-trow:hover .mf-trow__go{transform:translateX(6px)}
 `}</style>
     </section>
   );
