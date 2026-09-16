@@ -152,7 +152,7 @@ export default function HowIWork() {
 .mf-hiw__layer:first-child{border-top:1px solid var(--color-divider)}
 .mf-hiw__num{
   font-family:var(--font-mono);font-size:var(--text-label);
-  letter-spacing:var(--tracking-label);color:var(--color-text-ghost);
+  letter-spacing:var(--tracking-label);color:var(--color-text-secondary);
 }
 .mf-hiw__text{display:flex;flex-direction:column;gap:0.6rem}
 .mf-hiw__name{
@@ -223,7 +223,7 @@ export default function HowIWork() {
   display:flex;gap:1.25rem;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-ghost);
+  color:rgba(245,241,234,0.85);
   pointer-events:none;
 }
 

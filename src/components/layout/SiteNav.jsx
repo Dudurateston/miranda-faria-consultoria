@@ -467,7 +467,7 @@ export default function SiteNav({ revealAfterHero = false }) {
 .mf-nav__subitem:hover .mf-nav__subnum{color:var(--copper-text,#A6481F)}
 .mf-nav__subnum{
   font-family:var(--font-mono);font-size:10px;
-  color:var(--mf-stone,#8A8578);letter-spacing:var(--tracking-label);
+  color:rgba(26,26,24,0.66);letter-spacing:var(--tracking-label);
   transition:color 0.25s ease;
 }
 .mf-nav__subname{
