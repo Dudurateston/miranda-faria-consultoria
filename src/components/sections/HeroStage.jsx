@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
-import { WHATSAPP_URL, HERO_LOOP_MP4, HERO_LOOP_MOBILE_MP4, HERO_LOOP_POSTER, M_LOGO_HERO } from "@/lib/site";
+import { WHATSAPP_URL, CALENDLY_URL, HERO_LOOP_MP4, HERO_LOOP_MOBILE_MP4, HERO_LOOP_POSTER, M_LOGO_HERO } from "@/lib/site";
 
 /**
  * Hero imersiva: fundo 3D em loop (MP4, autoplay/muted/loop/playsinline)
@@ -75,8 +75,9 @@ export default function HeroStage() {
       <div ref={content} className="mf-hero__content" style={{ opacity: 0 }}>
         <h1 className="mf-hero__title">{t.wordmark}</h1>
         <p className="mf-hero__role">{t.role}</p>
+          <p className="mf-hero__lead">{t.thesis.lead}</p>
         <a
-          href={WHATSAPP_URL}
+          href={lang === "en" ? CALENDLY_URL : WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="mf-hero__cta"
@@ -133,6 +134,11 @@ export default function HeroStage() {
   font-size:clamp(2.8rem,9vw,6.5rem);line-height:1.04;
   letter-spacing:0.06em;text-transform:uppercase;
   color:var(--bone);margin:0;
+}
+.mf-hero__lead{
+  font-family:var(--font-body);font-weight:300;
+  font-size:clamp(1rem,1.5vw,1.3rem);line-height:1.5;
+  color:rgba(245,241,234,0.92);max-width:34ch;margin:1.1rem auto 0;
 }
 .mf-hero__role{
   font-family:var(--font-mono);

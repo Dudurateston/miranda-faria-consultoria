@@ -64,7 +64,7 @@ export const copy = {
       role: "Design Engineer & Creative Technologist",
       thesis: {
         label: "What I do",
-        lead: "I build the structure a business runs on.",
+        lead: "Sites, systems and automation for the business that outgrew the spreadsheet.",
         body: "Brand, product and data as one system — designed and shipped by one person, so nothing is lost in the handoff between a design team, a front-end team and a data team.",
       },
       pitch: {
@@ -95,7 +95,7 @@ export const copy = {
         lead: "Tell me where it's stuck.",
         cta: "Book a call",
       },
-      heroCta: "Get in touch",
+      heroCta: "Book a call",
       sobrePreview: { label: "About", cta: "Learn more" },
       techPreview: {
         label: "Technology",
@@ -433,7 +433,7 @@ export const copy = {
       role: "Consultoria & Tecnologia",
       thesis: {
         label: "O que eu faço",
-        lead: "Estruturo a base que sustenta o negócio.",
+        lead: "Sites, sistemas e automação para o negócio que não cabe mais na planilha.",
         body: "Catálogos, painéis e processos que funcionam sem depender de mim todo dia. A infraestrutura fica no seu nome — você opera, eu saio de cena.",
       },
       pitch: {
@@ -464,7 +464,7 @@ export const copy = {
         lead: "Me conta onde está travando.",
         cta: "Chamar no WhatsApp",
       },
-      heroCta: "Fale comigo",
+      heroCta: "Chamar no WhatsApp",
       sobrePreview: { label: "Sobre", cta: "Saiba mais" },
       techPreview: {
         label: "Tecnologia",

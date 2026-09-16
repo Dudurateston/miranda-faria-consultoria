@@ -80,7 +80,7 @@ LinkedIn/CV confirmados, hospedagem definitiva da imagem da logo
 
 | Item | Decisão |
 |---|---|
-| Identidade — corte | Nível 2 autorizado (Eduardo delegou o julgamento ao agente): dark-first em todo o site, cobre tratado como SINAL (cobre-light sobre grafite, 6,99:1), voz de título sai da didone, mono promovida a voz de conteúdo. Metáfora de estratos REPLANEJADA como camadas de sistema na Etapa 3/4, não descartada de vez |
+| Identidade — corte | Nível 2 REVISTO (16/09, veto do Eduardo): MUDANÇA DE COR NÃO — já tentado antes e ficou péssimo; paleta e rampa osso→escuro permanecem. Levers de identidade: TIPOGRAFIA (Space Grotesk substitui a didone nos títulos), motion (Etapa 4) e copy. Mono promovida a voz de conteúdo |
 | Cores | Paleta-base (grafite/osso/cobre) MANTIDA; muda o tratamento. Troca total de paleta só se o site ainda ler errado após a Etapa 4 |
 | Precificação | SAI do site (PT e EN). DECISIONS anterior de âncora R$ 1.000 revogada |
 | Automação | Vira solução de peso, MAS sem alegação sem prova: prova inicial = normalização por IA do MotorMoura (demonstrável). Cases de WhatsApp/Instagram só quando houver demonstração coletada |

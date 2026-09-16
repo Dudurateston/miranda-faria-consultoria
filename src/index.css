@@ -43,7 +43,7 @@
 
     --font-heading: 'Instrument Serif', Didot, Georgia, serif;
     --font-body: 'Inter', system-ui, sans-serif;
-    --font-display: 'Instrument Serif', Didot, Georgia, serif;
+    --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
 }
