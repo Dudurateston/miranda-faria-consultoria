@@ -1,297 +1,382 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import anime from "animejs";
+import * as THREE from "three";
 import { useLang } from "@/lib/i18n";
-import { copy } from "@/content/copy";
-import { WHATSAPP_URL, CALENDLY_URL } from "@/lib/site";
+import { copy, cases, practices, PRACTICE_SLUGS } from "@/content/copy";
+import { WHATSAPP_URL, CALENDLY_URL, M_LOGO } from "@/lib/site";
 
 /**
- * Hero — A REDE VIVA.
+ * Hero — A REDE VIVA 3D.
  *
- * Nada de logo, nada de filme, nada de telemetria: uma rede generativa
- * que É o trabalho. Quatro nós-mãe (gestão, desenvolvimento, design,
- * automação) cercados por satélites (os projetos); as linhas se desenham,
- * e pulsos de cobre correm pelos fios como sinal vivo — dado fluindo
- * entre sistema, planilha e mensagem. O ponteiro afrouxa a rede.
+ * A rede da marca em três dimensões: quatro nós-mãe (as quatro soluções)
+ * e satélites (os cases). Gira sozinha, gira com o dedo, e cada nó é
+ * porto: clicar leva direto ao material (solução ou case). Fios se
+ * desenham na entrada, pulsos de cobre correm como sinal.
  *
- * Regras do sistema (DECISIONS.md): GSAP conduz a montagem; anime.js
- * revela o texto; pausa fora da viewport e em aba oculta;
- * prefers-reduced-motion vira rede estática; DPR ≤ 2.
+ * Regras do sistema (DECISIONS.md): GSAP conduz entrada; anime.js o
+ * texto; pausa fora da viewport e em aba oculta; prefers-reduced-motion
+ * congela a rede (ainda navegável); DPR ≤ 1.75; sem WebGL cai na versão 2D.
  */
 
-// layout em espaço unitário (0..1) — o centro fica livre pro título
-const HUBS = [
-  { x: 0.16, y: 0.28, s: 3.0 }, // gestão
-  { x: 0.84, y: 0.30, s: 3.0 }, // desenvolvimento
-  { x: 0.26, y: 0.76, s: 3.0 }, // design
-  { x: 0.78, y: 0.78, s: 3.0 }, // automação
+// hubs: as 4 soluções em torno do centro (livre pro título)
+const HUB_POS = [
+  [-1.35, 0.72, 0.25], [1.35, 0.66, -0.2], [-1.15, -0.78, -0.3], [1.18, -0.84, 0.35],
 ];
-const HUB_EDGES = [
-  [0, 1], [0, 2], [1, 3], [2, 3], [0, 3], [1, 2],
+// satélites: cases reais que ganham nó clicável
+const SAT_SLUGS = [
+  "rota-forte", "1000-pecas", "motormoura", "queijos-serra",
+  "advogados-lco", "sevalho-controladoria", "vaf-global", "uaiso-travel",
 ];
+// posições determinísticas dos satélites (espalhadas na concha)
+const SAT_POS = [
+  [-0.55, 1.15, 0.4], [0.62, 1.22, -0.35], [0.05, 1.32, 0.15], [-0.2, -1.28, 0.3],
+  [0.5, -1.2, -0.4], [-1.62, 0.05, -0.45], [1.68, 0.0, 0.5], [-0.95, 1.05, -0.6],
+];
+const HUB_EDGES = [[0, 1], [0, 2], [1, 3], [2, 3], [0, 3], [1, 2]];
 
-function LiveNetwork() {
-  const ref = useRef(null);
+function Network3D({ lang, path }) {
+  const mount = useRef(null);
+  const [label, setLabel] = useState(null); // { name, x, y }
 
   useEffect(() => {
-    const canvas = ref.current;
-    const section = canvas.closest(".mf-hero");
-    const ctx = canvas.getContext("2d", { alpha: true });
+    const el = mount.current;
+    const section = el.closest(".mf-hero");
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let nodes = [];
-    let edges = [];
-    let pulses = [];
+    const isMobile = section.clientWidth < 860;
+
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isMobile, powerPreference: "low-power" });
+    } catch (e) {
+      el.dataset.fallback = "1";
+      return;
+    }
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+    renderer.setPixelRatio(dpr);
+    renderer.setSize(section.clientWidth, section.clientHeight);
+    el.appendChild(renderer.domElement);
+    renderer.domElement.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none";
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(46, section.clientWidth / section.clientHeight, 0.1, 50);
+    camera.position.set(0, 0, mq.matches ? 3.3 : 6.2);
+
+    const group = new THREE.Group();
+    group.rotation.set(0.12, -0.25, 0);
+    scene.add(group);
+
+    const boneMat = new THREE.MeshBasicMaterial({ color: 0xf5f1ea, transparent: true, opacity: 0.92 });
+    const satMat = new THREE.MeshBasicMaterial({ color: 0xf5f1ea, transparent: true, opacity: 0.55 });
+    const copMat = new THREE.MeshBasicMaterial({ color: 0xb5502e, transparent: true, opacity: 0.95 });
+
+    const practiceLabels = {};
+    PRACTICE_SLUGS.forEach((s, i) => {
+      practiceLabels[i] = practices[lang]?.[s]?.label || s;
+    });
+    const caseByName = {};
+    cases[lang].forEach((c) => { caseByName[c.slug] = c; });
+
+    // ── nós: hubs (soluções) + satélites (cases), todos navegáveis
+    const nodes = [];
+    const hubMeshes = [];
+    const addNode = (pos, r, mat, data) => {
+      const m = new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), mat);
+      m.position.set(...pos);
+      m.userData = data;
+      m.scale.setScalar(0.001);
+      group.add(m);
+      nodes.push(m);
+      return m;
+    };
+    HUB_POS.forEach((p, i) => {
+      hubMeshes.push(addNode(p, 0.085, i % 2 ? copMat : boneMat, {
+        name: practiceLabels[i],
+        to: path(PRACTICE_SLUGS[i]),
+        hub: true,
+        ph: i * 1.7,
+        home: new THREE.Vector3(...p),
+      }));
+    });
+    SAT_POS.slice(0, isMobile ? 5 : 8).forEach((p, i) => {
+      const slug = SAT_SLUGS[i];
+      const c = caseByName[slug];
+      addNode(p, 0.042, satMat, {
+        name: c ? c.name : slug,
+        to: path(`work/${slug}`),
+        hub: false,
+        ph: i * 2.3,
+        home: new THREE.Vector3(...p),
+      });
+    });
+
+    // ── fios: satélite → hub mais próximo + hubs entre si
+    const pairs = [];
+    nodes.slice(4).forEach((sat) => {
+      let best = 0, bd = Infinity;
+      hubMeshes.forEach((hb, j) => {
+        const d = sat.userData.home.distanceTo(hb.userData.home);
+        if (d < bd) { bd = d; best = j; }
+      });
+      pairs.push([hubMeshes[best], sat]);
+    });
+    HUB_EDGES.forEach(([a, b]) => pairs.push([hubMeshes[a], hubMeshes[b]]));
+    const edgeGeo = new THREE.BufferGeometry();
+    const edgePos = new Float32Array(pairs.length * 6);
+    edgeGeo.setAttribute("position", new THREE.BufferAttribute(edgePos, 3));
+    const edges = new THREE.LineSegments(edgeGeo, new THREE.LineBasicMaterial({
+      color: 0xf5f1ea, transparent: true, opacity: 0.14,
+    }));
+    edges.scale.set(0.001, 0.001, 0.001);
+    group.add(edges);
+
+    // ── pulsos de cobre correndo pelos fios
+    const pulseN = isMobile ? 6 : 11;
+    const pulses = [];
+    for (let i = 0; i < pulseN; i++) {
+      const m = new THREE.Mesh(new THREE.SphereGeometry(0.022, 8, 6), copMat);
+      m.scale.setScalar(0.001);
+      group.add(m);
+      pulses.push({ mesh: m, pair: pairs[Math.floor(Math.random() * pairs.length)], t: Math.random() });
+    }
+
+    // ── interação: giro com inércia, hover e clique por raycast
+    const ray = new THREE.Raycaster();
+    const ndc = new THREE.Vector2();
+    const vel = { x: 0, y: 0 };
+    const drag = { on: false, moved: 0, lx: 0, ly: 0 };
+    let hovered = null;
     let raf = 0;
     let running = false;
     let visible = true;
-    const pointer = { x: -9999, y: -9999 };
-    // uniforme de montagem: GSap conduz 0→1 com expo.out
-    const prog = { p: 0 };
+    let started = 0;
 
-    const rnd = (seed) => {
-      // ruído determinístico pra rede idêntica entre reloads
-      const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
-      return x - Math.floor(x);
+    const setNdc = (e) => {
+      const b = renderer.domElement.getBoundingClientRect();
+      ndc.x = ((e.clientX - b.left) / b.width) * 2 - 1;
+      ndc.y = -((e.clientY - b.top) / b.height) * 2 + 1;
     };
 
-    const build = (w, h) => {
-      nodes = [];
-      edges = [];
-      pulses = [];
-      const satN = w < 860 ? 12 : 24;
-      const cx = 0.5, cy = 0.5;
-
-      HUBS.forEach((hb, i) => {
-        nodes.push({
-          hx: hb.x * w, hy: hb.y * h,
-          x: hb.x * w, y: hb.y * h,
-          r: hb.s * (w < 860 ? 0.8 : 1),
-          hub: true,
-          ph: rnd(i + 1) * Math.PI * 2,
-          dn: rnd(i + 40),
-        });
-      });
-      // satélites: espalhados, fora da faixa central do título
-      let seed = 100;
-      for (let i = 0; i < satN; i++) {
-        let sx, sy;
-        do {
-          seed += 1;
-          sx = rnd(seed) * 0.94 + 0.03;
-          sy = rnd(seed * 1.7) * 0.88 + 0.06;
-        } while (Math.abs(sx - cx) < 0.14 && Math.abs(sy - cy) < 0.18);
-        nodes.push({
-          hx: sx * w, hy: sy * h,
-          x: sx * w, y: sy * h,
-          r: 0.9 + rnd(seed * 3.3) * 1.1,
-          hub: false,
-          ph: rnd(seed * 5.1) * Math.PI * 2,
-          dn: rnd(seed * 7.7),
-        });
-      }
-      // cada satélite liga ao nó-mãe mais próximo
-      for (let i = HUBS.length; i < nodes.length; i++) {
-        let best = 0;
-        let bd = Infinity;
-        for (let j = 0; j < HUBS.length; j++) {
-          const d = (nodes[i].hx - nodes[j].hx) ** 2 + (nodes[i].hy - nodes[j].hy) ** 2;
-          if (d < bd) { bd = d; best = j; }
-        }
-        edges.push({ a: best, b: i });
-      }
-      HUB_EDGES.forEach(([a, b]) => edges.push({ a, b }));
-      // pulsos de cobre: sinal correndo pelos fios
-      const pulseN = w < 860 ? 7 : 13;
-      for (let i = 0; i < pulseN; i++) {
-        edges.forEach((_, k) => {
-          if (rnd(i * 31 + k * 7) < 0.42) {
-            pulses.push({ e: k, t: rnd(i * 13 + k), v: 0.0018 + rnd(i + k * 11) * 0.0022 });
-          }
-        });
-      }
-      if (mq.matches) {
-        prog.p = 1;
-        drawStatic();
-      } else {
-        gsap.to(prog, { p: 1, duration: 2.6, ease: "expo.out", delay: 0.25 });
-        start();
-      }
+    const onDown = (e) => {
+      drag.on = true; drag.moved = 0; drag.lx = e.clientX; drag.ly = e.clientY;
     };
-
-    const setup = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = section.clientWidth;
-      const h = section.clientHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      return { w, h };
+    const onMove = (e) => {
+      if (drag.on) {
+        const dx = e.clientX - drag.lx;
+        const dy = e.clientY - drag.ly;
+        drag.moved += Math.abs(dx) + Math.abs(dy);
+        vel.y += dx * 0.00042;
+        vel.x += dy * 0.00028;
+        drag.lx = e.clientX; drag.ly = e.clientY;
+        if (drag.moved > 6) renderer.domElement.style.cursor = "grabbing";
+      }
+      setNdc(e);
+      ray.setFromCamera(ndc, camera);
+      const hit = ray.intersectObjects(nodes, false)[0];
+      const target = hit ? hit.object : null;
+      if (target !== hovered) {
+        if (hovered) gsap.to(hovered.scale, { x: 1, y: 1, z: 1, duration: 0.4, ease: "power2.out", overwrite: true });
+        hovered = target;
+        if (hovered) gsap.to(hovered.scale, { x: 1.7, y: 1.7, z: 1.7, duration: 0.4, ease: "power2.out", overwrite: true });
+        renderer.domElement.style.cursor = hovered && !drag.on ? "pointer" : "grab";
+      }
+      if (hovered) {
+        const b = section.getBoundingClientRect();
+        setLabel({ name: hovered.userData.name, x: e.clientX - b.left + 14, y: e.clientY - b.top - 10 });
+      } else setLabel(null);
     };
-
-    const drawStatic = () => {
-      ctx.clearRect(0, 0, section.clientWidth, section.clientHeight);
-      edges.forEach((ed) => {
-        const a = nodes[ed.a], b = nodes[ed.b];
-        ctx.strokeStyle = "rgba(245,241,234,0.10)";
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.stroke();
-      });
-      nodes.forEach((n) => {
-        ctx.fillStyle = n.hub
-          ? "rgba(245,241,234,0.85)"
-          : `rgba(245,241,234,${0.3 + n.r * 0.12})`;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
+    const onUp = (e) => {
+      renderer.domElement.style.cursor = "grab";
+      if (drag.on && drag.moved < 6) {
+        setNdc(e);
+        ray.setFromCamera(ndc, camera);
+        const hit = ray.intersectObjects(nodes, false)[0];
+        if (hit) window.location.assign(hit.object.userData.to);
+      }
+      drag.on = false;
     };
+    const onLeave = () => {
+      drag.on = false;
+      setLabel(null);
+      if (hovered) { gsap.to(hovered.scale, { x: 1, y: 1, z: 1, duration: 0.4, overwrite: true }); hovered = null; }
+      renderer.domElement.style.cursor = "grab";
+    };
+    renderer.domElement.style.cursor = "grab";
+    renderer.domElement.addEventListener("pointerdown", onDown);
+    renderer.domElement.addEventListener("pointermove", onMove);
+    renderer.domElement.addEventListener("pointerup", onUp);
+    renderer.domElement.addEventListener("pointerleave", onLeave);
 
     const tick = (tm) => {
       if (!running) return;
-      const w = section.clientWidth;
-      const h = section.clientHeight;
-      ctx.clearRect(0, 0, w, h);
-
-      for (const n of nodes) {
-        const dx = Math.sin(tm / 1600 + n.ph) * 5;
-        const dy = Math.cos(tm / 1900 + n.ph) * 5;
-        let tx = n.hx + dx;
-        let ty = n.hy + dy;
-        const pdx = tx - pointer.x;
-        const pdy = ty - pointer.y;
-        const d2 = pdx * pdx + pdy * pdy;
-        if (d2 < 19600) {
-          const d = Math.sqrt(d2) || 1;
-          const f = (140 - d) / 140;
-          tx += (pdx / d) * f * 34;
-          ty += (pdy / d) * f * 34;
-        }
-        if (prog.p < 1) {
-          const lp = Math.min(Math.max((prog.p * 1.35 - n.dn * 0.35) / 1, 0), 1);
-          n.x = n.hx + (tx - n.hx) * lp;
-          n.y = n.hy + (ty - n.hy) * lp;
-        } else {
-          n.x += (tx - n.x) * 0.085;
-          n.y += (ty - n.y) * 0.085;
-        }
+      if (!mq.matches) {
+        // giro automático suave + inércia do arrasto
+        group.rotation.y += 0.0016 + vel.y;
+        group.rotation.x += vel.x;
+        group.rotation.x = Math.max(-0.5, Math.min(0.65, group.rotation.x));
+        vel.x *= 0.94; vel.y *= 0.94;
+        // respiração dos nós e fios
+        nodes.forEach((n) => {
+          n.position.x = n.userData.home.x + Math.sin(tm / 2600 + n.userData.ph) * 0.045;
+          n.position.y = n.userData.home.y + Math.cos(tm / 3100 + n.userData.ph) * 0.045;
+        });
+        pairs.forEach((pr, i) => {
+          edgePos[i * 6] = pr[0].position.x; edgePos[i * 6 + 1] = pr[0].position.y; edgePos[i * 6 + 2] = pr[0].position.z;
+          edgePos[i * 6 + 3] = pr[1].position.x; edgePos[i * 6 + 4] = pr[1].position.y; edgePos[i * 6 + 5] = pr[1].position.z;
+        });
+        edgeGeo.attributes.position.needsUpdate = true;
+        // pulsos correndo
+        pulses.forEach((pl) => {
+          pl.t += 0.006;
+          if (pl.t > 1) { pl.t = 0; pl.pair = pairs[Math.floor(Math.random() * pairs.length)]; }
+          const a = pl.pair[0].position, b = pl.pair[1].position;
+          pl.mesh.position.set(a.x + (b.x - a.x) * pl.t, a.y + (b.y - a.y) * pl.t, a.z + (b.z - a.z) * pl.t);
+        });
       }
+      renderer.render(scene, camera);
+      raf = requestAnimationFrame(tick);
+    };
+    const start = () => { if (running || mq.matches) return; running = true; raf = requestAnimationFrame(tick); };
+    const stop = () => { running = false; cancelAnimationFrame(raf); };
 
-      // fios: desenham-se conforme a montagem
-      ctx.lineWidth = 1;
-      edges.forEach((ed, k) => {
-        const a = nodes[ed.a], b = nodes[ed.b];
-        const lp = Math.min(Math.max((prog.p * 1.35 - (k % 7) / 20) / 1, 0), 1);
-        if (lp <= 0) return;
-        ctx.strokeStyle = "rgba(245,241,234,0.10)";
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(a.x + (b.x - a.x) * lp, a.y + (b.y - a.y) * lp);
-        ctx.stroke();
-      });
-
-      // pulsos de cobre: o sinal correndo
-      const glow = Math.min(Math.max(prog.p * 1.6 - 0.6, 0), 1);
-      pulses.forEach((pl) => {
-        pl.t += pl.v;
-        if (pl.t > 1) pl.t = 0;
-        const a = nodes[edges[pl.e].a], b = nodes[edges[pl.e].b];
-        const px = a.x + (b.x - a.x) * pl.t;
-        const py = a.y + (b.y - a.y) * pl.t;
-        ctx.fillStyle = `rgba(181,80,46,${0.9 * glow})`;
-        ctx.beginPath();
-        ctx.arc(px, py, 1.7, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = `rgba(181,80,46,${0.28 * glow})`;
-        ctx.beginPath();
-        ctx.arc(
-          px - (b.x - a.x) * 0.02,
-          py - (b.y - a.y) * 0.02,
-          1.1, 0, Math.PI * 2
-        );
-        ctx.fill();
-      });
-
-      // nós por cima dos fios
+    // ── entrada: câmera viaja, nós nascem, fios se desenham (GSAP)
+    if (mq.matches) {
+      camera.position.z = 3.3;
+      nodes.forEach((n) => n.scale.setScalar(1));
+      edges.scale.setScalar(1);
+      pulses.forEach((p) => p.mesh.scale.setScalar(1));
       nodes.forEach((n) => {
-        const lp = prog.p >= 1 ? 1 : Math.min(Math.max((prog.p * 1.35 - n.dn * 0.35) / 1, 0), 1);
-        if (lp <= 0) return;
-        if (n.hub) {
-          ctx.strokeStyle = `rgba(245,241,234,${0.35 * lp})`;
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, n.r + 3.5, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-        ctx.fillStyle = n.hub
-          ? `rgba(245,241,234,${0.9 * lp})`
-          : `rgba(245,241,234,${(0.3 + n.r * 0.12) * lp})`;
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r * lp, 0, Math.PI * 2);
-        ctx.fill();
+        n.position.x = n.userData.home.x; n.position.y = n.userData.home.y;
       });
-
-      raf = requestAnimationFrame(tick);
-    };
-
-    const start = () => {
-      if (running || mq.matches) return;
-      running = true;
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(tick);
-    };
-    const stop = () => {
-      running = false;
-      cancelAnimationFrame(raf);
-    };
-
-    const { w, h } = setup();
-    build(w, h);
+      pairs.forEach((pr, i) => {
+        edgePos[i * 6] = pr[0].position.x; edgePos[i * 6 + 1] = pr[0].position.y; edgePos[i * 6 + 2] = pr[0].position.z;
+        edgePos[i * 6 + 3] = pr[1].position.x; edgePos[i * 6 + 4] = pr[1].position.y; edgePos[i * 6 + 5] = pr[1].position.z;
+      });
+      edgeGeo.attributes.position.needsUpdate = true;
+      renderer.render(scene, camera);
+    } else {
+      gsap.to(camera.position, { z: 3.3, duration: 2.4, ease: "expo.out", delay: 0.75 });
+      nodes.forEach((n, i) => {
+        gsap.to(n.scale, { x: 1, y: 1, z: 1, duration: 1.2, ease: "expo.out", delay: 0.85 + (i % 5) * 0.12 });
+      });
+      gsap.to(edges.scale, { x: 1, y: 1, z: 1, duration: 1.6, ease: "expo.out", delay: 1.3 });
+      gsap.to(edges.material, { opacity: 0.14, duration: 1.8, delay: 1.3 });
+      pulses.forEach((p, i) => {
+        gsap.to(p.mesh.scale, { x: 1, y: 1, z: 1, duration: 0.5, ease: "power2.out", delay: 2.0 + i * 0.14 });
+      });
+      start();
+    }
 
     const io = new IntersectionObserver(
-      ([e]) => {
-        visible = e.isIntersecting;
-        if (visible && document.visibilityState === "visible") start();
-        else stop();
-      },
+      ([e]) => { visible = e.isIntersecting; if (visible && document.visibilityState === "visible") start(); else stop(); },
       { threshold: 0.02 }
     );
     io.observe(section);
-
     const onVis = () => (document.visibilityState === "visible" && visible ? start() : stop());
     document.addEventListener("visibilitychange", onVis);
 
-    const onMove = (e) => {
-      const b = canvas.getBoundingClientRect();
-      pointer.x = e.clientX - b.left;
-      pointer.y = e.clientY - b.top;
-    };
-    const onLeave = () => { pointer.x = -9999; pointer.y = -9999; };
-    section.addEventListener("mousemove", onMove, { passive: true });
-    section.addEventListener("mouseleave", onLeave, { passive: true });
-
     const onResize = () => {
-      const s = setup();
-      prog.p = 1; // ao redimensionar, rede já montada
-      build(s.w, s.h);
+      const w = section.clientWidth, h = section.clientHeight;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
     };
     window.addEventListener("resize", onResize);
 
     return () => {
-      stop();
-      io.disconnect();
+      stop(); io.disconnect();
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("resize", onResize);
-      section.removeEventListener("mousemove", onMove);
-      section.removeEventListener("mouseleave", onLeave);
+      renderer.domElement.removeEventListener("pointerdown", onDown);
+      renderer.domElement.removeEventListener("pointermove", onMove);
+      renderer.domElement.removeEventListener("pointerup", onUp);
+      renderer.domElement.removeEventListener("pointerleave", onLeave);
+      renderer.dispose();
+      if (renderer.domElement.parentNode === el) el.removeChild(renderer.domElement);
     };
+  }, [lang, path]);
+
+  return (
+    <div ref={mount} className="mf-hero__net3d">
+      {label && (
+        <span
+          className="mf-hero__tip"
+          style={{ left: label.x, top: label.y }}
+          aria-hidden="true"
+        >
+          {label.name}
+        </span>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Portão de entrada — a animação que independe do usuário (referência
+ * spenceltd): cortina grafite, M nasce, wordmark letra a letra, linha de
+ * cobre desenha e a cortina sobe entregando a hero 3D em pleno movimento.
+ * Uma vez por sessão (sessionStorage); reduced-motion pula direto.
+ */
+export function IntroGate() {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches || sessionStorage.getItem("mf-intro") === "1") {
+      el.remove();
+      return;
+    }
+    sessionStorage.setItem("mf-intro", "1");
+    const wordmark = el.querySelector(".mf-intro__word").textContent;
+    el.querySelector(".mf-intro__word").innerHTML = wordmark
+      .split("")
+      .map((ch) => `<span class="mf-intro__ltr">${ch === " " ? "&nbsp;" : ch}</span>`)
+      .join("");
+    const tl = gsap.timeline({ onComplete: () => el.remove() });
+    tl.fromTo(el.querySelector(".mf-intro__m"), { opacity: 0, scale: 0.75 },
+        { opacity: 0.92, scale: 1, duration: 0.5, ease: "expo.out" }, 0)
+      .fromTo(el.querySelectorAll(".mf-intro__ltr"), { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "expo.out", stagger: 0.035 }, 0.12)
+      .fromTo(el.querySelector(".mf-intro__line"), { scaleX: 0 },
+        { scaleX: 1, duration: 0.55, ease: "expo.inOut" }, 0.4)
+      .to(el, { yPercent: -100, duration: 0.75, ease: "expo.inOut", delay: 0.2 }, ">");
+    document.documentElement.style.overflow = "hidden";
+    const free = setTimeout(() => { document.documentElement.style.overflow = ""; }, 1300);
+    return () => clearTimeout(free);
   }, []);
 
-  return <canvas ref={ref} className="mf-hero__net" aria-hidden="true" />;
+  return (
+    <div ref={ref} className="mf-intro" aria-hidden="true">
+      <img className="mf-intro__m" src={M_LOGO} alt="" />
+      <span className="mf-intro__word">MIRANDA FARIA</span>
+      <span className="mf-intro__line" />
+      <style>{`
+.mf-intro{
+  position:fixed;inset:0;z-index:200;
+  background:var(--mf-graphite);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1.4rem;
+}
+.mf-intro__m{width:clamp(34px,5vw,54px);opacity:0.92}
+.mf-intro__word{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(1.1rem,2.6vw,1.7rem);letter-spacing:0.34em;
+  text-transform:uppercase;color:var(--bone);white-space:nowrap;
+}
+.mf-intro__ltr{display:inline-block}
+.mf-intro__line{
+  width:clamp(120px,18vw,220px);height:1px;
+  background:var(--copper, #B5502E);transform-origin:left center;
+}
+`}</style>
+    </div>
+  );
 }
 
 export default function HeroStage() {
-  const { lang } = useLang();
+  const { lang, path } = useLang();
   const t = copy[lang].home;
   const content = useRef(null);
 
@@ -308,15 +393,16 @@ export default function HeroStage() {
       { opacity: 0, y: 28 },
       { opacity: 1, y: 0, duration: 1.1, ease: "expo.out", delay: 0.25 }
     );
-    // estados iniciais + timeline anime.js: letras, papel e CTA
+    gsap.set(".mf-hero__mark", { opacity: 0, scale: 0.82 });
     gsap.set(".mf-hero__ltr", { opacity: 0, y: 46 });
     gsap.set(".mf-hero__role", { opacity: 0 });
     gsap.set(".mf-hero__cta", { opacity: 0, y: 18 });
     const tl = anime.timeline({ easing: "easeOutExpo" });
-    tl.add(
-      { targets: ".mf-hero__title .mf-hero__ltr", translateY: [46, 0], opacity: [0, 1], duration: 900, delay: anime.stagger(34) },
-      250
-    )
+    tl.add({ targets: ".mf-hero__mark", opacity: [0, 0.92], scale: [0.82, 1], duration: 800 }, 650)
+      .add(
+        { targets: ".mf-hero__title .mf-hero__ltr", translateY: [46, 0], opacity: [0, 1], duration: 900, delay: anime.stagger(34) },
+        "-=320"
+      )
       .add({ targets: ".mf-hero__role", opacity: [0, 0.75], letterSpacing: ["0.62em", "0.4em"], duration: 800 }, "-=520")
       .add({ targets: ".mf-hero__cta", opacity: [0, 1], translateY: [18, 0], duration: 700 }, "-=460");
     return () => { tl.pause(); };
@@ -324,10 +410,11 @@ export default function HeroStage() {
 
   return (
     <section className="mf-hero" data-theme="dark" aria-label={t.wordmark}>
-      <LiveNetwork />
+      <Network3D lang={lang} path={path} />
       <div className="mf-hero__scrim" aria-hidden="true" />
 
       <div ref={content} className="mf-hero__content" style={{ opacity: 0 }}>
+        <img className="mf-hero__mark" src={M_LOGO} alt="" aria-hidden="true" />
         <h1 className="mf-hero__title" aria-label={t.wordmark}>
           {t.wordmark.split("").map((ch, i) => (
             <span key={i} className="mf-hero__ltr" aria-hidden="true">
@@ -345,6 +432,7 @@ export default function HeroStage() {
         >
           {t.heroCta}
         </a>
+        <span className="mf-hero__hint">{t.netHint}</span>
       </div>
 
       <style>{`
@@ -353,15 +441,29 @@ export default function HeroStage() {
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;background:var(--mf-graphite);
 }
-.mf-hero__net{position:absolute;inset:0;width:100%;height:100%;display:block}
+.mf-hero__net3d{position:absolute;inset:0}
+.mf-hero__tip{
+  position:absolute;z-index:3;pointer-events:none;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--bone);background:rgba(12,12,12,0.72);
+  border:1px solid rgba(245,241,234,0.16);
+  padding:0.35rem 0.7rem;white-space:nowrap;
+}
 .mf-hero__scrim{
-  position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(20,20,20,0.38) 0%,rgba(20,20,20,0.24) 45%,rgba(20,20,20,0.62) 100%);
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(20,20,20,0.38) 0%,rgba(20,20,20,0.20) 45%,rgba(20,20,20,0.58) 100%);
 }
 .mf-hero__content{
   position:relative;z-index:2;
   display:flex;flex-direction:column;align-items:center;text-align:center;
   padding:0 var(--gutter);
+}
+.mf-hero__mark{
+  width:clamp(26px,3.6vw,40px);height:auto;
+  margin:0 auto 1.6rem;display:block;
+  mix-blend-mode:normal;filter:drop-shadow(0 0 12px rgba(245,241,234,0.18));
+  will-change:transform,opacity;
 }
 .mf-hero__title{
   font-family:var(--font-display);font-weight:400;
@@ -391,6 +493,15 @@ export default function HeroStage() {
   box-shadow:0 0 32px rgba(179,122,96,0.35);
   transform:translateY(-2px);
 }
+.mf-hero__hint{
+  position:absolute;bottom:calc(var(--gutter) * 0.7 + 1rem);
+  left:50%;transform:translateX(-50%);
+  font-family:var(--font-mono);font-size:10px;
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:rgba(245,241,234,0.34);white-space:nowrap;
+  pointer-events:none;
+}
+@media (max-width:860px){.mf-hero__hint{display:none}}
 `}</style>
     </section>
   );

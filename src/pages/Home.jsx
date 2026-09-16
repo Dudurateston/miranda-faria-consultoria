@@ -1,5 +1,5 @@
 import React from "react";
-import HeroStage from "@/components/sections/HeroStage";
+import HeroStage, { IntroGate } from "@/components/sections/HeroStage";
 import HomeSobre from "@/components/sections/HomeSobre";
 import HomeServicos from "@/components/sections/HomeServicos";
 import HomeTecnologia from "@/components/sections/HomeTecnologia";
@@ -18,6 +18,7 @@ export default function Home() {
 
   return (
     <div className="mf-home" data-theme="dark">
+      <IntroGate />
       <HeroStage />
       <HomeSobre />
       <HomeServicos />
