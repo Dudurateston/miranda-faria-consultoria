@@ -25,13 +25,15 @@ const HUB_POS = [
 ];
 // satélites: cases reais que ganham nó clicável
 const SAT_SLUGS = [
-  "rota-forte", "1000-pecas", "motormoura", "queijos-serra",
-  "advogados-lco", "sevalho-controladoria", "vaf-global", "uaiso-travel",
+  "rota-forte", "1000-pecas", "motormoura", "uaiso-travel",
+  "advogados-lco", "sevalho-controladoria", "vaf-global", "roda-agro",
+  "queijos-serra", "miranda-faria", "motormoura-marca", "paulo-henrique",
 ];
 // posições determinísticas dos satélites (espalhadas na concha)
 const SAT_POS = [
-  [-0.55, 1.15, 0.4], [0.62, 1.22, -0.35], [0.05, 1.32, 0.15], [-0.2, -1.28, 0.3],
-  [0.5, -1.2, -0.4], [-1.62, 0.05, -0.45], [1.68, 0.0, 0.5], [-0.95, 1.05, -0.6],
+  [-0.55, 1.18, 0.4], [0.62, 1.24, -0.35], [0.05, 1.46, 0.1], [-0.2, -1.46, 0.25],
+  [0.5, -1.32, -0.35], [-1.82, 0.08, -0.3], [1.86, 0.02, 0.35], [-1.02, 1.18, -0.55],
+  [1.08, -1.12, -0.5], [-1.58, 1.02, 0.5], [1.62, 1.08, -0.45], [0.0, -1.62, -0.45],
 ];
 const HUB_EDGES = [[0, 1], [0, 2], [1, 3], [2, 3], [0, 3], [1, 2]];
 
@@ -121,7 +123,7 @@ function Network3D({ lang, path }) {
     };
     HUB_POS.forEach((p, i) => {
       const hubMat = i % 2 ? copMat : boneMat;
-      hubMeshes.push(addNode(p, 0.085, hubMat, {
+      hubMeshes.push(addNode(p, 0.115, hubMat, {
         name: practiceLabels[i],
         to: path(PRACTICE_SLUGS[i]),
         hub: true,
@@ -137,10 +139,10 @@ function Network3D({ lang, path }) {
         hubMeshes[i].add(sp);
       }
     });
-    SAT_POS.slice(0, isMobile ? 5 : 8).forEach((p, i) => {
+    SAT_POS.slice(0, isMobile ? 7 : 12).forEach((p, i) => {
       const slug = SAT_SLUGS[i];
       const c = caseByName[slug];
-      addNode(p, 0.042, satMat, {
+      addNode(p, 0.035, satMat, {
         name: c ? c.name : slug,
         to: path(`work/${slug}`),
         hub: false,
@@ -188,6 +190,22 @@ function Network3D({ lang, path }) {
       attr.needsUpdate = true;
     };
     pairs.forEach((_, i) => updateEdge(i));
+
+    // ── octaedros discretos: geometria ambiente, wireframe, fora do raycast
+    const SHARDS = [
+      [0.95, 0.95, 0.65], [-1.15, -0.55, 0.8], [0.35, -1.62, 0.6],
+      [1.45, -0.95, -0.65], [-1.68, 0.65, -0.55],
+    ];
+    const shards = SHARDS.map(([x, y, z], i) => {
+      const m = new THREE.Mesh(
+        new THREE.OctahedronGeometry(0.055 + (i % 2) * 0.02),
+        new THREE.MeshBasicMaterial({ color: i % 2 ? 0xb5502e : 0xf5f1ea, wireframe: true, transparent: true, opacity: 0.2 })
+      );
+      m.position.set(x, y, z);
+      m.scale.setScalar(0.001);
+      group.add(m);
+      return m;
+    });
 
     // ── pulsos de cobre correndo pelos fios
     const pulseN = isMobile ? 6 : 11;
@@ -245,7 +263,10 @@ function Network3D({ lang, path }) {
       if (target !== hovered) {
         if (hovered) gsap.to(hovered.scale, { x: 1, y: 1, z: 1, duration: 0.4, ease: "power2.out", overwrite: true });
         hovered = target;
-        if (hovered) gsap.to(hovered.scale, { x: 1.7, y: 1.7, z: 1.7, duration: 0.4, ease: "power2.out", overwrite: true });
+        if (hovered) {
+          const hs = hovered.userData.hub ? 1.5 : 2.1;
+          gsap.to(hovered.scale, { x: hs, y: hs, z: hs, duration: 0.4, ease: "power2.out", overwrite: true });
+        }
         renderer.domElement.style.cursor = hovered && !drag.on ? "pointer" : "grab";
         // modo foco: do que este ponto é feito?
         pairs.forEach((pr, i) => {
@@ -304,8 +325,8 @@ function Network3D({ lang, path }) {
         vel.x *= 0.94; vel.y *= 0.94;
         // respiração dos nós e fios
         nodes.forEach((n) => {
-          n.position.x = n.userData.home.x + Math.sin(tm / 2600 + n.userData.ph) * 0.045;
-          n.position.y = n.userData.home.y + Math.cos(tm / 3100 + n.userData.ph) * 0.045;
+          n.position.x = n.userData.home.x + Math.sin(tm / 2600 + n.userData.ph) * 0.06;
+          n.position.y = n.userData.home.y + Math.cos(tm / 3100 + n.userData.ph) * 0.06;
         });
         pairs.forEach((_, i) => updateEdge(i));
         // fade por profundidade: perto nítido, longe esmaece
@@ -315,7 +336,8 @@ function Network3D({ lang, path }) {
           n.material.opacity = n.userData.baseOp * depthA * n.userData.dim;
         });
         // pulsos correndo
-        pulses.forEach((pl) => {
+        shards.forEach((sh) => { sh.rotation.x += 0.0035; sh.rotation.y += 0.0045; });
+      pulses.forEach((pl) => {
           pl.t += 0.006;
           if (pl.t > 1) { pl.t = 0; pl.pair = pairs[Math.floor(Math.random() * pairs.length)]; }
           const a = pl.pair[0].position, b = pl.pair[1].position;
@@ -335,6 +357,7 @@ function Network3D({ lang, path }) {
     if (mq.matches) {
       camera.position.z = 3.3;
       nodes.forEach((n) => n.scale.setScalar(1));
+      shards.forEach((sh) => sh.scale.setScalar(1));
       edgeLines.forEach((l) => l.scale.setScalar(1));
       dust.scale.setScalar(1);
       pulses.forEach((p) => p.mesh.scale.setScalar(1));
@@ -356,6 +379,9 @@ function Network3D({ lang, path }) {
       });
       pulses.forEach((p, i) => {
         gsap.to(p.mesh.scale, { x: 1, y: 1, z: 1, duration: 0.5, ease: "power2.out", delay: 2.0 + i * 0.14 });
+      });
+      shards.forEach((sh, i) => {
+        gsap.to(sh.scale, { x: 1, y: 1, z: 1, duration: 1, ease: "expo.out", delay: 1.15 + i * 0.12 });
       });
       start();
     }
@@ -411,8 +437,15 @@ function Network3D({ lang, path }) {
  * cobre desenha e a cortina sobe entregando a hero 3D em pleno movimento.
  * Uma vez por sessão (sessionStorage); reduced-motion pula direto.
  */
+/**
+ * Portão de entrada — a abertura que independe do usuário.
+ * Tela cheia: o M nasce girando, o nome sobe letra a letra, o filete
+ * de cobre desenha e as quatro soluções se anunciam antes de a cortina
+ * subir. Uma vez por sessão; reduced-motion pula direto.
+ */
 export function IntroGate() {
   const ref = useRef(null);
+  const { lang } = useLang();
 
   useEffect(() => {
     const el = ref.current;
@@ -423,46 +456,70 @@ export function IntroGate() {
       return;
     }
     sessionStorage.setItem("mf-intro", "1");
-    const wordmark = el.querySelector(".mf-intro__word").textContent;
-    el.querySelector(".mf-intro__word").innerHTML = wordmark
+    const wm = el.querySelector(".mf-intro__word");
+    wm.innerHTML = wm.textContent
       .split("")
       .map((ch) => `<span class="mf-intro__ltr">${ch === " " ? "&nbsp;" : ch}</span>`)
       .join("");
     const tl = gsap.timeline({ onComplete: () => el.remove() });
-    tl.fromTo(el.querySelector(".mf-intro__m"), { opacity: 0, scale: 0.75 },
-        { opacity: 0.92, scale: 1, duration: 0.5, ease: "expo.out" }, 0)
-      .fromTo(el.querySelectorAll(".mf-intro__ltr"), { opacity: 0, y: 26 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "expo.out", stagger: 0.035 }, 0.12)
-      .fromTo(el.querySelector(".mf-intro__line"), { scaleX: 0 },
-        { scaleX: 1, duration: 0.55, ease: "expo.inOut" }, 0.4)
-      .to(el, { yPercent: -100, duration: 0.75, ease: "expo.inOut", delay: 0.2 }, ">");
+    tl.fromTo(el.querySelector(".mf-intro__m"),
+        { opacity: 0, scale: 0.55, rotate: -16 },
+        { opacity: 1, scale: 1, rotate: 0, duration: 0.7, ease: "expo.out" }, 0)
+      .fromTo(el.querySelectorAll(".mf-intro__ltr"),
+        { opacity: 0, y: 36 },
+        { opacity: 1, y: 0, duration: 0.75, ease: "expo.out", stagger: 0.045 }, 0.18)
+      .fromTo(el.querySelector(".mf-intro__line"),
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.55, ease: "expo.inOut" }, 0.6)
+      .fromTo(el.querySelector(".mf-intro__role"),
+        { opacity: 0, letterSpacing: "0.9em" },
+        { opacity: 0.8, letterSpacing: "0.5em", duration: 0.7, ease: "expo.out" }, 0.8)
+      .to({}, { duration: 0.3 })
+      .to(el.querySelector(".mf-intro__m"), { y: -70, opacity: 0, duration: 0.55, ease: "power3.in" }, ">")
+      .to(el, { yPercent: -100, duration: 0.8, ease: "expo.inOut" }, "<0.12");
     document.documentElement.style.overflow = "hidden";
-    const free = setTimeout(() => { document.documentElement.style.overflow = ""; }, 1300);
+    const free = setTimeout(() => { document.documentElement.style.overflow = ""; }, 2300);
     return () => clearTimeout(free);
   }, []);
+
+  const roles = PRACTICE_SLUGS.map((sg) => practices[lang]?.[sg]?.label).filter(Boolean).join(" · ");
 
   return (
     <div ref={ref} className="mf-intro" aria-hidden="true">
       <img className="mf-intro__m" src={M_LOGO} alt="" />
       <span className="mf-intro__word">MIRANDA FARIA</span>
       <span className="mf-intro__line" />
+      <span className="mf-intro__role">{roles}</span>
       <style>{`
 .mf-intro{
   position:fixed;inset:0;z-index:200;
-  background:var(--mf-graphite);
+  background:var(--mf-graphite, #141414);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:1.4rem;
+  gap:1.5rem;
 }
-.mf-intro__m{width:clamp(34px,5vw,54px);opacity:0.92}
+.mf-intro::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 45% at 50% 48%, rgba(181,80,46,0.10), transparent 70%);
+  pointer-events:none;
+}
+.mf-intro__m{
+  width:clamp(44px,7vw,72px);
+  filter:drop-shadow(0 0 18px rgba(181,80,46,0.35));
+}
 .mf-intro__word{
   font-family:var(--font-display);font-weight:400;
-  font-size:clamp(1.1rem,2.6vw,1.7rem);letter-spacing:0.34em;
-  text-transform:uppercase;color:var(--bone);white-space:nowrap;
+  font-size:clamp(1.5rem,4vw,2.5rem);letter-spacing:0.3em;
+  text-transform:uppercase;color:var(--bone,#F5F1EA);white-space:nowrap;
 }
 .mf-intro__ltr{display:inline-block}
 .mf-intro__line{
-  width:clamp(120px,18vw,220px);height:1px;
-  background:var(--copper, #B5502E);transform-origin:left center;
+  width:clamp(140px,26vw,380px);height:1px;
+  background:var(--copper,#B5502E);transform-origin:left center;
+}
+.mf-intro__role{
+  font-family:var(--font-mono);font-size:clamp(9px,1.3vw,11px);
+  letter-spacing:0.5em;text-transform:uppercase;
+  color:rgba(245,241,234,0.75);white-space:nowrap;
 }
 `}</style>
     </div>
@@ -482,17 +539,18 @@ export default function HeroStage() {
       gsap.set(el, { opacity: 1 });
       return;
     }
+    const introOn = !!document.querySelector(".mf-intro");
     gsap.fromTo(
       el,
       { opacity: 0, y: 28 },
-      { opacity: 1, y: 0, duration: 1.1, ease: "expo.out", delay: 0.25 }
+      { opacity: 1, y: 0, duration: 1.1, ease: "expo.out", delay: introOn ? 1.15 : 0.25 }
     );
     gsap.set(".mf-hero__mark", { opacity: 0, scale: 0.82 });
     gsap.set(".mf-hero__ltr", { opacity: 0, y: 46 });
     gsap.set(".mf-hero__role", { opacity: 0 });
     gsap.set(".mf-hero__cta", { opacity: 0, y: 18 });
     const tl = anime.timeline({ easing: "easeOutExpo" });
-    tl.add({ targets: ".mf-hero__mark", opacity: [0, 0.92], scale: [0.82, 1], duration: 800 }, 650)
+    tl.add({ targets: ".mf-hero__mark", opacity: [0, 0.92], scale: [0.82, 1], duration: 800 }, introOn ? 1650 : 650)
       .add(
         { targets: ".mf-hero__title .mf-hero__ltr", translateY: [46, 0], opacity: [0, 1], duration: 900, delay: anime.stagger(34) },
         "-=320"
@@ -554,8 +612,8 @@ export default function HeroStage() {
   padding:0 var(--gutter);
 }
 .mf-hero__mark{
-  width:clamp(26px,3.6vw,40px);height:auto;
-  margin:0 auto 1.6rem;display:block;
+  width:clamp(34px,4.6vw,52px);height:auto;
+  margin:0 auto 1.8rem;display:block;
   mix-blend-mode:normal;filter:drop-shadow(0 0 12px rgba(245,241,234,0.18));
   will-change:transform,opacity;
 }

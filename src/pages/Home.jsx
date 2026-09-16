@@ -27,6 +27,8 @@ export default function Home() {
       <HomeCta />
 
       <style>{`
+.mf-label__n{color:var(--copper,#B5502E);margin-right:0.55rem;font-size:0.9em}
+
 .mf-home{background:var(--mf-graphite)}
 .mf-h{
   position:relative;

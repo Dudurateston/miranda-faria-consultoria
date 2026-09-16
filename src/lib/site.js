@@ -17,6 +17,7 @@ export const M_LOGO_HERO = "/art/m-logo-hero.webp";
 export const REELS_URL = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_reels.mp4";
 export const CORTE_GIF = "/art/corte.mp4";
 export const WATERMARK_GIF = "/art/watermark.webp";
+export const AUTOM_VIDEO = "/art/automacao_loop.mp4";
 export const LOGO_ANIM_GIF = "/art/watermark_logo.webp";
 export const GEO_GIF = "/art/geo.mp4";
 export const CELESTE_GIF = "/art/celeste.mp4";

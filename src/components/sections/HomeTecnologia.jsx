@@ -16,7 +16,7 @@ export default function HomeTecnologia() {
       <div className="mf-h__inner mf-tech">
         <div>
           <Reveal>
-            <p className="mf-label">{t.home.techPreview.label}</p>
+            <p className="mf-label"><span className="mf-label__n">03</span>{t.home.techPreview.label}</p>
           </Reveal>
           <LineReveal className="mf-h__lead">{t.home.techPreview.lead}</LineReveal>
           <ul className="mf-tech__stack">

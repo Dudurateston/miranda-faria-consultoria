@@ -4,20 +4,28 @@ import gsap from "gsap";
 import { M_LOGO } from "@/lib/site";
 
 /**
- * Cortina de rota — transição de página no padrão spenceltd.
+ * Cortina de rota — transições variadas no padrão spenceltd.
  *
- * Clique em link interno: cortina grafite sobe cobrindo a tela (com o M
- * e um filete de cobre na borda), a rota troca por baixo, e a cortina
- * sai por baixo revelando a página nova. Navegação por back/forward
- * ganha só a revelação. Reduced-motion: navegação seca, sem cortina.
+ * Três variações que se alternam em sequência (para nunca enjoar e
+ * ainda assim parecerem um sistema, não um sortear):
+ *   1. COBRE — wipe sólido de cobre com o M em osso.
+ *   2. CORTINA — grafite com filete de cobre (a original).
+ *   3. COLUNAS — seis colunas grafite que sobem escalonadas.
+ *
+ * Clique em link interno: a variante cobre a tela, a rota troca por
+ * baixo, e a variante sai revelando a página nova. Back/forward não é
+ * interceptável: ganha só a revelação se a cortina estiver ativa.
+ * Reduced-motion: navegação seca, sem cortina.
  */
+const VARIANTS = ["copper", "curtain", "cols"];
+
 export default function TransitionCurtain() {
   const loc = useLocation();
   const navigate = useNavigate();
   const curtain = useRef(null);
   const busy = useRef(false);
-  const pending = useRef(null); // href aguardando a cortina fechar
-  const [withM, setWithM] = useState(false);
+  const navN = useRef(0);
+  const [mOn, setMOn] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -38,20 +46,30 @@ export default function TransitionCurtain() {
       if (mq.matches) return; // deixa o router agir sozinho
       e.preventDefault();
       busy.current = true;
-      pending.current = href;
+      const v = VARIANTS[navN.current++ % VARIANTS.length];
+      el.dataset.v = v;
+      setMOn(true);
       document.documentElement.style.overflow = "hidden";
-      setWithM(true);
-      gsap.timeline({
-        onComplete: () => {
-          navigate(pending.current);
-          pending.current = null;
-        },
-      })
-        .set(el, { display: "block", transformOrigin: "top center", scaleY: 0 })
-        .to(el, { scaleY: 1, duration: 0.45, ease: "power3.inOut" }, 0)
-        .fromTo(el.querySelector(".mf-curtain__m"),
-          { opacity: 0, scale: 0.8 },
-          { opacity: 0.92, scale: 1, duration: 0.3, ease: "power2.out" }, 0.16);
+      const cols = [...el.querySelectorAll(".mf-curtain__col")];
+      const m = el.querySelector(".mf-curtain__m");
+
+      const cover = gsap.timeline({
+        onComplete: () => navigate(href),
+      });
+      cover.set(el, { display: "block" });
+      if (v === "copper") {
+        cover.fromTo(el, { transformOrigin: "top center", scaleY: 0 },
+          { scaleY: 1, duration: 0.45, ease: "power3.inOut" }, 0)
+          .fromTo(m, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }, 0.18);
+      } else if (v === "curtain") {
+        cover.fromTo(el, { transformOrigin: "top center", scaleY: 0 },
+          { scaleY: 1, duration: 0.45, ease: "power3.inOut" }, 0)
+          .fromTo(m, { opacity: 0, scale: 0.8 }, { opacity: 0.92, scale: 1, duration: 0.3, ease: "power2.out" }, 0.16);
+      } else {
+        cover.fromTo(cols, { transformOrigin: "top center", scaleY: 0 },
+          { scaleY: 1, duration: 0.42, ease: "power3.inOut", stagger: 0.05 }, 0)
+          .fromTo(m, { opacity: 0, scale: 0.8 }, { opacity: 0.92, scale: 1, duration: 0.28, ease: "power2.out" }, 0.22);
+      }
     };
 
     document.addEventListener("click", onClick, true);
@@ -59,13 +77,16 @@ export default function TransitionCurtain() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loc.pathname]);
 
-  // rota trocou: revela a nova página por baixo da cortina
+  // rota trocou: revela a nova página por baixo da variante
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const el = curtain.current;
     if (mq.matches) { el.style.display = "none"; busy.current = false; return; }
     if (getComputedStyle(el).display === "none") return;
     busy.current = true;
+    const v = el.dataset.v || "curtain";
+    const cols = [...el.querySelectorAll(".mf-curtain__col")];
+    const m = el.querySelector(".mf-curtain__m");
     const t = gsap.timeline({
       onComplete: () => {
         el.style.display = "none";
@@ -73,15 +94,28 @@ export default function TransitionCurtain() {
         busy.current = false;
       },
     });
-    t.to(el.querySelector(".mf-curtain__m"), { opacity: 0, duration: 0.22, ease: "power2.in" }, 0)
-      .set(el, { transformOrigin: "bottom center" }, 0.05)
-      .to(el, { scaleY: 0, duration: 0.55, ease: "expo.inOut" }, 0.05);
+    t.to(m, { opacity: 0, duration: 0.2, ease: "power2.in" }, 0);
+    if (v === "copper") {
+      t.set(el, { transformOrigin: "bottom center" }, 0.04)
+        .to(el, { scaleY: 0, duration: 0.55, ease: "expo.inOut" }, 0.04);
+    } else if (v === "curtain") {
+      t.set(el, { transformOrigin: "bottom center" }, 0.05)
+        .to(el, { scaleY: 0, duration: 0.55, ease: "expo.inOut" }, 0.05);
+    } else {
+      t.set(cols, { transformOrigin: "bottom center" }, 0.05)
+        .to(cols, { scaleY: 0, duration: 0.5, ease: "expo.inOut", stagger: 0.04 }, 0.05);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loc.pathname]);
 
   return (
-    <div ref={curtain} className="mf-curtain" style={{ display: "none" }} aria-hidden="true">
-      <img className="mf-curtain__m" src={M_LOGO} alt="" style={{ opacity: withM ? 0.92 : 0 }} />
+    <div ref={curtain} className="mf-curtain" data-v="curtain" style={{ display: "none" }} aria-hidden="true">
+      <div className="mf-curtain__cols">
+        {[0, 1, 2, 3, 4, 5].map((i) => (
+          <span key={i} className="mf-curtain__col" />
+        ))}
+      </div>
+      <img className="mf-curtain__m" src={M_LOGO} alt="" style={{ opacity: mOn ? 0.92 : 0 }} />
       <style>{`
 .mf-curtain{
   position:fixed;inset:0;z-index:150;
@@ -89,14 +123,28 @@ export default function TransitionCurtain() {
   display:flex;align-items:center;justify-content:center;
   pointer-events:all;transform:scaleY(0);
 }
-.mf-curtain::after{
+.mf-curtain[data-v="copper"]{background:var(--copper, #B5502E)}
+.mf-curtain[data-v="copper"]::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
+  background:var(--bone, #F5F1EA);
+}
+.mf-curtain[data-v="curtain"]::after{
   content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
   background:var(--copper, #B5502E);
 }
+.mf-curtain__cols{display:none;position:absolute;inset:0;pointer-events:none}
+.mf-curtain[data-v="cols"]{background:transparent}
+.mf-curtain[data-v="cols"] .mf-curtain__cols{display:flex}
+.mf-curtain__col{
+  flex:1;background:var(--mf-graphite, #141414);
+  border-bottom:1px solid rgba(181,80,46,0.55);
+  transform:scaleY(0);
+}
 .mf-curtain__m{
-  width:clamp(30px,4vw,48px);opacity:0.92;
+  width:clamp(30px,4vw,48px);opacity:0.92;position:relative;z-index:1;
   will-change:transform,opacity;
 }
+.mf-curtain[data-v="copper"] .mf-curtain__m{filter:drop-shadow(0 0 12px rgba(20,20,20,0.4))}
 `}</style>
     </div>
   );

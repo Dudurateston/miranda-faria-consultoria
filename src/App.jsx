@@ -25,6 +25,7 @@ import Contact from "@/pages/Contact";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import Home from "@/pages/Home";
 import TransitionCurtain from "@/components/layout/TransitionCurtain";
+import LogoEasterEgg from "@/components/layout/LogoEasterEgg";
 
 
 
@@ -63,6 +64,7 @@ const LangShell = () => {
   return (
     <LanguageProvider lang={lang}>
       <TransitionCurtain />
+      <LogoEasterEgg />
       <SiteLayout />
       <ConsentBanner />
     </LanguageProvider>

@@ -120,3 +120,13 @@ LinkedIn/CV confirmados, hospedagem definitiva da imagem da logo
 - **TransitionCurtain** (novo, LangShell): clique em link interno → cortina grafite sobre (scaleY power3.inOut, 0.45s) com M centrado e filete de cobre na borda → rota troca por baixo → cortina sai por baixo (expo.inOut). Back/forward ganha só a revelação. Reduced-motion: navegação seca. Scroll travado durante o cover, liberado no reveal.
 - Nav: underline cobre que desliza da esquerda (scaleX expo) no hover; ativo fica cravado.
 - Nav é oculto no topo POR DESIGN (aparece após scroll) — não é bug.
+
+## Rodada v3.2 — hierarquia, intro, transições variadas, Automação integrada (16/09 noite II)
+
+- **Hero**: hubs de serviços MAIORES (0.115), 12 satélites de cases MENORES (0.035, os 12 melhores cases), 5 octaedros wireframe discretos (não interativos, rotação lenta), respiração mais viva (±0.06). Posições determinísticas → sair/voltar da Home nunca perde posição (validado 3 ciclos).
+- **Intro repaginada**: M nasce girando + nome letra a letra + filete de cobre + linha das 4 soluções (Gestão · Desenvolvimento · Design · Automação). ~2.3s, 1x/sessão.
+- **Transições em 3 variantes que se alternam** (padrão fixo, não aleatório): 1. wipe COBRE sólido; 2. cortina grafite + filete cobre; 3. 6 colunas grafite escalonadas. M em todas.
+- **Automação integrada à Home**: era a 4ª solução perdida (grid tinha só 3 cards). Agora 4º card com loop "sistemas blueprint construindo" do Drive + copy própria ("rotinas que rodam sozinhas...").
+- **Numeração de seções 01–04** estilo spence (Sobre 01 · Serviços 02 · Tecnologia 03 · Insights 04).
+- **Easter egg**: 3 cliques no M da hero (e menu mobile) abrem a animação do logo grande — mesmo comportamento do rodapé. M do nav fica de fora (clique ali = ir pra Home, sem ambiguidade).
+- Drive 'identidade Miranda Faria/videos e gifs' mapeado: 22 vídeos/GIFs de marca prontos (coluna geológica, blueprint, lead veio cobre...).

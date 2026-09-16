@@ -4,7 +4,7 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice } from "@/content/copy";
-import { CORTE_GIF, CELESTE_GIF, GEO_GIF } from "@/lib/site";
+import { CORTE_GIF, CELESTE_GIF, GEO_GIF, AUTOM_VIDEO } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 /**
@@ -16,6 +16,7 @@ const VERTICALS = [
   { slug: "gestao", gif: CORTE_GIF },
   { slug: "desenvolvimento", gif: GEO_GIF },
   { slug: "design", gif: CELESTE_GIF },
+  { slug: "automacao", gif: AUTOM_VIDEO }, // loop "blueprint construindo" do Drive
 ];
 
 export default function HomeServicos() {
@@ -26,7 +27,7 @@ export default function HomeServicos() {
     <section className="mf-h">
       <div className="mf-h__inner">
         <Reveal>
-          <p className="mf-label">{t.servicos.label}</p>
+          <p className="mf-label"><span className="mf-label__n">02</span>{t.servicos.label}</p>
         </Reveal>
         <LineReveal className="mf-h__lead">{t.servicos.lead}</LineReveal>
 
@@ -35,8 +36,8 @@ export default function HomeServicos() {
             const p = getPractice(lang, slug);
             if (!p) return null;
             return (
-              <Link key={slug} to={path(slug)} className="mf-card" data-cursor="link">
-                <AutoVideo className="mf-card__gif" src={gif} />
+              <Link key={slug} to={path(slug)} className={`mf-card${gif ? "" : " mf-card--solid"}`} data-cursor="link">
+                {gif ? <AutoVideo className="mf-card__gif" src={gif} /> : <span className="mf-card__pulse" aria-hidden="true" />}
                 <span className="mf-card__label">{p.label}</span>
                 <p className="mf-card__lead">{t.servicos.cards?.[slug] ?? p.lead}</p>
                 <span className="mf-card__go">{t.servicos.seeVertical} →</span>
@@ -57,7 +58,8 @@ export default function HomeServicos() {
 
       <style>{`
 .mf-cards{display:grid;grid-template-columns:1fr;gap:1.6rem;margin-top:3.5rem}
-@media(min-width:860px){.mf-cards{grid-template-columns:repeat(3,1fr);gap:clamp(1.2rem,2.5vw,2rem)}}
+@media(min-width:860px){.mf-cards{grid-template-columns:repeat(2,1fr);gap:clamp(1.2rem,2.5vw,2rem)}}
+@media(min-width:1200px){.mf-cards{grid-template-columns:repeat(4,1fr)}}
 .mf-card{
   position:relative;overflow:hidden;background:var(--bone);
   padding:2.2rem 1.8rem;min-height:300px;
@@ -114,6 +116,16 @@ export default function HomeServicos() {
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-ghost);
 }
+.mf-card--solid{background:linear-gradient(160deg,rgba(181,80,46,0.14),rgba(20,20,20,0.92))}
+.mf-card--solid .mf-card__label{color:var(--copper,#B5502E)}
+.mf-card__pulse{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 78% 22%, rgba(181,80,46,0.28) 0, transparent 42%),
+    repeating-conic-gradient(from 0deg at 78% 22%, transparent 0deg 14deg, rgba(245,241,234,0.05) 14deg 15deg);
+  animation:mf-pulse 6s linear infinite;
+}
+@keyframes mf-pulse{to{transform:rotate(360deg)}}
       `}</style>
     </section>
   );
