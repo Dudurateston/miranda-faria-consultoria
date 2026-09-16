@@ -103,3 +103,14 @@ LinkedIn/CV confirmados, hospedagem definitiva da imagem da logo
 - Filtro por setor e solução no /work, estado na URL (?setor=&solucao=), aria-pressed, empty state.
 - **HERO — A REDE VIVA (nova)**: sem vídeo, sem logo M, sem telemetria. Rede generativa: 4 nós-mãe (gestão/desenvolvimento/design/automação) + satélites (projetos), fios se desenham, pulsos de cobre correm como sinal. GSAP dirige a montagem (expo.out); anime.js revela o título letra a letra. Canvas 2D, IO pause, reduced-motion estático. Videos hero_loop*.mp4 removidos do pacote (-4,2MB).
 - animejs@3.2.2 adicionado como dependência.
+
+## Hero v3.1 (16/09 noite) — A Rede Viva 3D refinada
+
+- Fios retos → **arcos curvos** (bezier sutilmente pra fora do centro).
+- **Poeira de fundo** 260 pts (140 mobile) girando em contra-rotação — profundidade.
+- **Fade por profundidade**: nós perto nítidos, longe esmaecem (opacidade por z em câmera).
+- **Modo foco**: hover num nó acende os arcos conectados em cobre (0.55) e apaga o resto (0.05); nós vizinhos ficam, os outros esmaecem (0.14). Giro automático pausa durante hover/drag.
+- **Fly-to**: clique faz a câmera mergulhar (baseZ→2.0, power3.in) antes de navegar.
+- Glow aditivo: halos de sprite nos hubs de cobre + pulsos com blending aditivo.
+- **Scroll reage**: câmera recua (z+1.3) e desce (y-0.8) conforme a hero sai da tela.
+- netHint na copy PT/EN ("Arraste para girar · clique nos nós").

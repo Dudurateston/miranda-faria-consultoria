@@ -101,6 +101,7 @@ export const copy = {
         cta: "Book a call",
       },
       heroCta: "Get in touch",
+      netHint: "Drag to rotate · click the nodes",
       sobrePreview: { label: "About", cta: "Learn more" },
       techPreview: {
         label: "Technology",
@@ -477,6 +478,7 @@ export const copy = {
         cta: "Chamar no WhatsApp",
       },
       heroCta: "Fale comigo",
+      netHint: "Arraste para girar · clique nos nós",
       sobrePreview: { label: "Sobre", cta: "Saiba mais" },
       techPreview: {
         label: "Tecnologia",

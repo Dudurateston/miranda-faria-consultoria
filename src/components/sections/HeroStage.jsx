@@ -66,6 +66,36 @@ function Network3D({ lang, path }) {
     group.rotation.set(0.12, -0.25, 0);
     scene.add(group);
 
+    // poeira de fundo: profundidade antes mesmo dos nós
+    const dustN = isMobile ? 140 : 260;
+    const dustPos = new Float32Array(dustN * 3);
+    for (let i = 0; i < dustN; i++) {
+      const r = 2.4 + Math.random() * 1.9;
+      const th = Math.random() * Math.PI * 2;
+      const ph = Math.acos(2 * Math.random() - 1);
+      dustPos[i * 3] = r * Math.sin(ph) * Math.cos(th);
+      dustPos[i * 3 + 1] = r * Math.sin(ph) * Math.sin(th) * 0.7;
+      dustPos[i * 3 + 2] = r * Math.cos(ph);
+    }
+    const dustG = new THREE.BufferGeometry();
+    dustG.setAttribute("position", new THREE.BufferAttribute(dustPos, 3));
+    const dust = new THREE.Points(dustG, new THREE.PointsMaterial({
+      color: 0xf5f1ea, size: 0.02, transparent: true, opacity: 0.30, sizeAttenuation: true,
+    }));
+    dust.scale.setScalar(0.001);
+    scene.add(dust);
+
+    // halo suave (glow aditivo) para os nós-mãe de cobre
+    const haloTex = (() => {
+      const c = document.createElement("canvas"); c.width = c.height = 64;
+      const g2 = c.getContext("2d");
+      const grad = g2.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, "rgba(181,80,46,0.5)");
+      grad.addColorStop(1, "rgba(181,80,46,0)");
+      g2.fillStyle = grad; g2.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(c);
+    })();
+
     const boneMat = new THREE.MeshBasicMaterial({ color: 0xf5f1ea, transparent: true, opacity: 0.92 });
     const satMat = new THREE.MeshBasicMaterial({ color: 0xf5f1ea, transparent: true, opacity: 0.55 });
     const copMat = new THREE.MeshBasicMaterial({ color: 0xb5502e, transparent: true, opacity: 0.95 });
@@ -81,22 +111,31 @@ function Network3D({ lang, path }) {
     const nodes = [];
     const hubMeshes = [];
     const addNode = (pos, r, mat, data) => {
-      const m = new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), mat);
+      const m = new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), mat.clone());
       m.position.set(...pos);
-      m.userData = data;
+      m.userData = { ...data, dim: 1, baseOp: mat.opacity };
       m.scale.setScalar(0.001);
       group.add(m);
       nodes.push(m);
       return m;
     };
     HUB_POS.forEach((p, i) => {
-      hubMeshes.push(addNode(p, 0.085, i % 2 ? copMat : boneMat, {
+      const hubMat = i % 2 ? copMat : boneMat;
+      hubMeshes.push(addNode(p, 0.085, hubMat, {
         name: practiceLabels[i],
         to: path(PRACTICE_SLUGS[i]),
         hub: true,
         ph: i * 1.7,
         home: new THREE.Vector3(...p),
       }));
+      if (i % 2) {
+        const sp = new THREE.Sprite(new THREE.SpriteMaterial({
+          map: haloTex, transparent: true, opacity: 0.5,
+          blending: THREE.AdditiveBlending, depthWrite: false,
+        }));
+        sp.scale.setScalar(0.6);
+        hubMeshes[i].add(sp);
+      }
     });
     SAT_POS.slice(0, isMobile ? 5 : 8).forEach((p, i) => {
       const slug = SAT_SLUGS[i];
@@ -121,26 +160,55 @@ function Network3D({ lang, path }) {
       pairs.push([hubMeshes[best], sat]);
     });
     HUB_EDGES.forEach(([a, b]) => pairs.push([hubMeshes[a], hubMeshes[b]]));
-    const edgeGeo = new THREE.BufferGeometry();
-    const edgePos = new Float32Array(pairs.length * 6);
-    edgeGeo.setAttribute("position", new THREE.BufferAttribute(edgePos, 3));
-    const edges = new THREE.LineSegments(edgeGeo, new THREE.LineBasicMaterial({
-      color: 0xf5f1ea, transparent: true, opacity: 0.14,
-    }));
-    edges.scale.set(0.001, 0.001, 0.001);
-    group.add(edges);
+    const edgeLines = pairs.map(() => {
+      const g = new THREE.BufferGeometry();
+      g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(24 * 3), 3));
+      const line = new THREE.Line(g, new THREE.LineBasicMaterial({
+        color: 0xf5f1ea, transparent: true, opacity: 0.14,
+      }));
+      line.scale.setScalar(0.001);
+      group.add(line);
+      return line;
+    });
+    const tmpMid = new THREE.Vector3();
+    const updateEdge = (idx) => {
+      const pr = pairs[idx];
+      const a = pr[0].position, b = pr[1].position;
+      tmpMid.copy(a).add(b).multiplyScalar(0.5);
+      const dist = tmpMid.length() || 1;
+      tmpMid.multiplyScalar(1 + 0.16 / dist); // arco sutilmente pra fora
+      const attr = edgeLines[idx].geometry.attributes.position;
+      for (let k = 0; k < 24; k++) {
+        const t = k / 23, om = 1 - t;
+        attr.setXYZ(k,
+          om * om * a.x + 2 * om * t * tmpMid.x + t * t * b.x,
+          om * om * a.y + 2 * om * t * tmpMid.y + t * t * b.y,
+          om * om * a.z + 2 * om * t * tmpMid.z + t * t * b.z);
+      }
+      attr.needsUpdate = true;
+    };
+    pairs.forEach((_, i) => updateEdge(i));
 
     // ── pulsos de cobre correndo pelos fios
     const pulseN = isMobile ? 6 : 11;
     const pulses = [];
     for (let i = 0; i < pulseN; i++) {
-      const m = new THREE.Mesh(new THREE.SphereGeometry(0.022, 8, 6), copMat);
+      const m = new THREE.Mesh(new THREE.SphereGeometry(0.024, 8, 6), new THREE.MeshBasicMaterial({
+        color: 0xd66a3f, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false,
+      }));
       m.scale.setScalar(0.001);
       group.add(m);
       pulses.push({ mesh: m, pair: pairs[Math.floor(Math.random() * pairs.length)], t: Math.random() });
     }
 
     // ── interação: giro com inércia, hover e clique por raycast
+    let scrollT = 0;
+    const onScroll = () => {
+      const r = section.getBoundingClientRect();
+      scrollT = Math.min(Math.max(-r.top / r.height, 0), 1);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    const tmpV = new THREE.Vector3();
     const ray = new THREE.Raycaster();
     const ndc = new THREE.Vector2();
     const vel = { x: 0, y: 0 };
@@ -179,6 +247,17 @@ function Network3D({ lang, path }) {
         hovered = target;
         if (hovered) gsap.to(hovered.scale, { x: 1.7, y: 1.7, z: 1.7, duration: 0.4, ease: "power2.out", overwrite: true });
         renderer.domElement.style.cursor = hovered && !drag.on ? "pointer" : "grab";
+        // modo foco: do que este ponto é feito?
+        pairs.forEach((pr, i) => {
+          const conn = hovered && (pr[0] === hovered || pr[1] === hovered);
+          edgeLines[i].material.color.setHex(conn ? 0xb5502e : 0xf5f1ea);
+          gsap.to(edgeLines[i].material, { opacity: hovered ? (conn ? 0.55 : 0.05) : 0.14, duration: 0.35, overwrite: true });
+        });
+        nodes.forEach((n) => {
+          const keep = !hovered || n === hovered ||
+            pairs.some((pr) => (pr[0] === hovered || pr[1] === hovered) && (pr[0] === n || pr[1] === n));
+          gsap.to(n.userData, { dim: keep ? 1 : 0.14, duration: 0.35, overwrite: true });
+        });
       }
       if (hovered) {
         const b = section.getBoundingClientRect();
@@ -191,7 +270,14 @@ function Network3D({ lang, path }) {
         setNdc(e);
         ray.setFromCamera(ndc, camera);
         const hit = ray.intersectObjects(nodes, false)[0];
-        if (hit) window.location.assign(hit.object.userData.to);
+        if (hit) {
+          const to = hit.object.userData.to;
+          running = false;
+          renderer.domElement.style.cursor = "default";
+          gsap.to(camera.userData, { baseZ: 2.0, duration: 0.55, ease: "power3.in" });
+          gsap.to(".mf-hero__content", { opacity: 0, duration: 0.3 });
+          setTimeout(() => window.location.assign(to), 520);
+        }
       }
       drag.on = false;
     };
@@ -210,8 +296,9 @@ function Network3D({ lang, path }) {
     const tick = (tm) => {
       if (!running) return;
       if (!mq.matches) {
-        // giro automático suave + inércia do arrasto
-        group.rotation.y += 0.0016 + vel.y;
+        // giro automático pausa enquanto você examina ou arrasta
+        if (!hovered && !drag.on) group.rotation.y += 0.0016;
+        group.rotation.y += vel.y;
         group.rotation.x += vel.x;
         group.rotation.x = Math.max(-0.5, Math.min(0.65, group.rotation.x));
         vel.x *= 0.94; vel.y *= 0.94;
@@ -220,11 +307,13 @@ function Network3D({ lang, path }) {
           n.position.x = n.userData.home.x + Math.sin(tm / 2600 + n.userData.ph) * 0.045;
           n.position.y = n.userData.home.y + Math.cos(tm / 3100 + n.userData.ph) * 0.045;
         });
-        pairs.forEach((pr, i) => {
-          edgePos[i * 6] = pr[0].position.x; edgePos[i * 6 + 1] = pr[0].position.y; edgePos[i * 6 + 2] = pr[0].position.z;
-          edgePos[i * 6 + 3] = pr[1].position.x; edgePos[i * 6 + 4] = pr[1].position.y; edgePos[i * 6 + 5] = pr[1].position.z;
+        pairs.forEach((_, i) => updateEdge(i));
+        // fade por profundidade: perto nítido, longe esmaece
+        nodes.forEach((n) => {
+          n.getWorldPosition(tmpV);
+          const depthA = Math.max(0.3, Math.min(1, 1.25 + tmpV.z * 0.32));
+          n.material.opacity = n.userData.baseOp * depthA * n.userData.dim;
         });
-        edgeGeo.attributes.position.needsUpdate = true;
         // pulsos correndo
         pulses.forEach((pl) => {
           pl.t += 0.006;
@@ -233,6 +322,8 @@ function Network3D({ lang, path }) {
           pl.mesh.position.set(a.x + (b.x - a.x) * pl.t, a.y + (b.y - a.y) * pl.t, a.z + (b.z - a.z) * pl.t);
         });
       }
+      camera.position.set(0, -scrollT * 0.8, camera.userData.baseZ + scrollT * 1.3);
+      dust.rotation.y = group.rotation.y * -0.4;
       renderer.render(scene, camera);
       raf = requestAnimationFrame(tick);
     };
@@ -240,27 +331,29 @@ function Network3D({ lang, path }) {
     const stop = () => { running = false; cancelAnimationFrame(raf); };
 
     // ── entrada: câmera viaja, nós nascem, fios se desenham (GSAP)
+    camera.userData.baseZ = mq.matches ? 3.3 : 6.2;
     if (mq.matches) {
       camera.position.z = 3.3;
       nodes.forEach((n) => n.scale.setScalar(1));
-      edges.scale.setScalar(1);
+      edgeLines.forEach((l) => l.scale.setScalar(1));
+      dust.scale.setScalar(1);
       pulses.forEach((p) => p.mesh.scale.setScalar(1));
       nodes.forEach((n) => {
         n.position.x = n.userData.home.x; n.position.y = n.userData.home.y;
       });
-      pairs.forEach((pr, i) => {
-        edgePos[i * 6] = pr[0].position.x; edgePos[i * 6 + 1] = pr[0].position.y; edgePos[i * 6 + 2] = pr[0].position.z;
-        edgePos[i * 6 + 3] = pr[1].position.x; edgePos[i * 6 + 4] = pr[1].position.y; edgePos[i * 6 + 5] = pr[1].position.z;
-      });
-      edgeGeo.attributes.position.needsUpdate = true;
+      pairs.forEach((_, i) => updateEdge(i));
+      nodes.forEach((n) => { n.material.opacity = n.userData.baseOp * n.userData.dim; });
       renderer.render(scene, camera);
     } else {
-      gsap.to(camera.position, { z: 3.3, duration: 2.4, ease: "expo.out", delay: 0.75 });
+      gsap.to(camera.userData, { baseZ: 3.3, duration: 2.4, ease: "expo.out", delay: 0.75 });
+      gsap.to(dust.scale, { x: 1, y: 1, z: 1, duration: 2.2, ease: "expo.out", delay: 0.5 });
       nodes.forEach((n, i) => {
         gsap.to(n.scale, { x: 1, y: 1, z: 1, duration: 1.2, ease: "expo.out", delay: 0.85 + (i % 5) * 0.12 });
       });
-      gsap.to(edges.scale, { x: 1, y: 1, z: 1, duration: 1.6, ease: "expo.out", delay: 1.3 });
-      gsap.to(edges.material, { opacity: 0.14, duration: 1.8, delay: 1.3 });
+      edgeLines.forEach((l) => {
+        gsap.to(l.scale, { x: 1, y: 1, z: 1, duration: 1.6, ease: "expo.out", delay: 1.3 });
+        gsap.to(l.material, { opacity: 0.14, duration: 1.8, delay: 1.3 });
+      });
       pulses.forEach((p, i) => {
         gsap.to(p.mesh.scale, { x: 1, y: 1, z: 1, duration: 0.5, ease: "power2.out", delay: 2.0 + i * 0.14 });
       });
@@ -287,6 +380,7 @@ function Network3D({ lang, path }) {
       stop(); io.disconnect();
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("scroll", onScroll);
       renderer.domElement.removeEventListener("pointerdown", onDown);
       renderer.domElement.removeEventListener("pointermove", onMove);
       renderer.domElement.removeEventListener("pointerup", onUp);
