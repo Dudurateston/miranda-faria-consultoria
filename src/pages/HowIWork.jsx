@@ -226,7 +226,6 @@ export default function HowIWork() {
   color:var(--color-text-ghost);
   pointer-events:none;
 }
-@media(max-width:767px){.mf-tf__hud span:nth-child(3){display:none}}
 
 .mf-hiw__ai{padding:var(--section-gap) var(--gutter)}
 .mf-hiw__aiinner{max-width:var(--max-width-page);margin:0 auto}

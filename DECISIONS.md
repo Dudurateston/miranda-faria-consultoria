@@ -75,3 +75,21 @@ Ver lista completa e priorizada em `RECAP.md`, seção final. Resumo:
 foto real, métricas reais dos 4 cases, e-mail definitivo do domínio,
 LinkedIn/CV confirmados, hospedagem definitiva da imagem da logo
 (dentro do próprio app, não em app externo), domínio registrado.
+
+## Decisões do brief de ajustes (16/09/2026) — sobrepõem itens acima onde conflitam
+
+| Item | Decisão |
+|---|---|
+| Identidade — corte | Nível 2 autorizado (Eduardo delegou o julgamento ao agente): dark-first em todo o site, cobre tratado como SINAL (cobre-light sobre grafite, 6,99:1), voz de título sai da didone, mono promovida a voz de conteúdo. Metáfora de estratos REPLANEJADA como camadas de sistema na Etapa 3/4, não descartada de vez |
+| Cores | Paleta-base (grafite/osso/cobre) MANTIDA; muda o tratamento. Troca total de paleta só se o site ainda ler errado após a Etapa 4 |
+| Precificação | SAI do site (PT e EN). DECISIONS anterior de âncora R$ 1.000 revogada |
+| Automação | Vira solução de peso, MAS sem alegação sem prova: prova inicial = normalização por IA do MotorMoura (demonstrável). Cases de WhatsApp/Instagram só quando houver demonstração coletada |
+| Aba Tecnologia | Contador de FPS REMOVIDO (código e copy). Substituto: normalização por IA do MotorMoura ao vivo (opção A do Eduardo) — Etapa 4 |
+| Links ao vivo | REABERTO: domínio próprio linka (decisão antiga "nunca" revogada). 4 sites aprovados no portão 8.4 + Instagram Roda Agro. Cases sem domínio próprio seguem só print/vídeo |
+| Atribuição | Todo case ganha campo `papel`. 4 sites novos = "Projeto do escritório · com Thales Machado Souza"; resto = "Direção, design e desenvolvimento" |
+| Números | 3 níveis rotulados (Resultado/Escopo/Operação). Nível 1 só Roda Agro — SÓ números e dados, sem prints de painel (decisão do Eduardo 16/09). Estudo MIT (21x) sai |
+| E-mail | contato@mirandafaria.com.br → edumirandamf@gmail.com (ainda não há e-mail institucional) |
+| Filtro /work | APROVADO: por setor e vertical, estado na URL, PT e EN |
+| Foto no Sobre | ADIADA — fallback tipográfico é decisão de design, não buraco |
+| x-default | /pt (público neutro do negócio é o Brasil) |
+| © rodapé | © 2026 (atualizado na Etapa 2; revisar anualmente) |

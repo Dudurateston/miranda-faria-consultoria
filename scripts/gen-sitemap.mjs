@@ -27,7 +27,7 @@ const entry = (p) => {
     (l) =>
       `    <xhtml:link rel="alternate" hreflang="${l}" href="${ORIGIN}${p.replace(/^\/(en|pt)/, `/${l}`)}"/>`
   ).join("\n");
-  const xdefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${ORIGIN}${p.replace(/^\/(en|pt)/, "/en")}"/>`;
+  const xdefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${ORIGIN}${p.replace(/^\/(en|pt)/, "/pt")}"/>`;
   return `  <url>
     <loc>${ORIGIN}${p}</loc>
     <lastmod>${today}</lastmod>

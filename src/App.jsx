@@ -62,6 +62,7 @@ const LangShell = () => {
   return (
     <LanguageProvider lang={lang}>
       <SiteLayout />
+      <ConsentBanner />
     </LanguageProvider>
   );
 };
@@ -150,7 +151,6 @@ function App() {
             <AuthenticatedApp />
           </Router>
           <Toaster />
-          <ConsentBanner />
         </SmoothScroll>
       </QueryClientProvider>
     </AuthProvider>

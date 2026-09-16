@@ -100,7 +100,7 @@ export const copy = {
       techPreview: {
         label: "Technology",
         lead: "A lean stack, driven by method.",
-        stack: ["React", "Next.js", "Tailwind CSS", "Node.js", "Python", "Figma", "AI / LLMs", "Automation"],
+        stack: ["React", "Vite", "Tailwind CSS", "Node.js", "Python", "Figma", "AI / LLMs", "Automation"],
         cta: "Learn more",
       },
       insightsPreview: {
@@ -160,7 +160,7 @@ export const copy = {
         label: "Stack",
         lead: "Lean tools, directed by method.",
         items: [
-          "React / Next.js — interface and application",
+          "React / Vite — interface and application",
           "Tailwind CSS — design tokens the code reads",
           "Node.js / Python — automation and integrations",
           "Figma — identity and interface design",
@@ -172,14 +172,14 @@ export const copy = {
         label: "Live, right now",
         lead: "Three proofs running on this page.",
         body:
-          "Nothing below is video, GIF or slide: three panels computing right now, in your browser, with zero animation libraries. If it holds 60 frames per second, it's because the math holds — measured, not promised.",
+          "Nothing below is video, GIF or slide: three panels computing right now, in your browser, with zero animation libraries. If it holds 60 frames per second, it's because the math holds.",
         items: [
           {
             tag: "01",
             name: "Vector field",
             hint: "Move your cursor over the field.",
             caption:
-              "Hundreds of particles in a flow field that reacts to your cursor. Raw Canvas 2D, zero dependencies, drawn in real time. The FPS in the corner is measured in your browser.",
+              "Hundreds of particles in a flow field that reacts to your cursor. Raw Canvas 2D, zero dependencies, drawn in real time.",
           },
           {
             tag: "02",
@@ -469,7 +469,7 @@ export const copy = {
       techPreview: {
         label: "Tecnologia",
         lead: "Stack enxuto, dirigido por método.",
-        stack: ["React", "Next.js", "Tailwind CSS", "Node.js", "Python", "Figma", "IA / LLMs", "Automações"],
+        stack: ["React", "Vite", "Tailwind CSS", "Node.js", "Python", "Figma", "IA / LLMs", "Automações"],
         cta: "Saiba mais",
       },
       insightsPreview: {
@@ -529,7 +529,7 @@ export const copy = {
         label: "Stack",
         lead: "Ferramentas enxutas, dirigidas por método.",
         items: [
-          "React / Next.js — interface e aplicação",
+          "React / Vite — interface e aplicação",
           "Tailwind CSS — tokens de design que o código lê",
           "Node.js / Python — automação e integrações",
           "Figma — design de identidade e interface",
@@ -541,14 +541,14 @@ export const copy = {
         label: "Ao vivo, agora",
         lead: "Três provas rodando nesta página.",
         body:
-          "Nada abaixo é vídeo, GIF ou slide: são três painéis calculando neste instante, no seu navegador, sem nenhuma biblioteca de animação. Se está segurando 60 quadros por segundo, é porque a matemática aguenta — medida, não prometida.",
+          "Nada abaixo é vídeo, GIF ou slide: são três painéis calculando neste instante, no seu navegador, sem nenhuma biblioteca de animação. Se está segurando 60 quadros por segundo, é porque a matemática aguenta.",
         items: [
           {
             tag: "01",
             name: "Campo vetorial",
             hint: "Passe o cursor sobre o campo.",
             caption:
-              "Centenas de partículas num campo de fluxo que reage ao seu cursor. Canvas 2D puro, zero dependências, desenhado em tempo real. O FPS do canto é medido no seu navegador.",
+              "Centenas de partículas num campo de fluxo que reage ao seu cursor. Canvas 2D puro, zero dependências, desenhado em tempo real.",
           },
           {
             tag: "02",

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getConsent, setConsent } from "@/lib/siteAnalytics";
 import { copy } from "@/content/copy";
-import { detectLang } from "@/lib/i18n";
+import { useLang } from "@/lib/i18n";
 
 /**
  * Aviso LGPD — discreto, no canto, na linguagem do site: o visitante
@@ -9,7 +9,7 @@ import { detectLang } from "@/lib/i18n";
  */
 export default function ConsentBanner() {
   const [decision, setDecision] = useState("pending"); // pending|undecided
-  const [lang] = useState(() => detectLang());
+  const { lang } = useLang();
   const t = copy[lang].consent;
 
   useEffect(() => {

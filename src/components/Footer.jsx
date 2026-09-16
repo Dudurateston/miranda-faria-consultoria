@@ -84,7 +84,7 @@ export default function Footer() {
             <Link to="/privacidade" data-cursor="link" className="mf-foot__link">
               {t.footer.privacy}
             </Link>
-            <span className="mf-foot__copy">© 2023 Miranda Faria</span>
+            <span className="mf-foot__copy">© 2026 Miranda Faria</span>
           </div>
           </div>
         </div>
@@ -132,6 +132,7 @@ export default function Footer() {
 .mf-foot__links{display:flex;flex-wrap:wrap;gap:1rem 1.8rem}
 
 .mf-foot__link{
+  display:inline-flex;align-items:center;min-height:24px;padding:4px 0;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-secondary);text-decoration:none;
@@ -140,7 +141,7 @@ export default function Footer() {
 .mf-foot__link:hover{color:var(--color-accent)}
 .mf-foot__meta{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.8rem}
 
-.mf-foot__link--sellers{color:var(--mf-terracotta)}
+.mf-foot__link--sellers{color:var(--copper-light)}
 .mf-foot__copy{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;

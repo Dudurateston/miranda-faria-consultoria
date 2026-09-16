@@ -12,7 +12,6 @@ import React, { useEffect, useRef, useState } from "react";
 export default function TerraformCanvas() {
   const canvasRef = useRef(null);
   const wrapRef = useRef(null);
-  const [hud, setHud] = useState({ fps: 60, n: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -68,7 +67,6 @@ export default function TerraformCanvas() {
       ctx.fillStyle = "#16130f";
       ctx.fillRect(0, 0, W, H);
       spawn();
-      setHud((h) => ({ ...h, n: parts.length }));
     };
 
     const frame = (now) => {
@@ -81,7 +79,6 @@ export default function TerraformCanvas() {
           fps = Math.round((frames * 1000) / acc);
           acc = 0;
           frames = 0;
-          setHud({ fps, n: parts.length });
         }
         const t = now * 0.001;
         // rastro: fill translucido escurece o quadro anterior
@@ -202,11 +199,6 @@ export default function TerraformCanvas() {
   return (
     <figure ref={wrapRef} className="mf-tf" aria-label="Interactive particle field, pure canvas">
       <canvas ref={canvasRef} />
-      <figcaption className="mf-tf__hud" aria-hidden="true">
-        <span>{hud.fps} FPS</span>
-        <span>{hud.n} particles · click = wave</span>
-        <span>Canvas 2D · 0 dependencies</span>
-      </figcaption>
     </figure>
   );
 }
