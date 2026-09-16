@@ -299,7 +299,8 @@ export default function SiteNav({ revealAfterHero = false }) {
 .mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}
 
 .mf-nav__brand{display:flex;align-items:center;gap:0.8rem;text-decoration:none;white-space:nowrap;flex:0 0 auto}
-.mf-nav__logo{width:auto;height:40px;object-fit:contain;display:block}
+ .mf-nav__logo{width:auto;height:40px;object-fit:contain;display:block;transition:transform 0.45s var(--ease-out-expo)}
+.mf-nav__brand:hover .mf-nav__logo{transform:scale(1.09) rotate(-6deg)}
 .mf-nav__lockup{display:flex;flex-direction:column;line-height:1.3}
 .mf-nav__name{
   font-family:var(--font-display);font-weight:600;font-size:12px;

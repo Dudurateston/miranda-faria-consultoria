@@ -78,7 +78,7 @@ export default function HomeTrabalho() {
 }
 .mf-trows:hover .mf-trow:not(:hover){opacity:0.28}
 .mf-trow:hover{padding-left:0.9rem}
-.mf-trow:hover .mf-trow__num{color:var(--copper,#B5502E)}
+.mf-trow:hover .mf-trow__num{color:var(--mf-copper-text,#A6481F)}
 .mf-trow__num{
   font-family:var(--font-mono);font-size:var(--text-label);
   color:var(--color-text-ghost);letter-spacing:var(--tracking-label);
@@ -100,7 +100,7 @@ export default function HomeTrabalho() {
 .mf-trow__go{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--copper,#B5502E);white-space:nowrap;
+  color:var(--mf-copper-text,#A6481F);white-space:nowrap;
   opacity:0;transform:translateX(-8px);
   transition:opacity 0.35s ease, transform 0.35s ease;
 }
@@ -113,7 +113,7 @@ export default function HomeTrabalho() {
   border-bottom:1px solid var(--copper,#B5502E);padding-bottom:0.35rem;
   transition:color 0.3s ease;
 }
-.mf-trows__all a:hover{color:var(--copper,#B5502E)}
+.mf-trows__all a:hover{color:var(--mf-copper-text,#A6481F)}
 @media(max-width:860px){
   .mf-trow{grid-template-columns:2.2rem 1fr;grid-template-areas:"n b" "m m" "g g"}
   .mf-trow__num{grid-area:n}.mf-trow__body{grid-area:b}

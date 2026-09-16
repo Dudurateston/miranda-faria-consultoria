@@ -91,6 +91,9 @@ export default function Footer() {
 
         {/* Farol de cobre — o unico do site inteiro (DECISIONS.md). */}
         <span className="mf-foot__beacon" aria-hidden="true" />
+        <div className="mf-foot__word" aria-hidden="true">
+          MIRANDA FARIA<span className="mf-foot__worddot">.</span>
+        </div>
       </footer>
 
       {egg && (
@@ -109,7 +112,7 @@ export default function Footer() {
 .mf-foot{
   position:relative;
   padding:clamp(3.5rem,7vh,5rem) var(--gutter) clamp(2.5rem,5vh,3.5rem);
-  background:#141414);
+  background:#141414;
   border-top:1px solid var(--mf-rule);
 }
 .mf-foot__inner{
@@ -129,6 +132,15 @@ export default function Footer() {
 @media(max-width:859px){
   .mf-foot__tag{font-size:11px;letter-spacing:0.14em;line-height:1.6;color:var(--color-text-secondary)}
 }
+.mf-foot__word{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(3.2rem,12.5vw,10.5rem);line-height:0.78;
+  letter-spacing:0.035em;text-transform:uppercase;
+  color:rgba(245,241,234,0.08);white-space:nowrap;
+  max-width:var(--max-width-page);margin:2.6rem auto 0;
+  user-select:none;pointer-events:none;overflow:hidden;
+}
+.mf-foot__worddot{color:var(--copper-light,#E08A5F);opacity:0.55}
 .mf-foot__links{display:flex;flex-wrap:wrap;gap:1rem 1.8rem}
 
 .mf-foot__link{

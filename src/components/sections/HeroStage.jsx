@@ -641,7 +641,7 @@ export default function HeroStage() {
   margin-top:3.2rem;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--bone);border:1px solid var(--mf-terracotta);
+  color:var(--bone);background:var(--mf-copper,#B5502E);border:1px solid var(--mf-copper,#B5502E);
   padding:1rem 2.4rem;text-decoration:none;
   transition:background var(--duration-fast) var(--ease-in-out),
              box-shadow var(--duration-base) var(--ease-in-out),

@@ -87,7 +87,7 @@ export default function HomeServicos() {
 }
 .mf-srows:hover .mf-srow:not(:hover){opacity:0.32}
 .mf-srow:hover{padding-left:0.9rem;padding-right:0.35rem}
-.mf-srow:hover .mf-srow__num{color:var(--copper,#B5502E);text-indent:0.25rem}
+.mf-srow:hover .mf-srow__num{color:var(--mf-copper-text,#A6481F);text-indent:0.25rem}
 .mf-srow__num{
   font-family:var(--font-mono);font-size:var(--text-label);
   color:var(--color-text-ghost);letter-spacing:var(--tracking-label);
@@ -106,7 +106,7 @@ export default function HomeServicos() {
 .mf-srow__go{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--copper,#B5502E);margin-top:0.35rem;
+  color:var(--mf-copper-text,#A6481F);margin-top:0.35rem;
   opacity:0;transform:translateX(-6px);
   transition:opacity 0.35s ease, transform 0.35s ease;
 }
@@ -125,7 +125,7 @@ export default function HomeServicos() {
   border-bottom:1px solid var(--copper,#B5502E);padding-bottom:0.35rem;
   transition:color 0.3s ease;
 }
-.mf-srows__direct a:hover{color:var(--copper,#B5502E)}
+.mf-srows__direct a:hover{color:var(--mf-copper-text,#A6481F)}
 .mf-metrics{
   display:grid;grid-template-columns:repeat(3,1fr);
   margin-top:4rem;border-top:1px solid var(--mf-rule);

@@ -68,7 +68,7 @@ export default function ConsentBanner() {
   margin:0 0 0.5rem;
   font-family:var(--font-mono);font-size:10px;
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--mf-terracotta);
+  color:var(--copper-light,#E08A5F);
 }
 .mf-consent__text{
   margin:0 0 1rem;

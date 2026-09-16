@@ -3,10 +3,12 @@ import HeroStage, { IntroGate } from "@/components/sections/HeroStage";
 import HomeSobre from "@/components/sections/HomeSobre";
 import HomeServicos from "@/components/sections/HomeServicos";
 import HomeTrabalho from "@/components/sections/HomeTrabalho";
+import MfTicker from "@/components/sections/MfTicker";
 import HomeTecnologia from "@/components/sections/HomeTecnologia";
 import HomeInsights from "@/components/sections/HomeInsights";
 import HomeCta from "@/components/sections/HomeCta";
 import { usePageTitle } from "@/lib/usePageTitle";
+import { useLang } from "@/lib/i18n";
 
 /**
  * Home completa — seis secoes sobre o grafite (#141414), separadas por
@@ -15,6 +17,7 @@ import { usePageTitle } from "@/lib/usePageTitle";
  * para quem so visita a pagina principal.
  */
 export default function Home() {
+  const { lang } = useLang();
   usePageTitle(null, "home");
 
   return (
@@ -24,6 +27,7 @@ export default function Home() {
       <HomeSobre />
       <HomeServicos />
       <HomeTrabalho />
+      <MfTicker lang={lang} />
       <HomeTecnologia />
       <HomeInsights />
       <HomeCta />

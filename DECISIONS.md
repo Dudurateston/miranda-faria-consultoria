@@ -152,3 +152,9 @@ LinkedIn/CV confirmados, hospedagem definitiva da imagem da logo
 - **Contraste**: texto ghost agora rgba(26,26,24,0.72) sobre osso — WCAG ok.
 - **Separação Services/Projects (padrão referência)**: nav agora tem Serviços E Trabalhos como entradas irmãs. Ambos com submenu de painel claro + MÍDIA VIVA que troca no hover: Serviços mostra os vídeos das 4 soluções; Trabalhos mostra os vídeos REAIS dos 4 cases (rota-forte, 1000-pecas, miranda-faria, queijos-serra). Legenda numerada em mono em cima do vídeo.
 - **Menu mobile claro** (osso) com Trabalhos + 4 soluções numeradas com thumbs de vídeo.
+
+## Rodada v3.5 — CICLOS DE QUALIDADE (16/09 noite V)
+
+Ciclo 1 (auditoria WCAG + correções): CTA da hero estava sem fundo (osso-sobre-osso, invisível) → virou botão cobre sólido #B5502E. Links "Ver a solução/Ler o case" 4,49:1 → cobre-texto #A6481F (AA ✔). Bug CRÍTICO de deploy: `background:#141414)` com parêntese solto no rodapé invalidava o CSS → rodapé caiu pro osso com texto osso; corrigido. Label LGPD no banner → cobre-claro legível.
+Ciclo 2 (personalidade spence-grade): TICKER entre Trabalho e Tecnologia — faixa mono com as 4 soluções separadas por M de cobre em Instrument Serif, rolagem infinita 26s (respeita reduced-motion). WORDMARK GIGANTE no rodapé — "MIRANDA FARIA." em display clamp(3.2rem,12.5vw,10.5rem), osso a 8% com ponto final em cobre-claro. Lições do ciclo: copy[lang].practices é objeto — usar PRACTICE_SLUGS+getPractice; Home.jsx não tinha lang no escopo (import useLang de @/lib/i18n).
+Ciclo 3 (acabamento): barra de progresso de leitura — fio de cobre 2px fixo no topo (MfProgress, rAF, scaleX por scroll). M da nav ganhou hover vivo (scale 1.09 + rotate -6°, 450ms expo). Validação final: CTA cobre ✔, ticker animando ✔, progress scaleX dinâmico ✔, M hover ✔, rodapé escuro+wordmark ✔, EN/work/about vivos ✔, mobile 0 overflow ✔, 0 erros JS em tudo.

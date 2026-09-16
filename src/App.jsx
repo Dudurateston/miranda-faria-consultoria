@@ -43,6 +43,7 @@ const ResetPassword = React.lazy(() => import("@/pages/ResetPassword"));
 const OAuthConsent = React.lazy(() => import("@/pages/OAuthConsent"));
 import SmoothScroll from "@/components/SmoothScroll";
 import CopperCursor from "@/components/CopperCursor";
+import MfProgress from "@/components/MfProgress";
 import SiteLayout from "@/components/layout/SiteLayout";
 import { LanguageProvider, useLang, detectLang, isLang } from "@/lib/i18n";
 import { PRACTICE_SLUGS } from "@/content/copy";
@@ -145,6 +146,7 @@ function App() {
       <QueryClientProvider client={queryClientInstance}>
         <SmoothScroll>
           <CopperCursor />
+          <MfProgress />
           <Router>
             <ScrollToTop />
             {/* Dentro do Router: a rampa de fundo precisa recalcular na
