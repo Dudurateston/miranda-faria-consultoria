@@ -4,19 +4,26 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice } from "@/content/copy";
-import { CORTE_GIF, CELESTE_GIF, GEO_GIF, AUTOM_VIDEO } from "@/lib/site";
+import {
+  CORTE_GIF,
+  CELESTE_GIF,
+  LEAD_VIDEO,
+  AUTOM_VIDEO,
+  WHATSAPP_URL_BARE,
+} from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 /**
- * As tres verticais em cards creme sobre o grafite, cada um com um GIF
- * de fundo a 0.3 de opacidade fundido por mascara de gradiente — parte
- * do design, nao elemento colado. Metricas reais embaixo.
+ * As quatro soluções em LINHAS estilo spence — scroll reveal em cascata,
+ * hover que apaga as irmãs e ressalta a atual, preview em vídeo à direita.
+ * A copy do card já entrega a dor e o resultado; o CTA direto de WhatsApp
+ * embaixo tira o atrito de quem já se decidiu.
  */
 const VERTICALS = [
   { slug: "gestao", gif: CORTE_GIF },
-  { slug: "desenvolvimento", gif: GEO_GIF },
+  { slug: "desenvolvimento", gif: LEAD_VIDEO },
   { slug: "design", gif: CELESTE_GIF },
-  { slug: "automacao", gif: AUTOM_VIDEO }, // loop "blueprint construindo" do Drive
+  { slug: "automacao", gif: AUTOM_VIDEO },
 ];
 
 export default function HomeServicos() {
@@ -31,22 +38,35 @@ export default function HomeServicos() {
         </Reveal>
         <LineReveal className="mf-h__lead">{t.servicos.lead}</LineReveal>
 
-        <div className="mf-cards">
-          {VERTICALS.map(({ slug, gif }) => {
+        <div className="mf-srows">
+          {VERTICALS.map(({ slug, gif }, i) => {
             const p = getPractice(lang, slug);
             if (!p) return null;
             return (
-              <Link key={slug} to={path(slug)} className={`mf-card${gif ? "" : " mf-card--solid"}`} data-cursor="link">
-                {gif ? <AutoVideo className="mf-card__gif" src={gif} /> : <span className="mf-card__pulse" aria-hidden="true" />}
-                <span className="mf-card__label">{p.label}</span>
-                <p className="mf-card__lead">{t.servicos.cards?.[slug] ?? p.lead}</p>
-                <span className="mf-card__go">{t.servicos.seeVertical} →</span>
-              </Link>
+              <Reveal key={slug} delay={i * 110}>
+                <Link to={path(slug)} className="mf-srow" data-cursor="link">
+                  <span className="mf-srow__num">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="mf-srow__body">
+                    <span className="mf-srow__name">{p.label}</span>
+                    <span className="mf-srow__desc">{t.servicos.cards?.[slug] ?? p.lead}</span>
+                    <span className="mf-srow__go">{t.servicos.seeVertical} →</span>
+                  </span>
+                  <span className="mf-srow__media">
+                    <AutoVideo className="mf-srow__gif" src={gif} />
+                  </span>
+                </Link>
+              </Reveal>
             );
           })}
         </div>
 
-        <div className="mf-cards__metrics">
+        <Reveal delay={140} className="mf-srows__direct">
+          <a href={WHATSAPP_URL_BARE} target="_blank" rel="noopener noreferrer" data-cursor="link">
+            {t.servicos.cta} <span aria-hidden="true">→</span>
+          </a>
+        </Reveal>
+
+        <div className="mf-metrics">
           {t.servicos.metrics.map((m, i) => (
             <Reveal key={i} delay={i * 90} className="mf-metric">
               <span className="mf-metric__n">{m.n}</span>
@@ -57,76 +77,82 @@ export default function HomeServicos() {
       </div>
 
       <style>{`
-.mf-cards{display:grid;grid-template-columns:1fr;gap:1.6rem;margin-top:3.5rem}
-@media(min-width:860px){.mf-cards{grid-template-columns:repeat(2,1fr);gap:clamp(1.2rem,2.5vw,2rem)}}
-@media(min-width:1200px){.mf-cards{grid-template-columns:repeat(4,1fr)}}
-.mf-card{
-  position:relative;overflow:hidden;background:var(--bone);
-  padding:2.2rem 1.8rem;min-height:300px;
-  display:flex;flex-direction:column;gap:0.9rem;
-  text-decoration:none;color:var(--ink);
-  transition:transform var(--duration-base) var(--ease-out-expo),
-             box-shadow var(--duration-base) var(--ease-in-out);
+.mf-srows{margin-top:3.5rem;border-top:1px solid var(--mf-rule)}
+.mf-srow{
+  display:grid;grid-template-columns:3.2rem 1fr 150px;
+  gap:clamp(1rem,3vw,2.4rem);align-items:center;
+  padding:clamp(1.3rem,2.6vw,2rem) 0;
+  border-bottom:1px solid var(--mf-rule);
+  transition:opacity 0.45s ease, padding 0.45s cubic-bezier(0.22,1,0.36,1);
 }
-.mf-card__gif{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;opacity:0.3;pointer-events:none;
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,black 20%,black 80%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0%,black 20%,black 80%,transparent 100%);
-}
-.mf-card__label{
-  position:relative;
+.mf-srows:hover .mf-srow:not(:hover){opacity:0.32}
+.mf-srow:hover{padding-left:0.9rem;padding-right:0.35rem}
+.mf-srow:hover .mf-srow__num{color:var(--copper,#B5502E);text-indent:0.25rem}
+.mf-srow__num{
   font-family:var(--font-mono);font-size:var(--text-label);
-  letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:rgba(38,38,38,0.66);
+  color:var(--color-text-ghost);letter-spacing:var(--tracking-label);
+  transition:color 0.3s ease;
 }
-.mf-card__lead{
-  position:relative;
+.mf-srow__body{display:flex;flex-direction:column;gap:0.4rem;min-width:0}
+.mf-srow__name{
   font-family:var(--font-display);font-weight:400;
-  font-size:clamp(1.25rem, 1.7vw, 1.5rem);line-height:1.28;
-  color:var(--ink);margin:0;
+  font-size:clamp(1.35rem,2.6vw,2.1rem);line-height:1.1;
+  letter-spacing:var(--tracking-display);color:var(--color-text-primary);
 }
-.mf-card__go{
-  position:relative;margin-top:auto;
+.mf-srow__desc{
+  font-size:clamp(0.86rem,1.1vw,0.95rem);line-height:1.5;
+  color:var(--color-text-ghost);max-width:52ch;
+}
+.mf-srow__go{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--mf-terracotta);
+  color:var(--copper,#B5502E);margin-top:0.35rem;
+  opacity:0;transform:translateX(-6px);
+  transition:opacity 0.35s ease, transform 0.35s ease;
 }
-.mf-card:hover{
-  transform:translateY(-8px);
-  box-shadow:0 24px 56px rgba(0,0,0,0.45),0 0 0 1px rgba(179,122,96,0.35);
+.mf-srow:hover .mf-srow__go{opacity:1;transform:translateX(0)}
+.mf-srow__media{
+  width:150px;aspect-ratio:4/3;overflow:hidden;border-radius:2px;
+  border:1px solid var(--mf-rule);position:relative;
 }
-@media(prefers-reduced-motion:reduce){.mf-card:hover{transform:none;box-shadow:none}}
-@media(hover:none){.mf-card:hover{transform:none;box-shadow:none}}
-
-.mf-cards__metrics{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:1.8rem 2.5rem;
-  margin-top:3.25rem;padding-top:2.25rem;margin-bottom:clamp(1.5rem,4vh,3rem);
-  border-top:1px solid var(--mf-rule);
+.mf-srow__gif,.mf-srow__media video{width:100%;height:100%;object-fit:cover;opacity:0.35;transition:opacity 0.4s ease}
+.mf-srow:hover .mf-srow__gif,.mf-srow:hover .mf-srow__media video{opacity:0.9}
+.mf-srows__direct{margin-top:1.6rem}
+.mf-srows__direct a{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-primary);text-decoration:none;
+  border-bottom:1px solid var(--copper,#B5502E);padding-bottom:0.35rem;
+  transition:color 0.3s ease;
 }
-@media(min-width:860px){.mf-cards__metrics{grid-template-columns:repeat(4,1fr)}}
-.mf-metric{display:flex;flex-direction:column;gap:0.8rem}
+.mf-srows__direct a:hover{color:var(--copper,#B5502E)}
+.mf-metrics{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  margin-top:4rem;border-top:1px solid var(--mf-rule);
+}
+.mf-metric{display:flex;flex-direction:column;gap:0.5rem;padding:1.6rem 1.4rem 0;text-align:center;align-items:center}
+.mf-metric + .mf-metric{border-left:1px solid var(--mf-rule)}
 .mf-metric__n{
   font-family:var(--font-display);font-weight:400;
-  font-size:var(--text-display-lg);line-height:1;
+  font-size:clamp(2rem,3.6vw,3.1rem);line-height:1;letter-spacing:var(--tracking-display);
   color:var(--color-text-primary);
 }
 .mf-metric__d{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-ghost);
+  color:var(--color-text-ghost);max-width:22ch;
 }
-.mf-card--solid{background:linear-gradient(160deg,rgba(181,80,46,0.14),rgba(20,20,20,0.92))}
-.mf-card--solid .mf-card__label{color:var(--copper,#B5502E)}
-.mf-card__pulse{
-  position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(circle at 78% 22%, rgba(181,80,46,0.28) 0, transparent 42%),
-    repeating-conic-gradient(from 0deg at 78% 22%, transparent 0deg 14deg, rgba(245,241,234,0.05) 14deg 15deg);
-  animation:mf-pulse 6s linear infinite;
+@media(max-width:860px){
+  .mf-srow{grid-template-columns:2.2rem 1fr;grid-template-areas:"n b" "m m"}
+  .mf-srow__num{grid-area:n}.mf-srow__body{grid-area:b}
+  .mf-srow__media{grid-area:m;width:100%;aspect-ratio:16/8}
+  .mf-srow:hover{padding-left:0;padding-right:0}
+  .mf-srow__go{opacity:1;transform:none}
+  .mf-metrics{grid-template-columns:1fr}
+  .mf-metric{padding:1.3rem 0 0;border-left:none !important}
+  .mf-metric + .mf-metric{border-left:none;border-top:1px solid var(--mf-rule)}
 }
-@keyframes mf-pulse{to{transform:rotate(360deg)}}
-      `}</style>
+`}</style>
     </section>
   );
 }

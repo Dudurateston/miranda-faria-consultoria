@@ -3,7 +3,7 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
-import { WHATSAPP_URL_SITE, WATERMARK_GIF } from "@/lib/site";
+import { WHATSAPP_URL_SITE, WATERMARK_GIF, PARTICLES_VIDEO } from "@/lib/site";
 
 /** CTA final — watermark M animado no fundo, "Vamos conversar" + WhatsApp. */
 export default function HomeCta() {
@@ -12,6 +12,7 @@ export default function HomeCta() {
 
   return (
     <section className="mf-h mf-cta">
+      <video className="mf-cta__bg" src={PARTICLES_VIDEO} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
       <img className="mf-cta__wm" src={WATERMARK_GIF} alt="" loading="lazy" width="640" height="360" aria-hidden="true" />
       <div className="mf-h__inner mf-cta__inner">
         <Reveal>
@@ -36,6 +37,13 @@ export default function HomeCta() {
   text-align:center;overflow:hidden;
   padding-block:clamp(7rem,16vh,11rem);
 }
+.mf-cta__bg{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0.22;filter:saturate(1.05);
+  mask-image:radial-gradient(ellipse 78% 65% at 50% 50%, #000 20%, transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 78% 65% at 50% 50%, #000 20%, transparent 80%);
+}
+@media(max-width:860px){.mf-cta__bg{opacity:0.13}}
 .mf-cta__wm{
   /* Centrada no palco e mais suave: a marca sustenta, nao salta aos
      olhos — a secao volta a parecer parte do sitio, nao um adesivo. */

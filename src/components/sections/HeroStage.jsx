@@ -142,7 +142,7 @@ function Network3D({ lang, path }) {
     SAT_POS.slice(0, isMobile ? 7 : 12).forEach((p, i) => {
       const slug = SAT_SLUGS[i];
       const c = caseByName[slug];
-      addNode(p, 0.035, satMat, {
+      addNode(p, isMobile ? 0.05 : 0.035, satMat, {
         name: c ? c.name : slug,
         to: path(`work/${slug}`),
         hub: false,
@@ -520,6 +520,13 @@ export function IntroGate() {
   font-family:var(--font-mono);font-size:clamp(9px,1.3vw,11px);
   letter-spacing:0.5em;text-transform:uppercase;
   color:rgba(245,241,234,0.75);white-space:nowrap;
+}
+@media(max-width:600px){
+  .mf-intro{gap:1.05rem}
+  .mf-intro__m{width:42px}
+  .mf-intro__word{font-size:1.05rem;letter-spacing:0.18em}
+  .mf-intro__line{width:110px}
+  .mf-intro__role{font-size:8px;letter-spacing:0.3em}
 }
 `}</style>
     </div>

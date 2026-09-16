@@ -109,6 +109,9 @@ export const copy = {
         stack: ["React", "Vite", "Tailwind CSS", "Node.js", "Python", "Figma", "AI / LLMs", "Automation"],
         cta: "Learn more",
       },
+      trabalhoPreview: {
+        cta: "See all projects",
+      },
       insightsPreview: {
         label: "Diagnosis",
         lead: "What does it cost to leave it unsolved?",
@@ -487,7 +490,10 @@ export const copy = {
         stack: ["React", "Vite", "Tailwind CSS", "Node.js", "Python", "Figma", "IA / LLMs", "Automações"],
         cta: "Saiba mais",
       },
-      insightsPreview: {
+      trabalhoPreview: {
+        cta: "Ver todos os projetos",
+      },
+            insightsPreview: {
         label: "Diagnóstico",
         lead: "Quanto custa não resolver?",
         intro:
@@ -894,7 +900,7 @@ export const cases = {
       slug: "rota-forte",
       practice: "desenvolvimento",
       role: "Direção, design e desenvolvimento",
-      name: "Rota Forte",
+      name: "Rota Fort",
       sector: "Munck and crane rental",
       year: "2026",
       summary: "Institutional site with an equipment catalogue — the quote starts on WhatsApp.",
@@ -1161,7 +1167,7 @@ export const cases = {
       slug: "rota-forte",
       practice: "desenvolvimento",
       role: "Direção, design e desenvolvimento",
-      name: "Rota Forte",
+      name: "Rota Fort",
       sector: "Locação de munck e guindaste",
       year: "2026",
       summary: "Site institucional com catálogo de equipamentos — o orçamento começa no WhatsApp.",
@@ -1473,7 +1479,7 @@ export const practices = {
       ],
       proofLabel: "Proof, not promise",
       proofs: [
-        "Rota Forte: a page whose only job is to route the right enquiry to WhatsApp — and it does.",
+        "Rota Fort: a page whose only job is to route the right enquiry to WhatsApp — and it does.",
         "Paulo Henrique: a presentation site with a performance lab the visitor actually uses.",
         "1000 Peças: an institutional catalogue that routes quotes to the chat without exposing price — the sales strategy becomes interface.",
       ],
@@ -1695,7 +1701,7 @@ export const practices = {
       ],
       proofLabel: "Prova, não promessa",
       proofs: [
-        "Rota Forte: uma página cujo único trabalho é levar o orçamento certo pro WhatsApp — e ela leva.",
+        "Rota Fort: uma página cujo único trabalho é levar o orçamento certo pro WhatsApp — e ela leva.",
         "Paulo Henrique: site de apresentação com um laboratório de performance que o visitante usa de verdade.",
         "1000 Peças: catálogo institucional que leva o orçamento pro chat sem expor preço — a estratégia comercial vira interface.",
       ],

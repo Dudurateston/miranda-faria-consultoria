@@ -130,3 +130,18 @@ LinkedIn/CV confirmados, hospedagem definitiva da imagem da logo
 - **Numeração de seções 01–04** estilo spence (Sobre 01 · Serviços 02 · Tecnologia 03 · Insights 04).
 - **Easter egg**: 3 cliques no M da hero (e menu mobile) abrem a animação do logo grande — mesmo comportamento do rodapé. M do nav fica de fora (clique ali = ir pra Home, sem ambiguidade).
 - Drive 'identidade Miranda Faria/videos e gifs' mapeado: 22 vídeos/GIFs de marca prontos (coluna geológica, blueprint, lead veio cobre...).
+
+## Rodada v3.3 — densificação estilo spence + mobile pra valer (16/09 noite III)
+
+- **Serviços viram LINHAS estilo spence** (substituíram os 4 cards): scroll reveal em cascata, hover apaga as irmãs e ressalta a atual, preview em vídeo à direita (150px, opacity 0.35→0.9). 4 elementos DISTINTOS: Gestão=corte, Desenvolvimento=lead_veio_cobre (recodificado 4K HEVC→246MB? não: 246KB H264), Design=celeste, Automação=blueprint. CTA direto de WhatsApp embaixo (sem atrito).
+- **Seção Trabalho (03) nova na Home**: 6 cases destaque (Rota Fort, 1000 Peças, MotorMoura, Uai Sô, Sevalho, VAF) em linhas editoriais com hover dim, "leia o caso" cobre. Numeração Home agora 01–05.
+- **Submenu no nav (desktop)**: hover em "Serviços" abre painel com as 4 soluções (número cobre + nome didone + descrição), M gigante translúcido de marca d'água, entrada em cascata. Menu mobile ganha as 4 soluções numeradas.
+- **Burger fixo no mobile**: movido pra fora do header — sempre visível no topo da Home (antes ficava preso à nav que só aparece após 72% da tela).
+- **Vídeo "Hero design IA partículas cobre" do Eduardo (Drive, 4K HEVC) → CTA final**: recodificado 1080p H264 4.3MB, fundo mascarado radial (opacity 0.22 desktop / 0.13 mobile) atrás do M animado — mensagem nova: convite, não abertura.
+- **Malha animada** de fundo na Home (2 grids diagonais, drift 46s, quase imperceptível) — sair do minimalismo seco sem sujar.
+- **Métricas simétricas**: grid 3 colunas iguais com filetes.
+- **Egg sem seleção de texto**: user-select none nos elementos interativos (3 cliques no M não selecionam mais nada).
+- **Intro mobile**: wordmark 1.05rem/0.18em, role 8px, M 42px — cabe em 390px (136px medidos).
+- **Sats 3D maiores no touch** (0.05 vs 0.035).
+- **"Rota Forte"→"Rota Fort"** em 4 pontos da copy (regra da marca, sem E).
+- hero_loop.mp4 antigo: recuperado do git mas NÃO usado (descansando; Eduardo liberou uso se fizer sentido).

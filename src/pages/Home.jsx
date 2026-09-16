@@ -2,6 +2,7 @@ import React from "react";
 import HeroStage, { IntroGate } from "@/components/sections/HeroStage";
 import HomeSobre from "@/components/sections/HomeSobre";
 import HomeServicos from "@/components/sections/HomeServicos";
+import HomeTrabalho from "@/components/sections/HomeTrabalho";
 import HomeTecnologia from "@/components/sections/HomeTecnologia";
 import HomeInsights from "@/components/sections/HomeInsights";
 import HomeCta from "@/components/sections/HomeCta";
@@ -22,6 +23,7 @@ export default function Home() {
       <HeroStage />
       <HomeSobre />
       <HomeServicos />
+      <HomeTrabalho />
       <HomeTecnologia />
       <HomeInsights />
       <HomeCta />
@@ -29,7 +31,17 @@ export default function Home() {
       <style>{`
 .mf-label__n{color:var(--copper,#B5502E);margin-right:0.55rem;font-size:0.9em}
 
-.mf-home{background:var(--mf-graphite)}
+body{-webkit-tap-highlight-color:transparent}
+.mf-hero__mark,.mf-mnav__wm,.mf-nav__brand,.mf-egg,.mf-srow,.mf-trow{user-select:none;-webkit-user-select:none}
+.mf-home{
+  background-color:var(--mf-graphite);
+  background-image:
+    repeating-linear-gradient(115deg, transparent 0 90px, rgba(245,241,234,0.028) 90px 91px),
+    repeating-linear-gradient(-115deg, transparent 0 140px, rgba(181,80,46,0.05) 140px 141px);
+  animation:meshdrift 46s linear infinite;
+}
+@keyframes meshdrift{to{background-position:640px 320px, -560px -280px}}
+
 .mf-h{
   position:relative;
   padding:var(--section-gap) var(--gutter);
