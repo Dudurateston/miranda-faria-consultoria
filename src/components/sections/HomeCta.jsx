@@ -1,4 +1,5 @@
 import React from "react";
+import AutoVideo from "@/components/AutoVideo";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
@@ -12,7 +13,7 @@ export default function HomeCta() {
 
   return (
     <section className="mf-h mf-cta" data-theme="dark">
-      <video className="mf-cta__bg" src={PARTICLES_VIDEO} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+      <AutoVideo className="mf-cta__bg" src={PARTICLES_VIDEO} />
       <img className="mf-cta__wm" src={WATERMARK_GIF} alt="" loading="lazy" width="640" height="360" aria-hidden="true" />
       <div className="mf-h__inner mf-cta__inner">
         <Reveal>
@@ -76,7 +77,10 @@ export default function HomeCta() {
   transform:translateY(-2px);
 }
 @media(prefers-reduced-motion:reduce){.mf-cta__btn:hover{transform:none}}
-      `}</style>
+      @media(max-width:860px){
+.mf-cta__btn{min-height:44px;display:inline-flex;align-items:center}
+}
+`}</style>
     </section>
   );
 }

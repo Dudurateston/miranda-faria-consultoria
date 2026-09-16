@@ -518,7 +518,10 @@ export default function SiteNav({ revealAfterHero = false }) {
   font-family:var(--font-mono);font-size:10px;
   color:var(--copper,#B5502E);letter-spacing:var(--tracking-label);
 }
-      `}</style>
+      @media(max-width:860px){
+.mf-nav__link{min-height:44px;display:inline-flex;align-items:center}
+}
+`}</style>
     </>
   );
 }

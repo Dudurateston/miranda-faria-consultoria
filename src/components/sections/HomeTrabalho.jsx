@@ -123,6 +123,9 @@ export default function HomeTrabalho() {
 }
 .mf-trow__go{display:inline-block;transition:transform 0.35s var(--ease-out-expo)}
 .mf-trow:hover .mf-trow__go{transform:translateX(6px)}
+@media(max-width:860px){
+.mf-trows__all a{min-height:44px;display:inline-flex;align-items:center}
+}
 `}</style>
     </section>
   );

@@ -91,7 +91,8 @@ export default function ConsentBanner() {
 @media(max-width:859px){
   .mf-consent{right:var(--gutter);bottom:5.4rem}
 }
-      `}</style>
+      @media(max-width:860px){.mf-consent__yes, .mf-consent__no, .mf-consent__link{min-height:44px;display:inline-flex;align-items:center}}
+`}</style>
     </aside>
   );
 }

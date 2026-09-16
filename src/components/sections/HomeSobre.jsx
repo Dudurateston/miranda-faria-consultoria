@@ -1,3 +1,4 @@
+import AutoVideo from "@/components/AutoVideo";
 import React from "react";
 import Link from "@/components/TransitionLink";
 import Reveal from "@/components/Reveal";
@@ -15,7 +16,7 @@ export default function HomeSobre() {
     <section className="mf-h">
       <div className="mf-h__inner mf-sobre">
         <figure className="mf-sobre__media">
-          <video src={REELS_URL} autoPlay muted loop playsInline preload="metadata" />
+          <AutoVideo src={REELS_URL} />
         </figure>
         <div className="mf-sobre__text">
           <Reveal>

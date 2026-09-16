@@ -180,7 +180,8 @@ export default function Footer() {
   background:rgba(20,20,20,0.92);
 }
 .mf-egg img{width:clamp(220px,40vw,420px);display:block;filter:invert(1) brightness(1.05) contrast(0.9)}
-      `}</style>
+      @media(max-width:860px){.mf-foot__link{min-height:44px;display:inline-flex;align-items:center}}
+`}</style>
     </>
   );
 }

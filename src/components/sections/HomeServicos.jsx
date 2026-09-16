@@ -154,6 +154,7 @@ export default function HomeServicos() {
 }
 .mf-srow__go{display:inline-block;transition:transform 0.35s var(--ease-out-expo)}
 .mf-srow:hover .mf-srow__go{transform:translateX(6px)}
+@media(max-width:860px){.mf-srows__direct a{min-height:44px;display:inline-flex;align-items:center}}
 `}</style>
     </section>
   );

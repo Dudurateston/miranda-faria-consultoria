@@ -170,3 +170,9 @@ Ciclo 6 (fechamento AA total): ticker pausa no hover. Auditoria WCAG completa (6
 Ciclo 7 (paridade de rotas): 13 cases × 2 idiomas testados um a um — todos vivos (o t=0 do rota-forte era cold-start do primeiro load, re-check ok). Form de contato aceitava submit VAZIO (nenhum campo required) → nome, e-mail e mensagem viraram obrigatórios com aria-required. Nota: 404 de rota digitada direto na URL é o 404 do hosting Base44 (não controlável); o PageNotFound estilizado cobre navegação interna.
 Ciclo 8 (acessibilidade de interação): tab order correto (skip-link → nav brand → links, todos com :focus-visible). Reduced-motion CONFIRMADO no ticker (animationName none — atenção: animationPlayState reporta "running" mesmo sem animação, usar animationName pra validar).
 Ciclo 9: ticker já é aria-hidden pra leitores de tela ✔. Tudo verde.
+
+## Rodada v3.8 — CICLOS 10-11 (16/09 noite VIII)
+
+Ciclo 10 (performance): cta_particles.mp4 (4,2MB) e automacao_loop.mp4 (2,2MB) eram baixados de cara na Home — AutoVideo não tinha gating, autoplay dispara download mesmo fora da tela. AutoVideo virou LAZY: src só entra quando o elemento se aproxima da viewport (IntersectionObserver rootMargin 300px, descarrega observer após). HomeCta e HomeSobre tinham <video> crus → convertidos. LCP desktop 2,3s ✔, 0 warnings de console ✔. Efeito: +6,4MB fora do load inicial; cta_particles carrega só ao rolar perto do CTA ✔.
+Ciclo 11 (touch targets): regra do Eduardo (alvos ≥44px) estava violada em 12 elementos mobile: CTA "Começar um projeto" (h=20), links do rodapé (h=28) e botões do banner LGPD (h=26 — crítico). Min-height 44px + inline-flex aplicado em .mf-srows__direct a, .mf-foot__link, .mf-consent__* (lição: aplicar no ELEMENTO INTERATIVO, não no wrapper — o primeiro patch caiu no span pai e o link continuou 26px).
+Final: 0 alvos <40px, 0 erros JS, 0 overflow desktop+mobile.
