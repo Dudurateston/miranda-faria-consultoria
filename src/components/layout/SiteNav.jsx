@@ -193,12 +193,19 @@ export default function SiteNav({ revealAfterHero = false }) {
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-secondary);text-decoration:none;
-  padding-bottom:2px;border-bottom:1px solid transparent;
-  transition:color var(--duration-fast) var(--ease-in-out),
-             border-color var(--duration-fast) var(--ease-in-out);
+  padding-bottom:4px;border-bottom:0;position:relative;
+  transition:color var(--duration-fast) var(--ease-in-out);
+}
+.mf-nav__link::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:var(--color-accent);
+  transform:scaleX(0);transform-origin:left center;
+  transition:transform var(--duration-base) var(--ease-out-expo);
 }
 .mf-nav__link:hover{color:var(--color-text-primary)}
-.mf-nav__link.is-active{color:var(--color-text-primary);border-bottom-color:var(--color-accent)}
+.mf-nav__link:hover::after{transform:scaleX(1)}
+.mf-nav__link.is-active{color:var(--color-text-primary)}
+.mf-nav__link.is-active::after{transform:scaleX(1)}
 
 .mf-nav__lang{
   font-family:var(--font-mono);font-size:var(--text-label);

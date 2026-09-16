@@ -24,6 +24,7 @@ import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import Home from "@/pages/Home";
+import TransitionCurtain from "@/components/layout/TransitionCurtain";
 
 
 
@@ -61,6 +62,7 @@ const LangShell = () => {
   if (!isLang(lang)) return <Navigate to={`/${detectLang()}`} replace />;
   return (
     <LanguageProvider lang={lang}>
+      <TransitionCurtain />
       <SiteLayout />
       <ConsentBanner />
     </LanguageProvider>

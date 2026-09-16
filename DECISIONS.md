@@ -114,3 +114,9 @@ LinkedIn/CV confirmados, hospedagem definitiva da imagem da logo
 - Glow aditivo: halos de sprite nos hubs de cobre + pulsos com blending aditivo.
 - **Scroll reage**: câmera recua (z+1.3) e desce (y-0.8) conforme a hero sai da tela.
 - netHint na copy PT/EN ("Arraste para girar · clique nos nós").
+
+## Transições de página estilo spence (16/09 noite)
+
+- **TransitionCurtain** (novo, LangShell): clique em link interno → cortina grafite sobre (scaleY power3.inOut, 0.45s) com M centrado e filete de cobre na borda → rota troca por baixo → cortina sai por baixo (expo.inOut). Back/forward ganha só a revelação. Reduced-motion: navegação seca. Scroll travado durante o cover, liberado no reveal.
+- Nav: underline cobre que desliza da esquerda (scaleX expo) no hover; ativo fica cravado.
+- Nav é oculto no topo POR DESIGN (aparece após scroll) — não é bug.
