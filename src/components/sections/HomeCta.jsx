@@ -11,7 +11,7 @@ export default function HomeCta() {
   const t = copy[lang].home.finalCta;
 
   return (
-    <section className="mf-h mf-cta">
+    <section className="mf-h mf-cta" data-theme="dark">
       <video className="mf-cta__bg" src={PARTICLES_VIDEO} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
       <img className="mf-cta__wm" src={WATERMARK_GIF} alt="" loading="lazy" width="640" height="360" aria-hidden="true" />
       <div className="mf-h__inner mf-cta__inner">
@@ -33,7 +33,7 @@ export default function HomeCta() {
       </div>
 
       <style>{`
-.mf-h.mf-cta{
+.mf-h.mf-cta{background:#141414;
   text-align:center;overflow:hidden;
   padding-block:clamp(7rem,16vh,11rem);
 }

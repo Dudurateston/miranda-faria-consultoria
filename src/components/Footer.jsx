@@ -109,7 +109,7 @@ export default function Footer() {
 .mf-foot{
   position:relative;
   padding:clamp(3.5rem,7vh,5rem) var(--gutter) clamp(2.5rem,5vh,3.5rem);
-  background:var(--mf-graphite);
+  background:#141414);
   border-top:1px solid var(--mf-rule);
 }
 .mf-foot__inner{

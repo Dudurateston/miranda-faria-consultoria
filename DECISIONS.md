@@ -145,3 +145,10 @@ LinkedIn/CV confirmados, hospedagem definitiva da imagem da logo
 - **Sats 3D maiores no touch** (0.05 vs 0.035).
 - **"Rota Forte"→"Rota Fort"** em 4 pontos da copy (regra da marca, sem E).
 - hero_loop.mp4 antigo: recuperado do git mas NÃO usado (descansando; Eduardo liberou uso se fizer sentido).
+
+## Rodada v3.4 — TEMA CLARO + separação Serviços/Trabalhos (16/09 noite IV)
+
+- **O site virou CLARO**: osso (#F5F1EA) de fundo, tinta escura de texto, cobre de acento — como o sistema de tokens nasceu ([data-theme="dark"] removido da Home e hero; --mf-graphite/--mf-rule remapeados pra osso/hairline). Canvas 3D da hero: poeira, satélites e octaedros agora em tinta escura sobre osso; título da hero tinta (era osso-sobre-osso — bug de contraste que o Eduardo viu nos prints). Bookends escuros INTENCIONAIS: CTA final (partículas de cobre) + rodapé.
+- **Contraste**: texto ghost agora rgba(26,26,24,0.72) sobre osso — WCAG ok.
+- **Separação Services/Projects (padrão referência)**: nav agora tem Serviços E Trabalhos como entradas irmãs. Ambos com submenu de painel claro + MÍDIA VIVA que troca no hover: Serviços mostra os vídeos das 4 soluções; Trabalhos mostra os vídeos REAIS dos 4 cases (rota-forte, 1000-pecas, miranda-faria, queijos-serra). Legenda numerada em mono em cima do vídeo.
+- **Menu mobile claro** (osso) com Trabalhos + 4 soluções numeradas com thumbs de vídeo.

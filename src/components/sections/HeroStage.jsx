@@ -82,7 +82,7 @@ function Network3D({ lang, path }) {
     const dustG = new THREE.BufferGeometry();
     dustG.setAttribute("position", new THREE.BufferAttribute(dustPos, 3));
     const dust = new THREE.Points(dustG, new THREE.PointsMaterial({
-      color: 0xf5f1ea, size: 0.02, transparent: true, opacity: 0.30, sizeAttenuation: true,
+      color: 0x1a1a18, size: 0.02, transparent: true, opacity: 0.30, sizeAttenuation: true,
     }));
     dust.scale.setScalar(0.001);
     scene.add(dust);
@@ -98,8 +98,8 @@ function Network3D({ lang, path }) {
       return new THREE.CanvasTexture(c);
     })();
 
-    const boneMat = new THREE.MeshBasicMaterial({ color: 0xf5f1ea, transparent: true, opacity: 0.92 });
-    const satMat = new THREE.MeshBasicMaterial({ color: 0xf5f1ea, transparent: true, opacity: 0.55 });
+    const boneMat = new THREE.MeshBasicMaterial({ color: 0x1a1a18, transparent: true, opacity: 0.92 });
+    const satMat = new THREE.MeshBasicMaterial({ color: 0x1a1a18, transparent: true, opacity: 0.55 });
     const copMat = new THREE.MeshBasicMaterial({ color: 0xb5502e, transparent: true, opacity: 0.95 });
 
     const practiceLabels = {};
@@ -166,7 +166,7 @@ function Network3D({ lang, path }) {
       const g = new THREE.BufferGeometry();
       g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(24 * 3), 3));
       const line = new THREE.Line(g, new THREE.LineBasicMaterial({
-        color: 0xf5f1ea, transparent: true, opacity: 0.14,
+        color: 0x1a1a18, transparent: true, opacity: 0.14,
       }));
       line.scale.setScalar(0.001);
       group.add(line);
@@ -199,7 +199,7 @@ function Network3D({ lang, path }) {
     const shards = SHARDS.map(([x, y, z], i) => {
       const m = new THREE.Mesh(
         new THREE.OctahedronGeometry(0.055 + (i % 2) * 0.02),
-        new THREE.MeshBasicMaterial({ color: i % 2 ? 0xb5502e : 0xf5f1ea, wireframe: true, transparent: true, opacity: 0.2 })
+        new THREE.MeshBasicMaterial({ color: i % 2 ? 0xb5502e : 0x1a1a18, wireframe: true, transparent: true, opacity: 0.2 })
       );
       m.position.set(x, y, z);
       m.scale.setScalar(0.001);
@@ -271,7 +271,7 @@ function Network3D({ lang, path }) {
         // modo foco: do que este ponto é feito?
         pairs.forEach((pr, i) => {
           const conn = hovered && (pr[0] === hovered || pr[1] === hovered);
-          edgeLines[i].material.color.setHex(conn ? 0xb5502e : 0xf5f1ea);
+          edgeLines[i].material.color.setHex(conn ? 0xb5502e : 0x1a1a18);
           gsap.to(edgeLines[i].material, { opacity: hovered ? (conn ? 0.55 : 0.05) : 0.14, duration: 0.35, overwrite: true });
         });
         nodes.forEach((n) => {
@@ -509,7 +509,7 @@ export function IntroGate() {
 .mf-intro__word{
   font-family:var(--font-display);font-weight:400;
   font-size:clamp(1.5rem,4vw,2.5rem);letter-spacing:0.3em;
-  text-transform:uppercase;color:var(--bone,#F5F1EA);white-space:nowrap;
+  text-transform:uppercase;color:var(--ink,#1A1A18);white-space:nowrap;
 }
 .mf-intro__ltr{display:inline-block}
 .mf-intro__line{
@@ -519,7 +519,7 @@ export function IntroGate() {
 .mf-intro__role{
   font-family:var(--font-mono);font-size:clamp(9px,1.3vw,11px);
   letter-spacing:0.5em;text-transform:uppercase;
-  color:rgba(245,241,234,0.75);white-space:nowrap;
+  color:rgba(26,26,24,0.72);white-space:nowrap;
 }
 @media(max-width:600px){
   .mf-intro{gap:1.05rem}
@@ -568,7 +568,7 @@ export default function HeroStage() {
   }, []);
 
   return (
-    <section className="mf-hero" data-theme="dark" aria-label={t.wordmark}>
+    <section className="mf-hero" aria-label={t.wordmark}>
       <Network3D lang={lang} path={path} />
       <div className="mf-hero__scrim" aria-hidden="true" />
 
@@ -606,12 +606,12 @@ export default function HeroStage() {
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--bone);background:rgba(12,12,12,0.72);
-  border:1px solid rgba(245,241,234,0.16);
+  border:1px solid rgba(26,26,24,0.18);
   padding:0.35rem 0.7rem;white-space:nowrap;
 }
 .mf-hero__scrim{
   position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(180deg,rgba(20,20,20,0.38) 0%,rgba(20,20,20,0.20) 45%,rgba(20,20,20,0.58) 100%);
+  background:linear-gradient(180deg,rgba(245,241,234,0.38) 0%,rgba(245,241,234,0.16) 45%,rgba(245,241,234,0.62) 100%);
 }
 .mf-hero__content{
   position:relative;z-index:2;
@@ -621,21 +621,21 @@ export default function HeroStage() {
 .mf-hero__mark{
   width:clamp(34px,4.6vw,52px);height:auto;
   margin:0 auto 1.8rem;display:block;
-  mix-blend-mode:normal;filter:drop-shadow(0 0 12px rgba(245,241,234,0.18));
+  mix-blend-mode:normal;filter:drop-shadow(0 0 12px rgba(26,26,24,0.10));
   will-change:transform,opacity;
 }
 .mf-hero__title{
   font-family:var(--font-display);font-weight:400;
   font-size:clamp(2.8rem,9vw,6.5rem);line-height:1.04;
   letter-spacing:0.06em;text-transform:uppercase;
-  color:var(--bone);margin:0;
+  color:var(--ink,#1A1A18);margin:0;
 }
 .mf-hero__ltr{display:inline-block;will-change:transform,opacity}
 .mf-hero__role{
   font-family:var(--font-mono);
   font-size:clamp(0.7rem,1.4vw,0.85rem);
   letter-spacing:0.4em;text-transform:uppercase;
-  color:rgba(245,241,234,0.75);margin:1.4rem 0 0;
+  color:rgba(26,26,24,0.72);margin:1.4rem 0 0;
 }
 .mf-hero__cta{
   margin-top:3.2rem;
@@ -657,7 +657,7 @@ export default function HeroStage() {
   left:50%;transform:translateX(-50%);
   font-family:var(--font-mono);font-size:10px;
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:rgba(245,241,234,0.34);white-space:nowrap;
+  color:rgba(26,26,24,0.45);white-space:nowrap;
   pointer-events:none;
 }
 @media (max-width:860px){.mf-hero__hint{display:none}}

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLang } from "@/lib/i18n";
-import { copy, getPractice } from "@/content/copy";
-import { WHATSAPP_URL_BARE, M_LOGO } from "@/lib/site";
+import { copy, getPractice, cases } from "@/content/copy";
+import { WHATSAPP_URL_BARE, M_LOGO, CORTE_GIF, CELESTE_GIF, LEAD_VIDEO, AUTOM_VIDEO } from "@/lib/site";
+import AutoVideo from "@/components/AutoVideo";
+
+const SUB_MEDIA = [CORTE_GIF, LEAD_VIDEO, CELESTE_GIF, AUTOM_VIDEO];
 
 /**
  * Navegacao persistente, no formato do print de referencia:
@@ -21,6 +24,13 @@ export default function SiteNav({ revealAfterHero = false }) {
   const [show, setShow] = useState(!revealAfterHero);
   const [menuOpen, setMenuOpen] = useState(false);
   const [drop, setDrop] = useState(false);
+  const [subIdx, setSubIdx] = useState(0);
+  const [tDrop, setTDrop] = useState(false);
+  const [tIdx, setTIdx] = useState(0);
+  const tw = copy[lang].work;
+  const projects = ["rota-forte", "1000-pecas", "miranda-faria", "queijos-serra"]
+    .map((sg) => cases[lang].find((c) => c.slug === sg))
+    .filter(Boolean);
   const location = useLocation();
 
   // o menu de tela cheia fecha sozinho ao navegar, no ESC e trava o
@@ -90,23 +100,72 @@ export default function SiteNav({ revealAfterHero = false }) {
               {t.services}
             </NavLink>
             <div className="mf-nav__sub" data-open={drop ? "true" : "false"}>
-              {solutions.map((p, i) => (
-                <NavLink
-                  key={p.slug || i}
-                  to={path(p.slug)}
-                  data-cursor="link"
-                  onMouseEnter={() => setDrop(true)}
-                  onClick={() => setDrop(false)}
-                  className={({ isActive }) => `mf-nav__subitem${isActive ? " is-active" : ""}`}
-                  style={{ transitionDelay: `${drop ? 60 + i * 55 : 0}ms` }}
-                >
-                  <span className="mf-nav__subnum">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="mf-nav__subbody">
-                    <span className="mf-nav__subname">{p.label}</span>
-                    <span className="mf-nav__sublead">{p.lead}</span>
-                  </span>
-                </NavLink>
-              ))}
+              <div className="mf-nav__subitems">
+                {solutions.map((p, i) => (
+                  <NavLink
+                    key={p.slug || i}
+                    to={path(p.slug)}
+                    data-cursor="link"
+                    onMouseEnter={() => { setDrop(true); setSubIdx(i); }}
+                    onClick={() => setDrop(false)}
+                    className={({ isActive }) => `mf-nav__subitem${isActive ? " is-active" : ""}`}
+                    style={{ transitionDelay: `${drop ? 60 + i * 55 : 0}ms` }}
+                  >
+                    <span className="mf-nav__subnum">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="mf-nav__subbody">
+                      <span className="mf-nav__subname">{p.label}</span>
+                      <span className="mf-nav__sublead">{p.lead}</span>
+                    </span>
+                  </NavLink>
+                ))}
+              </div>
+              <div className="mf-nav__submedia" aria-hidden="true">
+                <AutoVideo src={SUB_MEDIA[subIdx] ?? SUB_MEDIA[0]} />
+                <span className="mf-nav__subcap">
+                  {String(subIdx + 1).padStart(2, "0")} · {solutions[subIdx]?.label ?? ""}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="mf-nav__drop" onMouseLeave={() => setTDrop(false)}>
+            <NavLink
+              to={path("work")}
+              data-cursor="link"
+              onMouseEnter={() => setTDrop(true)}
+              onClick={() => setTDrop(false)}
+              className={({ isActive }) => `mf-nav__link${isActive ? " is-active" : ""}`}
+            >
+              {tw.label}
+            </NavLink>
+            <div className="mf-nav__sub" data-open={tDrop ? "true" : "false"}>
+              <div className="mf-nav__subitems">
+                {projects.map((c, i) => (
+                  <NavLink
+                    key={c.slug}
+                    to={path(`work/${c.slug}`)}
+                    data-cursor="link"
+                    onMouseEnter={() => { setTDrop(true); setTIdx(i); }}
+                    onClick={() => setTDrop(false)}
+                    className="mf-nav__subitem"
+                    style={{ transitionDelay: `${tDrop ? 60 + i * 55 : 0}ms` }}
+                  >
+                    <span className="mf-nav__subnum">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="mf-nav__subbody">
+                      <span className="mf-nav__subname">{c.name}</span>
+                      <span className="mf-nav__sublead">{c.sector} · {c.year}</span>
+                    </span>
+                  </NavLink>
+                ))}
+              </div>
+              <div className="mf-nav__submedia" aria-hidden="true">
+                <video
+                  src={`/work/${(projects[tIdx] ?? projects[0])?.slug}/video.mp4`}
+                  autoPlay muted loop playsInline preload="metadata"
+                />
+                <span className="mf-nav__subcap">
+                  {String(tIdx + 1).padStart(2, "0")} · {(projects[tIdx] ?? projects[0])?.name}
+                </span>
+              </div>
             </div>
           </div>
           {links.map((l) => (
@@ -173,6 +232,15 @@ export default function SiteNav({ revealAfterHero = false }) {
               {l.label}
             </NavLink>
           ))}
+          <NavLink
+            to={path("work")}
+            onClick={() => setMenuOpen(false)}
+            className="mf-mnav__link"
+            style={{ transitionDelay: `${menuOpen ? 120 + links.length * 70 : 0}ms` }}
+            data-cursor="link"
+          >
+            {tw.label}
+          </NavLink>
           <div className="mf-mnav__sols">
             {solutions.map((p, i) => (
               <NavLink
@@ -182,8 +250,11 @@ export default function SiteNav({ revealAfterHero = false }) {
                 className="mf-mnav__sol"
                 style={{ transitionDelay: `${menuOpen ? 420 + i * 55 : 0}ms` }}
               >
-                <span className="mf-mnav__soln">{String(i + 1).padStart(2, "0")}</span>
-                {p.label}
+                <span className="mf-mnav__solthumb"><AutoVideo src={SUB_MEDIA[i] ?? SUB_MEDIA[0]} /></span>
+                <span className="mf-mnav__solrow">
+                  <span className="mf-mnav__soln">{String(i + 1).padStart(2, "0")}</span>
+                  {p.label}
+                </span>
               </NavLink>
             ))}
           </div>
@@ -222,8 +293,8 @@ export default function SiteNav({ revealAfterHero = false }) {
              transform var(--duration-base) var(--ease-in-out),
              background-color var(--duration-slow) var(--ease-in-out);
 }
-[data-theme="on-deep"] .mf-nav{background:rgba(30,27,23,0.86)}
-[data-theme="on-deep"] .mf-nav__logo{filter:invert(1) brightness(1.05) contrast(0.9)}
+[data-theme="on-deep"] .mf-nav{background:rgba(250,247,241,0.92)}
+[data-theme="on-deep"] .mf-nav__logo{filter:none}
 .mf-nav[data-show="false"]{opacity:0;transform:translateY(-100%);pointer-events:none}
 .mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}
 
@@ -301,7 +372,7 @@ export default function SiteNav({ revealAfterHero = false }) {
   position:fixed;inset:0;z-index:55;
   display:flex;flex-direction:column;justify-content:center;
   padding:calc(var(--nav-height) + 2rem) var(--gutter) 2.5rem;
-  background:#141414;color:var(--bone);
+  background:var(--bone,#F5F1EA);color:var(--ink,#1A1A18);
   opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity 0.4s var(--ease-in-out),visibility 0.4s;
 }
@@ -352,7 +423,7 @@ export default function SiteNav({ revealAfterHero = false }) {
   .mf-nav{gap:0.6rem}
   .mf-nav__links{display:none}
   .mf-nav__burger{display:flex;position:fixed;top:0.62rem;right:var(--gutter);z-index:120;margin:0;
-  background:rgba(20,20,20,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:2px}
+  background:rgba(250,247,241,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:2px;border:1px solid var(--mf-rule)}
   .mf-nav__brand{flex:0 1 auto;min-width:0}
   .mf-nav__logo{height:26px;width:auto}
   .mf-nav__cta{display:none}
@@ -361,26 +432,28 @@ export default function SiteNav({ revealAfterHero = false }) {
   .mf-mnav{display:none}
   .mf-nav__burger{display:none}
 }
-/* ── submenu Soluções (desktop, hover) ── */
+/* ── submenu Soluções (desktop, hover) — painel claro com mídia viva ── */
 .mf-nav__drop{position:relative}
 .mf-nav__sub{
   position:absolute;top:calc(100% + 10px);left:50%;
   transform:translateX(-50%) translateY(8px);
-  min-width:340px;max-width:82vw;
-  background:#181818;border:1px solid var(--mf-rule);
+  display:grid;grid-template-columns:1fr 236px;
+  width:600px;max-width:88vw;
+  background:rgba(250,247,241,0.98);
+  border:1px solid var(--mf-rule);
   border-top:2px solid var(--copper,#B5502E);
-  padding:0.6rem;
   opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1), visibility 0.3s;
-  box-shadow:0 18px 50px rgba(0,0,0,0.45);
+  box-shadow:0 24px 60px rgba(26,26,24,0.14);
   overflow:hidden;
 }
 .mf-nav__sub::after{
   content:"M";position:absolute;right:-6px;bottom:-42px;
   font-family:var(--font-display);font-size:7.5rem;line-height:1;
-  color:rgba(245,241,234,0.05);pointer-events:none;
+  color:rgba(26,26,24,0.045);pointer-events:none;
 }
 .mf-nav__sub[data-open="true"]{opacity:1;visibility:visible;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.mf-nav__subitems{display:flex;flex-direction:column;padding:0.55rem}
 .mf-nav__subitem{
   display:grid;grid-template-columns:2rem 1fr;gap:0.9rem;align-items:baseline;
   padding:0.85rem 0.9rem;text-decoration:none;
@@ -389,11 +462,11 @@ export default function SiteNav({ revealAfterHero = false }) {
   transition:opacity 0.35s ease, transform 0.35s ease, background 0.25s ease;
 }
 .mf-nav__subitem:last-child{border-bottom:none}
-.mf-nav__subitem:hover{background:rgba(181,80,46,0.09)}
-.mf-nav__subitem:hover .mf-nav__subnum{color:var(--copper,#B5502E)}
+.mf-nav__subitem:hover{background:rgba(181,80,46,0.08)}
+.mf-nav__subitem:hover .mf-nav__subnum{color:var(--copper-text,#A6481F)}
 .mf-nav__subnum{
   font-family:var(--font-mono);font-size:10px;
-  color:var(--color-text-ghost);letter-spacing:var(--tracking-label);
+  color:var(--mf-stone,#8A8578);letter-spacing:var(--tracking-label);
   transition:color 0.25s ease;
 }
 .mf-nav__subname{
@@ -403,10 +476,23 @@ export default function SiteNav({ revealAfterHero = false }) {
 }
 .mf-nav__sublead{
   display:block;font-size:0.72rem;line-height:1.45;
-  color:var(--color-text-ghost);margin-top:0.2rem;
+  color:var(--color-text-secondary);margin-top:0.2rem;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
 .mf-nav__sub[data-open="true"] .mf-nav__subitem{opacity:1;transform:translateY(0)}
+.mf-nav__submedia{
+  position:relative;padding:0.55rem;border-left:1px solid var(--mf-rule);
+  display:flex;align-items:center;
+}
+.mf-nav__submedia video{
+  width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--mf-rule);
+  display:block;background:#141414;
+}
+.mf-nav__subcap{
+  position:absolute;left:0.9rem;bottom:0.9rem;
+  font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;
+  color:#F5F1EA;background:rgba(26,26,24,0.72);padding:0.3rem 0.5rem;
+}
 /* ── soluções no menu mobile ── */
 .mf-mnav__sols{
   margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--mf-rule);
@@ -416,7 +502,7 @@ export default function SiteNav({ revealAfterHero = false }) {
 }
 .mf-mnav[data-open="true"] .mf-mnav__sols{opacity:1;transform:translateY(0)}
 .mf-mnav__sol{
-  display:flex;align-items:baseline;gap:0.9rem;text-decoration:none;
+  display:flex;align-items:center;gap:1rem;text-decoration:none;
   font-family:var(--font-display);font-size:1.3rem;letter-spacing:var(--tracking-display);
   color:var(--color-text-primary);
   opacity:0;transform:translateY(10px);
@@ -424,6 +510,9 @@ export default function SiteNav({ revealAfterHero = false }) {
 }
 .mf-mnav[data-open="true"] .mf-mnav__sol{opacity:1;transform:translateY(0)}
 .mf-mnav__sol:active,.mf-mnav__sol.is-active{color:var(--copper,#B5502E)}
+.mf-mnav__solthumb{width:76px;height:52px;flex:0 0 auto;overflow:hidden;border-radius:2px;border:1px solid var(--mf-rule);background:#141414}
+.mf-mnav__solthumb video{width:100%;height:100%;object-fit:cover;display:block}
+.mf-mnav__solrow{display:flex;align-items:baseline;gap:0.9rem}
 .mf-mnav__soln{
   font-family:var(--font-mono);font-size:10px;
   color:var(--copper,#B5502E);letter-spacing:var(--tracking-label);

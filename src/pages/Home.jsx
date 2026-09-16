@@ -18,7 +18,7 @@ export default function Home() {
   usePageTitle(null, "home");
 
   return (
-    <div className="mf-home" data-theme="dark">
+    <div className="mf-home">
       <IntroGate />
       <HeroStage />
       <HomeSobre />
@@ -36,7 +36,7 @@ body{-webkit-tap-highlight-color:transparent}
 .mf-home{
   background-color:var(--mf-graphite);
   background-image:
-    repeating-linear-gradient(115deg, transparent 0 90px, rgba(245,241,234,0.028) 90px 91px),
+    repeating-linear-gradient(115deg, transparent 0 90px, rgba(26,26,24,0.05) 90px 91px),
     repeating-linear-gradient(-115deg, transparent 0 140px, rgba(181,80,46,0.05) 140px 141px);
   animation:meshdrift 46s linear infinite;
 }
