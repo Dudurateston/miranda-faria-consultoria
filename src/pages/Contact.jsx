@@ -122,11 +122,11 @@ export default function Contact() {
                 <form onSubmit={onSubmit} className="mf-form__grid" noValidate>
                   <label className="mf-form__field">
                     <span className="mf-label">{f.name} *</span>
-                    <input name="nome" type="text" autoComplete="name" />
+                    <input name="nome" type="text" autoComplete="name" required aria-required="true" />
                   </label>
                   <label className="mf-form__field">
                     <span className="mf-label">{f.email} *</span>
-                    <input name="email" type="email" autoComplete="email" />
+                    <input name="email" type="email" autoComplete="email" required aria-required="true" />
                   </label>
                   <label className="mf-form__field">
                     <span className="mf-label">{f.company}</span>
@@ -142,7 +142,7 @@ export default function Contact() {
                   </label>
                   <label className="mf-form__field mf-form__field--full">
                     <span className="mf-label">{f.message} *</span>
-                    <textarea name="mensagem" rows={5} />
+                    <textarea name="mensagem" rows={5} required aria-required="true" />
                   </label>
                   <label className="mf-form__check mf-form__field--full">
                     <input type="checkbox" name="whatsapp" />

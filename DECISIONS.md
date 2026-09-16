@@ -164,3 +164,9 @@ Ciclo 3 (acabamento): barra de progresso de leitura — fio de cobre 2px fixo no
 Ciclo 4 (micro-interações + fix de hover): hover do CTA da hero aplicava tint translúcido sobre o novo fundo sólido (texto osso sumiria no hover) → base terracota #A6481F (AA 5,23:1), hover #8F3E1F profundo com lift. Setas "Ver a solução / Ler o case" ganham slide translateX(6px) no hover da linha — bug corrigido no caminho: patch gerou `.srow__go` sem prefixo mf- (CSS morto, achado via debug de matched rules).
 Ciclo 5 (varredura das páginas não auditadas no claro): case individual (/work/rota-forte) tinta-sobre-osso ✔, contato ✔, MobileWhatsAppBar auto-adaptado ✔, chips do filtro já tinham hover ✔, cards do /work já deslizam no hover com nome em cobre ✔, navegação "próximo case" no rodapé de cada case já existia (padrão spence) ✔.
 Ciclo 6 (fechamento AA total): ticker pausa no hover. Auditoria WCAG completa (6 rotas, PT+EN): ÚNICA falha restante era o CTA 4,49:1 → corrigido. Resultado final: 0 falhas AA, 0 erros JS, 0 overflow em desktop+mobile, PT+EN.
+
+## Rodada v3.7 — CICLOS 7-9 (16/09 noite VII)
+
+Ciclo 7 (paridade de rotas): 13 cases × 2 idiomas testados um a um — todos vivos (o t=0 do rota-forte era cold-start do primeiro load, re-check ok). Form de contato aceitava submit VAZIO (nenhum campo required) → nome, e-mail e mensagem viraram obrigatórios com aria-required. Nota: 404 de rota digitada direto na URL é o 404 do hosting Base44 (não controlável); o PageNotFound estilizado cobre navegação interna.
+Ciclo 8 (acessibilidade de interação): tab order correto (skip-link → nav brand → links, todos com :focus-visible). Reduced-motion CONFIRMADO no ticker (animationName none — atenção: animationPlayState reporta "running" mesmo sem animação, usar animationName pra validar).
+Ciclo 9: ticker já é aria-hidden pra leitores de tela ✔. Tudo verde.
