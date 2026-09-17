@@ -27,6 +27,7 @@ export default function SiteNav({ revealAfterHero = false }) {
   const [subIdx, setSubIdx] = useState(0);
   const [tDrop, setTDrop] = useState(false);
   const [tIdx, setTIdx] = useState(0);
+  const [xDrop, setXDrop] = useState(null);
   const tw = copy[lang].work;
   // TODOS os cases ativos — o dropdown de Trabalhos mostra o portfólio
   // completo, na mesma ordem da página /work (14 cases, PT e EN).
@@ -62,6 +63,103 @@ export default function SiteNav({ revealAfterHero = false }) {
     };
   }, [revealAfterHero]);
 
+  // Submenus de resumo: Sobre, Tecnologia e Diagnóstico também
+  // entregam contexto + mídia no hover — nenhum item da nav é seco.
+  // Os dois últimos ancoram o painel à direita para não vazar em
+  // telas médias. Os dois últimos ancoram o painel à direita para
+  // não vazar da viewport em telas médias.
+  const extras = [
+    {
+      key: "about",
+      to: path("about"),
+      label: t.about,
+      media: LEAD_VIDEO,
+      cap: lang === "pt" ? "Sobre · Miranda Faria" : "About · Miranda Faria",
+      rows: lang === "pt"
+        ? [
+            { name: "Quem faz", lead: "Eduardo Miranda — Piumhi/MG, escritório em Belo Horizonte. Uma só mão do diagnóstico à entrega." },
+            { name: "Trajetória", lead: "Engenharia, design e gestão aplicadas a negócios que existem de verdade." },
+          ]
+        : [
+            { name: "Who runs it", lead: "Eduardo Miranda — Minas Gerais, office in Belo Horizonte. One hand from diagnosis to delivery." },
+            { name: "Trajectory", lead: "Engineering, design and management applied to businesses that actually exist." },
+          ],
+    },
+    {
+      key: "how",
+      to: path("how-i-work"),
+      label: t.technology,
+      media: CORTE_GIF,
+      cap: lang === "pt" ? "Como funciona" : "How a project runs",
+      rows: lang === "pt"
+        ? [
+            { name: "O método", lead: "Diagnóstico primeiro, demo na primeira semana, entrega nas mãos do dono." },
+            { name: "MotionCurves", lead: "Easing artesanal, zero bibliotecas — motion como identidade, não enfeite." },
+          ]
+        : [
+            { name: "The method", lead: "Diagnosis first, a demo in the first week, delivery in the owner's hands." },
+            { name: "MotionCurves", lead: "Hand-tuned easing, zero libraries — motion as identity, not decoration." },
+          ],
+    },
+    {
+      key: "diag",
+      to: path("insights"),
+      label: t.insights,
+      media: CELESTE_GIF,
+      cap: lang === "pt" ? "Diagnóstico · 40 segundos" : "Diagnosis · forty seconds",
+      rows: lang === "pt"
+        ? [
+            { name: "Diagnóstico em 40s", lead: "Três perguntas e uma estimativa do que o problema drena por mês — antes de falar de preço." },
+            { name: "Para quem", lead: "Dono de operação que já sente o gargalo mas ainda não colocou em números." },
+          ]
+        : [
+            { name: "Forty-second diagnosis", lead: "Three questions and an estimate of what the problem drains per month — before any talk of price." },
+            { name: "For whom", lead: "Owners who already feel the bottleneck but haven't put it in numbers yet." },
+          ],
+    },
+  ];
+
+  const renderExtra = (e, anchorRight) => (
+    <div key={e.key} className="mf-nav__drop" onMouseLeave={() => setXDrop(null)}>
+      <NavLink
+        to={e.to}
+        data-cursor="link"
+        onMouseEnter={() => setXDrop(e.key)}
+        onClick={() => setXDrop(null)}
+        className={({ isActive }) => `mf-nav__link${isActive ? " is-active" : ""}`}
+      >
+        {e.label}
+      </NavLink>
+      <div
+        className={`mf-nav__sub${anchorRight ? " mf-nav__sub--right" : ""}`}
+        data-open={xDrop === e.key ? "true" : "false"}
+      >
+        <div className="mf-nav__subitems">
+          {e.rows.map((r, i) => (
+            <NavLink
+              key={i}
+              to={e.to}
+              data-cursor="link"
+              onClick={() => setXDrop(null)}
+              className={({ isActive }) => `mf-nav__subitem${isActive ? " is-active" : ""}`}
+              style={{ transitionDelay: `${xDrop === e.key ? 60 + i * 55 : 0}ms` }}
+            >
+              <span className="mf-nav__subnum">{String(i + 1).padStart(2, "0")}</span>
+              <span className="mf-nav__subbody">
+                <span className="mf-nav__subname">{r.name}</span>
+                <span className="mf-nav__sublead">{r.lead}</span>
+              </span>
+            </NavLink>
+          ))}
+        </div>
+        <div className="mf-nav__submedia" aria-hidden="true">
+          <AutoVideo src={e.media} />
+          <span className="mf-nav__subcap">{e.cap}</span>
+        </div>
+      </div>
+    </div>
+  );
+
   const links = [
     { to: path("how-i-work"), label: t.technology },
     { to: path("insights"), label: t.insights },
@@ -82,13 +180,7 @@ export default function SiteNav({ revealAfterHero = false }) {
         </NavLink>
 
         <nav className="mf-nav__links" aria-label={t.home}>
-          <NavLink
-            to={path("about")}
-            data-cursor="link"
-            className={({ isActive }) => `mf-nav__link${isActive ? " is-active" : ""}`}
-          >
-            {t.about}
-          </NavLink>
+          {renderExtra(extras[0], false)}
           <div className="mf-nav__drop" onMouseLeave={() => setDrop(false)}>
             <NavLink
               to={path("servicos")}
@@ -176,18 +268,7 @@ export default function SiteNav({ revealAfterHero = false }) {
               </div>
             </div>
           </div>
-          {links.map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              data-cursor="link"
-              className={({ isActive }) =>
-                `mf-nav__link${isActive ? " is-active" : ""}`
-              }
-            >
-              {l.label}
-            </NavLink>
-          ))}
+          {extras.slice(1).map((e) => renderExtra(e, true))}
           <button
             type="button"
             className="mf-nav__lang"
@@ -564,6 +645,13 @@ export default function SiteNav({ revealAfterHero = false }) {
 .mf-mnav[data-open="true"] .mf-mnav__case{opacity:1;transform:none}
 .mf-mnav__case .mf-mnav__casey{font-family:var(--font-mono);font-size:0.68rem;color:rgba(26,26,24,0.55)}
 @media(max-width:560px){.mf-mnav__cases{grid-template-columns:1fr}}
+
+/* Ponte de hover: nao existe zona morta entre o rotulo e o painel —
+   o mouse pode descer direto pro submenu sem ele fechar */
+.mf-nav__drop::after{content:"";position:absolute;top:100%;left:12%;right:12%;height:12px}
+/* Painéis dos itens finais: ancorados a direita do rotulo */
+.mf-nav__sub--right{left:auto;right:0;transform:translateY(8px)}
+.mf-nav__sub--right[data-open="true"]{transform:translateY(0)}
 `}</style>
     </>
   );
