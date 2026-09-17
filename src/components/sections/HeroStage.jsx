@@ -481,10 +481,9 @@ export function IntroGate() {
     const el = ref.current;
     if (!el) return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    /* MOBILE: sem portao — entrada instantanea como a referencia
-       (spence mobile nao segura o visitante; 2s de espera no 4G
-       parecem site travado). O intro continua no desktop. */
-    if (mq.matches || window.innerWidth <= 768 || sessionStorage.getItem("mf-intro") === "1") {
+    /* Portao em TODAS as telas (Eduardo, 17/09: "no meu eu quero o
+       portao de entrada" — so nao pode estourar as bordas laterais). */
+    if (mq.matches || sessionStorage.getItem("mf-intro") === "1") {
       el.remove();
       /* Sem intro nao ha seletor: assume claro e registra a escolha
          para o portao nunca travar uma segunda visita. */
@@ -630,7 +629,17 @@ export function IntroGate() {
   .mf-intro__m{width:42px}
   .mf-intro__word{font-size:1.05rem;letter-spacing:0.18em}
   .mf-intro__line{width:110px}
-  .mf-intro__role{font-size:8px;letter-spacing:0.3em}
+  /* Roles no mobile: o GSAP deixa letter-spacing inline (0.5em) e a
+     linha media 673px — estourava as bordas laterais (Eduardo, 17/09).
+     !important vence o inline; quebra em 2 linhas centradas. */
+  .mf-intro__role{
+    font-size:8px;
+    letter-spacing:0.28em !important;
+    white-space:normal;
+    max-width:300px;
+    text-align:center;
+    line-height:1.9;
+  }
 }
 `}</style>
     </div>
