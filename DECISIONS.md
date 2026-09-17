@@ -215,3 +215,42 @@ Quatro frentes (sub-agentes + trabalho direto), tudo validado com Playwright:
 7. VALIDADO AO VIVO NA COPY: 5 painéis carregando o vídeo certo (SERVIÇOS: nv_sistemas/nv_dev/nv_design/nv_autom por slot; SOBRE=nv_sobre; TECNOLOGIA=nv_tech; DIAGNÓSTICO=nv_diag), 4 thumbs mobile ok, chips 44px, M centrado. Prints: medicao_head/e33_*.
 8. SUB-AGENTES: os 2 delegados pararam sem entregar (timeout no scan de ffmpeg; checkpoint sem relatório) — trabalho assumido e concluído na mão.
 9. PRÓXIMO (AUTORIZADO — Eduardo disse "vai"): seletor de tema claro/escuro + idioma na primeira entrada (integrado ao IntroGate, auto-avanço ~2,5s, lembrado em localStorage, só na 1ª visita) + tema escuro global (inversão tinta↔osso no nível raiz, cobre → variante clara já medida 5,7:1, tema claro intacto).
+
+---
+
+## RODADA MOBILE (17/09) — GUIA: o que o spenceltd.co.uk faz no mobile
+
+Análise medida em 390×844 (iPhone, DPR2), servindo o guia da rodada
+de adaptação mobile. Princípio do Eduardo: impacto próximo ao desktop,
+resolução certa (nunca qualidade inferior), vídeo só onde vale o peso.
+
+### O que a referência faz no celular
+1. **PESO**: ~2,1MB/135 req, ZERO vídeos. O peso está em imagens na
+   resolução certa (hero 1920px, cards 390px) + 2 canvases leves.
+2. **ENTRADA**: sem portão/intro — conteúdo imediato.
+3. **MENU**: texto puro, 38px, lista simples. Sem thumbnails, sem
+   mega-menu, abre instantâneo.
+4. **TIPOGRAFIA**: display 64px no mobile (mesma hierarquia do
+   desktop), H2 34-46px, corpo 16px. O impacto tipográfico não encolhe.
+5. **MÍDIA**: full-bleed 100vw (radius 0, cantos retos), uma mídia
+   forte por tela; 14 imgs lazy fora da viewport.
+6. **SEÇÕES**: ~1 tela cada, storytelling por scroll (8,3 telas home;
+   case 7,4 telas).
+7. **SCROLL**: Lenis (o mesmo nosso).
+8. **CANVAS**: mantém no mobile — os deles são leves por desenho.
+
+### Tradução para o MF (estado: gate vídeo→poster já codificado, EM ESPERA
+### dos relatórios dos auditores antes de aplicar mais qualquer mudança)
+- ✅ Feito (local, commit 719a48d): AutoVideo vira poster no mobile
+  (achado crítico: 4 thumbs de 74px baixavam 1,65MB = 68% da home);
+  posters retina 780px (200KB no total); menu sem vídeo; intro pulada
+  no mobile; case = toque-para-tocar; home 2,4MB→679KB, 0 vídeo rodando.
+- ▸ Candidatas (decidir com os relatórios na mão):
+  a) Display mobile: hero 45→~56px, seções 32→38px (regra spence: o
+     impacto tipográfico do desktop não encolhe no celular).
+  b) Mídia grande full-bleed no mobile (reel do Sobre 335→390px).
+  c) Menu: manter nossos thumbs COM poster (identidade MF tem mídia;
+     poster é leve) — spence é texto puro, nossa versão mantém 4 thumbs
+     de 8-20KB sem custo.
+  d) Hero mobile: já serve 800px webp para 390px retina — resolução
+     certa, como a referência.
