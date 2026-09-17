@@ -77,23 +77,35 @@ export const NAV_MEDIA = {
   diag: "/art/nv_diag.mp4",
 };
 
+/* Mídias de SEÇÃO — os nv_* reocupados fora da NavBar, cada um no seu tema
+   (Eduardo, 17/09: cards da home voltam aos vídeos originais; os novos
+   vão pras páginas/temas a que pertencem). */
+export const SECTION_MEDIA = {
+  hiwStack: NAV_MEDIA.how,
+  servicosFaixa: NAV_MEDIA.solutions.gestao,
+  insightsPreview: NAV_MEDIA.diag,
+  aboutBand: "/art/nv_placa.mp4",
+  sobreReel: "/art/sobre_reel.mp4",
+};
+
 export const VIDEO_USE_LIMIT = {
-  "art/corte.mp4": 2,
-  "art/lead_loop.mp4": 2,
-  "art/automacao_loop.mp4": 2,
-  "art/celeste.mp4": 2,
+  "art/corte.mp4": 1,
+  "art/lead_loop.mp4": 1,
+  "art/automacao_loop.mp4": 1,
+  "art/celeste.mp4": 1,
   "art/cta_particles.mp4": 1,
   "art/hero_loop.mp4": 1,
   "art/geo.mp4": 1,
   "art/nv_sistemas.mp4": 2,
   "art/nv_placa.mp4": 2,
-  "art/nv_design.mp4": 2,
-  "art/nv_autom.mp4": 2,
+  "art/nv_design.mp4": 1,
+  "art/nv_autom.mp4": 1,
   "art/nv_sobre.mp4": 1,
-  "art/nv_tech.mp4": 1,
-  "art/nv_diag.mp4": 1,
+  "art/sobre_reel.mp4": 1,
+  "art/nv_tech.mp4": 2,
+  "art/nv_diag.mp4": 2,
   "hq_reels.mp4": 1,
-  "hq_camadas.mp4": 2,
+  "hq_camadas.mp4": 1,
   "hq_sign.mp4": 1,
   "hq_veio.mp4": 1,
   "work/1000-pecas/video.mp4": 2,

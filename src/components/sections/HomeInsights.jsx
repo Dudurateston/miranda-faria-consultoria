@@ -4,7 +4,7 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
-import { CELESTE_GIF } from "@/lib/site";
+import { SECTION_MEDIA } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 /**
@@ -42,7 +42,7 @@ export default function HomeInsights() {
         </div>
         <Reveal delay={180} className="mf-dgprev__artwrap">
           <figure className="mf-dgprev__art">
-            <AutoVideo src={CELESTE_GIF} />
+            <AutoVideo src={SECTION_MEDIA.insightsPreview} />
           </figure>
         </Reveal>
       </div>

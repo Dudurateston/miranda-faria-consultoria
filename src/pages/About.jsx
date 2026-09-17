@@ -7,7 +7,7 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { DESIGN_LAYERS, WHATSAPP_URL_SELLER, SELLERS_APP_URL } from "@/lib/site";
+import { SECTION_MEDIA, WHATSAPP_URL_SELLER, SELLERS_APP_URL } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 export default function About() {
@@ -60,7 +60,7 @@ export default function About() {
           assina a pagina de Design), horizontal, em largura total:
           o alfabeto da empresa se compondo em camadas. */}
       <section className="mf-about__band" data-depth="0.20" aria-hidden="true">
-        <AutoVideo className="mf-about__bandimg" src={DESIGN_LAYERS} />
+        <AutoVideo className="mf-about__bandimg" src={SECTION_MEDIA.aboutBand} />
       </section>
 
       <MfRule />

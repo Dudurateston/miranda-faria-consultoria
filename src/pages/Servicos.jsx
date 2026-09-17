@@ -6,7 +6,7 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { WHATSAPP_URL, CORTE_GIF } from "@/lib/site";
+import { WHATSAPP_URL, SECTION_MEDIA } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 /**
@@ -46,7 +46,7 @@ export default function Servicos() {
 
           <Reveal delay={200}>
             <figure className="mf-srv__band">
-              <AutoVideo src={CORTE_GIF} />
+              <AutoVideo src={SECTION_MEDIA.servicosFaixa} />
               <figcaption className="mf-srv__layers" aria-hidden="true">
                 {t.bandLayers.map((l, i) => (
                   <span key={i} className="mf-srv__layer">{l}</span>

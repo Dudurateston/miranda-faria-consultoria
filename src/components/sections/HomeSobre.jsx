@@ -5,7 +5,7 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
-import { REELS_URL } from "@/lib/site";
+import { SECTION_MEDIA } from "@/lib/site";
 
 /** Preview do Sobre — reel "quem somos" + primeira linha da bio. */
 export default function HomeSobre() {
@@ -16,7 +16,7 @@ export default function HomeSobre() {
     <section className="mf-h">
       <div className="mf-h__inner mf-sobre">
         <figure className="mf-sobre__media">
-          <AutoVideo src={REELS_URL} />
+          <AutoVideo src={SECTION_MEDIA.sobreReel} />
         </figure>
         <div className="mf-sobre__text">
           <Reveal>

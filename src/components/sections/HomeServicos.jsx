@@ -5,7 +5,10 @@ import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice } from "@/content/copy";
 import {
-  NAV_MEDIA,
+  CORTE_GIF,
+  CELESTE_GIF,
+  LEAD_VIDEO,
+  AUTOM_VIDEO,
   WHATSAPP_URL_BARE,
 } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
@@ -17,10 +20,10 @@ import AutoVideo from "@/components/AutoVideo";
  * embaixo tira o atrito de quem já se decidiu.
  */
 const VERTICALS = [
-  { slug: "gestao", gif: NAV_MEDIA.solutions.gestao },
-  { slug: "desenvolvimento", gif: NAV_MEDIA.solutions.desenvolvimento },
-  { slug: "design", gif: NAV_MEDIA.solutions.design },
-  { slug: "automacao", gif: NAV_MEDIA.solutions.automacao },
+  { slug: "gestao", gif: CORTE_GIF },
+  { slug: "desenvolvimento", gif: LEAD_VIDEO },
+  { slug: "design", gif: CELESTE_GIF },
+  { slug: "automacao", gif: AUTOM_VIDEO },
 ];
 
 export default function HomeServicos() {

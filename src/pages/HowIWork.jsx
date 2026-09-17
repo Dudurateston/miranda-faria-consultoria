@@ -10,7 +10,7 @@ import TerraformCanvas from "@/components/TerraformCanvas";
 import MotionCurves from "@/components/MotionCurves";
 import FrameTimeGraph from "@/components/FrameTimeGraph";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { CORTE_GIF } from "@/lib/site";
+import { SECTION_MEDIA } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 /**
@@ -55,7 +55,7 @@ export default function HowIWork() {
       {/* Stack — GIF integrado em simbiose com o fundo: mascara suave,
           opacidade baixa, sem moldura de quadrado. */}
       <section className="mf-hiw__stackwrap" data-depth="0.60">
-        <AutoVideo className="mf-hiw__stackbg" src={CORTE_GIF} />
+        <AutoVideo className="mf-hiw__stackbg" src={SECTION_MEDIA.hiwStack} />
         <div className="mf-hiw__stackinner">
           <Reveal>
             <p className="mf-label">{t.stack.label}</p>

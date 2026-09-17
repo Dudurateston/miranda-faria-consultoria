@@ -159,7 +159,7 @@ export default function SiteNav({ revealAfterHero = false }) {
           ))}
         </div>
         <div className="mf-nav__submedia" aria-hidden="true">
-          <AutoVideo src={e.media} />
+          <AutoVideo src={xDrop === e.key ? e.media : undefined} />
           <span className="mf-nav__subcap">{e.cap}</span>
         </div>
       </div>
@@ -218,7 +218,7 @@ export default function SiteNav({ revealAfterHero = false }) {
                 ))}
               </div>
               <div className="mf-nav__submedia" aria-hidden="true">
-                <AutoVideo src={SUB_MEDIA[subIdx] ?? SUB_MEDIA[0]} />
+                <AutoVideo src={drop ? (SUB_MEDIA[subIdx] ?? SUB_MEDIA[0]) : undefined} />
                 <span className="mf-nav__subcap">
                   {String(subIdx + 1).padStart(2, "0")} · {solutions[subIdx]?.label ?? ""}
                 </span>
@@ -258,7 +258,7 @@ export default function SiteNav({ revealAfterHero = false }) {
               <div className="mf-nav__submedia" aria-hidden="true">
                 {(projects[tIdx] ?? projects[0])?.media?.video ? (
                   <video
-                    src={`/work/${(projects[tIdx] ?? projects[0])?.media?.dir ?? (projects[tIdx] ?? projects[0])?.slug}/video.mp4`}
+                    src={tDrop ? `/work/${(projects[tIdx] ?? projects[0])?.media?.dir ?? (projects[tIdx] ?? projects[0])?.slug}/video.mp4` : undefined}
                     autoPlay muted loop playsInline preload="metadata"
                   />
                 ) : (
