@@ -175,6 +175,7 @@ export default function Work() {
 
 @media (max-width:820px){
   .mf-work__item{grid-template-columns:1fr;gap:0.8rem}
+  .mf-work__item,.mf-work__filters .mf-work__chip{min-height:44px}
   .mf-work__meta{flex-direction:row;text-align:left;gap:1rem}
 }
 `}</style>

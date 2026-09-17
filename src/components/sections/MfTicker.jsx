@@ -20,8 +20,9 @@ const MfTicker = memo(function MfTicker({ lang = "pt" }) {
   return (
     <div className="mf-ticker" aria-hidden="true">
       <div className="mf-ticker__track">
-        <div className="mf-ticker__seq">{track}</div>
-        <div className="mf-ticker__seq">{track}</div>
+        {[0, 1, 2, 3, 4, 5].map((n) => (
+          <div className="mf-ticker__seq" key={n}>{track}</div>
+        ))}
       </div>
       <style>{`
         .mf-ticker{
@@ -38,10 +39,10 @@ const MfTicker = memo(function MfTicker({ lang = "pt" }) {
           font-family:var(--font-display);font-size:1.05rem;line-height:1;
           color:var(--mf-copper,#B5502E);
         }
-        @keyframes mf-ticker{to{transform:translateX(-50%)}}
+        @keyframes mf-ticker{to{transform:translateX(-16.6667%)}}
         .mf-ticker:hover .mf-ticker__track{animation-play-state:paused}
         @media (prefers-reduced-motion: reduce){.mf-ticker__track{animation:none}
-          .mf-ticker__seq:nth-child(2){display:none}}
+          .mf-ticker__seq ~ .mf-ticker__seq{display:none}}
       `}</style>
     </div>
   );

@@ -68,7 +68,7 @@ export const FLOW_CREATIVE = "/art/flow-creative.webp";
 export const NAV_MEDIA = {
   solutions: {
     gestao: "/art/nv_sistemas.mp4",
-    desenvolvimento: "/art/nv_placa.mp4",
+    desenvolvimento: "/art/nv_dev.mp4",  /* sistema digital — placa da marca era conteudo de design, nao de dev */
     design: "/art/nv_design.mp4",
     automacao: "/art/nv_autom.mp4",
   },
@@ -98,6 +98,7 @@ export const VIDEO_USE_LIMIT = {
   "art/geo.mp4": 1,
   "art/nv_sistemas.mp4": 2,
   "art/nv_placa.mp4": 2,
+  "art/nv_dev.mp4": 1,
   "art/nv_design.mp4": 1,
   "art/nv_autom.mp4": 1,
   "art/nv_sobre.mp4": 1,

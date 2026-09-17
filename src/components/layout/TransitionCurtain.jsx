@@ -17,7 +17,7 @@ import { M_LOGO } from "@/lib/site";
  * interceptável: ganha só a revelação se a cortina estiver ativa.
  * Reduced-motion: navegação seca, sem cortina.
  */
-const VARIANTS = ["copper", "curtain", "cols"];
+const VARIANTS = ["copper"]; // Eduardo, 17/09: sempre a de cobre
 
 export default function TransitionCurtain() {
   const loc = useLocation();
@@ -141,7 +141,8 @@ export default function TransitionCurtain() {
   transform:scaleY(0);
 }
 .mf-curtain__m{
-  width:clamp(30px,4vw,48px);opacity:0.92;position:relative;z-index:1;
+  width:clamp(72px,9vw,132px);opacity:0.92;position:absolute;z-index:1;
+  left:50%;top:50%;translate:-50% -50%;
   will-change:transform,opacity;
 }
 .mf-curtain[data-v="copper"] .mf-curtain__m{filter:drop-shadow(0 0 12px rgba(20,20,20,0.4))}

@@ -40,7 +40,7 @@ export const copy = {
       pages: {
         home: "Complete web systems — brand, product and data as one — built solo, shipped fast.",
         work: "Management systems, websites and identity delivered end to end — parts, logistics, agribusiness, retail and the arts.",
-        servicos: "Three solutions, one operating principle: management systems, websites and design.",
+        servicos: "Four solutions, one operating principle: systems, websites, design and automation.",
         about: "Design engineer working across brand, product and data — technology applied to a business that actually exists.",
         how: "How a project runs here: diagnosis first, demo in the first week, delivery in the owner's hands.",
         insights: "Three questions and an estimate of what the problem costs — before any talk of price.",
@@ -226,14 +226,14 @@ export const copy = {
       portraitFallback: "EMF",
       name: "Eduardo Miranda Faria",
       body: [
-        "I'm a design engineer working across brand, product and data. I build complete web systems on my own — the identity, the interface, the database behind it and the deployment.",
-        "Most of my work so far has been for operations with real inventory, real customers on the phone and real deadlines: parts distributors, logistics, retail. The kind of business where a broken system is not an abstraction.",
-        "I work solo, from brief to delivery — with AI as leverage through the build: it accelerates the code and the visual work; architecture, hierarchy and what gets cut stay mine to decide. Genuinely custom, without an agency's overhead. Everything that leaves here passes through my hands before it reaches you.",
+        "I'm Eduardo Miranda Faria. Miranda Faria carries my own name, and the M opening this site is mine: whoever talks to me talks to whoever builds — from the first WhatsApp voice note to the system running on your screen.",
+        "I'm from Piumhi, in the Minas Gerais countryside, with an office in Belo Horizonte — working with companies across Brazil: parts distributors, repair shops, logistics, retail and services. The kind of business that has billed enough to know a loose spreadsheet doesn't scale anymore.",
+        "I work solo, brief to delivery, with AI as leverage through the whole process: it accelerates the code and the visual work; architecture, hierarchy and what gets cut stay mine to decide. Genuinely custom, without an agency's overhead — everything that leaves here passes through my hands before it reaches you.",
       ],
-      location: "Based in Brazil (UTC−3) — full working-day overlap with US hours, partial with Europe.",
+      location: "Piumhi, Minas Gerais — office in Belo Horizonte · working with clients across Brazil.",
       facadeCaption: "Generative brand art — AI",
       trajectoryLabel: "Trajectory",
-      trajectory: "Eight complete systems delivered across parts distribution, logistics, agribusiness, commerce and the arts — brand, interface, data model and deployment, end to end. Along the way: sites that sell in the silence of WhatsApp, inventories that correct themselves, identities printed on paper — and the app my own sales network runs on so no lead gets lost.",
+      trajectory: "Fourteen jobs across parts distribution, logistics, agribusiness, commerce and the arts — brand, interface, data model and deployment, end to end. Along the way: sites that sell in the silence of WhatsApp, inventories that correct themselves, the sales manual I wrote for my own network, the identity of the 22nd Roda de Agronegócios — and the app that network still runs on so no lead gets lost.",
       principlesLabel: "How I decide",
       principles: [
         {
@@ -421,7 +421,7 @@ export const copy = {
       pages: {
         home: "Sistemas completos — marca, produto e dados como um só — construídos sob medida, entregues rápido.",
         work: "Sistemas de gestão, sites e identidade entregues de ponta a ponta: peças, logística, agronegócio, comércio e arte.",
-        servicos: "Três soluções, um princípio de operação: sistemas de gestão, sites e design.",
+        servicos: "Quatro soluções, um princípio de operação: sistemas, sites, design e automação.",
         about: "Design engineer entre marca, produto e dados — tecnologia aplicada a negócio que existe de verdade.",
         how: "Como um projeto corre por aqui: diagnóstico primeiro, demo na primeira semana, entrega na mão do dono.",
         insights: "Três perguntas e uma estimativa do custo do seu problema — antes de falar de preço ou tecnologia.",
@@ -607,14 +607,14 @@ export const copy = {
       portraitFallback: "EMF",
       name: "Eduardo Miranda Faria",
       body: [
-        "Sou Eduardo Miranda Faria. Trabalho com tecnologia aplicada a negócio real — o tipo que tem estoque, cliente ligando e prazo apertado.",
-        "Atendo empresas em todo o Brasil: distribuidoras, oficinas, transportadoras, comércio e prestadores de serviço. Gente que já faturou o suficiente para saber que planilha solta não escala mais.",
-        "Trabalho sozinho, do briefing à entrega — com IA como alavanca em todo o processo: ela acelera o código e a criação visual; arquitetura, hierarquia e o que fica de fora continuam sendo decisão minha. Sob medida de verdade, sem o custo de uma agência. Tudo que sai daqui passa pela minha mão antes de chegar na sua.",
+        "Sou Eduardo Miranda Faria. A Miranda Faria leva o meu nome e o M que abre este site: quem conversa comigo fala com quem constrói — do primeiro áudio no WhatsApp até o sistema rodando na sua tela.",
+        "Sou de Piumhi, interior de Minas Gerais, com escritório em Belo Horizonte — e operação em empresas de todo o Brasil: distribuidoras, oficinas, transportadoras, comércio e prestadores de serviço. Gente que já faturou o suficiente pra saber que planilha solta não escala mais.",
+        "Trabalho sozinho, do briefing à entrega, com IA como alavanca em todo o processo: ela acelera o código e a criação visual; arquitetura, hierarquia e o que fica de fora continuam sendo decisão minha. Sob medida de verdade, sem o custo de uma agência — tudo que sai daqui passa pela minha mão antes de chegar na sua.",
       ],
-      location: "Atendimento remoto para todo o Brasil.",
+      location: "Piumhi, Minas Gerais — escritório em Belo Horizonte · atendimento para todo o Brasil.",
       facadeCaption: "Arte generativa de marca — IA",
       trajectoryLabel: "Trajetória",
-      trajectory: "Oito sistemas completos entregues em distribuição de peças, logística, agronegócio, comércio e arte — marca, interface, modelo de dados e publicação, de ponta a ponta. No caminho, sites que vendem no silêncio do WhatsApp, estoques que se corrigem sozinhos, identidades impressas em papel — e o aplicativo que a minha própria rede de vendas usa para não perder um lead.",
+      trajectory: "Quatorze trabalhos entre distribuição de peças, logística, agronegócio, comércio e arte — marca, interface, modelo de dados e publicação, de ponta a ponta. No caminho: sites que vendem no silêncio do WhatsApp, estoques que se corrigem sozinhos, o manual de vendas que escrevi para a minha própria rede, a identidade da 22ª Roda de Agronegócios — e o aplicativo que essa rede usa até hoje para não perder um lead.",
       principlesLabel: "Como eu decido",
       principles: [
         {
@@ -1493,8 +1493,8 @@ export const practices = {
       intro:
         "A client asks for a price at 11 pm and nobody answers. The order lands in one channel, gets copied into another, typed twice — and the second copy comes out wrong. The product record is a salesperson's free text, and now nobody finds anything. I connect the dots: service that answers instantly, data that flows on its own between system, sheet and messaging, routines that run overnight with nobody pressing a button. Automation is not fewer people — it is the same people deciding only what matters. And it runs through everything I deliver: the management system warns the owner on its own, the website forwards the lead with full context, the design serves the same state to machine and human.",
       artAlt: "A stream where loose information enters and structured data comes out",
-      artLabel: "AUTOMATION — THE FLOW, LIVE",
-      artHint: "Data goes in one way and comes out organized. No manual copy in between.",
+      artLabel: "AUTOMATION — THE TRIGGER, LIVE",
+      artHint: "Click to fire: the message becomes reply, record and routine —",
       thesis: {
         label: "AUTOMATION — THE THESIS",
         title: "Every manual copy is an error waiting to happen.",
@@ -1537,9 +1537,9 @@ export const practices = {
       lead: "O trabalho repetitivo sai da mão humana.",
       intro:
         "O cliente pergunta o preço às 23h e ninguém responde. O pedido chega num canal, é copiado no outro, digita-se duas vezes — e a segunda sai errada. A ficha do produto é o texto solto do vendedor, e ninguém acha mais nada. Eu conecto os pontos: atendimento que responde na hora, dado que flui sozinho entre sistema, planilha e mensagem, rotina que roda de madrugada sem ninguém apertar botão. Automação não é menos gente — é a mesma gente cuidando só do que decide. E ela atravessa tudo o que eu entrego: o sistema de gestão avisa o dono sozinho, o site encaminha o lead com o contexto pronto, o design serve o mesmo estado pra máquina e pra pessoa.",
-      artAlt: "Um fluxo onde a informação solta entra e o dado estruturado sai",
-      artLabel: "AUTOMAÇÃO — O FLUXO, AO VIVO",
-      artHint: "O dado entra de um jeito e sai organizado. Sem cópia manual no meio.",
+      artAlt: "Uma mensagem chega e o gatilho a transforma sozinho em resposta, cadastro e rotina",
+      artLabel: "AUTOMAÇÃO — O DISPARO, AO VIVO",
+      artHint: "Clique para disparar: a mensagem vira resposta, cadastro e rotina —",
       thesis: {
         label: "AUTOMAÇÃO — A TESE",
         title: "Toda cópia manual é um erro esperando acontecer.",

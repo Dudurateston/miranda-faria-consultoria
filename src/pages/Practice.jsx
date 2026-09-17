@@ -13,6 +13,7 @@ import AutoVideo from "@/components/AutoVideo";
 import { DESIGN_SIGN, DESIGN_POSTER, DESIGN_LAYERS, DESIGN_SEAM } from "@/lib/site";
 import LedgerFlow from "@/components/LedgerFlow";
 import VisitorFlow from "@/components/VisitorFlow";
+import AutomationFlow from "@/components/AutomationFlow";
 
 /**
  * As tres verticais — /systems, /design, /business — compartilham
@@ -113,6 +114,8 @@ export default function Practice({ slug: slugProp }) {
           <section className="mf-pr__artband" data-depth="0.14">
             {slug === "gestao" ? (
               <LedgerFlow label={p.artLabel} hint={p.artHint} alt={p.artAlt} />
+            ) : slug === "automacao" ? (
+              <AutomationFlow label={p.artLabel} hint={p.artHint} alt={p.artAlt} />
             ) : (
               <VisitorFlow label={p.artLabel} hint={p.artHint} alt={p.artAlt} />
             )}

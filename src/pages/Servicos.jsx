@@ -10,12 +10,12 @@ import { WHATSAPP_URL, SECTION_MEDIA } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 /**
- * Servicos — visao geral das tres verticais, com numeros reais da
+ * Servicos — visao geral das quatro solucoes, com numeros reais da
  * operacao (projetos entregues, stack inteiro numa pessoa, resposta
  * no mesmo dia) e a coluna geologica como metafora das camadas.
- * Cada vertical linka para a sua pagina propria.
+ * Cada solucao linka para a sua pagina propria.
  */
-const SLUGS = ["gestao", "desenvolvimento", "design"];
+const SLUGS = ["gestao", "desenvolvimento", "design", "automacao"];
 
 export default function Servicos() {
   const [open, setOpen] = useState(-1);
