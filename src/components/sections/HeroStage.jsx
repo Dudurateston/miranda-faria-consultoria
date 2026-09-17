@@ -263,7 +263,7 @@ export default function HeroStage() {
         { targets: ".mf-hero__title .mf-hero__ltr", translateY: [46, 0], opacity: [0, 1], duration: 900, delay: anime.stagger(34) },
         "-=320"
       )
-      .add({ targets: ".mf-hero__role", opacity: [0, 0.75], letterSpacing: ["0.62em", "0.4em"], duration: 800 }, "-=520")
+      .add({ targets: ".mf-hero__role", opacity: [0, 1], letterSpacing: ["0.44em", "0.14em"], duration: 800 }, "-=520")
       .add({ targets: ".mf-hero__cta", opacity: [0, 1], translateY: [18, 0], duration: 700 }, "-=460");
     return () => { tl.pause(); };
   }, []);
@@ -340,11 +340,15 @@ export default function HeroStage() {
 @keyframes mf-hint-line{from{transform:translateX(-9px)}to{transform:translateX(9px)}}
 @media (max-width:859px){.mf-hero__hint{display:none}}
 html[data-skin="dark"] .mf-hero__scrim{
-  background:linear-gradient(180deg,rgba(22,20,15,0.38) 0%,rgba(22,20,15,0.16) 45%,rgba(22,20,15,0.62) 100%);
+  background:
+    radial-gradient(52% 46% at 50% 47%, rgba(22,20,15,0.60) 0%, rgba(22,20,15,0.30) 52%, rgba(22,20,15,0) 76%),
+    linear-gradient(180deg,rgba(22,20,15,0.38) 0%,rgba(22,20,15,0.16) 45%,rgba(22,20,15,0.62) 100%);
 }
 .mf-hero__scrim{
   position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(180deg,rgba(245,241,234,0.38) 0%,rgba(245,241,234,0.16) 45%,rgba(245,241,234,0.62) 100%);
+  background:
+    radial-gradient(52% 46% at 50% 47%, rgba(245,241,234,0.60) 0%, rgba(245,241,234,0.30) 52%, rgba(245,241,234,0) 76%),
+    linear-gradient(180deg,rgba(245,241,234,0.38) 0%,rgba(245,241,234,0.16) 45%,rgba(245,241,234,0.62) 100%);
 }
 .mf-hero__content{
   position:relative;z-index:2;
@@ -367,12 +371,14 @@ html:not([data-skin="dark"]) .mf-hero__mark{filter:brightness(0.88) saturate(0.8
 }
 .mf-hero__ltr{display:inline-block;will-change:transform,opacity}
 .mf-hero__role{
-  /* KICKER (Eduardo 17/09: subtitulo quase nao se lia): mono maior,
-     rastreio justo, opacidade cheia e filete de cobre flanqueando. */
+  /* KICKER (Eduardo 17/09: "finalmente facil de ler") — rastreio
+     0.28em abria demais os glifos do mono; agora justo, maior e
+     opacidade cheia, com zona silenciosa do scrim atras. */
   font-family:var(--font-mono);
-  font-size:clamp(0.8rem,1.6vw,1rem);
-  letter-spacing:0.28em;text-transform:uppercase;
-  color:var(--mf-ink);opacity:0.92;margin:1.15rem 0 0;
+  font-size:clamp(0.84rem,1.7vw,1.06rem);
+  font-weight:500;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--mf-ink);opacity:1;margin:1.15rem 0 0;
   display:inline-flex;align-items:center;gap:1rem;
 }
 .mf-hero__role::before,

@@ -26,6 +26,42 @@
     />
 
     <meta name="description" content="I design and build complete web systems — brand, product and data as one — solo, using an orchestrated AI workflow." />
+
+    <!-- Dados estruturados (Eduardo 17/09): entidade + servicos que o
+         Google le para painel de conhecimento e Search Console. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://mirandafaria.com.br/#org",
+          "name": "Miranda Faria",
+          "slogan": "Consultoria & Tecnologia",
+          "url": "https://mirandafaria.com.br/",
+          "description": "Design engineer e consultoria em tecnologia: sistemas de gestão, desenvolvimento web, design e automação com IA — do diagnóstico à entrega, uma só mão.",
+          "founder": { "@type": "Person", "name": "Eduardo Miranda" },
+          "areaServed": ["BR", "Minas Gerais"],
+          "priceRange": "$$",
+          "knowsLanguage": ["pt-BR", "en"],
+          "makesOffer": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sistemas & Gestão" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Desenvolvimento Web" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Design & Identidade" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automação com IA" } }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://mirandafaria.com.br/#site",
+          "url": "https://mirandafaria.com.br/",
+          "name": "Miranda Faria",
+          "inLanguage": ["pt-BR", "en"],
+          "publisher": { "@id": "https://mirandafaria.com.br/#org" }
+        }
+      ]
+    }
+    </script>
     <meta name="theme-color" content="#F5F1EA" />
     <title>Miranda Faria — Design Engineer &amp; Creative Technologist</title>
 

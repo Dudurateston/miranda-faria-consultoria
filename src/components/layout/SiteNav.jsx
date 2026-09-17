@@ -326,11 +326,20 @@ export default function SiteNav({ revealAfterHero = false }) {
           >
             {t.about}
           </NavLink>
+          <NavLink
+            to={path("servicos")}
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) => `mf-mnav__link${isActive ? " is-active" : ""}`}
+            style={{ transitionDelay: `${menuOpen ? 190 : 0}ms` }}
+            data-cursor="link"
+          >
+            {t.services}
+          </NavLink>
           {links.map((l, i) => (
             <NavLink
               key={l.to}
               to={l.to}
-              style={{ transitionDelay: `${menuOpen ? 190 + i * 70 : 0}ms` }}
+              style={{ transitionDelay: `${menuOpen ? 260 + i * 70 : 0}ms` }}
               className={({ isActive }) => `mf-mnav__link${isActive ? " is-active" : ""}`}
               data-cursor="link"
               onClick={() => setMenuOpen(false)}
@@ -347,38 +356,7 @@ export default function SiteNav({ revealAfterHero = false }) {
           >
             {tw.label}
           </NavLink>
-          <div className="mf-mnav__sols">
-            {solutions.map((p, i) => (
-              <NavLink
-                key={p.slug || i}
-                to={path(p.slug)}
-                onClick={() => setMenuOpen(false)}
-                className="mf-mnav__sol"
-                style={{ transitionDelay: `${menuOpen ? 420 + i * 55 : 0}ms` }}
-              >
-                <span className="mf-mnav__solthumb"><AutoVideo src={SUB_MEDIA[i] ?? SUB_MEDIA[0]} /></span>
-                <span className="mf-mnav__solrow">
-                  <span className="mf-mnav__soln">{String(i + 1).padStart(2, "0")}</span>
-                  {p.label}
-                </span>
-              </NavLink>
-            ))}
-          </div>
-          <div className="mf-mnav__cases">
-            {projects.map((c, i) => (
-              <NavLink
-                key={c.slug}
-                to={path(`work/${c.slug}`)}
-                onClick={() => setMenuOpen(false)}
-                className="mf-mnav__case"
-                style={{ transitionDelay: `${menuOpen ? 780 + i * 36 : 0}ms` }}
-                data-cursor="link"
-              >
-                <span className="mf-mnav__casen">{c.name}</span>
-                <span className="mf-mnav__casey">{c.year}</span>
-              </NavLink>
-            ))}
-          </div>
+
         </nav>
         <div className="mf-mnav__foot">
           <button
@@ -431,14 +409,16 @@ html:not([data-skin="dark"]) .mf-mnav__wm{filter:brightness(0.88) saturate(0.85)
 .mf-nav__brand:hover .mf-nav__logo{transform:scale(1.09) rotate(-6deg)}
 .mf-nav__lockup{display:flex;flex-direction:column;line-height:1.3}
 .mf-nav__name{
-  font-family:var(--font-display);font-weight:600;font-size:12px;
+  font-family:var(--font-display);font-weight:600;
+  /* adaptativo: encolhe com a tela (Eduardo 17/09: "ta muito grande") */
+  font-size:clamp(9.5px,1.15vw + 6px,12px);
   letter-spacing:var(--tracking-wordmark);text-transform:uppercase;
-  color:var(--color-text-primary);
+  color:var(--color-text-primary);white-space:nowrap;
 }
 .mf-nav__role{
-  font-family:var(--font-mono);font-size:11px;
+  font-family:var(--font-mono);font-size:clamp(8.5px,1vw + 5.5px,11px);
   letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--color-text-secondary);
+  color:var(--color-text-secondary);white-space:nowrap;
 }
 
 .mf-nav__links{display:flex;align-items:center;gap:clamp(1rem,2.2vw,2rem);margin-left:auto}
@@ -558,8 +538,11 @@ html:not([data-skin="dark"]) .mf-mnav__wm{filter:brightness(0.88) saturate(0.85)
   background:rgba(250,247,241,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:2px;border:1px solid var(--mf-rule)}
   .mf-nav__brand{flex:0 1 auto;min-width:0}
   .mf-nav__logo{height:26px;width:auto}
+
   .mf-nav__cta{display:none}
 }
+/* telas estreitas: so o nome, sem o role (adaptacao de tamanho, 17/09) */
+@media(max-width:430px){.mf-nav__role{display:none}}
 @media(min-width:860px){
   .mf-mnav{display:none}
   .mf-nav__burger{display:none}
@@ -625,30 +608,6 @@ html:not([data-skin="dark"]) .mf-mnav__wm{filter:brightness(0.88) saturate(0.85)
   font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;
   color:#F5F1EA;background:rgba(26,26,24,0.72);padding:0.3rem 0.5rem;
 }
-/* ── soluções no menu mobile ── */
-.mf-mnav__sols{
-  margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--mf-rule);
-  display:flex;flex-direction:column;gap:0.9rem;
-  opacity:0;transform:translateY(8px);
-  transition:opacity 0.4s ease, transform 0.4s ease;
-}
-.mf-mnav[data-open="true"] .mf-mnav__sols{opacity:1;transform:translateY(0)}
-.mf-mnav__sol{
-  display:flex;align-items:center;gap:1rem;text-decoration:none;
-  font-family:var(--font-display);font-size:1.3rem;letter-spacing:var(--tracking-display);
-  color:var(--color-text-primary);
-  opacity:0;transform:translateY(10px);
-  transition:opacity 0.45s ease, transform 0.45s ease, color 0.3s ease;
-}
-.mf-mnav[data-open="true"] .mf-mnav__sol{opacity:1;transform:translateY(0)}
-.mf-mnav__sol:active,.mf-mnav__sol.is-active{color:var(--copper,#B5502E)}
-.mf-mnav__solthumb{width:76px;height:43px;flex:0 0 auto;overflow:hidden;border-radius:2px;border:1px solid var(--mf-rule);background:#141414}
-.mf-mnav__solthumb video{width:100%;height:100%;object-fit:cover;display:block}
-.mf-mnav__solrow{display:flex;align-items:baseline;gap:0.9rem}
-.mf-mnav__soln{
-  font-family:var(--font-mono);font-size:10px;
-  color:var(--copper,#B5502E);letter-spacing:var(--tracking-label);
-}
       @media(max-width:860px){
 .mf-nav__link{min-height:44px;display:inline-flex;align-items:center}
 }
@@ -662,11 +621,6 @@ html:not([data-skin="dark"]) .mf-mnav__wm{filter:brightness(0.88) saturate(0.85)
 .mf-nav__sub--tall .mf-nav__subitems::-webkit-scrollbar-thumb:hover{background:rgba(26,26,24,0.55)}
 .mf-nav__sub--tall .mf-nav__subitem{padding:0.6rem 0.9rem}
 .mf-nav__submedia img{width:100%;height:100%;object-fit:cover;display:block}
-.mf-mnav__cases{display:grid;grid-template-columns:1fr 1fr;gap:0.1rem 1.2rem;margin-top:1.1rem;padding-top:1rem;border-top:1px solid var(--mf-rule)}
-.mf-mnav__case{display:flex;justify-content:space-between;align-items:center;gap:0.5rem;min-height:44px;padding:0 0.15rem;font-size:0.95rem;text-decoration:none;opacity:0;transform:translateY(8px);transition:opacity 0.45s ease, transform 0.45s ease}
-.mf-mnav[data-open="true"] .mf-mnav__case{opacity:1;transform:none}
-.mf-mnav__case .mf-mnav__casey{font-family:var(--font-mono);font-size:0.68rem;color:rgba(26,26,24,0.55)}
-@media(max-width:560px){.mf-mnav__cases{grid-template-columns:1fr}}
 
 /* Ponte de hover: nao existe zona morta entre o rotulo e o painel —
    o mouse pode descer direto pro submenu sem ele fechar */
