@@ -76,7 +76,33 @@ const server = createServer((req, res) => {
 await new Promise((r) => server.listen(PORT, r));
 
 // ── audit DOM: roda na página, devolve achados + contagens ──────────────────
+const contrastJs = `
+  const rgba = (s)=>{const m=s.match(/[\\d.]+/g)||[];return m.length>=3?m.slice(0,3).map(Number):null;};
+  const f=(c)=>{c/=255;return c<=0.03928?c/12.92:((c+0.055)/1.055)**2.4;};
+  const lum=(r,g,b)=>0.2126*f(r)+0.7152*f(g)+0.0722*f(b);
+  const contrast=(a,b)=>{const L1=lum(...a),L2=lum(...b);const[x,y]=L1>L2?[L1,L2]:[L2,L1];return(x+0.05)/(y+0.05);};
+`;
+const FPS_SRC = `${contrastJs}
+  return new Promise((resolve) => {
+    const marks = [];
+    let t0 = performance.now();
+    const tick = (t) => { marks.push(t); if (t - t0 < ms) requestAnimationFrame(tick); else {
+      const win = 700; let min = Infinity;
+      for (let i = 0; i < marks.length; i++) {
+        let j = i; while (j < marks.length && marks[j] - marks[i] < win) j++;
+        if (marks[j] - marks[i] >= win * 0.9 || j < marks.length) {
+          const fps = (j - i - 1) / ((marks[j - 1] - marks[i]) / 1000);
+          if (isFinite(fps) && fps > 0) min = Math.min(min, fps);
+        }
+      }
+      resolve(Math.round(isFinite(min) ? min : 0));
+    }};
+    requestAnimationFrame(tick);
+  })`;
+
 const AUDIT_SRC = `(args) => { const { portIn, isTouch } = args;
+  const cLum = (r, g, b) => { const f = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
+  const contrast = (a, b) => { const L1 = cLum(...a), L2 = cLum(...b); const [x, y] = L1 > L2 ? [L1, L2] : [L2, L1]; return (x + 0.05) / (y + 0.05); };
   const out = { achados: [], midias: 0, legiveis1: 0, h1: 0 };
   const rgba = (s) => { const m = s.match(/[\\d.]+/g) || []; return m.length >= 3 ? m.slice(0, 3).map(Number) : null; };
   const alphaOf = (s) => { const m = s.match(/[\\d.]+/g) || []; return m.length === 4 ? Number(m[3]) : 1; };
@@ -135,30 +161,8 @@ const AUDIT_SRC = `(args) => { const { portIn, isTouch } = args;
   }
   return out;
 }`;
+const AUDIT_CALL = new Function("return " + AUDIT_SRC)();
 
-const contrastJs = `
-  const rgba = (s)=>{const m=s.match(/[\\d.]+/g)||[];return m.length>=3?m.slice(0,3).map(Number):null;};
-  const f=(c)=>{c/=255;return c<=0.03928?c/12.92:((c+0.055)/1.055)**2.4;};
-  const lum=(r,g,b)=>0.2126*f(r)+0.7152*f(g)+0.0722*f(b);
-  const contrast=(a,b)=>{const L1=lum(...a),L2=lum(...b);const[x,y]=L1>L2?[L1,L2]:[L2,L1];return(x+0.05)/(y+0.05);};
-`;
-const FPS_SRC = `${contrastJs}
-  (ms) => new Promise((resolve) => {
-    const marks = [];
-    let t0 = performance.now();
-    const tick = (t) => { marks.push(t); if (t - t0 < ms) requestAnimationFrame(tick); else {
-      const win = 700; let min = Infinity;
-      for (let i = 0; i < marks.length; i++) {
-        let j = i; while (j < marks.length && marks[j] - marks[i] < win) j++;
-        if (marks[j] - marks[i] >= win * 0.9 || j < marks.length) {
-          const fps = (j - i - 1) / ((marks[j - 1] - marks[i]) / 1000);
-          if (isFinite(fps) && fps > 0) min = Math.min(min, fps);
-        }
-      }
-      resolve(Math.round(isFinite(min) ? min : 0));
-    }};
-    requestAnimationFrame(tick);
-  })`;
 
 // ── execução ────────────────────────────────────────────────────────────────
 const browser = await chromium.launch({ args: ["--disable-dev-shm-usage"] });
@@ -190,7 +194,7 @@ async function varrer(page, rota, lang, vp, dark, tag) {
   for (let si = 0; si < scrollPos.length; si++) {
     await page.evaluate((y) => window.scrollTo(0, y), scrollPos[si]);
     await page.waitForTimeout(700);
-    const res = await page.evaluate(AUDIT_SRC, { portIn: { top: 0, bottom: vp.h }, isTouch: vp.touch });
+    const res = await page.evaluate(AUDIT_CALL, { portIn: { top: 0, bottom: vp.h }, isTouch: vp.touch });
     midiasRota = Math.max(midiasRota, res.midias);
     if (si === 0) legiveis1 = res.legiveis1;
     h1Total += res.h1;
@@ -214,7 +218,7 @@ async function medirFps(page, url, w, h) {
   await page.goto(url, { waitUntil: "load", timeout: 45000 });
   await page.evaluate(() => { sessionStorage.setItem("mf-intro", "1"); localStorage.setItem("mf_analytics_consent", "1"); });
   await page.waitForTimeout(2500);
-  const sampler = page.evaluate(new Function(`return ${FPS_SRC}`), 2600);
+  const sampler = page.evaluate(new Function("ms", FPS_SRC), 2600);
   const mover = (async () => {
     const cx = w / 2, cy = h / 2.4;
     for (let i = 0; i < 40; i++) {

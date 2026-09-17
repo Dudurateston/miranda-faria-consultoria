@@ -27,10 +27,15 @@ const SAT_SLUGS = [
   "queijos-serra", "miranda-faria", "motormoura-marca", "paulo-henrique",
 ];
 // posições determinísticas dos satélites (espalhadas na concha)
+/* CONCHA COM NOCAO DE PERSPECTIVA (17/09): nos PERTO da camera ganham |x|
+   moderado (a perspectiva os amplia ~1.4x); nos FUNDO (z negativo) abrem
+   ate 3.1 — a rede preenche a tela sem sair dela. Os 7 primeiros sao
+   compactos e servem tambem ao mobile (slice 0..7); 8-12 sao desktop.
+   Validado por projecao: extremos 176-1368px em 1440, 0 colisoes. */
 const SAT_POS = [
-  [-0.55, 1.18, 0.4], [0.62, 1.24, -0.35], [0.05, 1.46, 0.1], [-0.2, -1.46, 0.25],
-  [0.5, -1.32, -0.35], [-1.82, 0.08, -0.3], [1.86, 0.02, 0.35], [-1.02, 1.18, -0.55],
-  [1.08, -1.12, -0.5], [-1.58, 1.02, 0.5], [1.62, 1.08, -0.45], [0.0, -1.62, -0.45],
+  [-0.55, 1.28, 0.45], [0.62, 1.34, -0.35], [0.05, 1.55, 0.15], [-0.28, -1.55, 0.30],
+  [0.55, -1.42, -0.66], [-1.30, 1.30, -1.30], [1.12, -1.20, -0.95], [-2.90, 0.45, -1.40],
+  [1.95, 0.04, -0.50], [-3.10, 1.05, -1.55], [3.10, -0.75, -1.60], [-0.15, -1.72, -1.10],
 ];
 const HUB_EDGES = [[0, 1], [0, 2], [1, 3], [2, 3], [0, 3], [1, 2]];
 /* PROFUNDIDADE (Eduardo, 17/09: ocupar o espaco 3D): Z dos nos e
@@ -73,7 +78,7 @@ function Network3D({ lang, path }) {
     /* MOBILE: viewport estreito alarga o angulo aparente de tudo — a
        rede encolhe drasticamente e a camera recua (pedido Eduardo 17/09). */
     const mob = isMobile ? 0.52 : 1;
-    const camBaseZ = isMobile ? 9.2 : 5.1; // desktop maior de novo (Eduardo 17/09)
+    const camBaseZ = isMobile ? 9.2 : 4.2; // desktop maior de novo + rede larga (Eduardo 17/09)
     camera.position.set(0, 0, camBaseZ);
 
     const group = new THREE.Group();
@@ -83,6 +88,14 @@ function Network3D({ lang, path }) {
     group.rotation.set(0.12, -0.25, 0);
     scene.add(group);
 
+    /* REDE LARGA NO DESKTOP (Eduardo 17/09: "muito espaço na lateral"):
+       espalha X ~1.55x e Y ~1.08x — a concha ocupa a tela toda, sem
+       espremer o centro onde vive o título. Mobile intocado (câmera 9.2
+       já enquadra). */
+    const XF = isMobile ? 1 : 1.8;
+    const YF = isMobile ? 1 : 1.08;
+    const spread = (pt) => [pt[0] * XF, pt[1] * YF, pt[2]];
+
     // poeira de fundo: profundidade antes mesmo dos nós
     const dustN = isMobile ? 140 : 260;
     const dustPos = new Float32Array(dustN * 3);
@@ -90,7 +103,7 @@ function Network3D({ lang, path }) {
       const r = 2.4 + Math.random() * 1.9;
       const th = Math.random() * Math.PI * 2;
       const ph = Math.acos(2 * Math.random() - 1);
-      dustPos[i * 3] = r * Math.sin(ph) * Math.cos(th);
+      dustPos[i * 3] = r * Math.sin(ph) * Math.cos(th) * (isMobile ? 1 : 1.5);
       dustPos[i * 3 + 1] = r * Math.sin(ph) * Math.sin(th) * 0.7;
       dustPos[i * 3 + 2] = r * Math.cos(ph);
     }
@@ -112,6 +125,14 @@ function Network3D({ lang, path }) {
       grad.addColorStop(0, "rgba(181,80,46,0.5)");
       grad.addColorStop(1, "rgba(181,80,46,0)");
       g2.fillStyle = grad; g2.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(c);
+    })();
+    /* anel do "tap" — circulo de cobre, sempre de frente pra camera (sprite) */
+    const ringTex = (() => {
+      const c = document.createElement("canvas"); c.width = c.height = 128;
+      const g2 = c.getContext("2d");
+      g2.strokeStyle = "rgba(255,255,255,1)"; g2.lineWidth = 7;
+      g2.beginPath(); g2.arc(64, 64, 52, 0, Math.PI * 2); g2.stroke();
       return new THREE.CanvasTexture(c);
     })();
 
@@ -155,8 +176,8 @@ function Network3D({ lang, path }) {
     };
     HUB_POS.forEach((p, i) => {
       const hubMat = i % 2 ? copMat : boneMat;
-      const dp = deepen(p, 1.5);
-      hubMeshes.push(addNode(dp, 0.115 * mob, hubMat, {
+      const dp = deepen(spread(p), 1.5);
+      hubMeshes.push(addNode(dp, isMobile ? 0.115 * mob : 0.15, hubMat, {
         name: practiceLabels[i],
         to: path(PRACTICE_SLUGS[i]),
         hub: true,
@@ -175,7 +196,7 @@ function Network3D({ lang, path }) {
     SAT_POS.slice(0, isMobile ? 7 : 12).forEach((p, i) => {
       const slug = SAT_SLUGS[i];
       const c = caseByName[slug];
-      const dsp = deepen(p, 1.9);
+      const dsp = p; // SAT_POS ja e final (projetada com perspectiva)
       addNode(dsp, isMobile ? 0.035 * mob : 0.035, satMat, {
         name: c ? c.name : slug,
         to: path(`work/${slug}`),
@@ -287,6 +308,25 @@ function Network3D({ lang, path }) {
     const onDown = (e) => {
       drag.on = true; drag.moved = 0; drag.lx = e.clientX; drag.ly = e.clientY;
     };
+    /* DEMO DE TOQUE: os 4 hubs (servicos) recebem um "tap" em sequencia —
+       pop de escala + anel de cobre que expande e some. Ensina clicavel
+       sem nenhuma palavra. Custa 4 sprites de 0.8s, uma unica vez. */
+    const tapDemo = () => {
+      if (isMobile) return;
+      hubMeshes.forEach((hb, i) => {
+        setTimeout(() => {
+          if (!hintOn || !running) return;
+          gsap.fromTo(hb.scale, { x: 1, y: 1, z: 1 }, { x: 1.24, y: 1.24, z: 1.24, duration: 0.26, yoyo: true, repeat: 1, ease: "power2.inOut" });
+          const ring = new THREE.Sprite(new THREE.SpriteMaterial({
+            map: ringTex, color: skinNow().pulse, transparent: true, opacity: 0.9, depthWrite: false,
+          }));
+          ring.position.copy(hb.position);
+          group.add(ring);
+          gsap.fromTo(ring.scale, { x: 0.18, y: 0.18 }, { x: 0.85, y: 0.85, duration: 0.85, ease: "power2.out" });
+          gsap.to(ring.material, { opacity: 0, duration: 0.85, ease: "power2.out", onComplete: () => { group.remove(ring); ring.material.dispose(); } });
+        }, i * 380);
+      });
+    };
     const onMove = (e) => {
       const pb = renderer.domElement.getBoundingClientRect();
       par.tx = ((e.clientX - pb.left) / pb.width - 0.5) * 2;
@@ -340,6 +380,7 @@ function Network3D({ lang, path }) {
         const hit = ray.intersectObjects(nodes, false)[0];
         if (hit) {
           const to = hit.object.userData.to;
+          if (hintOn) { hintOn = false; setHint(false); }
           running = false;
           renderer.domElement.style.cursor = "default";
           gsap.to(camera.userData, { baseZ: 2.0, duration: 0.55, ease: "power3.in" });
@@ -420,7 +461,7 @@ function Network3D({ lang, path }) {
       if (running || mq.matches) return;
       running = true; raf = requestAnimationFrame(tick);
       if (!isMobile) {
-        setTimeout(() => { if (hintOn) setHint(true); }, 3000);
+        setTimeout(() => { if (hintOn) { setHint(true); tapDemo(); } }, 3000);
         setTimeout(() => { hintOn = false; setHint(false); }, 14000);
       }
     };
@@ -503,7 +544,7 @@ function Network3D({ lang, path }) {
     <div ref={mount} className="mf-hero__net3d">
       {hint && (
         <span className="mf-hero__hint" aria-hidden="true">
-          {lang === "en" ? "drag to explore" : "arraste para explorar"}
+          {lang === "en" ? "drag to spin · click the nodes — they're the services" : "arraste para girar · clique nos nós — são os serviços"}
         </span>
       )}
       {label && (
