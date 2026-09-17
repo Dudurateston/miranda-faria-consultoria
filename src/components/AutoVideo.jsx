@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useIsMobile, posterFor } from "@/lib/isMobile";
 
 /**
  * Video em loop automatico, mudo e sem controles — o substituto moderno
@@ -9,6 +10,10 @@ import React, { useRef, useEffect, useState } from "react";
 export default function AutoVideo({ src, className, label, poster, preloadOffset = "300px" }) {
   const ref = useRef(null);
   const [live, setLive] = useState(false);
+  /* MOBILE: video vira poster estatico (regra spence). O IO continua
+     valendo para o desktop; no celular o src nunca chega no elemento. */
+  const isMobile = useIsMobile();
+  const still = poster ?? posterFor(src);
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") { setLive(true); return; }
     const io = new IntersectionObserver(
@@ -22,8 +27,8 @@ export default function AutoVideo({ src, className, label, poster, preloadOffset
     <video
       ref={ref}
       className={className}
-      src={live ? src : undefined}
-      poster={poster}
+      src={live && !isMobile ? src : undefined}
+      poster={still}
       autoPlay={live}
       muted
       loop

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useIsMobile } from "@/lib/isMobile";
 
 /**
  * Midia real de um case: capturas de tela e gravacao do sistema.
@@ -16,6 +17,7 @@ export default function CaseMedia({ media, name }) {
   const videoRef = useRef(null);
   const wrapRef = useRef(null);
   const [reduced, setReduced] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -26,6 +28,9 @@ export default function CaseMedia({ media, name }) {
     const vid = videoRef.current;
     if (!el || !vid) return;
 
+    /* MOBILE: sem autoplay — o poster fica, o toque toca (bateria e
+       banda de quem esta em 4G agradecem). Desktop segue como era. */
+    if (isMobile) return undefined;
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) vid.play().catch(() => {});
@@ -35,7 +40,14 @@ export default function CaseMedia({ media, name }) {
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, [media]);
+  }, [media, isMobile]);
+
+  const onTapVideo = () => {
+    const vid = videoRef.current;
+    if (!vid) return;
+    if (vid.paused) vid.play().catch(() => {});
+    else vid.pause();
+  };
 
   // Sem midia: a moldura da marca segura o lugar de forma intencional.
   if (!media) {
@@ -73,7 +85,8 @@ export default function CaseMedia({ media, name }) {
               <video
                 key={dir}
                 ref={videoRef}
-                className="mf-cm__img"
+                className={`mf-cm__img${isMobile ? " mf-cm__img--tap" : ""}`}
+                onClick={isMobile ? onTapVideo : undefined}
                 poster={poster}
                 muted
                 loop
@@ -111,6 +124,9 @@ export default function CaseMedia({ media, name }) {
 
 const mediaCss = `
 .mf-cm__set{display:flex;flex-direction:column;gap:clamp(1rem,2.5vh,1.75rem)}
+/* No mobile o video do case espera o toque — o cursor e o convite. */
+.mf-cm__img--tap{cursor:pointer}
+.mf-cm__img--tap:not(:playing){background-image:linear-gradient(transparent 96%, rgba(181,80,46,0.55) 96%)}
 .mf-cm{margin:0;position:relative;background:var(--color-divider);overflow:hidden}
 .mf-cm__img{
   display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;

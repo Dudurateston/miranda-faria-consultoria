@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useTheme, hasThemeChoice } from "@/lib/theme";
 import anime from "animejs";
 import * as THREE from "three";
 import { useLang } from "@/lib/i18n";
@@ -480,7 +481,10 @@ export function IntroGate() {
     const el = ref.current;
     if (!el) return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches || sessionStorage.getItem("mf-intro") === "1") {
+    /* MOBILE: sem portao — entrada instantanea como a referencia
+       (spence mobile nao segura o visitante; 2s de espera no 4G
+       parecem site travado). O intro continua no desktop. */
+    if (mq.matches || window.innerWidth <= 768 || sessionStorage.getItem("mf-intro") === "1") {
       el.remove();
       /* Sem intro nao ha seletor: assume claro e registra a escolha
          para o portao nunca travar uma segunda visita. */
