@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLang } from "@/lib/i18n";
+import ThemeToggle from "@/components/layout/ThemeToggle";
 import { copy, getPractice, cases } from "@/content/copy";
 import { WHATSAPP_URL_BARE, M_LOGO, NAV_MEDIA } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
@@ -284,6 +285,7 @@ export default function SiteNav({ revealAfterHero = false }) {
           >
             {t.toggle}
           </button>
+          <ThemeToggle lang={lang} variant="nav" />
         </nav>
 
         <a
@@ -387,6 +389,7 @@ export default function SiteNav({ revealAfterHero = false }) {
           >
             {t.toggle}
           </button>
+          <ThemeToggle lang={lang} variant="menu" />
           <a
             href={WHATSAPP_URL_BARE}
             target="_blank"
