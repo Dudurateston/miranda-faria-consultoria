@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice, cases } from "@/content/copy";
-import { WHATSAPP_URL_BARE, M_LOGO, CORTE_GIF, CELESTE_GIF, LEAD_VIDEO, AUTOM_VIDEO } from "@/lib/site";
+import { WHATSAPP_URL_BARE, M_LOGO, NAV_MEDIA } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
-const SUB_MEDIA = [CORTE_GIF, LEAD_VIDEO, CELESTE_GIF, AUTOM_VIDEO];
+const SUB_MEDIA = [
+  NAV_MEDIA.solutions.gestao,
+  NAV_MEDIA.solutions.desenvolvimento,
+  NAV_MEDIA.solutions.design,
+  NAV_MEDIA.solutions.automacao,
+];
 
 /**
  * Navegacao persistente, no formato do print de referencia:
@@ -73,7 +78,7 @@ export default function SiteNav({ revealAfterHero = false }) {
       key: "about",
       to: path("about"),
       label: t.about,
-      media: LEAD_VIDEO,
+      media: NAV_MEDIA.about,
       cap: lang === "pt" ? "Sobre · Miranda Faria" : "About · Miranda Faria",
       rows: lang === "pt"
         ? [
@@ -89,7 +94,7 @@ export default function SiteNav({ revealAfterHero = false }) {
       key: "how",
       to: path("how-i-work"),
       label: t.technology,
-      media: CORTE_GIF,
+      media: NAV_MEDIA.how,
       cap: lang === "pt" ? "Como funciona" : "How a project runs",
       rows: lang === "pt"
         ? [
@@ -105,7 +110,7 @@ export default function SiteNav({ revealAfterHero = false }) {
       key: "diag",
       to: path("insights"),
       label: t.insights,
-      media: CELESTE_GIF,
+      media: NAV_MEDIA.diag,
       cap: lang === "pt" ? "Diagnóstico · 40 segundos" : "Diagnosis · forty seconds",
       rows: lang === "pt"
         ? [
@@ -133,6 +138,7 @@ export default function SiteNav({ revealAfterHero = false }) {
       <div
         className={`mf-nav__sub${anchorRight ? " mf-nav__sub--right" : ""}`}
         data-open={xDrop === e.key ? "true" : "false"}
+        data-lenis-prevent
       >
         <div className="mf-nav__subitems">
           {e.rows.map((r, i) => (
@@ -191,7 +197,7 @@ export default function SiteNav({ revealAfterHero = false }) {
             >
               {t.services}
             </NavLink>
-            <div className="mf-nav__sub" data-open={drop ? "true" : "false"}>
+            <div className="mf-nav__sub" data-open={drop ? "true" : "false"} data-lenis-prevent>
               <div className="mf-nav__subitems">
                 {solutions.map((p, i) => (
                   <NavLink
@@ -229,7 +235,7 @@ export default function SiteNav({ revealAfterHero = false }) {
             >
               {tw.label}
             </NavLink>
-            <div className="mf-nav__sub mf-nav__sub--tall" data-open={tDrop ? "true" : "false"}>
+            <div className="mf-nav__sub mf-nav__sub--tall" data-open={tDrop ? "true" : "false"} data-lenis-prevent>
               <div className="mf-nav__subitems">
                 {projects.map((c, i) => (
                   <NavLink
@@ -637,7 +643,11 @@ export default function SiteNav({ revealAfterHero = false }) {
 
 /* Dropdown de Trabalhos: portfólio completo (14 cases) — coluna
    compacta e rolavel, midia com fallback de imagem p/ cases sem video */
-.mf-nav__sub--tall .mf-nav__subitems{max-height:min(62vh,560px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(26,26,24,0.35) transparent}
+.mf-nav__sub--tall .mf-nav__subitems{max-height:min(62vh,560px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(26,26,24,0.35) transparent}
+.mf-nav__sub--tall .mf-nav__subitems::-webkit-scrollbar{width:6px}
+.mf-nav__sub--tall .mf-nav__subitems::-webkit-scrollbar-track{background:transparent}
+.mf-nav__sub--tall .mf-nav__subitems::-webkit-scrollbar-thumb{background:rgba(26,26,24,0.35);border-radius:3px}
+.mf-nav__sub--tall .mf-nav__subitems::-webkit-scrollbar-thumb:hover{background:rgba(26,26,24,0.55)}
 .mf-nav__sub--tall .mf-nav__subitem{padding:0.6rem 0.9rem}
 .mf-nav__submedia img{width:100%;height:100%;object-fit:cover;display:block}
 .mf-mnav__cases{display:grid;grid-template-columns:1fr 1fr;gap:0.1rem 1.2rem;margin-top:1.1rem;padding-top:1rem;border-top:1px solid var(--mf-rule)}

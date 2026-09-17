@@ -252,7 +252,7 @@ function Network3D({ lang, path }) {
         const dy = e.clientY - drag.ly;
         drag.moved += Math.abs(dx) + Math.abs(dy);
         vel.y += dx * 0.00042;
-        vel.x += dy * 0.00028;
+        vel.x += dy * 0.00042;
         drag.lx = e.clientX; drag.ly = e.clientY;
         if (drag.moved > 6) renderer.domElement.style.cursor = "grabbing";
       }
@@ -321,7 +321,8 @@ function Network3D({ lang, path }) {
         if (!hovered && !drag.on) group.rotation.y += 0.0016;
         group.rotation.y += vel.y;
         group.rotation.x += vel.x;
-        group.rotation.x = Math.max(-0.5, Math.min(0.65, group.rotation.x));
+        if (group.rotation.x > 0.6) { group.rotation.x = 0.6; vel.x = 0; }
+        else if (group.rotation.x < -0.6) { group.rotation.x = -0.6; vel.x = 0; }
         vel.x *= 0.94; vel.y *= 0.94;
         // respiração dos nós e fios
         nodes.forEach((n) => {
@@ -537,6 +538,18 @@ export default function HeroStage() {
   const { lang, path } = useLang();
   const t = copy[lang].home;
   const content = useRef(null);
+  const [hintVisible, setHintVisible] = useState(false);
+
+  // HUD de affordance: so no desktop, aparece depois de 2s parado e
+  // some no primeiro movimento do mouse — quem ja mexeu nao precisa de dica
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches || window.innerWidth < 860) return;
+    const timer = setTimeout(() => setHintVisible(true), 2000);
+    const onMove = () => { clearTimeout(timer); setHintVisible(false); };
+    window.addEventListener("pointermove", onMove, { once: true });
+    return () => { clearTimeout(timer); window.removeEventListener("pointermove", onMove); };
+  }, []);
 
   useEffect(() => {
     const el = content.current;
@@ -591,7 +604,14 @@ export default function HeroStage() {
         >
           {t.heroCta}
         </a>
-        <span className="mf-hero__hint">{t.netHint}</span>
+      </div>
+
+      <div
+        className={`mf-hero__hud-hint ${hintVisible ? "is-visible" : ""}`}
+        aria-hidden="true"
+      >
+        <span className="mf-hero__hud-dot" />
+        {t.netHint}
       </div>
 
       <style>{`
@@ -652,15 +672,27 @@ export default function HeroStage() {
   box-shadow:0 6px 24px rgba(166,72,31,0.28);
   transform:translateY(-2px);
 }
-.mf-hero__hint{
-  position:absolute;bottom:calc(var(--gutter) * 0.7 + 1rem);
-  left:50%;transform:translateX(-50%);
+.mf-hero__hud-hint{
+  position:absolute;bottom:1.8rem;right:2rem;z-index:4;
+  display:flex;align-items:center;gap:0.55rem;
   font-family:var(--font-mono);font-size:10px;
-  letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:rgba(26,26,24,0.45);white-space:nowrap;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--ink,#1A1A18);background:rgba(245,241,234,0.88);
+  border:1px solid rgba(181,80,46,0.30);
+  padding:0.45rem 0.85rem;border-radius:2px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:0 4px 16px rgba(26,26,24,0.08);
   pointer-events:none;
+  opacity:0;transform:translateY(6px);
+  transition:opacity 0.5s ease, transform 0.5s ease;
 }
-@media (max-width:860px){.mf-hero__hint{display:none}}
+.mf-hero__hud-hint.is-visible{opacity:1;transform:translateY(0)}
+.mf-hero__hud-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--copper,#B5502E);
+  box-shadow:0 0 8px rgba(181,80,46,0.6);
+}
+@media (max-width:860px){.mf-hero__hud-hint{display:none}}
 `}</style>
     </section>
   );

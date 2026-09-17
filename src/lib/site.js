@@ -57,3 +57,49 @@ export const BRAND_FACADE = "/art/brand-facade.webp";
 export const BRAND_FACADE_800 = "/art/brand-facade@800.webp";
 export const TEXTURE_MACRO = "/art/texture-macro.webp";
 export const FLOW_CREATIVE = "/art/flow-creative.webp";
+
+/* ==========================================================================
+   POOL DE VÍDEOS & REGISTRO DE LIMITES DE USO (16/09, pedido do Eduardo)
+   Nenhum vídeo pode se repetir à exaustão: limite global por arquivo e
+   exclusividade total dentro da NavBar. O script scripts/check-video-usage.mjs
+   roda antes de cada build (prebuild) e aborta o deploy se estourar.
+   Os 7 "nv_*" nasceram de fontes 4K inéditas do Drive — um por slot da nav.
+   ========================================================================== */
+export const NAV_MEDIA = {
+  solutions: {
+    gestao: "/art/nv_sistemas.mp4",
+    desenvolvimento: "/art/nv_placa.mp4",
+    design: "/art/nv_design.mp4",
+    automacao: "/art/nv_autom.mp4",
+  },
+  about: "/art/nv_sobre.mp4",
+  how: "/art/nv_tech.mp4",
+  diag: "/art/nv_diag.mp4",
+};
+
+export const VIDEO_USE_LIMIT = {
+  "art/corte.mp4": 2,
+  "art/lead_loop.mp4": 2,
+  "art/automacao_loop.mp4": 2,
+  "art/celeste.mp4": 2,
+  "art/cta_particles.mp4": 1,
+  "art/hero_loop.mp4": 1,
+  "art/geo.mp4": 1,
+  "art/nv_sistemas.mp4": 2,
+  "art/nv_placa.mp4": 2,
+  "art/nv_design.mp4": 2,
+  "art/nv_autom.mp4": 2,
+  "art/nv_sobre.mp4": 1,
+  "art/nv_tech.mp4": 1,
+  "art/nv_diag.mp4": 1,
+  "hq_reels.mp4": 1,
+  "hq_camadas.mp4": 2,
+  "hq_sign.mp4": 1,
+  "hq_veio.mp4": 1,
+  "work/1000-pecas/video.mp4": 2,
+  "work/dj-jotave/video.mp4": 2,
+  "work/miranda-faria/video.mp4": 2,
+  "work/paulo-henrique/video.mp4": 2,
+  "work/queijos-serra/video.mp4": 2,
+  "work/rota-forte/video.mp4": 2,
+};

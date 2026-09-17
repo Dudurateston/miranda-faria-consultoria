@@ -101,7 +101,7 @@ export const copy = {
         cta: "Book a call",
       },
       heroCta: "Get in touch",
-      netHint: "Drag to rotate · click the nodes",
+      netHint: "hover · drag the nodes",
       sobrePreview: { label: "About", cta: "Learn more" },
       techPreview: {
         label: "Technology",
@@ -482,7 +482,7 @@ export const copy = {
         cta: "Chamar no WhatsApp",
       },
       heroCta: "Fale comigo",
-      netHint: "Arraste para girar · clique nos nós",
+      netHint: "passe o mouse · arraste os nós",
       sobrePreview: { label: "Sobre", cta: "Saiba mais" },
       techPreview: {
         label: "Tecnologia",
@@ -985,7 +985,7 @@ export const cases = {
         "The kit is a template, not a finished art: the dashed area says whose message it is, and everything around it stays the event's. Two ratios — post and story — cover the whole feed.",
       impact:
         "The edition's social campaign ran on this system: 79.6 thousand views in the period, over 200 new followers — one visual language across every exhibitor's post.",
-      media: { dir: "roda-agro-marca", shots: 2, video: false },
+      media: { dir: "roda-agro-marca", shots: 3, video: false },
     },
     {
       slug: "uaiso-travel",
@@ -1252,7 +1252,7 @@ export const cases = {
         "O kit é template, não arte fechada: a área pontilhada diz de quem é a mensagem, e tudo ao redor permanece da feira. Duas proporções — post e story — cobrem o feed inteiro.",
       impact:
         "A campanha social da edição rodou nesse sistema: 79,6 mil visualizações no período e mais de 200 novos seguidores — uma linguagem visual única em cada post de expositor.",
-      media: { dir: "roda-agro-marca", shots: 2, video: false },
+      media: { dir: "roda-agro-marca", shots: 3, video: false },
     },
     {
       slug: "uaiso-travel",
