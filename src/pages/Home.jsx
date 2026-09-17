@@ -1,12 +1,17 @@
 import React from "react";
 import HeroStage, { IntroGate } from "@/components/sections/HeroStage";
-import HomeSobre from "@/components/sections/HomeSobre";
-import HomeServicos from "@/components/sections/HomeServicos";
-import HomeTrabalho from "@/components/sections/HomeTrabalho";
-import MfTicker from "@/components/sections/MfTicker";
-import HomeTecnologia from "@/components/sections/HomeTecnologia";
-import HomeInsights from "@/components/sections/HomeInsights";
-import HomeCta from "@/components/sections/HomeCta";
+/* ABAIXO DA DOBRA -> chunks proprios (Eduardo 17/09: consolidar a carga
+   inicial). Hero/IntroGate seguem EAGER (primeiro paint + LCP); as
+   secoes abaixo entram em paralelo logo apos o mount, antes de
+   qualquer scroll alcancar. ScrollTriggers sao criados no mount de
+   cada secao, entao o reveal continua correto. */
+const HomeSobre = React.lazy(() => import("@/components/sections/HomeSobre"));
+const HomeServicos = React.lazy(() => import("@/components/sections/HomeServicos"));
+const HomeTrabalho = React.lazy(() => import("@/components/sections/HomeTrabalho"));
+const MfTicker = React.lazy(() => import("@/components/sections/MfTicker"));
+const HomeTecnologia = React.lazy(() => import("@/components/sections/HomeTecnologia"));
+const HomeInsights = React.lazy(() => import("@/components/sections/HomeInsights"));
+const HomeCta = React.lazy(() => import("@/components/sections/HomeCta"));
 import { usePageTitle } from "@/lib/usePageTitle";
 import { useLang } from "@/lib/i18n";
 
@@ -24,13 +29,15 @@ export default function Home() {
     <div className="mf-home">
       <IntroGate />
       <HeroStage />
-      <HomeSobre />
-      <HomeServicos />
-      <HomeTrabalho />
-      <MfTicker lang={lang} />
-      <HomeTecnologia />
-      <HomeInsights />
-      <HomeCta />
+      <React.Suspense fallback={null}>
+        <HomeSobre />
+        <HomeServicos />
+        <HomeTrabalho />
+        <MfTicker lang={lang} />
+        <HomeTecnologia />
+        <HomeInsights />
+        <HomeCta />
+      </React.Suspense>
 
       <style>{`
 .mf-label__n{color:var(--copper,#B5502E);margin-right:0.55rem;font-size:0.9em}
