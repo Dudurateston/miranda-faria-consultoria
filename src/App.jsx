@@ -10,19 +10,20 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
 // Add page imports here
-// Paginas de conteudo importadas estaticamente: lazy sem Suspense no
-// router legacy derrubava a arvore inteira no clique (React #426) —
-// bug "pagina em branco ate recarregar". O JS delas e minusculo; o
-// peso do site esta na midia, nao aqui.
-import Work from "@/pages/Work";
-import Practice from "@/pages/Practice";
-import WorkCase from "@/pages/WorkCase";
-import HowIWork from "@/pages/HowIWork";
-import Servicos from "@/pages/Servicos";
-import Insights from "@/pages/Insights";
-import About from "@/pages/About";
-import Contact from "@/pages/Contact";
-import PrivacyPolicy from "@/pages/PrivacyPolicy";
+/* ROUTE SPLITTING (Eduardo 17/09: otimizar mantendo qualidade): paginas
+   de conteudo viram chunks lazy — so baixam no clique. Home fica EAGER
+   (e o LCP). Bug historico do "blank ate recarregar" era falta de
+   <Suspense> em volta das Routes (router legacy); agora existe e TODAS
+   as rotas sao testadas com Playwright apos o build. */
+const Work = React.lazy(() => import("@/pages/Work"));
+const Practice = React.lazy(() => import("@/pages/Practice"));
+const WorkCase = React.lazy(() => import("@/pages/WorkCase"));
+const HowIWork = React.lazy(() => import("@/pages/HowIWork"));
+const Servicos = React.lazy(() => import("@/pages/Servicos"));
+const Insights = React.lazy(() => import("@/pages/Insights"));
+const About = React.lazy(() => import("@/pages/About"));
+const Contact = React.lazy(() => import("@/pages/Contact"));
+const PrivacyPolicy = React.lazy(() => import("@/pages/PrivacyPolicy"));
 import Home from "@/pages/Home";
 import TransitionCurtain from "@/components/layout/TransitionCurtain";
 import LogoEasterEgg from "@/components/layout/LogoEasterEgg";
@@ -97,7 +98,8 @@ const AuthenticatedApp = () => {
 
   // Render the main app
   return (
-    <Routes>
+    <React.Suspense fallback={<div className="mf-route-load" aria-hidden="true" />}>
+      <Routes>
       {/* Raiz decide o idioma uma vez e redireciona para a rota real. */}
       <Route path="/" element={<Navigate to={`/${detectLang()}`} replace />} />
 
@@ -136,6 +138,7 @@ const AuthenticatedApp = () => {
       <Route path="/oauth/consent" element={<OAuthConsent />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
+      </React.Suspense>
   );
 };
 
