@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useIsMobile, posterFor } from "@/lib/isMobile";
+import { posterFor } from "@/lib/isMobile";
 
 /**
  * Video em loop automatico, mudo e sem controles — o substituto moderno
@@ -10,9 +10,6 @@ import { useIsMobile, posterFor } from "@/lib/isMobile";
 export default function AutoVideo({ src, className, label, poster, preloadOffset = "300px" }) {
   const ref = useRef(null);
   const [live, setLive] = useState(false);
-  /* MOBILE: video vira poster estatico (regra spence). O IO continua
-     valendo para o desktop; no celular o src nunca chega no elemento. */
-  const isMobile = useIsMobile();
   const still = poster ?? posterFor(src);
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") { setLive(true); return; }
@@ -27,13 +24,13 @@ export default function AutoVideo({ src, className, label, poster, preloadOffset
     <video
       ref={ref}
       className={className}
-      src={live && !isMobile ? src : undefined}
+      src={live ? src : undefined}
       poster={still}
       autoPlay={live}
       muted
       loop
       playsInline
-      preload="metadata"
+      preload="none"
       aria-hidden={label ? undefined : "true"}
       aria-label={label}
     />

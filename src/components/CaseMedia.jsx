@@ -28,9 +28,6 @@ export default function CaseMedia({ media, name }) {
     const vid = videoRef.current;
     if (!el || !vid) return;
 
-    /* MOBILE: sem autoplay — o poster fica, o toque toca (bateria e
-       banda de quem esta em 4G agradecem). Desktop segue como era. */
-    if (isMobile) return undefined;
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) vid.play().catch(() => {});

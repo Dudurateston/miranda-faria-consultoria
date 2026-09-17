@@ -66,11 +66,15 @@ function Network3D({ lang, path }) {
     renderer.setPixelRatio(dpr);
     renderer.setSize(section.clientWidth, section.clientHeight);
     el.appendChild(renderer.domElement);
-    renderer.domElement.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none";
+    renderer.domElement.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y";
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(46, section.clientWidth / section.clientHeight, 0.1, 50);
-    camera.position.set(0, 0, mq.matches ? 3.3 : 6.2);
+    /* MOBILE: viewport estreito alarga o angulo aparente de tudo — a
+       rede encolhe drasticamente e a camera recua (pedido Eduardo 17/09). */
+    const mob = isMobile ? 0.52 : 1;
+    const camBaseZ = isMobile ? 9.2 : 6.2;
+    camera.position.set(0, 0, camBaseZ);
 
     const group = new THREE.Group();
     const skin = skinNow();
@@ -93,7 +97,7 @@ function Network3D({ lang, path }) {
     const dustG = new THREE.BufferGeometry();
     dustG.setAttribute("position", new THREE.BufferAttribute(dustPos, 3));
     const dustMat = new THREE.PointsMaterial({
-      color: skin.dust, size: 0.02, transparent: true, opacity: 0.30, sizeAttenuation: true,
+      color: skin.dust, size: 0.02 * mob, transparent: true, opacity: 0.30, sizeAttenuation: true,
     });
     dustMat.userData.slot = "dust"; live.push(dustMat);
     const dust = new THREE.Points(dustG, dustMat);
@@ -142,7 +146,7 @@ function Network3D({ lang, path }) {
     HUB_POS.forEach((p, i) => {
       const hubMat = i % 2 ? copMat : boneMat;
       const dp = deepen(p, 1.8);
-      hubMeshes.push(addNode(dp, 0.115, hubMat, {
+      hubMeshes.push(addNode(dp, 0.115 * mob, hubMat, {
         name: practiceLabels[i],
         to: path(PRACTICE_SLUGS[i]),
         hub: true,
@@ -154,7 +158,7 @@ function Network3D({ lang, path }) {
           map: haloTex, transparent: true, opacity: 0.5,
           blending: THREE.AdditiveBlending, depthWrite: false,
         }));
-        sp.scale.setScalar(0.6);
+        sp.scale.setScalar(0.6 * mob);
         hubMeshes[i].add(sp);
       }
     });
@@ -162,7 +166,7 @@ function Network3D({ lang, path }) {
       const slug = SAT_SLUGS[i];
       const c = caseByName[slug];
       const dsp = deepen(p, 2.3);
-      addNode(dsp, isMobile ? 0.05 : 0.035, satMat, {
+      addNode(dsp, isMobile ? 0.035 * mob : 0.035, satMat, {
         name: c ? c.name : slug,
         to: path(`work/${slug}`),
         hub: false,
@@ -221,7 +225,7 @@ function Network3D({ lang, path }) {
     const shards = SHARDS.map(([x, y, z], i) => {
       const shm = new THREE.MeshBasicMaterial({ color: i % 2 ? skin.copper : skin.shard, wireframe: true, transparent: true, opacity: 0.2 });
       shm.userData.slot = i % 2 ? "copper" : "shard"; live.push(shm);
-      const m = new THREE.Mesh(new THREE.OctahedronGeometry(0.055 + (i % 2) * 0.02), shm);
+      const m = new THREE.Mesh(new THREE.OctahedronGeometry((0.055 + (i % 2) * 0.02) * mob), shm);
       m.position.set(x, y, z);
       m.scale.setScalar(0.001);
       group.add(m);
@@ -236,7 +240,7 @@ function Network3D({ lang, path }) {
         color: skin.pulse, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false,
       });
       pm.userData.slot = "pulse"; live.push(pm);
-      const m = new THREE.Mesh(new THREE.SphereGeometry(0.024, 8, 6), pm);
+      const m = new THREE.Mesh(new THREE.SphereGeometry(0.024 * mob, 8, 6), pm);
       m.scale.setScalar(0.001);
       group.add(m);
       pulses.push({ mesh: m, pair: pairs[Math.floor(Math.random() * pairs.length)], t: Math.random() });
@@ -346,6 +350,7 @@ function Network3D({ lang, path }) {
     renderer.domElement.addEventListener("pointerdown", onDown);
     renderer.domElement.addEventListener("pointermove", onMove);
     renderer.domElement.addEventListener("pointerup", onUp);
+    renderer.domElement.addEventListener("pointercancel", () => { drag.on = false; });
     renderer.domElement.addEventListener("pointerleave", onLeave);
 
     const tick = (tm) => {
@@ -403,7 +408,7 @@ function Network3D({ lang, path }) {
     const stop = () => { running = false; cancelAnimationFrame(raf); };
 
     // ── entrada: câmera viaja, nós nascem, fios se desenham (GSAP)
-    camera.userData.baseZ = mq.matches ? 3.3 : 6.2;
+    camera.userData.baseZ = camBaseZ;
     if (mq.matches) {
       camera.position.z = 3.3;
       nodes.forEach((n) => n.scale.setScalar(1));
@@ -418,7 +423,7 @@ function Network3D({ lang, path }) {
       nodes.forEach((n) => { n.material.opacity = n.userData.baseOp * n.userData.dim; });
       renderer.render(scene, camera);
     } else {
-      gsap.to(camera.userData, { baseZ: 3.3, duration: 2.4, ease: "expo.out", delay: 0.75 });
+      gsap.to(camera.userData, { baseZ: camBaseZ, duration: 2.4, ease: "expo.out", delay: 0.75 });
       gsap.to(dust.scale, { x: 1, y: 1, z: 1, duration: 2.2, ease: "expo.out", delay: 0.5 });
       nodes.forEach((n, i) => {
         gsap.to(n.scale, { x: 1, y: 1, z: 1, duration: 1.2, ease: "expo.out", delay: 0.85 + (i % 5) * 0.12 });

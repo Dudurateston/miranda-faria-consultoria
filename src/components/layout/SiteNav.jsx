@@ -496,7 +496,10 @@ html[data-skin="dark"] [data-theme="on-deep"] .mf-nav{background:rgba(22,20,15,0
 .mf-mnav{
   position:fixed;inset:0;z-index:55;
   display:flex;flex-direction:column;justify-content:center;
-  padding:calc(var(--nav-height) + 2rem) var(--gutter) 2.5rem;
+  /* conteudo maior que a tela rola (antes: justify-center cortava as
+     pontas sem scroll — pedido Eduardo 17/09) */
+  overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  padding:calc(var(--nav-height) + 2rem) var(--gutter) 3rem;
   background:var(--bone,#F5F1EA);color:var(--ink,#1A1A18);
   opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity 0.4s var(--ease-in-out),visibility 0.4s;
