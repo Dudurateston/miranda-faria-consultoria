@@ -11,9 +11,10 @@ export const SELLERS_APP_URL = "https://vendas-uai-hub.base44.app";
 
 // Assets oficiais — logo principal transparente, hero em MP4 e mídias de seção.
 export const M_LOGO = "/art/m-logo-320.webp";
-/* M da CORTINA: osso solido 100% opaco — o m-logo-320 e translucido
-   cinza (46% semi-transparente) e aparecia lavado sobre o cobre
-   (Eduardo, 17/09: "problema de translucidez na transicao"). */
+/* M da CORTINA: branco-prata SOLIDO 100% opaco — recolorido do ramp do
+   SVG oficial (#fff -> #f0f2f2 -> #a8abad). Eduardo 17/09: "meu logo tem
+   um tom mais branco" — acabou o osso-cinza. Sobre fundos claros (nav/hero
+   na skin clara) o CSS da um filtro de prata pra manter visibilidade. */
 export const M_LOGO_CURTAIN = "/art/m-logo-curtain.webp";
 export const M_LOGO_HERO = "/art/m-logo-hero.webp";
 // Servidos do bucket publico miranda-faria no Supabase: qualidade original

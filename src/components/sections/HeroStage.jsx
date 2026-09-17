@@ -355,6 +355,8 @@ html[data-skin="dark"] .mf-hero__scrim{
   width:clamp(34px,4.6vw,52px);height:auto;
   margin:0 auto 1.8rem;display:block;
   mix-blend-mode:normal;filter:drop-shadow(0 0 12px rgba(26,26,24,0.10));
+}
+html:not([data-skin="dark"]) .mf-hero__mark{filter:brightness(0.88) saturate(0.85) drop-shadow(0 0 12px rgba(26,26,24,0.10))
   will-change:transform,opacity;
 }
 .mf-hero__title{

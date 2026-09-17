@@ -73,7 +73,7 @@ function Network3D({ lang, path }) {
     /* MOBILE: viewport estreito alarga o angulo aparente de tudo — a
        rede encolhe drasticamente e a camera recua (pedido Eduardo 17/09). */
     const mob = isMobile ? 0.52 : 1;
-    const camBaseZ = isMobile ? 9.2 : 6.2;
+    const camBaseZ = isMobile ? 9.2 : 5.1; // desktop maior de novo (Eduardo 17/09)
     camera.position.set(0, 0, camBaseZ);
 
     const group = new THREE.Group();
@@ -137,7 +137,17 @@ function Network3D({ lang, path }) {
       mm.userData.slot = mat.userData.slot; live.push(mm);
       const m = new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), mm);
       m.position.set(...pos);
-      m.userData = { ...data, dim: 1, baseOp: mat.opacity };
+      m.userData = {
+        ...data, dim: 1, baseOp: mat.opacity,
+        /* vida: cada no respira com frequencias/fases proprias —
+           nada de relogio unico; o conjunto parece organismo (17/09). */
+        live: {
+          f1: 1 / (2200 + Math.random() * 1600), f2: 1 / (900 + Math.random() * 700),
+          p1: Math.random() * 6.283, p2: Math.random() * 6.283,
+          r1: Math.random() * 6.283, r2: Math.random() * 6.283,
+          a1: 0.05 + Math.random() * 0.045, a2: 0.02 + Math.random() * 0.03,
+        },
+      };
       m.scale.setScalar(0.001);
       group.add(m);
       nodes.push(m);
@@ -145,7 +155,7 @@ function Network3D({ lang, path }) {
     };
     HUB_POS.forEach((p, i) => {
       const hubMat = i % 2 ? copMat : boneMat;
-      const dp = deepen(p, 1.8);
+      const dp = deepen(p, 1.5);
       hubMeshes.push(addNode(dp, 0.115 * mob, hubMat, {
         name: practiceLabels[i],
         to: path(PRACTICE_SLUGS[i]),
@@ -165,7 +175,7 @@ function Network3D({ lang, path }) {
     SAT_POS.slice(0, isMobile ? 7 : 12).forEach((p, i) => {
       const slug = SAT_SLUGS[i];
       const c = caseByName[slug];
-      const dsp = deepen(p, 2.3);
+      const dsp = deepen(p, 1.9);
       addNode(dsp, isMobile ? 0.035 * mob : 0.035, satMat, {
         name: c ? c.name : slug,
         to: path(`work/${slug}`),
@@ -363,10 +373,19 @@ function Network3D({ lang, path }) {
         if (group.rotation.x > 0.75) { group.rotation.x = 0.75; vel.x = 0; }
         else if (group.rotation.x < -0.75) { group.rotation.x = -0.75; vel.x = 0; }
         vel.x *= 0.94; vel.y *= 0.94;
+        dust.rotation.y += 0.00012;
+        dust.rotation.x = Math.sin(tm / 9000) * 0.06;
         // respiração dos nós e fios
         nodes.forEach((n) => {
-          n.position.x = n.userData.home.x + Math.sin(tm / 2600 + n.userData.ph) * 0.06;
-          n.position.y = n.userData.home.y + Math.cos(tm / 3100 + n.userData.ph) * 0.06;
+          const lv = n.userData.live;
+          n.position.x = n.userData.home.x
+            + Math.sin(tm * lv.f1 + lv.p1) * lv.a1
+            + Math.sin(tm * lv.f2 + lv.p2) * lv.a2 * 0.7;
+          n.position.y = n.userData.home.y
+            + Math.cos(tm * lv.f1 * 1.13 + lv.r1) * lv.a1
+            + Math.sin(tm * lv.f2 * 0.87 + lv.r2) * lv.a2 * 0.7;
+          n.position.z = n.userData.home.z
+            + Math.sin(tm * lv.f2 + lv.p2) * lv.a2 * 1.4;
         });
         pairs.forEach((_, i) => updateEdge(i));
         // fade por profundidade: perto nítido, longe esmaece

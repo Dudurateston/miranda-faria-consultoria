@@ -419,6 +419,10 @@ export default function SiteNav({ revealAfterHero = false }) {
 html[data-skin="dark"] .mf-nav,
 html[data-skin="dark"] [data-theme="on-deep"] .mf-nav{background:rgba(22,20,15,0.92)}
 [data-theme="on-deep"] .mf-nav__logo{filter:none}
+/* M e branco-prata (logo oficial). Sobre osso, ganha um tom de prata
+   discreto pra nao sumir; na skin escura fica branco puro. */
+html:not([data-skin="dark"]) .mf-nav__logo{filter:brightness(0.88) saturate(0.85)}
+html:not([data-skin="dark"]) .mf-mnav__wm{filter:brightness(0.88) saturate(0.85)}
 .mf-nav[data-show="false"]{opacity:0;transform:translateY(-100%);pointer-events:none}
 .mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}
 
