@@ -22,7 +22,7 @@ export default function HomeSobre() {
           <Reveal>
             <p className="mf-label"><span className="mf-label__n">01</span>{t.home.sobrePreview.label}</p>
           </Reveal>
-          <LineReveal className="mf-h__lead">{t.about.lead}</LineReveal>
+          <LineReveal className="mf-h__lead" dot>{t.about.lead}</LineReveal>
           <Reveal delay={140}>
             <p className="mf-sobre__body">{t.about.body[0]}</p>
           </Reveal>

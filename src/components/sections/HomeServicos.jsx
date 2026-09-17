@@ -36,7 +36,7 @@ export default function HomeServicos() {
         <Reveal>
           <p className="mf-label"><span className="mf-label__n">02</span>{t.servicos.label}</p>
         </Reveal>
-        <LineReveal className="mf-h__lead">{t.servicos.lead}</LineReveal>
+        <LineReveal className="mf-h__lead" dot>{t.servicos.lead}</LineReveal>
 
         <div className="mf-srows">
           {VERTICALS.map(({ slug, gif }, i) => {

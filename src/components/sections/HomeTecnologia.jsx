@@ -18,7 +18,7 @@ export default function HomeTecnologia() {
           <Reveal>
             <p className="mf-label"><span className="mf-label__n">04</span>{t.home.techPreview.label}</p>
           </Reveal>
-          <LineReveal className="mf-h__lead">{t.home.techPreview.lead}</LineReveal>
+          <LineReveal className="mf-h__lead" dot>{t.home.techPreview.lead}</LineReveal>
           <ul className="mf-tech__stack">
             {t.home.techPreview.stack.map((s) => (
               <li key={s}>{s}</li>

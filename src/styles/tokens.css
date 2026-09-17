@@ -216,6 +216,8 @@ body,
 .lr__line { display: block; overflow: hidden; padding: 0.08em 0; margin: -0.08em 0; }
 .lr__inner { display: block; will-change: transform; }
 .lr__word { display: inline-block; }
+/* Ponto final em cobre — identidade da casa (Eduardo, 17/09). */
+.lr__dot { color: var(--copper, #B5502E); }
 
 /* Textura de prancha, quase invisível */
 .mf-blueprint::before {

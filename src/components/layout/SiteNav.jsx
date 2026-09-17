@@ -401,6 +401,7 @@ html[data-skin="dark"] [data-theme="on-deep"] .mf-nav{background:rgba(22,20,15,0
    discreto pra nao sumir; na skin escura fica branco puro. */
 html:not([data-skin="dark"]) .mf-nav__logo{filter:brightness(0.88) saturate(0.85)}
 html:not([data-skin="dark"]) .mf-mnav__wm{filter:brightness(0.88) saturate(0.85)}
+html[data-skin="dark"] .mf-mnav__wm{filter:none}
 .mf-nav[data-show="false"]{opacity:0;transform:translateY(-100%);pointer-events:none}
 .mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}
 
@@ -458,7 +459,7 @@ html:not([data-skin="dark"]) .mf-mnav__wm{filter:brightness(0.88) saturate(0.85)
   transition:background var(--duration-fast) var(--ease-in-out),
              color var(--duration-fast) var(--ease-in-out);
 }
-.mf-nav__cta:hover{background:var(--mf-terracotta);color:var(--bone)}
+.mf-nav__cta:hover{background:var(--mf-terracotta);color:var(--on-accent)}
 
 /* ===== Mobile: header de uma linha + menu de tela cheia =====
    A fileira rolavel de rotulos virou overlay — a pagina respira e a
@@ -484,7 +485,7 @@ html:not([data-skin="dark"]) .mf-mnav__wm{filter:brightness(0.88) saturate(0.85)
      pontas sem scroll — pedido Eduardo 17/09) */
   overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   padding:calc(var(--nav-height) + 2rem) var(--gutter) 3rem;
-  background:var(--bone,#F5F1EA);color:var(--ink,#1A1A18);
+  background:var(--mf-bone,#F5F1EA);color:var(--mf-ink,#1A1A18);
   opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity 0.4s var(--ease-in-out),visibility 0.4s;
 }
@@ -494,7 +495,7 @@ html:not([data-skin="dark"]) .mf-mnav__wm{filter:brightness(0.88) saturate(0.85)
   font-family:var(--font-display);font-weight:400;
   font-size:clamp(2.1rem,10vw,3.2rem);line-height:1.22;
   letter-spacing:var(--tracking-display);
-  color:var(--bone);text-decoration:none;
+  color:var(--mf-ink);text-decoration:none;
   display:inline-block;width:max-content;max-width:100%;
   padding:0.45rem 0;
   transform:translateY(24px);opacity:0;
@@ -510,16 +511,16 @@ html:not([data-skin="dark"]) .mf-mnav__wm{filter:brightness(0.88) saturate(0.85)
   margin-top:2.8rem;position:relative;z-index:1;
 }
 .mf-mnav__lang{
-  background:none;border:1px solid rgba(245,242,237,0.35);color:var(--bone);
+  background:none;border:1px solid var(--mf-rule);color:var(--mf-ink);
   font-family:var(--font-mono);font-size:12px;letter-spacing:var(--tracking-label);
   text-transform:uppercase;padding:0.8rem 1.2rem;cursor:pointer;
   transition:border-color var(--duration-fast) var(--ease-in-out);
 }
-.mf-mnav__lang:hover{border-color:var(--bone)}
+.mf-mnav__lang:hover{border-color:var(--mf-ink)}
 .mf-mnav__cta{
   font-family:var(--font-mono);font-size:12px;letter-spacing:var(--tracking-label);
   text-transform:uppercase;text-decoration:none;
-  color:var(--bone);background:var(--mf-terracotta);
+  color:var(--on-accent,#F5F1EA);background:var(--mf-terracotta);
   padding:0.8rem 1.4rem;
 }
 .mf-mnav__wm{

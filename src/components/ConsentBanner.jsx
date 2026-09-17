@@ -81,7 +81,7 @@ export default function ConsentBanner() {
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   cursor:pointer;padding:0.55rem 1rem;
 }
-.mf-consent__yes{background:var(--mf-terracotta);border:1px solid var(--mf-terracotta);color:var(--bone)}
+.mf-consent__yes{background:var(--mf-terracotta);border:1px solid var(--mf-terracotta);color:var(--on-accent)}
 .mf-consent__no{background:none;border:1px solid rgba(245,242,237,0.4);color:rgba(245,242,237,0.86)}
 .mf-consent__link{
   font-family:var(--font-mono);font-size:11px;letter-spacing:var(--tracking-label);

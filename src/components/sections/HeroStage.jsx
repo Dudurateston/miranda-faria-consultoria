@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useTheme, hasThemeChoice } from "@/lib/theme";
-import anime from "animejs";
 import { useLang } from "@/lib/i18n";
 import { copy, practices, PRACTICE_SLUGS } from "@/content/copy";
 /* Rede 3D em chunk proprio: Three.js (~250KB gz) so entra na home,
@@ -71,7 +70,7 @@ export function IntroGate() {
     wm.innerHTML = wm.textContent
       .split("")
       .map((ch) => `<span class="mf-intro__ltr">${ch === " " ? "&nbsp;" : ch}</span>`)
-      .join("");
+      .join("") + '<span class="mf-intro__ltr mf-intro__dot">.</span>';
     const tl = gsap.timeline({ onComplete: () => el.remove() });
     tlRef.current = tl;
     tl.fromTo(el.querySelector(".mf-intro__m"),
@@ -164,6 +163,7 @@ export function IntroGate() {
   text-transform:uppercase;color:var(--ink,#1A1A18);white-space:nowrap;
 }
 .mf-intro__ltr{display:inline-block}
+.mf-intro__dot{color:var(--mf-copper,#B5502E)}
 .mf-intro__line{
   width:clamp(140px,26vw,380px);height:1px;
   background:var(--copper,#B5502E);transform-origin:left center;
@@ -171,7 +171,7 @@ export function IntroGate() {
 .mf-intro__role{
   font-family:var(--font-mono);font-size:clamp(9px,1.3vw,11px);
   letter-spacing:0.5em;text-transform:uppercase;
-  color:var(--mf-ink);opacity:0.72;white-space:nowrap;
+  color:var(--mf-ink);opacity:0.92;white-space:nowrap;
 }
 .mf-intro__choice{
   position:absolute;bottom:clamp(24px,7vh,64px);left:50%;transform:translateX(-50%);
@@ -187,7 +187,7 @@ export function IntroGate() {
 .mf-intro__chopt{
   font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;
   padding:8px 14px;border:0;background:none;cursor:pointer;
-  color:var(--ink);opacity:0.55;transition:opacity var(--duration-fast);
+  color:var(--ink);opacity:0.72;transition:opacity var(--duration-fast);
 }
 .mf-intro__chopt:hover{opacity:1}
 .mf-intro__chopt[data-active="true"]{opacity:1;color:var(--copper-text)}
@@ -253,19 +253,22 @@ export default function HeroStage() {
       { opacity: 0, y: 28 },
       { opacity: 1, y: 0, duration: 1.1, ease: "expo.out", delay: introOn ? 1.15 : 0.25 }
     );
-    gsap.set(".mf-hero__mark", { opacity: 0, scale: 0.82 });
-    gsap.set(".mf-hero__ltr", { opacity: 0, y: 46 });
-    gsap.set(".mf-hero__role", { opacity: 0 });
-    gsap.set(".mf-hero__cta", { opacity: 0, y: 18 });
-    const tl = anime.timeline({ easing: "easeOutExpo" });
-    tl.add({ targets: ".mf-hero__mark", opacity: [0, 0.92], scale: [0.82, 1], duration: 800 }, introOn ? 1650 : 650)
-      .add(
-        { targets: ".mf-hero__title .mf-hero__ltr", translateY: [46, 0], opacity: [0, 1], duration: 900, delay: anime.stagger(34) },
-        "-=320"
-      )
-      .add({ targets: ".mf-hero__role", opacity: [0, 1], letterSpacing: ["0.44em", "0.14em"], duration: 800 }, "-=520")
-      .add({ targets: ".mf-hero__cta", opacity: [0, 1], translateY: [18, 0], duration: 700 }, "-=460");
-    return () => { tl.pause(); };
+    /* Um unico motor (GSAP) por propriedade: o anime.js nao consegue
+       animar transform em elemento que o GSAP ja escreveu, e as letras
+       ficavam presas em y:46 sobre o subtitulo (Eduardo, 17/09). */
+    const base = introOn ? 1.65 : 0.65;
+    const tl = gsap.timeline({ ease: "expo.out" });
+    tl.fromTo(".mf-hero__mark", { opacity: 0, scale: 0.82 }, { opacity: 0.92, scale: 1, duration: 0.8 }, base)
+      .fromTo(".mf-hero__title .mf-hero__ltr",
+        { opacity: 0, y: 46 },
+        { opacity: 1, y: 0, duration: 0.9, stagger: 0.034 }, base + 0.48)
+      .fromTo(".mf-hero__role",
+        { opacity: 0, letterSpacing: "0.44em" },
+        { opacity: 1, letterSpacing: "0.14em", duration: 0.8 }, base + 1.268)
+      .fromTo(".mf-hero__cta",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.7 }, base + 1.608);
+    return () => { tl.kill(); };
   }, []);
 
   return (
@@ -283,6 +286,7 @@ export default function HeroStage() {
               {ch === " " ? "\u00A0" : ch}
             </span>
           ))}
+          <span className="mf-hero__ltr mf-hero__dot" aria-hidden="true">.</span>
         </h1>
         <p className="mf-hero__role">{t.role}</p>
         <a
@@ -341,13 +345,13 @@ export default function HeroStage() {
 @media (max-width:859px){.mf-hero__hint{display:none}}
 html[data-skin="dark"] .mf-hero__scrim{
   background:
-    radial-gradient(52% 46% at 50% 47%, rgba(22,20,15,0.60) 0%, rgba(22,20,15,0.30) 52%, rgba(22,20,15,0) 76%),
+    radial-gradient(52% 46% at 50% 47%, rgba(22,20,15,0.38) 0%, rgba(22,20,15,0.14) 52%, rgba(22,20,15,0) 72%),
     linear-gradient(180deg,rgba(22,20,15,0.38) 0%,rgba(22,20,15,0.16) 45%,rgba(22,20,15,0.62) 100%);
 }
 .mf-hero__scrim{
   position:absolute;inset:0;pointer-events:none;
   background:
-    radial-gradient(52% 46% at 50% 47%, rgba(245,241,234,0.60) 0%, rgba(245,241,234,0.30) 52%, rgba(245,241,234,0) 76%),
+    radial-gradient(52% 46% at 50% 47%, rgba(245,241,234,0.38) 0%, rgba(245,241,234,0.14) 52%, rgba(245,241,234,0) 72%),
     linear-gradient(180deg,rgba(245,241,234,0.38) 0%,rgba(245,241,234,0.16) 45%,rgba(245,241,234,0.62) 100%);
 }
 .mf-hero__content{
@@ -370,6 +374,7 @@ html:not([data-skin="dark"]) .mf-hero__mark{filter:brightness(0.88) saturate(0.8
   color:var(--ink,#1A1A18);margin:0;
 }
 .mf-hero__ltr{display:inline-block;will-change:transform,opacity}
+.mf-hero__dot{color:var(--mf-copper,#B5502E)}
 .mf-hero__role{
   /* KICKER (Eduardo 17/09: "finalmente facil de ler") — rastreio
      0.28em abria demais os glifos do mono; agora justo, maior e
@@ -406,7 +411,7 @@ html:not([data-skin="dark"]) .mf-hero__mark{filter:brightness(0.88) saturate(0.8
   display:flex;align-items:center;gap:0.55rem;
   font-family:var(--font-mono);font-size:10px;
   letter-spacing:0.12em;text-transform:uppercase;
-  color:var(--ink,#1A1A18);background:rgba(245,241,234,0.88);
+  color:#1A1A18;background:rgba(245,241,234,0.92);
   border:1px solid rgba(181,80,46,0.30);
   padding:0.45rem 0.85rem;border-radius:2px;
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);

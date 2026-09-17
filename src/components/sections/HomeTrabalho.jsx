@@ -36,7 +36,7 @@ export default function HomeTrabalho() {
         <Reveal>
           <p className="mf-label"><span className="mf-label__n">03</span>{t.work.label}</p>
         </Reveal>
-        <LineReveal className="mf-h__lead">{t.work.lead}</LineReveal>
+        <LineReveal className="mf-h__lead" dot>{t.work.lead}</LineReveal>
 
         <div className="mf-trows">
           {shown.map((c, i) => (

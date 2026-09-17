@@ -25,7 +25,7 @@ export default function HomeInsights() {
           <Reveal>
             <p className="mf-label"><span className="mf-label__n">05</span>{tp.label}</p>
           </Reveal>
-          <LineReveal className="mf-h__lead">{tp.lead}</LineReveal>
+          <LineReveal className="mf-h__lead" dot>{tp.lead}</LineReveal>
           <Reveal delay={120}>
             <p className="mf-dgprev__intro">{tp.intro}</p>
           </Reveal>

@@ -12,6 +12,7 @@ export default function LineReveal({
   as: Tag = "h2",
   className = "",
   children,
+  dot = false,
   stagger = 0.08,
   duration = 0.8,
   delay = 0,
@@ -24,9 +25,18 @@ export default function LineReveal({
     const el = ref.current;
     if (!el) return;
 
+    // ponto final em cobre — identidade da casa (Eduardo, 17/09)
+    const mkDot = () => {
+      const d = document.createElement("span");
+      d.className = "lr__word lr__dot";
+      d.textContent = ".";
+      return d;
+    };
+
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mq.matches) {
       gsap.set(el, { opacity: 1 });
+      if (dot && !el.querySelector(".lr__dot")) el.appendChild(mkDot());
       return;
     }
 
@@ -57,6 +67,7 @@ export default function LineReveal({
         if (i < words.length - 1) el.appendChild(document.createTextNode(" "));
         meas.push(span);
       });
+      if (dot && words.length) el.appendChild(mkDot());
       const lines = [];
       let cur = null;
       let lastTop = null;
