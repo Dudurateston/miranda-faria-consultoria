@@ -28,9 +28,9 @@ export default function SiteNav({ revealAfterHero = false }) {
   const [tDrop, setTDrop] = useState(false);
   const [tIdx, setTIdx] = useState(0);
   const tw = copy[lang].work;
-  const projects = ["rota-forte", "1000-pecas", "miranda-faria", "queijos-serra"]
-    .map((sg) => cases[lang].find((c) => c.slug === sg))
-    .filter(Boolean);
+  // TODOS os cases ativos — o dropdown de Trabalhos mostra o portfólio
+  // completo, na mesma ordem da página /work (14 cases, PT e EN).
+  const projects = cases[lang];
   const location = useLocation();
 
   // o menu de tela cheia fecha sozinho ao navegar, no ESC e trava o
@@ -137,7 +137,7 @@ export default function SiteNav({ revealAfterHero = false }) {
             >
               {tw.label}
             </NavLink>
-            <div className="mf-nav__sub" data-open={tDrop ? "true" : "false"}>
+            <div className="mf-nav__sub mf-nav__sub--tall" data-open={tDrop ? "true" : "false"}>
               <div className="mf-nav__subitems">
                 {projects.map((c, i) => (
                   <NavLink
@@ -158,10 +158,18 @@ export default function SiteNav({ revealAfterHero = false }) {
                 ))}
               </div>
               <div className="mf-nav__submedia" aria-hidden="true">
-                <video
-                  src={`/work/${(projects[tIdx] ?? projects[0])?.slug}/video.mp4`}
-                  autoPlay muted loop playsInline preload="metadata"
-                />
+                {(projects[tIdx] ?? projects[0])?.media?.video ? (
+                  <video
+                    src={`/work/${(projects[tIdx] ?? projects[0])?.media?.dir ?? (projects[tIdx] ?? projects[0])?.slug}/video.mp4`}
+                    autoPlay muted loop playsInline preload="metadata"
+                  />
+                ) : (
+                  <img
+                    src={`/work/${(projects[tIdx] ?? projects[0])?.media?.dir ?? (projects[tIdx] ?? projects[0])?.slug}/01.webp`}
+                    alt=""
+                    loading="lazy"
+                  />
+                )}
                 <span className="mf-nav__subcap">
                   {String(tIdx + 1).padStart(2, "0")} · {(projects[tIdx] ?? projects[0])?.name}
                 </span>
@@ -220,11 +228,20 @@ export default function SiteNav({ revealAfterHero = false }) {
           em cascata, M na marca d'agua e o WhatsApp embaixo. */}
       <div className="mf-mnav" id="mf-mnav" data-open={menuOpen ? "true" : "false"} aria-hidden={!menuOpen}>
         <nav className="mf-mnav__list" aria-label={t.home}>
+          <NavLink
+            to={path("about")}
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) => `mf-mnav__link${isActive ? " is-active" : ""}`}
+            style={{ transitionDelay: `${menuOpen ? 120 : 0}ms` }}
+            data-cursor="link"
+          >
+            {t.about}
+          </NavLink>
           {links.map((l, i) => (
             <NavLink
               key={l.to}
               to={l.to}
-              style={{ transitionDelay: `${menuOpen ? 120 + i * 70 : 0}ms` }}
+              style={{ transitionDelay: `${menuOpen ? 190 + i * 70 : 0}ms` }}
               className={({ isActive }) => `mf-mnav__link${isActive ? " is-active" : ""}`}
               data-cursor="link"
               onClick={() => setMenuOpen(false)}
@@ -236,7 +253,7 @@ export default function SiteNav({ revealAfterHero = false }) {
             to={path("work")}
             onClick={() => setMenuOpen(false)}
             className="mf-mnav__link"
-            style={{ transitionDelay: `${menuOpen ? 120 + links.length * 70 : 0}ms` }}
+            style={{ transitionDelay: `${menuOpen ? 190 + links.length * 70 : 0}ms` }}
             data-cursor="link"
           >
             {tw.label}
@@ -255,6 +272,21 @@ export default function SiteNav({ revealAfterHero = false }) {
                   <span className="mf-mnav__soln">{String(i + 1).padStart(2, "0")}</span>
                   {p.label}
                 </span>
+              </NavLink>
+            ))}
+          </div>
+          <div className="mf-mnav__cases">
+            {projects.map((c, i) => (
+              <NavLink
+                key={c.slug}
+                to={path(`work/${c.slug}`)}
+                onClick={() => setMenuOpen(false)}
+                className="mf-mnav__case"
+                style={{ transitionDelay: `${menuOpen ? 780 + i * 36 : 0}ms` }}
+                data-cursor="link"
+              >
+                <span className="mf-mnav__casen">{c.name}</span>
+                <span className="mf-mnav__casey">{c.year}</span>
               </NavLink>
             ))}
           </div>
@@ -521,6 +553,17 @@ export default function SiteNav({ revealAfterHero = false }) {
       @media(max-width:860px){
 .mf-nav__link{min-height:44px;display:inline-flex;align-items:center}
 }
+
+/* Dropdown de Trabalhos: portfólio completo (14 cases) — coluna
+   compacta e rolavel, midia com fallback de imagem p/ cases sem video */
+.mf-nav__sub--tall .mf-nav__subitems{max-height:min(62vh,560px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(26,26,24,0.35) transparent}
+.mf-nav__sub--tall .mf-nav__subitem{padding:0.6rem 0.9rem}
+.mf-nav__submedia img{width:100%;height:100%;object-fit:cover;display:block}
+.mf-mnav__cases{display:grid;grid-template-columns:1fr 1fr;gap:0.1rem 1.2rem;margin-top:1.1rem;padding-top:1rem;border-top:1px solid var(--mf-rule)}
+.mf-mnav__case{display:flex;justify-content:space-between;align-items:center;gap:0.5rem;min-height:44px;padding:0 0.15rem;font-size:0.95rem;text-decoration:none;opacity:0;transform:translateY(8px);transition:opacity 0.45s ease, transform 0.45s ease}
+.mf-mnav[data-open="true"] .mf-mnav__case{opacity:1;transform:none}
+.mf-mnav__case .mf-mnav__casey{font-family:var(--font-mono);font-size:0.68rem;color:rgba(26,26,24,0.55)}
+@media(max-width:560px){.mf-mnav__cases{grid-template-columns:1fr}}
 `}</style>
     </>
   );
