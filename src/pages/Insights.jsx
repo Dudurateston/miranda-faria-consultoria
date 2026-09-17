@@ -432,7 +432,7 @@ export default function Insights() {
   .mf-dg__opts--rev{grid-template-columns:repeat(4,1fr)}
   .mf-dg__opts--urg{grid-template-columns:repeat(3,1fr)}
 }
-.mf-dg__opt{
+.mf-dg__opt{min-height:44px;
   display:flex;flex-direction:column;gap:0.5rem;text-align:left;
   background:transparent;border:1px solid var(--color-divider);
   padding:1.15rem 1.25rem;cursor:pointer;

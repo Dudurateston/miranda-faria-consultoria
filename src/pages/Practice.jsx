@@ -311,6 +311,7 @@ export default function Practice({ slug: slugProp }) {
   font-size:clamp(2.4rem,6.5vw,var(--text-display-xl));line-height:1.06;
   letter-spacing:var(--tracking-display);color:var(--color-text-primary);
   margin:0.9rem 0 0;max-width:14ch;text-wrap:balance}
+.mf-dsg-open{background:#141414}
 .mf-dsg-open__capwrap{position:absolute;right:var(--gutter);bottom:1.2rem}
 .mf-dsg-open__cap{color:rgba(245,241,234,0.55)}
 @media(max-width:760px){
@@ -334,6 +335,7 @@ export default function Practice({ slug: slugProp }) {
 .mf-dsg-band{position:relative;margin:0}
 .mf-dsg-band__fig{margin:0}
 .mf-dsg-band__video{width:100%;display:block;aspect-ratio:21/9;object-fit:cover}
+.mf-dsg-band{background:#141414}
 .mf-dsg-band__capwrap{position:absolute;left:var(--gutter);bottom:1.2rem}
 .mf-dsg-band__cap{color:rgba(245,241,234,0.6)}
 @media(max-width:900px){.mf-dsg-band__video{aspect-ratio:16/9}}
@@ -342,7 +344,8 @@ export default function Practice({ slug: slugProp }) {
    O video nao decora: o veio incandescente que corre no eixo do canion e a
    mesma linha de cobre que atravessa o site. O veu escuro garante contraste
    de texto (AA) sobre qualquer quadro do loop. */
-.mf-dsg-close{position:relative;overflow:hidden;isolation:isolate}
+.mf-dsg-close{position:relative;overflow:hidden;isolation:isolate;
+  background:#141414}
 .mf-dsg-close__video{position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;z-index:0}
 .mf-dsg-close__veil{position:absolute;inset:0;z-index:1;
@@ -352,14 +355,14 @@ export default function Practice({ slug: slugProp }) {
 .mf-dsg-close .mf-pr__inner{position:relative;z-index:2;
   padding-top:clamp(6rem,16vh,10rem);padding-bottom:clamp(6rem,16vh,10rem)}
 .mf-dsg-close .mf-pr__closing{color:var(--mf-bone,#F5F1EA)}
-.mf-dsg-close .mf-pr__cta{color:var(--mf-bone,#F5F1EA);
+.mf-dsg-close .mf-pr__cta{color:#F5F1EA;
   border-color:rgba(245,241,234,0.28)}
-.mf-dsg-close .mf-pr__cta--main{color:var(--mf-bone,#F5F1EA)}
+.mf-dsg-close .mf-pr__cta--main{color:#F5F1EA}
 .mf-dsg-close .mf-pr__cta--ghost{color:rgba(245,241,234,0.62)}
 .mf-dsg-close .mf-pr__cta:hover{color:#fff;border-color:rgba(245,241,234,0.55)}
 @media(prefers-reduced-motion:reduce){
   .mf-dsg-close__video{display:none}
-  .mf-dsg-close{background:var(--mf-graphite,#141414)}
+  .mf-dsg-close{background:#141414}
 }
 
 .mf-pr{padding:var(--section-gap) var(--gutter)}

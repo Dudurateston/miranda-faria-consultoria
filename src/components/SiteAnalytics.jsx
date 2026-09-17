@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { trackPageView, trackWhatsApp } from "@/lib/siteAnalytics";
 import { initGA, gaPageView } from "@/lib/ga";

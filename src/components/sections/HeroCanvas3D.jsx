@@ -32,10 +32,14 @@ const SAT_SLUGS = [
    ate 3.1 — a rede preenche a tela sem sair dela. Os 7 primeiros sao
    compactos e servem tambem ao mobile (slice 0..7); 8-12 sao desktop.
    Validado por projecao: extremos 176-1368px em 1440, 0 colisoes. */
+/* DISPERSAO (Eduardo 17/09: "muito espaco na lateral"): nos LATERAIS
+   agora ficam PERTO da camera (z positivo) com |x| grande — a
+   perspectiva os amplia e eles sangram as bordas, a maneira spence.
+   Nos 0-6 compactos servem ao mobile (slice 0..7). */
 const SAT_POS = [
   [-0.55, 1.28, 0.45], [0.62, 1.34, -0.35], [0.05, 1.55, 0.15], [-0.28, -1.55, 0.30],
-  [0.55, -1.42, -0.66], [-1.30, 1.30, -1.30], [1.12, -1.20, -0.95], [-2.90, 0.45, -1.40],
-  [1.95, 0.04, -0.50], [-3.10, 1.05, -1.55], [3.10, -0.75, -1.60], [-0.15, -1.72, -1.10],
+  [0.55, -1.42, -0.66], [-1.30, 1.30, -1.30], [1.12, -1.20, -0.95], [-1.85, 0.62, 0.85],
+  [2.05, -0.28, 0.60], [-2.45, -0.85, -0.35], [2.50, 0.95, -0.45], [-0.15, -1.72, -1.10],
 ];
 const HUB_EDGES = [[0, 1], [0, 2], [1, 3], [2, 3], [0, 3], [1, 2]];
 /* PROFUNDIDADE (Eduardo, 17/09: ocupar o espaco 3D): Z dos nos e
@@ -408,7 +412,7 @@ function Network3D({ lang, path }) {
       if (!running) return;
       if (!mq.matches) {
         // giro automático pausa enquanto você examina ou arrasta
-        if (!hovered && !drag.on) group.rotation.y += 0.0016;
+        if (!hovered && !drag.on) group.rotation.y += 0.0012;
         group.rotation.y += vel.y;
         group.rotation.x += vel.x;
         if (group.rotation.x > 0.75) { group.rotation.x = 0.75; vel.x = 0; }

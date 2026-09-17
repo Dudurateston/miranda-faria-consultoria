@@ -84,7 +84,7 @@ export default function Footer() {
             >
               {t.footer.sellers} ↗
             </a>
-            <Link to="/privacidade" data-cursor="link" className="mf-foot__link">
+            <Link to={path("privacidade")} data-cursor="link" className="mf-foot__link">
               {t.footer.privacy}
             </Link>
             <ThemeToggle lang={lang} variant="foot" />

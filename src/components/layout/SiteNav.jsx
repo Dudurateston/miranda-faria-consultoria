@@ -315,7 +315,7 @@ export default function SiteNav({ revealAfterHero = false }) {
 
       {/* Overlay de tela cheia: rotulos grandes em serif, entrada
           em cascata, M na marca d'agua e o WhatsApp embaixo. */}
-      <div className="mf-mnav" id="mf-mnav" data-open={menuOpen ? "true" : "false"} aria-hidden={!menuOpen}>
+      <div className="mf-mnav" id="mf-mnav" data-open={menuOpen ? "true" : "false"} aria-hidden={!menuOpen} data-lenis-prevent>
         <nav className="mf-mnav__list" aria-label={t.home}>
           <NavLink
             to={path("about")}
@@ -499,7 +499,7 @@ html:not([data-skin="dark"]) .mf-mnav__wm{filter:brightness(0.88) saturate(0.85)
 
 .mf-mnav{
   position:fixed;inset:0;z-index:55;
-  display:flex;flex-direction:column;justify-content:center;
+  display:flex;flex-direction:column;justify-content:flex-start;
   /* conteudo maior que a tela rola (antes: justify-center cortava as
      pontas sem scroll — pedido Eduardo 17/09) */
   overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;

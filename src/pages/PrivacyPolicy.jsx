@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getConsent, revokeConsent } from "@/lib/siteAnalytics";
+import { useLang } from "@/lib/i18n";
 import { EMAIL } from "@/lib/site";
 
 /**
@@ -57,11 +58,41 @@ const SECTIONS = [
   },
 ];
 
+
+/* EN — espelho juridico das secoes PT (route /en/privacidade) */
+const SECTIONS_EN = [
+  { t: "In one sentence", p: [
+    "This site uses its own anonymous measurement — events that tell which pages help and which get in the way — and also Google Analytics to measure visits and behavior. We do not sell or share data with anyone beyond Google Analytics's own processing, which uses cookies under Google's privacy policy.",
+  ]},
+  { t: "Who processes the data", p: [
+    "Eduardo Miranda Faria, consulting and technology, Brazil. For any privacy question, write to the email at the end of this page — we reply within 15 days.",
+  ]},
+  { t: "What is recorded", p: [
+    "With your consent in the privacy notice, we record: the pages visited, the origin of the visit (where you came from and campaign parameters), the device category (phone, tablet or computer), the visit language, clicks on WhatsApp buttons and completion of the diagnostic — only the chosen answers, nothing that identifies you.",
+    "What we never record: name, email, phone, stored IP, or any data that could identify you. The session is a random number kept only in your browser, expiring after 30 minutes of inactivity.",
+    "Beyond our own measurement, Google Analytics records visits and navigation through Google cookies, under their privacy policy. None of your information shown on this site is sent to it.",
+  ]},
+  { t: "Consent and revocation", p: [
+    "Our own measurement records nothing before your consent. Google Analytics, by the publisher's decision, loads from the first visit; to avoid being measured by it, block or clear your browser cookies. For our own measurement, revoke below — revocation is immediate.",
+  ]},
+  { t: "About WhatsApp", p: [
+    "When you call on WhatsApp, the conversation lives on Meta's platform, under their privacy policy. The exit click is counted here; the conversation content, never.",
+  ]},
+  { t: "Your rights", p: [
+    "Under Brazil's General Data Protection Law (Law 13.709/2018, art. 18), you can confirm the existence of processing, access, correct, request deletion and portability of your data, and revoke consents. Since records are anonymous, deletion is in practice total: just revoke here or request by email.",
+  ]},
+  { t: "Retention", p: [
+    "Anonymous events are kept only while they help improve the site and can be deleted at any time, fully or partially, at your request.",
+  ]},
+];
+
 export default function PrivacyPolicy() {
+  const { lang, path } = useLang();
+  const en = lang === "en";
+  const S = en ? SECTIONS_EN : SECTIONS;
   useEffect(() => {
-    // fora do LanguageProvider: titulo direto, sem hook de idioma
-    document.title = "Política de Privacidade · Miranda Faria";
-  }, []);
+    document.title = en ? "Privacy Policy · Miranda Faria" : "Política de Privacidade · Miranda Faria";
+  }, [en]);
   const [consent, setConsent] = useState("…");
   const [revoked, setRevoked] = useState(false);
 
@@ -78,15 +109,15 @@ export default function PrivacyPolicy() {
   return (
     <div className="mf-priv">
       <div className="mf-priv__inner">
-        <Link to="/pt" data-cursor="link" className="mf-priv__back">
-          ← Voltar ao site
+        <Link to={path("")} data-cursor="link" className="mf-priv__back">
+          {en ? "← Back to the site" : "← Voltar ao site"}
         </Link>
         <p className="mf-label">Legal · LGPD</p>
-        <h1 className="mf-priv__title">Política de Privacidade</h1>
-        <p className="mf-priv__updated">Última atualização: setembro de 2026</p>
+        <h1 className="mf-priv__title">{en ? "Privacy Policy" : "Política de Privacidade"}</h1>
+        <p className="mf-priv__updated">{en ? "Last updated: September 2026" : "Última atualização: setembro de 2026"}</p>
 
         <div className="mf-priv__sections">
-          {SECTIONS.map((s) => (
+          {S.map((s) => (
             <section key={s.t} className="mf-priv__sec">
               <h2 className="mf-priv__st">{s.t}</h2>
               {s.p.map((para, i) => (
@@ -96,7 +127,7 @@ export default function PrivacyPolicy() {
           ))}
 
           <section className="mf-priv__sec">
-            <h2 className="mf-priv__st">Contato</h2>
+            <h2 className="mf-priv__st">{en ? "Contact" : "Contato"}</h2>
             <p className="mf-priv__sp">
               <a href={`mailto:${EMAIL}`} data-cursor="link" className="mf-priv__mail">
                 {EMAIL}
@@ -105,20 +136,20 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="mf-priv__revoke" aria-live="polite">
-            <p className="mf-priv__rlabel">Seu consentimento de medição</p>
+            <p className="mf-priv__rlabel">{en ? "Your measurement consent" : "Seu consentimento de medição"}</p>
             <p className="mf-priv__rstate">
               {consent === "granted"
-                ? "Concedido — eventos anônimos estão sendo registrados."
+                ? en ? "Granted — anonymous events are being recorded." : "Concedido — eventos anônimos estão sendo registrados."
                 : consent === "denied"
-                ? "Recusado — nada além do essencial é registrado."
-                : "Ainda não decidido no aviso de privacidade."}
+                ? en ? "Denied — nothing beyond the essential is recorded." : "Recusado — nada além do essencial é registrado."
+                : en ? "Not yet decided in the privacy notice." : "Ainda não decidido no aviso de privacidade."}
             </p>
             {consent === "granted" ? (
               <button type="button" className="mf-priv__btn" onClick={revoke} data-cursor="link">
-                Revogar consentimento
+                {en ? "Revoke consent" : "Revogar consentimento"}
               </button>
             ) : revoked ? (
-              <p className="mf-priv__done">Revogado. A medição própria foi desligada neste navegador.</p>
+              <p className="mf-priv__done">{en ? "Revoked. Own measurement has been turned off in this browser." : "Revogado. A medição própria foi desligada neste navegador."}</p>
             ) : null}
           </section>
         </div>
@@ -178,8 +209,8 @@ export default function PrivacyPolicy() {
 .mf-priv__btn{
   font-family:var(--font-mono);font-size:11px;
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--bone);background:var(--mf-terracotta);
-  border:1px solid var(--mf-terracotta);
+  color:#F5F1EA;background:var(--copper,#B5502E);
+  border:1px solid var(--copper,#B5502E);
   padding:0.7rem 1.3rem;cursor:pointer;
 }
 .mf-priv__done{

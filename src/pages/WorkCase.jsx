@@ -138,7 +138,7 @@ export default function WorkCase() {
   font-size:var(--text-display-hero);line-height:var(--leading-display);
   letter-spacing:var(--tracking-display);color:var(--color-text-primary);margin:0;
 }
-.mf-case__meta{display:flex;gap:1.6rem;margin:1.6rem 0 0}
+.mf-case__meta{display:flex;flex-wrap:wrap;gap:0.6rem 1.6rem;margin:1.6rem 0 0;min-width:0}
 .mf-case__summary{
   font-family:var(--font-body);font-weight:300;
   font-size:var(--text-body-lg);line-height:var(--leading-body);
@@ -147,10 +147,10 @@ export default function WorkCase() {
 
 .mf-case__mediawrap{padding:0 var(--gutter);margin-bottom:clamp(2rem,5vh,3.5rem)}
 .mf-case__facts{
-  list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;
+  list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;
   margin:1.4rem 0 0;padding:1.2rem 0 0;border-top:1px solid var(--color-divider);
 }
-@media(min-width:860px){.mf-case__facts{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:860px){.mf-case__facts{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .mf-case__facts li{display:flex;flex-direction:column;gap:0.35rem}
 .mf-case__role{color:var(--color-text-ghost)}
 .mf-case__live{

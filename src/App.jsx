@@ -123,6 +123,7 @@ const AuthenticatedApp = () => {
         <Route path="how-i-work" element={<HowIWork />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="privacidade" element={<PrivacyPolicy />} />
       </Route>
 
       {/* Paginas de infraestrutura Base44 — sem prefixo de idioma. */}

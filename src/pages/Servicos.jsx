@@ -171,7 +171,7 @@ export default function Servicos() {
 .mf-srv__layer{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:rgba(38,38,38,0.78);
+  color:var(--color-text-secondary);
   padding-left:clamp(0.5rem,4vw,3.5rem);
 }
 .mf-srv__stat{
@@ -278,7 +278,7 @@ export default function Servicos() {
   border-bottom:1px solid var(--color-divider);
 }
 .mf-faq__body{
-  display:block;width:100%;padding:0;margin:0;text-align:inherit;
+  display:flex;width:100%;padding:0;margin:0;text-align:inherit;align-items:center;min-height:44px;
   background:none;border:0;font:inherit;color:inherit;cursor:pointer;
 }
 .mf-faq__answer{

@@ -193,7 +193,7 @@ async function varrer(page, rota, lang, vp, dark, tag) {
   let midiasRota = 0, legiveis1 = 0, h1Total = 0;
   for (let si = 0; si < scrollPos.length; si++) {
     await page.evaluate((y) => window.scrollTo(0, y), scrollPos[si]);
-    await page.waitForTimeout(700);
+    await page.waitForTimeout(1300); // settle: revelacoes GSAP 0.45-0.9s precisam terminar antes da medida
     const res = await page.evaluate(AUDIT_CALL, { portIn: { top: 0, bottom: vp.h }, isTouch: vp.touch });
     midiasRota = Math.max(midiasRota, res.midias);
     if (si === 0) legiveis1 = res.legiveis1;

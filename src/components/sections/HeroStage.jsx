@@ -7,7 +7,7 @@ import { copy, practices, PRACTICE_SLUGS } from "@/content/copy";
 /* Rede 3D em chunk proprio: Three.js (~250KB gz) so entra na home,
    asincrono — as outras rotas e o primeiro paint nao pagam por ele. */
 const Network3D = React.lazy(() => import("./HeroCanvas3D"));
-import { WHATSAPP_URL, CALENDLY_URL, M_LOGO } from "@/lib/site";
+import { WHATSAPP_URL, CALENDLY_URL, M_LOGO_BONE } from "@/lib/site";
 
 /**
  * Portão de entrada — a animação que independe do usuário (referência
@@ -107,7 +107,7 @@ export function IntroGate() {
 
   return (
     <div ref={ref} className="mf-intro" data-theme="dark" aria-hidden="true">
-      <img className="mf-intro__m" src={M_LOGO} alt="" />
+      <img className="mf-intro__m" src={M_LOGO_BONE} alt="" />
       <span className="mf-intro__word">MIRANDA FARIA</span>
       <span className="mf-intro__line" />
       <span className="mf-intro__role">{roles}</span>
@@ -276,7 +276,7 @@ export default function HeroStage() {
       <div className="mf-hero__scrim" aria-hidden="true" />
 
       <div ref={content} className="mf-hero__content" style={{ opacity: 0 }}>
-        <img className="mf-hero__mark" src={M_LOGO} alt="" aria-hidden="true" />
+        <img className="mf-hero__mark" src={M_LOGO_BONE} alt="" aria-hidden="true" />
         <h1 className="mf-hero__title" aria-label={t.wordmark}>
           {t.wordmark.split("").map((ch, i) => (
             <span key={i} className="mf-hero__ltr" aria-hidden="true">
@@ -367,10 +367,18 @@ html:not([data-skin="dark"]) .mf-hero__mark{filter:brightness(0.88) saturate(0.8
 }
 .mf-hero__ltr{display:inline-block;will-change:transform,opacity}
 .mf-hero__role{
+  /* KICKER (Eduardo 17/09: subtitulo quase nao se lia): mono maior,
+     rastreio justo, opacidade cheia e filete de cobre flanqueando. */
   font-family:var(--font-mono);
-  font-size:clamp(0.7rem,1.4vw,0.85rem);
-  letter-spacing:0.4em;text-transform:uppercase;
-  color:var(--mf-ink);opacity:0.72;margin:1.4rem 0 0;
+  font-size:clamp(0.8rem,1.6vw,1rem);
+  letter-spacing:0.28em;text-transform:uppercase;
+  color:var(--mf-ink);opacity:0.92;margin:1.15rem 0 0;
+  display:inline-flex;align-items:center;gap:1rem;
+}
+.mf-hero__role::before,
+.mf-hero__role::after{
+  content:"";display:block;width:clamp(1.2rem,3vw,2.4rem);height:1px;
+  background:var(--mf-terracotta);
 }
 .mf-hero__cta{
   margin-top:3.2rem;

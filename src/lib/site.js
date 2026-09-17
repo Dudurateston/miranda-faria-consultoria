@@ -16,6 +16,9 @@ export const M_LOGO = "/art/m-logo-320.webp";
    um tom mais branco" — acabou o osso-cinza. Sobre fundos claros (nav/hero
    na skin clara) o CSS da um filtro de prata pra manter visibilidade. */
 export const M_LOGO_CURTAIN = "/art/m-logo-curtain.webp";
+/* M em OSSO PURO para fundos escuros/cobre (Eduardo 17/09: o prata
+   oficial lavado sobre grafite/cobre dava erro de contraste). */
+export const M_LOGO_BONE = "/art/m-logo-bone.webp";
 export const M_LOGO_HERO = "/art/m-logo-hero.webp";
 // Servidos do bucket publico miranda-faria no Supabase: qualidade original
 // (fonte 4K) sem pesar no bundle do app. Hero continua local (LCP).
