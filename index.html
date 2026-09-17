@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Pre-paint: aplica o tema escolhido antes do bundle para nao piscar. -->
+    <script>
+      try { if (localStorage.getItem("mf-theme") === "dark") document.documentElement.dataset.skin = "dark"; } catch (e) {}
+    </script>
 
     <!-- Marca propria. Antes apontava para o logo do Base44, o que fazia
          o site exibir a marca da plataforma na aba do navegador. -->

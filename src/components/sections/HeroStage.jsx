@@ -446,7 +446,35 @@ function Network3D({ lang, path }) {
  */
 export function IntroGate() {
   const ref = useRef(null);
-  const { lang } = useLang();
+  const { lang, setLang } = useLang();
+  const { theme, setTheme } = useTheme();
+  /* Primeira visita de verdade: nunca escolheu tema. A escolha vive
+     no portao de entrada e nao volta a aparecer (localStorage). */
+  const [ask] = useState(() => (hasThemeChoice() ? false : true));
+  const [paused, setPaused] = useState(false);   // painel visivel
+  const [resolved, setResolved] = useState(true); // resolved ate pausar
+  const [chosen, setChosen] = useState(0); // incremento reinicia a contagem
+  const pendingLang = useRef(null);
+  const tlRef = useRef(null);
+
+  /* Auto-avanco: 2,5s contados do painel abrir; cada escolha recomeca. */
+  useEffect(() => {
+    if (!ask || !paused || resolved) return undefined;
+    const t = setTimeout(() => setResolved(true), 2500);
+    return () => clearTimeout(t);
+  }, [ask, paused, resolved, chosen]);
+
+  /* Resolver devolve o portao: cortina sobe, idioma pendente aplica. */
+  useEffect(() => {
+    if (!ask || !paused || !resolved) return;
+    if (pendingLang.current && pendingLang.current !== lang) {
+      const next = pendingLang.current;
+      pendingLang.current = null;
+      setLang(next);
+    } else {
+      tlRef.current?.play();
+    }
+  }, [ask, paused, resolved, lang, setLang]);
 
   useEffect(() => {
     const el = ref.current;
@@ -454,6 +482,9 @@ export function IntroGate() {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mq.matches || sessionStorage.getItem("mf-intro") === "1") {
       el.remove();
+      /* Sem intro nao ha seletor: assume claro e registra a escolha
+         para o portao nunca travar uma segunda visita. */
+      if (hasThemeChoice() === false) setTheme("light");
       return;
     }
     sessionStorage.setItem("mf-intro", "1");
@@ -463,6 +494,7 @@ export function IntroGate() {
       .map((ch) => `<span class="mf-intro__ltr">${ch === " " ? "&nbsp;" : ch}</span>`)
       .join("");
     const tl = gsap.timeline({ onComplete: () => el.remove() });
+    tlRef.current = tl;
     tl.fromTo(el.querySelector(".mf-intro__m"),
         { opacity: 0, scale: 0.55, rotate: -16 },
         { opacity: 1, scale: 1, rotate: 0, duration: 0.7, ease: "expo.out" }, 0)
@@ -476,6 +508,15 @@ export function IntroGate() {
         { opacity: 0, letterSpacing: "0.9em" },
         { opacity: 0.8, letterSpacing: "0.5em", duration: 0.7, ease: "expo.out" }, 0.8)
       .to({}, { duration: 0.3 })
+      /* Portao de escolha: primeira visita pausa a saida ate resolver
+         (clique ou auto-avanco). Visitas seguintes nem sentem. */
+      .call(() => {
+        if (ask) {
+          tl.pause();
+          setResolved(false);
+          setPaused(true);
+        }
+      })
       .to(el.querySelector(".mf-intro__m"), { y: -70, opacity: 0, duration: 0.55, ease: "power3.in" }, ">")
       .to(el, { yPercent: -100, duration: 0.8, ease: "expo.inOut" }, "<0.12");
     document.documentElement.style.overflow = "hidden";
@@ -491,6 +532,37 @@ export function IntroGate() {
       <span className="mf-intro__word">MIRANDA FARIA</span>
       <span className="mf-intro__line" />
       <span className="mf-intro__role">{roles}</span>
+      {ask && paused && (
+        <div className="mf-intro__choice" key={chosen}>
+          <div className="mf-intro__chgrp">
+            <span className="mf-intro__chcap">{lang === "pt" ? "TEMA" : "THEME"}</span>
+            <div className="mf-intro__chopts">
+              <button type="button" className="mf-intro__chopt" data-active={theme === "light" ? "true" : undefined}
+                onClick={() => { setTheme("light"); setChosen((c) => c + 1); }}>
+                {lang === "pt" ? "CLARO" : "LIGHT"}
+              </button>
+              <button type="button" className="mf-intro__chopt" data-active={theme === "dark" ? "true" : undefined}
+                onClick={() => { setTheme("dark"); setChosen((c) => c + 1); }}>
+                {lang === "pt" ? "ESCURO" : "DARK"}
+              </button>
+            </div>
+          </div>
+          <div className="mf-intro__chgrp">
+            <span className="mf-intro__chcap">{lang === "pt" ? "IDIOMA" : "LANGUAGE"}</span>
+            <div className="mf-intro__chopts">
+              <button type="button" className="mf-intro__chopt" data-active={lang === "pt" ? "true" : undefined}
+                onClick={() => { pendingLang.current = "pt"; setChosen((c) => c + 1); }}>
+                PT
+              </button>
+              <button type="button" className="mf-intro__chopt" data-active={lang === "en" ? "true" : undefined}
+                onClick={() => { pendingLang.current = "en"; setChosen((c) => c + 1); }}>
+                EN
+              </button>
+            </div>
+          </div>
+          <span className="mf-intro__chbar" aria-hidden="true" />
+        </div>
+      )}
       <style>{`
 .mf-intro{
   position:fixed;inset:0;z-index:200;
@@ -522,7 +594,34 @@ export function IntroGate() {
   letter-spacing:0.5em;text-transform:uppercase;
   color:rgba(26,26,24,0.72);white-space:nowrap;
 }
+.mf-intro__choice{
+  position:absolute;bottom:clamp(24px,7vh,64px);left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:clamp(18px,3vw,36px);
+  animation:mf-intro-chfade 0.5s var(--ease-out-expo) both;
+}
+.mf-intro__chgrp{display:flex;align-items:baseline;gap:12px}
+.mf-intro__chcap{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:0.34em;
+  color:rgba(138,133,120,0.9);
+}
+.mf-intro__chopts{display:flex;gap:2px}
+.mf-intro__chopt{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;
+  padding:8px 14px;border:0;background:none;cursor:pointer;
+  color:var(--ink);opacity:0.55;transition:opacity var(--duration-fast);
+}
+.mf-intro__chopt:hover{opacity:1}
+.mf-intro__chopt[data-active="true"]{opacity:1;color:var(--copper-text)}
+.mf-intro__chbar{
+  position:absolute;left:0;right:0;bottom:-14px;height:1px;
+  background:var(--copper);transform-origin:left center;
+  animation:mf-intro-chbar 2.5s linear forwards;
+}
+@keyframes mf-intro-chbar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes mf-intro-chfade{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
 @media(max-width:600px){
+  .mf-intro__choice{flex-direction:column;gap:10px;bottom:20px}
+  .mf-intro__chbar{bottom:-10px}
   .mf-intro{gap:1.05rem}
   .mf-intro__m{width:42px}
   .mf-intro__word{font-size:1.05rem;letter-spacing:0.18em}

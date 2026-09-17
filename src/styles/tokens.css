@@ -224,3 +224,39 @@ body,
   opacity: 0.05;
   pointer-events: none;
 }
+
+/* ============================================================
+   TEMA ESCURO GLOBAL (data-skin="dark" no <html>) — o mesmo
+   passeio de valor, invertido. Sem colidir com o data-theme
+   local das secoes: este bloco e o unico no escopo raiz.
+   ============================================================ */
+html[data-skin="dark"] {
+  --ink: #EFEAE0;
+  --bone: #16140F;
+  --paper: #1E1B14;
+
+  --copper: #C56A44;
+  --copper-text: #E08A5F;
+  --copper-light: #E08A5F;
+
+  --ink-dim: rgba(239, 234, 224, 0.80);
+  --ink-ghost: rgba(239, 234, 224, 0.76);
+  --bone-dim: rgba(22, 20, 15, 0.82);
+  --hairline: rgba(163, 156, 142, 0.30);
+  --hairline-invert: rgba(22, 20, 15, 0.25);
+
+  --bg-light: #16140F;
+  --bg-dark: #100E0A;
+
+  --depth-top: #16140F;
+  --depth-bottom: #0C0A07;
+}
+
+/* Dentro das secoes escuras (data-theme="dark" local), a skin escura
+   devolve os neutros que aqueles estilos esperam: osso claro como
+   texto, filete claro. Sem isto o texto ficaria escuro sobre #141414. */
+html[data-skin="dark"] [data-theme="dark"] {
+  --bone: #F5F1EA;
+  --bone-dim: rgba(245, 241, 234, 0.82);
+  --hairline-invert: rgba(245, 241, 234, 0.22);
+}

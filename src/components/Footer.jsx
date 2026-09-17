@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import Link from "@/components/TransitionLink";
 
 import { useLang } from "@/lib/i18n";
+import { useTheme } from "@/lib/theme";
 import { copy } from "@/content/copy";
 import { LINKEDIN_URL, M_LOGO, LOGO_ANIM_GIF, SELLERS_APP_URL } from "@/lib/site";
 
@@ -12,6 +13,7 @@ import { LINKEDIN_URL, M_LOGO, LOGO_ANIM_GIF, SELLERS_APP_URL } from "@/lib/site
 export default function Footer() {
   const { lang, path } = useLang();
   const t = copy[lang];
+  const { theme, setTheme, isDark } = useTheme();
 
   const [egg, setEgg] = useState(false);
   const clicks = useRef(0);
@@ -84,6 +86,16 @@ export default function Footer() {
             <Link to="/privacidade" data-cursor="link" className="mf-foot__link">
               {t.footer.privacy}
             </Link>
+            <button
+              type="button"
+              className="mf-foot__skin"
+              data-cursor="link"
+              aria-pressed={isDark ? "true" : "false"}
+              onClick={() => setTheme(isDark ? "light" : "dark")}
+              title={lang === "pt" ? "Alternar tema" : "Toggle theme"}
+            >
+              {isDark ? (lang === "pt" ? "CLARO" : "LIGHT") : (lang === "pt" ? "ESCURO" : "DARK")}
+            </button>
             <span className="mf-foot__copy">© 2023 Miranda Faria</span>
           </div>
           </div>
@@ -154,6 +166,12 @@ export default function Footer() {
 .mf-foot__meta{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.8rem}
 
 .mf-foot__link--sellers{color:var(--copper-light)}
+.mf-foot__skin{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.22em;
+  background:none;border:0;padding:6px 0;cursor:pointer;
+  color:var(--color-text-ghost);transition:color var(--duration-fast);
+}
+.mf-foot__skin:hover{color:var(--copper-light)}
 .mf-foot__copy{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;

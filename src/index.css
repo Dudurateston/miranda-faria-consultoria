@@ -156,3 +156,17 @@ html.lenis body {
     line-height: 1.5;
   }
 }
+
+/* TEMA ESCURO GLOBAL — os tokens legados --mf-* acompanham a inversao. */
+html[data-skin="dark"] {
+  --mf-terracotta: #E08A5F;
+  --mf-terracotta-deep: #C5704A;
+  --mf-graphite: #16140F;
+  --mf-rule: rgba(163, 156, 142, 0.30);
+  --mf-ink: #EFEAE0;
+  --mf-bone: #16140F;
+  --mf-copper: #C56A44;
+  --mf-copper-text: #E08A5F;
+  --mf-stone: #A39C8E;
+  --mf-line: rgba(163, 156, 142, 0.28);
+}

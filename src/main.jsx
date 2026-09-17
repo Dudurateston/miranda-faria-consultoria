@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from '@/App.jsx'
+import { ThemeProvider } from '@/lib/theme'
 // Fontes self-hosted — mesmos arquivos do Google Fonts, servidos daqui:
 // menos uma dependencia externa no caminho critico e zero vazar de DNS.
 import '@fontsource/instrument-serif/latin-400.css';
@@ -22,5 +23,9 @@ const suppressResizeObserverLoop = (e) => {
 window.addEventListener('error', suppressResizeObserverLoop);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <App />
+  <React.StrictMode>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>
 )
