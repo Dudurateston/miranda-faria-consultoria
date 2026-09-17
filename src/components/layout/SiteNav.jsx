@@ -413,6 +413,8 @@ export default function SiteNav({ revealAfterHero = false }) {
              background-color var(--duration-slow) var(--ease-in-out);
 }
 [data-theme="on-deep"] .mf-nav{background:rgba(250,247,241,0.92)}
+html[data-skin="dark"] .mf-nav,
+html[data-skin="dark"] [data-theme="on-deep"] .mf-nav{background:rgba(22,20,15,0.92)}
 [data-theme="on-deep"] .mf-nav__logo{filter:none}
 .mf-nav[data-show="false"]{opacity:0;transform:translateY(-100%);pointer-events:none}
 .mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}

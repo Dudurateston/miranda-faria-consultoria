@@ -38,6 +38,9 @@
     --mf-copper: #B5502E;
     /* Cobre em texto pequeno: B5502E fica em 4,49:1, um fio abaixo do AA. */
     --mf-copper-text: #A6481F;
+    /* Texto sobre botoes de cobre/terracota — flipa com a skin:
+       claro = osso sobre cobre queimado; escuro = tinta sobre cobre claro. */
+    --on-accent: #F5F1EA;
     --mf-stone: #8A8578;
     --mf-line: rgba(138,133,120,0.28);
 
@@ -61,7 +64,7 @@
   }
 
   body {
-    background: #F5F1EA;
+    background: var(--bone); /* flipa com a skin — antes hardcoded, quebrava o dark nas rotas internas */
     color: #1A1A18;
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 300;
@@ -167,6 +170,7 @@ html[data-skin="dark"] {
   --mf-bone: #16140F;
   --mf-copper: #C56A44;
   --mf-copper-text: #E08A5F;
+  --on-accent: #16140F;
   --mf-stone: #A39C8E;
   --mf-line: rgba(163, 156, 142, 0.28);
 }

@@ -66,7 +66,7 @@ export default function HomeCta() {
 .mf-cta__btn{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--bone);background:var(--mf-terracotta);
+  color:var(--on-accent,#F5F1EA);background:var(--mf-terracotta);
   border:1px solid var(--mf-terracotta);
   padding:1.1rem 2.6rem;text-decoration:none;
   transition:box-shadow var(--duration-base) var(--ease-in-out),

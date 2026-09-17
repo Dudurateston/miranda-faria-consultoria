@@ -41,6 +41,7 @@
   --color-text-primary: var(--ink);
   --color-text-secondary: var(--ink-dim);
   --color-text-ghost: var(--ink-ghost);
+  --color-text-tertiary: var(--ink-dim);
   --color-accent: var(--copper-text, #A6481F);
   --color-divider: var(--hairline);
   --color-whatsapp: #25D366;
@@ -105,6 +106,7 @@
 [data-theme="on-deep"] {
   --color-text-primary: var(--bone);
   --color-text-secondary: rgba(245, 241, 234, 0.84);
+  --color-text-tertiary: rgba(245, 241, 234, 0.74);
   --color-text-ghost: rgba(245, 241, 234, 0.70);
   /* Sobre fundo escuro o cobre original cai para ~2,7:1 e some; a
      variante clara sobe para ~5,7:1 e continua legivel como acento. */
@@ -133,6 +135,7 @@ body,
 [data-theme="dark"] {
   --color-text-primary: var(--bone);
   --color-text-secondary: var(--bone-dim);
+  --color-text-tertiary: rgba(245, 241, 234, 0.70);
   /* Sobre grafite o cobre original cai para ~2,7:1 de contraste e some.
      A variante clara sobe para ~5,7:1 e volta a ser legivel. */
   --color-accent: var(--copper-light);

@@ -113,7 +113,7 @@ export default function TransitionCurtain() {
   }, [loc.pathname]);
 
   return (
-    <div ref={curtain} className="mf-curtain" data-v="curtain" style={{ display: "none" }} aria-hidden="true">
+    <div ref={curtain} className="mf-curtain" data-theme="dark" data-v="curtain" style={{ display: "none" }} aria-hidden="true">
       <div className="mf-curtain__cols">
         {[0, 1, 2, 3, 4, 5].map((i) => (
           <span key={i} className="mf-curtain__col" />

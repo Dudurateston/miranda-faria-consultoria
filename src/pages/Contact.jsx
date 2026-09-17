@@ -196,7 +196,7 @@ export default function Contact() {
   display:inline-flex;align-items:center;gap:0.7rem;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--bone);background:var(--mf-terracotta);text-decoration:none;
+  color:var(--on-accent,#F5F1EA);background:var(--mf-terracotta);text-decoration:none;
   padding:1.1rem 2.2rem;border:1px solid var(--mf-terracotta);
   transition:background var(--duration-fast) var(--ease-in-out),
              border-color var(--duration-fast) var(--ease-in-out),
