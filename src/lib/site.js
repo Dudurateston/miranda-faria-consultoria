@@ -11,6 +11,10 @@ export const SELLERS_APP_URL = "https://vendas-uai-hub.base44.app";
 
 // Assets oficiais — logo principal transparente, hero em MP4 e mídias de seção.
 export const M_LOGO = "/art/m-logo-320.webp";
+/* M da CORTINA: osso solido 100% opaco — o m-logo-320 e translucido
+   cinza (46% semi-transparente) e aparecia lavado sobre o cobre
+   (Eduardo, 17/09: "problema de translucidez na transicao"). */
+export const M_LOGO_CURTAIN = "/art/m-logo-curtain.webp";
 export const M_LOGO_HERO = "/art/m-logo-hero.webp";
 // Servidos do bucket publico miranda-faria no Supabase: qualidade original
 // (fonte 4K) sem pesar no bundle do app. Hero continua local (LCP).

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import gsap from "gsap";
-import { M_LOGO } from "@/lib/site";
+import { M_LOGO_CURTAIN } from "@/lib/site";
 
 /**
  * Cortina de rota — transições variadas no padrão spenceltd.
@@ -60,7 +60,7 @@ export default function TransitionCurtain() {
       if (v === "copper") {
         cover.fromTo(el, { transformOrigin: "top center", scaleY: 0 },
           { scaleY: 1, duration: 0.45, ease: "power3.inOut" }, 0)
-          .fromTo(m, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }, 0.18);
+          .fromTo(m, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 0.15);
       } else if (v === "curtain") {
         cover.fromTo(el, { transformOrigin: "top center", scaleY: 0 },
           { scaleY: 1, duration: 0.45, ease: "power3.inOut" }, 0)
@@ -94,7 +94,11 @@ export default function TransitionCurtain() {
         busy.current = false;
       },
     });
-    t.to(m, { opacity: 0, duration: 0.2, ease: "power2.in" }, 0);
+    /* Transparencia do M (Eduardo, 17/09): ele agora chega a opacity 1
+       no cover e SEGURA 150ms na revelacao antes de desvanecer — antes o
+       fade-out disparava com o fade-in inacabado e o M vivia translucido. */
+    t.set(m, { opacity: 1 }, 0)
+      .to(m, { opacity: 0, duration: 0.2, ease: "power2.in" }, 0.15);
     if (v === "copper") {
       t.set(el, { transformOrigin: "bottom center" }, 0.04)
         .to(el, { scaleY: 0, duration: 0.55, ease: "expo.inOut" }, 0.04);
@@ -115,7 +119,7 @@ export default function TransitionCurtain() {
           <span key={i} className="mf-curtain__col" />
         ))}
       </div>
-      <img className="mf-curtain__m" src={M_LOGO} alt="" style={{ opacity: mOn ? 0.92 : 0 }} />
+      <img className="mf-curtain__m" src={M_LOGO_CURTAIN} alt="" style={{ opacity: mOn ? 1 : 0 }} />
       <style>{`
 .mf-curtain{
   position:fixed;inset:0;z-index:150;
@@ -141,7 +145,7 @@ export default function TransitionCurtain() {
   transform:scaleY(0);
 }
 .mf-curtain__m{
-  width:clamp(72px,9vw,132px);opacity:0.92;position:absolute;z-index:1;
+  width:clamp(84px,10.5vw,156px);opacity:1;position:absolute;z-index:1;
   left:50%;top:50%;translate:-50% -50%;
   will-change:transform,opacity;
 }
