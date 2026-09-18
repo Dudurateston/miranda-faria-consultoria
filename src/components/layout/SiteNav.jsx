@@ -283,7 +283,8 @@ export default function SiteNav({ revealAfterHero = false }) {
             onClick={() => setLang(otherLang)}
             lang={otherLang === "pt" ? "pt-BR" : "en"}
           >
-            {t.toggle}
+            <span className="mf-nav__lang-full">{t.toggle}</span>
+            <span className="mf-nav__lang-short">{otherLang === "pt" ? "PT" : "EN"}</span>
           </button>
           <ThemeToggle lang={lang} variant="nav" />
         </nav>
@@ -534,7 +535,7 @@ html[data-skin="dark"] .mf-mnav__wm{filter:none;opacity:0.10}
 
 /* Mobile: a barra e so marca + menu — o WhatsApp vive dentro do
    overlay (e na barra flutuante). Uma identidade, uma acao. */
-@media(max-width:859px){
+@media(max-width:1179px){
   .mf-nav{gap:0.6rem}
   .mf-nav__links{display:none}
   .mf-nav__burger{display:flex;position:fixed;top:0.62rem;right:var(--gutter);z-index:120;margin:0;
@@ -546,7 +547,7 @@ html[data-skin="dark"] .mf-mnav__wm{filter:none;opacity:0.10}
 }
 /* telas estreitas: so o nome, sem o role (adaptacao de tamanho, 17/09) */
 @media(max-width:430px){.mf-nav__role{display:none}}
-@media(min-width:860px){
+@media(min-width:1180px){
   .mf-mnav{display:none}
   .mf-nav__burger{display:none}
 }
@@ -624,6 +625,39 @@ html[data-skin="dark"] .mf-mnav__wm{filter:none;opacity:0.10}
 .mf-nav__sub--tall .mf-nav__subitems::-webkit-scrollbar-thumb:hover{background:rgba(26,26,24,0.55)}
 .mf-nav__sub--tall .mf-nav__subitem{padding:0.6rem 0.9rem}
 .mf-nav__submedia img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ===== Eduardo 18/09: nav nao pode sair da tela em desktop =====
+   Tres faixas acima do menu mobile: (a) >=1600 nav completa; (b) 1440-1599
+   sem o role sob a marca + gaps compactos; (c) 1180-1439 tambem com o
+   toggle de idioma curto (EN/PT). Abaixo de 1180: menu mobile (burger). */
+.mf-nav__lang-short{display:none}
+@media(max-width:1599px) and (min-width:1440px){
+  .mf-nav{gap:clamp(0.9rem,1.8vw,2rem)}
+  .mf-nav__links{gap:clamp(0.75rem,1.3vw,1.35rem)}
+  .mf-nav__role{display:none}
+}
+@media(max-width:1439px) and (min-width:1180px){
+  .mf-nav{gap:clamp(0.9rem,1.8vw,2rem)}
+  .mf-nav__links{gap:clamp(0.75rem,1.3vw,1.35rem)}
+  .mf-nav__role{display:none}
+  .mf-nav__lang-full{display:none}
+  .mf-nav__lang-short{display:inline}
+}
+
+/* Tema ESCURO (Eduardo 18/09): o painel do dropdown tinha fundo claro
+   hardcoded — texto osso sobre painel osso, invisivel. Agora acompanha o tema. */
+html[data-skin="dark"] .mf-nav__sub{
+  background:rgba(22,20,15,0.98);
+  border:1px solid rgba(163,156,142,0.30);
+  border-top:2px solid var(--mf-copper,#C56A44);
+  box-shadow:0 24px 60px rgba(0,0,0,0.5);
+}
+html[data-skin="dark"] .mf-nav__sub::after{color:rgba(239,234,224,0.05)}
+html[data-skin="dark"] .mf-nav__subnum{color:rgba(239,234,224,0.62)}
+html[data-skin="dark"] .mf-nav__subitem:hover{background:rgba(197,106,68,0.16)}
+html[data-skin="dark"] .mf-nav__sub--tall .mf-nav__subitems{scrollbar-color:rgba(239,234,224,0.35) transparent}
+html[data-skin="dark"] .mf-nav__sub--tall .mf-nav__subitems::-webkit-scrollbar-thumb{background:rgba(239,234,224,0.35)}
+html[data-skin="dark"] .mf-nav__sub--tall .mf-nav__subitems::-webkit-scrollbar-thumb:hover{background:rgba(239,234,224,0.55)}
 
 /* Ponte de hover: nao existe zona morta entre o rotulo e o painel —
    o mouse pode descer direto pro submenu sem ele fechar */

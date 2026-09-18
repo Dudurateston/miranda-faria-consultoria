@@ -6,8 +6,7 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { WHATSAPP_URL, SECTION_MEDIA } from "@/lib/site";
-import AutoVideo from "@/components/AutoVideo";
+import { WHATSAPP_URL } from "@/lib/site";
 
 /**
  * Servicos — visao geral das quatro solucoes, com numeros reais da
@@ -16,6 +15,60 @@ import AutoVideo from "@/components/AutoVideo";
  * Cada solucao linka para a sua pagina propria.
  */
 const SLUGS = ["gestao", "desenvolvimento", "design", "automacao"];
+
+/* ===== Corte geológico vivo — o corte.mp4 não agradou (Eduardo 18/09);
+   aqui a faixa é um DESENHO animado da tese "estrutura por baixo":
+   4 camadas que se desenham na entrada, veio de cobre que pulsa,
+   deriva lenta e contínua — gráfico, leve, sem vídeo. ===== */
+function StrataCorte({ layers }) {
+  const W = 1600, H = 900;
+  const ys = [140, 330, 520, 710]; // limites das camadas
+  const wave = (y, amp, lead) =>
+    `M -80 ${y} C 200 ${y - amp}, 420 ${y + amp * 0.7}, 720 ${y}` +
+    ` S 1150 ${y - amp * 0.8}, 1680 ${y - lead}`;
+  const lines = [];
+  // textura: 2 fios hairline entre cada limite
+  for (let b = 0; b < 3; b++) {
+    for (let k = 1; k <= 2; k++) {
+      const y = ys[b] + ((ys[b + 1] - ys[b]) * k) / 3;
+      lines.push({ d: wave(y + k * 6, 16 + k * 5, k * 4), w: 1, op: 0.10, i: b * 2 + k });
+    }
+  }
+  return (
+    <svg className="mf-corte" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" role="img">
+      <defs>
+        <linearGradient id="cobre-veio" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#B5502E" stopOpacity="0" />
+          <stop offset="0.18" stopColor="#B5502E" stopOpacity="0.85" />
+          <stop offset="0.82" stopColor="#B5502E" stopOpacity="0.85" />
+          <stop offset="1" stopColor="#B5502E" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <g className="mf-corte__drift">
+        {ys.map((y, i) => (
+          <path key={`bound${i}`} className="mf-corte__bound" style={{ "--i": i }}
+            d={wave(y, 22 + i * 6, (i % 2 ? 10 : -10))} fill="none"
+            stroke="currentColor" strokeWidth={1.5} />
+        ))}
+        {lines.map((l, i) => (
+          <path key={`tex${i}`} className="mf-corte__tex" style={{ "--i": l.i }}
+            d={l.d} fill="none" stroke="currentColor" strokeWidth={l.w} opacity={l.op} />
+        ))}
+        <path className="mf-corte__veio"
+          d={`M -80 640 C 260 600, 480 690, 720 650 S 1150 590, 1680 635`}
+          fill="none" stroke="url(#cobre-veio)" strokeWidth={2.5} />
+      </g>
+      {layers.map((name, i) => (
+        <g key={name} className="mf-corte__log" style={{ "--i": i }}>
+          <line x1={72} y1={ys[i] + 34} x2={112} y2={ys[i] + 34} stroke="currentColor" strokeWidth={1} opacity={0.4} />
+          <text x={128} y={ys[i] + 38} className="mf-corte__label">
+            {`0${i + 1} · ${name}`}
+          </text>
+        </g>
+      ))}
+    </svg>
+  );
+}
 
 export default function Servicos() {
   const [open, setOpen] = useState(-1);
@@ -44,11 +97,14 @@ export default function Servicos() {
             ))}
           </div>
 
-          {/* Eduardo 18/09: sem legenda sobre o vídeo — a faixa é o corte
-              de camadas em simbiose com a página, texto embaixo, não em cima. */}
+          {/* Eduardo 18/09: o vídeo da faixa saiu — no lugar, o corte
+              geológico VIVO: camadas que se desenham, veio de cobre que
+              pulsa, escala de profundidade com as quatro camadas da
+              entrega. A tese da seção virou desenho: o que sustenta é o
+              que está por baixo. */}
           <Reveal delay={200}>
-            <figure className="mf-srv__band">
-              <AutoVideo src={SECTION_MEDIA.servicosFaixa} />
+            <figure className="mf-srv__band" aria-hidden="true">
+              <StrataCorte layers={t.bandLayers} />
             </figure>
             <p className="mf-srv__stat">
               {t.bandStat}
@@ -118,7 +174,9 @@ export default function Servicos() {
                 >
                   <h3 className="mf-faq__q">{item.q}</h3>
                   <div className="mf-faq__answer">
-                    <p className="mf-faq__a">{item.a}</p>
+                    <div className="mf-faq__pad">
+                      <p className="mf-faq__a">{item.a}</p>
+                    </div>
                   </div>
                 </button>
               </Reveal>
@@ -127,7 +185,7 @@ export default function Servicos() {
         </div>
       </section>
 
-      <style>{`
+<style>{`
 
 .mf-srv{padding:var(--section-gap) var(--gutter)}
 .mf-srv__inner{max-width:var(--max-width-page);margin:0 auto}
@@ -161,12 +219,23 @@ export default function Servicos() {
 }
 /* Eduardo 18/09: o corte.mp4 tem fundo osso — a faixa dissolve na página
    (simbiose, sem moldura), 16:9 sem crop, contraste pleno. */
-.mf-srv__band{margin:3.5rem 0 0;aspect-ratio:16/9;overflow:hidden;position:relative}
-.mf-srv__band img,
-.mf-srv__band video{
-  -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 7%,black 93%,transparent 100%);
-  mask-image:linear-gradient(90deg,transparent 0%,black 7%,black 93%,transparent 100%);
+.mf-srv__band{margin:3.5rem 0 0;aspect-ratio:21/9;max-height:520px;overflow:hidden;position:relative;color:var(--color-text-primary)}
+.mf-srv__band .mf-corte{width:100%;height:100%;display:block;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 6%,black 94%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,black 6%,black 94%,transparent 100%);
 }
+.mf-corte__bound{opacity:0.55;stroke-dasharray:2400;stroke-dashoffset:2400;animation:mf-corte-draw 1.6s var(--ease-out-expo) forwards;animation-delay:calc(0.14s * var(--i))}
+.mf-corte__tex{stroke-dasharray:2400;stroke-dashoffset:2400;animation:mf-corte-draw 2.1s var(--ease-out-expo) forwards;animation-delay:calc(0.3s + 0.12s * var(--i))}
+.mf-corte__veio{stroke-dasharray:2400;stroke-dashoffset:2400;animation:mf-corte-draw 1.8s var(--ease-out-expo) forwards, mf-corte-pulsa 5.5s ease-in-out 2.2s infinite}
+.mf-corte__drift{animation:mf-corte-drift 16s ease-in-out infinite alternate}
+.mf-corte__log line{stroke-dasharray:80;stroke-dashoffset:80;animation:mf-corte-draw 0.9s var(--ease-out-expo) forwards;animation-delay:calc(1s + 0.16s * var(--i))}
+.mf-corte__log text{opacity:0;animation:mf-corte-fade 0.8s ease forwards;animation-delay:calc(1.15s + 0.16s * var(--i))}
+.mf-corte__label{font-family:var(--font-mono);font-size:26px;letter-spacing:0.22em;text-transform:uppercase;fill:currentColor;opacity:0.55}
+@keyframes mf-corte-draw{to{stroke-dashoffset:0}}
+@keyframes mf-corte-fade{to{opacity:1}}
+@keyframes mf-corte-pulsa{0%,100%{opacity:0.72}50%{opacity:1}}
+@keyframes mf-corte-drift{from{transform:translateX(-18px)}to{transform:translateX(18px)}}
+@media(max-width:700px){.mf-srv__band{aspect-ratio:16/10}.mf-corte__label{font-size:58px}}
 
 
 .mf-srv__stat{
@@ -278,7 +347,19 @@ export default function Servicos() {
   display:grid;grid-template-rows:0fr;
   transition:grid-template-rows 0.45s var(--ease-out-expo);
 }
-.mf-faq__answer > p{overflow:hidden;min-height:0}
+.mf-faq__answer > .mf-faq__pad{overflow:hidden;min-height:0}
+/* Eduardo 18/09: resposta estava COLADA no titulo (gap 0) — agora e FAQ
+   editorial de duas colunas: pergunta em coluna fixa, resposta alinhada
+   em toda a lista com respiro generoso. No mobile empilha. */
+.mf-faq__q{flex:0 0 clamp(15rem,30vw,25rem)}
+.mf-faq__answer{margin-left:clamp(1.5rem,4vw,3rem);max-width:54ch}
+.mf-faq__a{padding:0.35rem 0 0.55rem}
+@media(max-width:700px){
+  .mf-faq__body{flex-direction:column;align-items:flex-start}
+  .mf-faq__q{flex:0 0 auto}
+  .mf-faq__answer{margin-left:0;max-width:100%}
+  .mf-faq__a{padding:0.95rem 0 0.55rem}
+}
 .mf-faq__q{
   transition:color var(--duration-fast) var(--ease-in-out);
 }
@@ -290,7 +371,6 @@ export default function Servicos() {
   .mf-faq__item:hover .mf-faq__answer{grid-template-rows:1fr}
 }
 .mf-faq__item.is-open .mf-faq__answer{grid-template-rows:1fr}
-.mf-faq__a{padding-top:0.55rem}
 .mf-faq__item:first-child{border-top:1px solid var(--color-divider)}
 .mf-faq__idx{
   font-family:var(--font-mono);font-size:11px;
