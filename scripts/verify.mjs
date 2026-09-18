@@ -1,293 +1,532 @@
 /**
- * VERIFICAÇÃO DO SITE — a auditoria que descobriu os erros que importam.
+ * verify.mjs — o que o cliente realmente vê, medido.
  *
- * Este arquivo existe porque duas falhas sérias deste projeto eram
- * invisíveis em captura de tela e só apareceram quando medidas:
+ * Roda sobre o site BUILDADO (dist/), não sobre a preview do builder.
+ * Abre cada rota em cada largura, em várias posições de rolagem, e mede:
  *
- * 1. O texto do corpo da Home chegava a 1,02:1 de contraste em certo
- *    ponto do scroll — praticamente invisível. A causa era uma faixa
- *    cega na rampa de cor onde NENHUMA das duas cores de texto
- *    alcançava 4,5:1.
- * 2. O cobre da marca dá 4,49:1 sobre branco-osso e reprova WCAG AA por
- *    um centésimo. Não pode ser cor de texto pequeno em lugar nenhum.
+ *   contraste real sobre o fundo composto · texto fantasma (opacidade
+ *   herdada parada) · estouro horizontal · erro de JS · asset 4xx ·
+ *   alvo de toque · hierarquia de títulos · imagem sem alt ou sem
+ *   dimensão · link/botão sem nome acessível · title e description ·
+ *   lang da rota · link interno quebrado
  *
- * Rode depois de qualquer mudança visual. Olhar não basta.
+ * Sai com código 1 se houver qualquer achado bloqueador.
  *
- *   npm run verify              # contra o build de produção
- *   npm run verify -- --url=…   # contra outro endereço
- *   npm run verify -- --quick   # só rotas e contraste
+ *   npm run verify              todas as rotas
+ *   npm run verify -- --fast    só as rotas principais
+ *   npm run verify -- --json    relatório em JSON no stdout
  */
+
 import { chromium } from "playwright";
-import { existsSync } from "node:fs";
+import { spawn } from "node:child_process";
+import { writeFileSync } from "node:fs";
 
-const arg = (n, d) => {
-  const hit = process.argv.find((a) => a.startsWith(`--${n}=`));
-  return hit ? hit.split("=")[1] : d;
-};
-const has = (n) => process.argv.includes(`--${n}`);
+const PORT = 4183;
+const BASE = `http://127.0.0.1:${PORT}`;
+const CHROME = "/opt/pw-browsers/chromium";
 
-const BASE = arg("url", "http://localhost:4173");
-const QUICK = has("quick");
+const FAST = process.argv.includes("--fast");
+const AS_JSON = process.argv.includes("--json");
 
-// O Chromium da imagem nem sempre bate com o que o Playwright espera.
-const CHROME = ["/opt/pw-browsers/chromium-1194/chrome-linux/chrome"].find(existsSync);
-
-const LANGS = ["en", "pt"];
-const PAGES = ["", "systems", "design", "business", "work", "how-i-work", "about", "contact", "x-ray"];
+const PRACTICE = ["gestao", "desenvolvimento", "design", "automacao"];
+const PAGES = ["", "servicos", "insights", "work", "how-i-work", "about", "contact"];
 const CASES = [
-  "queijos-santana", "roda-agro", "paulo-henrique", "motormoura",
-  "1000-pecas", "rota-forte", "dj-jotave", "miranda-faria",
+  "queijos-serra", "roda-agro", "paulo-henrique", "motormoura", "1000-pecas",
+  "rota-forte", "miranda-faria", "motormoura-marca", "1000-pecas-marca",
+  "roda-agro-marca", "uaiso-travel", "advogados-lco", "sevalho-controladoria",
+  "vaf-global",
 ];
 
-const found = [];
-const flag = (sev, area, msg) => found.push({ sev, area, msg });
-
-const browser = await chromium.launch(CHROME ? { executablePath: CHROME } : {});
-const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
-
-// As fontes externas travam em rede restrita e não afetam o que se mede.
-await ctx.route("**://fonts.googleapis.com/**", (r) => r.abort());
-await ctx.route("**://fonts.gstatic.com/**", (r) => r.abort());
-
-const page = await ctx.newPage();
-const jsErrors = [];
-const badAssets = new Set();
-page.on("pageerror", (e) => jsErrors.push(`${page.url()} :: ${e.message}`));
-page.on("response", (r) => {
-  if (r.status() >= 400 && /\.(webp|png|jpg|mp4|svg|woff2?|json|xml|txt)/.test(r.url()))
-    badAssets.add(`${r.status()} ${new URL(r.url()).pathname}`);
-});
-
-const routes = LANGS.flatMap((l) => [
-  ...PAGES.map((p) => `/${l}${p ? "/" + p : ""}`),
-  ...CASES.map((c) => `/${l}/work/${c}`),
-]);
-
-/* ---------- 1. rotas, estrutura, meta ---------- */
-console.log(`\nverificando ${routes.length} rotas em ${BASE}`);
-const titles = new Map();
-
-for (const r of routes) {
-  let resp;
-  try {
-    resp = await page.goto(BASE + r, { waitUntil: "domcontentloaded", timeout: 15000 });
-  } catch (e) {
-    flag("ALTO", "rota", `${r} não carregou: ${e.message.slice(0, 60)}`);
-    continue;
-  }
-  await page.waitForTimeout(220);
-  if (!resp || resp.status() >= 400) flag("ALTO", "rota", `${r} respondeu ${resp?.status()}`);
-
-  const info = await page.evaluate(() => ({
-    title: document.title,
-    lang: document.documentElement.lang,
-    h1: document.querySelectorAll("h1").length,
-    semAlt: [...document.images].filter((i) => !i.hasAttribute("alt")).length,
-    quebradas: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).length,
-    main: document.querySelectorAll("main").length,
-    alternates: document.querySelectorAll('link[rel="alternate"]').length,
-    canonical: !!document.querySelector('link[rel="canonical"]'),
-    mudos: [...document.querySelectorAll("a,button")]
-      .filter((e) => !e.textContent.trim() && !e.getAttribute("aria-label")).length,
-    internos: [...document.querySelectorAll("a[href^='/']")].map((a) => a.getAttribute("href")),
-  }));
-
-  if (info.h1 !== 1) flag(info.h1 ? "MEDIO" : "ALTO", "a11y", `${r}: ${info.h1} elementos h1`);
-  if (info.semAlt) flag("MEDIO", "a11y", `${r}: ${info.semAlt} imagem(ns) sem alt`);
-  if (info.quebradas) flag("ALTO", "midia", `${r}: ${info.quebradas} imagem(ns) quebrada(s)`);
-  if (info.main !== 1) flag("MEDIO", "a11y", `${r}: ${info.main} landmark <main>`);
-  if (info.mudos) flag("MEDIO", "a11y", `${r}: ${info.mudos} link/botão sem texto acessível`);
-  if (info.alternates < 3) flag("MEDIO", "seo", `${r}: ${info.alternates} tags hreflang`);
-  if (!info.canonical) flag("MEDIO", "seo", `${r}: sem canonical`);
-  const esperado = r.startsWith("/pt") ? "pt-BR" : "en";
-  if (info.lang !== esperado) flag("MEDIO", "seo", `${r}: html lang="${info.lang}", esperado "${esperado}"`);
-  if (titles.has(info.title) && !info.title.includes("—")) {
-    flag("BAIXO", "seo", `título repetido: ${titles.get(info.title)} e ${r}`);
-  }
-  titles.set(info.title, r);
-
-  const conhecidas = new Set([...routes, "/privacidade", "/connect", "/login"]);
-  for (const href of info.internos) {
-    if (!conhecidas.has(href)) flag("ALTO", "link", `${r} aponta para ${href}, rota desconhecida`);
-  }
-  process.stdout.write(".");
-}
-console.log();
-
-/* ---------- 2. contraste, medido sobre o fundo REAL ---------- */
-const MEASURE = () => {
-  const srgb = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
-  const L = ([r, g, b]) => 0.2126 * srgb(r) + 0.7152 * srgb(g) + 0.0722 * srgb(b);
-  const nums = (s) => s.match(/[\d.]+/g).map(Number);
-  const ratio = (f, b) => { const [a, c] = [L(f), L(b)].sort((x, y) => y - x); return (a + 0.05) / (c + 0.05); };
-  const pageBg = nums(getComputedStyle(document.body).backgroundColor).slice(0, 3);
-
+function routes() {
   const out = [];
+  for (const lang of ["pt", "en"]) {
+    for (const p of PAGES) out.push(`/${lang}${p ? "/" + p : ""}`);
+    for (const p of PRACTICE) out.push(`/${lang}/${p}`);
+    const cases = FAST ? CASES.slice(0, 2) : CASES;
+    for (const c of cases) out.push(`/${lang}/work/${c}`);
+  }
+  out.push("/privacidade");
+  return out;
+}
+
+const WIDTHS = FAST ? [390, 1440] : [390, 768, 1440];
+const SCROLLS = [0, 0.25, 0.55, 0.85];
+
+/* ---------- o que roda dentro da página ---------- */
+
+const PROBE = `(() => {
+  const R = { contrast: [], overMedia: [], ghost: [], targets: [], headings: [],
+              images: [], names: [], overflow: null, meta: null, links: [] };
+
+  const px = (v) => parseFloat(v) || 0;
+
+  function parseColor(c) {
+    const m = c && c.match(/rgba?\\(([^)]+)\\)/);
+    if (!m) return null;
+    const p = m[1].split(",").map((s) => parseFloat(s));
+    return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 };
+  }
+
+  function over(fg, bg) {
+    const a = fg.a;
+    return { r: fg.r * a + bg.r * (1 - a), g: fg.g * a + bg.g * (1 - a),
+             b: fg.b * a + bg.b * (1 - a), a: 1 };
+  }
+
+  function lum(c) {
+    const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b);
+  }
+
+  function ratio(a, b) {
+    const l1 = lum(a), l2 = lum(b);
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+  }
+
+  // Texto sobre vídeo/imagem não tem contraste calculável: o fundo muda
+  // a cada quadro. Vai para um balde próprio, não reprova como cor.
+  function coversRect(media, r) {
+    const cs = getComputedStyle(media);
+    if (cs.position !== "absolute" && cs.position !== "fixed") return false;
+    const m = media.getBoundingClientRect();
+    return m.left <= r.left + 2 && m.right >= r.right - 2 &&
+           m.top <= r.top + 2 && m.bottom >= r.bottom - 2;
+  }
+
+  function mediaBehind(el, r) {
+    let n = el;
+    while (n && n.nodeType === 1) {
+      if (getComputedStyle(n).backgroundImage !== "none") return "background-image";
+      // Descendente em qualquer profundidade: a mídia costuma estar dentro
+      // de um <figure> irmão do texto, não como filho direto da seção.
+      for (const m of n.querySelectorAll("video, img, canvas, svg")) {
+        if (m.contains(el)) continue;
+        if (coversRect(m, r)) return m.tagName.toLowerCase();
+      }
+      n = n.parentElement;
+      if (n === document.body) break;
+    }
+    return null;
+  }
+
+  // fundo efetivo: sobe a árvore compondo até achar cor opaca
+  function bgOf(el) {
+    let acc = null, n = el;
+    while (n && n.nodeType === 1) {
+      const c = parseColor(getComputedStyle(n).backgroundColor);
+      if (c && c.a > 0) acc = acc ? over(acc, c) : c;
+      if (acc && acc.a >= 0.999) return acc;
+      n = n.parentElement;
+    }
+    const base = { r: 245, g: 241, b: 234, a: 1 }; // --bone
+    return acc ? over(acc, base) : base;
+  }
+
+  // opacidade herdada: multiplica a cadeia de pais
+  function effOpacity(el) {
+    let o = 1, n = el;
+    while (n && n.nodeType === 1) {
+      o *= px(getComputedStyle(n).opacity) || (getComputedStyle(n).opacity === "0" ? 0 : 1);
+      n = n.parentElement;
+    }
+    return o;
+  }
+
+  function path(el) {
+    const bits = [];
+    let n = el;
+    for (let i = 0; n && n.nodeType === 1 && i < 4; i++) {
+      let s = n.tagName.toLowerCase();
+      if (n.id) { bits.unshift(s + "#" + n.id); break; }
+      const cls = (n.getAttribute("class") || "").trim().split(/\\s+/).filter(Boolean).slice(0, 2);
+      if (cls.length) s += "." + cls.join(".");
+      bits.unshift(s);
+      n = n.parentElement;
+    }
+    return bits.join(" > ");
+  }
+
+  const inView = (r) => r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth && r.width > 0 && r.height > 0;
+
+  // --- texto: contraste + fantasma ---
   const seen = new Set();
-  for (const el of document.querySelectorAll("h1,h2,h3,p,a,li,span,.mf-label,figcaption,button")) {
-    if (el.children.length || !el.textContent.trim()) continue;
+  document.querySelectorAll("body *").forEach((el) => {
     const cs = getComputedStyle(el);
-    if (cs.visibility === "hidden" || cs.display === "none" || +cs.opacity < 0.1) continue;
-    const rect = el.getBoundingClientRect();
-    if (rect.height === 0 || rect.bottom < 0 || rect.top > innerHeight) continue;
-    const key = el.className + "|" + cs.fontSize;
-    if (seen.has(key)) continue;
+    if (cs.display === "none" || cs.visibility === "hidden") return;
+
+    // só o nó que carrega texto direto, não o contêiner
+    let txt = "";
+    for (const n of el.childNodes) if (n.nodeType === 3) txt += n.textContent;
+    txt = txt.replace(/\\s+/g, " ").trim();
+    if (!txt) return;
+
+    const r = el.getBoundingClientRect();
+    if (!inView(r)) return;
+
+    const key = path(el) + "|" + txt.slice(0, 40);
+    if (seen.has(key)) return;
     seen.add(key);
 
-    // Cor efetiva: alfa do texto composto sobre o primeiro fundo opaco.
-    const m = nums(cs.color);
-    const a = m.length > 3 ? m[3] : 1;
-    let bg = pageBg, node = el;
-    while (node && node !== document.documentElement) {
-      const p = nums(getComputedStyle(node).backgroundColor);
-      if (p && (p.length < 4 || p[3] > 0.9)) { bg = p.slice(0, 3); break; }
-      node = node.parentElement;
-    }
-    const fg = m.slice(0, 3).map((c, i) => Math.round(c * a + bg[i] * (1 - a)));
-    const size = parseFloat(cs.fontSize);
-    const grande = size >= 24 || (size >= 18.66 && +cs.fontWeight >= 700);
-    out.push({
-      alvo: (el.className || el.tagName).toString().slice(0, 30),
-      razao: +ratio(fg, bg).toFixed(2),
-      min: grande ? 3 : 4.5,
-      texto: el.textContent.trim().slice(0, 26),
-    });
-  }
-  return out;
-};
+    const o = effOpacity(el);
 
-const alvos = ["/en", "/en/systems", "/en/business", "/en/how-i-work", "/en/about", "/en/contact", "/en/x-ray", "/pt"];
-let medicoes = 0;
-console.log(`medindo contraste em ${alvos.length} páginas × 6 posições de scroll`);
+    // As revelações deste site são dirigidas por SCROLL (animation-timeline:
+    // view()), não por tempo — então esperar não as termina. O filtro certo
+    // é geométrico: só é fantasma o que está PARADO no miolo confortável da
+    // tela e mesmo assim não chegou a opacidade cheia. O que está na borda
+    // está legitimamente no meio da revelação.
+    const settled = r.top > innerHeight * 0.12 && r.bottom < innerHeight * 0.88;
 
-for (const r of alvos) {
-  await page.goto(BASE + r, { waitUntil: "domcontentloaded" });
-  await page.waitForTimeout(800);
-  for (const f of [0, 0.25, 0.5, 0.7, 0.85, 1]) {
-    await page.evaluate((x) => scrollTo(0, (document.body.scrollHeight - innerHeight) * x), f);
-    await page.waitForTimeout(QUICK ? 500 : 900);
-    for (const row of await page.evaluate(MEASURE)) {
-      medicoes++;
-      if (row.razao < row.min) {
-        flag("ALTO", "contraste",
-          `${r} @${Math.round(f * 100)}%  ${row.razao}:1 (mín ${row.min})  .${row.alvo}  "${row.texto}"`);
+    if (o > 0.06 && o < 0.85) {
+      if (settled) {
+        // Diagnóstico junto do achado: de quem é a opacidade e por quê.
+        let owner = el, ow = 1;
+        for (let n = el; n && n.nodeType === 1; n = n.parentElement) {
+          const v = parseFloat(getComputedStyle(n).opacity);
+          if (!isNaN(v) && v < 0.999) { owner = n; ow = v; break; }
+        }
+        let anim = "nenhuma";
+        try {
+          const as = owner.getAnimations ? owner.getAnimations() : [];
+          if (as.length) {
+            anim = as.map((a) => {
+              const name = (a.animationName || "?");
+              const tl = a.timeline && a.timeline.constructor ? a.timeline.constructor.name : "?";
+              return name + "@" + tl + ":" + a.playState;
+            }).join(" ");
+          }
+        } catch { anim = "erro"; }
+        R.ghost.push({ sel: path(el), text: txt.slice(0, 60), opacity: +o.toFixed(3),
+          dono: path(owner), donoOpacity: +ow.toFixed(3), anim });
       }
+      return; // fantasma já é o achado; contraste dele não acrescenta
     }
-  }
-  process.stdout.write(".");
-}
-console.log();
+    if (o <= 0.06) return; // deliberadamente invisível
 
-/* ---------- 3. o primeiro quadro, e o texto fantasma ----------
+    const fg = parseColor(cs.color);
+    if (!fg) return;
 
-   Duas coisas que a medicao de contraste acima NAO pega, e que ja
-   custaram caro neste projeto:
+    const media = mediaBehind(el, r);
+    if (media) {
+      R.overMedia.push({ sel: path(el), text: txt.slice(0, 60), media,
+        color: cs.color, size: +px(cs.fontSize).toFixed(1) });
+      return;
+    }
 
-   a) A home chegou a ter UM unico elemento de texto legivel antes de
-      qualquer scroll — a palavra "Scroll", em 10px. O h1 existia no
-      HTML (entao nenhuma checagem estrutural reclamava) mas estava em
-      opacity 0 ate 72% de uma abertura de quase cinco telas. Um
-      recrutador da a uma home 10 a 15 segundos; era a conta inteira
-      gasta sem dizer o nome de quem assina.
+    const bg = bgOf(el);
+    const composed = fg.a < 1 ? over(fg, bg) : fg;
+    const cr = ratio(composed, bg);
 
-   b) A medicao de contraste le a cor CALCULADA do elemento. Ela nao
-      enxerga `opacity` herdada de um ancestral. Um paragrafo dentro de
-      um bloco em opacity 0.3 e medido como se estivesse cheio: passa em
-      AA na auditoria e some para quem le. Por isso texto em opacidade
-      parcial e proibido, e por isso e verificado aqui.
-   ---------------------------------------------------------------- */
-const LEGIVEL = () => {
-  const out = [];
-  for (const el of document.querySelectorAll("h1,h2,h3,p,a,li,span,button")) {
-    if (el.children.length || !el.textContent.trim()) continue;
+    const size = px(cs.fontSize);
+    const weight = parseInt(cs.fontWeight, 10) || 400;
+    const large = size >= 24 || (size >= 18.66 && weight >= 700);
+    const need = large ? 3 : 4.5;
+
+    if (cr < need) {
+      R.contrast.push({ sel: path(el), text: txt.slice(0, 60),
+        ratio: +cr.toFixed(2), need, size: +size.toFixed(1),
+        color: cs.color, bg: "rgb(" + Math.round(bg.r) + "," + Math.round(bg.g) + "," + Math.round(bg.b) + ")" });
+    }
+  });
+
+  // --- alvo de toque ---
+  document.querySelectorAll('a[href], button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])').forEach((el) => {
     const cs = getComputedStyle(el);
-    if (cs.visibility === "hidden" || cs.display === "none") continue;
+    if (cs.display === "none" || cs.visibility === "hidden") return;
     const r = el.getBoundingClientRect();
-    if (r.height === 0 || r.bottom < 0 || r.top > innerHeight) continue;
-    let op = 1, n = el;
-    while (n && n !== document.documentElement) { op *= +getComputedStyle(n).opacity; n = n.parentElement; }
-    out.push({
-      t: el.textContent.trim().slice(0, 34),
-      op: +op.toFixed(2),
-      px: Math.round(parseFloat(cs.fontSize)),
-    });
-  }
-  return out;
-};
-
-console.log("checando o primeiro quadro e texto fantasma");
-for (const r of ["/en", "/pt", "/en/work", "/en/about", "/en/contact", "/en/x-ray"]) {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(BASE + r, { waitUntil: "domcontentloaded" });
-  await page.waitForTimeout(900);
-  const itens = await page.evaluate(LEGIVEL);
-
-  // Fantasmas: nem apagado de proposito (<0.06, invisivel para todos) nem
-  // cheio. A faixa do meio e a perigosa — parece texto, mede como texto,
-  // e nao se le.
-  for (const i of itens.filter((i) => i.op > 0.06 && i.op < 0.85)) {
-    flag("ALTO", "fantasma", `${r}: texto em opacidade ${i.op} — "${i.t}" (${i.px}px)`);
-  }
-
-  const visiveis = itens.filter((i) => i.op >= 0.85);
-  if (visiveis.length < 6) {
-    flag("ALTO", "abertura",
-      `${r}: so ${visiveis.length} elemento(s) de texto legivel(is) sem rolar — ` +
-      `${visiveis.map((i) => JSON.stringify(i.t)).join(", ") || "nenhum"}`);
-  }
-  // Sem um titulo de verdade na primeira tela, a pagina nao diz o que e.
-  if (!visiveis.some((i) => i.px >= 28)) {
-    flag("ALTO", "abertura", `${r}: nenhum texto grande (>=28px) na primeira tela`);
-  }
-  process.stdout.write(".");
-}
-console.log();
-
-/* ---------- 4. responsivo ---------- */
-if (!QUICK) {
-  console.log("checando overflow horizontal em 3 larguras");
-  for (const [w, h] of [[390, 844], [768, 1024], [1440, 900]]) {
-    await page.setViewportSize({ width: w, height: h });
-    for (const r of ["/en", "/en/systems", "/en/work", "/en/about", "/en/contact"]) {
-      await page.goto(BASE + r, { waitUntil: "domcontentloaded" });
-      await page.waitForTimeout(400);
-      const o = await page.evaluate(() => {
-        const de = document.documentElement;
-        const largos = [...document.querySelectorAll("body *")]
-          .filter((e) => e.getBoundingClientRect().right > de.clientWidth + 2)
-          .map((e) => e.className?.toString?.().slice(0, 32) || e.tagName).slice(0, 3);
-        return { s: de.scrollWidth, c: de.clientWidth, largos };
-      });
-      if (o.s > o.c + 2) {
-        flag("ALTO", "responsivo", `${w}px em ${r}: rola na horizontal (${o.s} > ${o.c}) — ${o.largos.join(" | ")}`);
-      }
+    if (!inView(r)) return;
+    if (r.width < 1 || r.height < 1) return;
+    if (r.width < 24 || r.height < 24) {
+      R.targets.push({ sel: path(el), w: +r.width.toFixed(1), h: +r.height.toFixed(1),
+        text: (el.innerText || el.getAttribute("aria-label") || "").trim().slice(0, 40) });
     }
-    process.stdout.write(".");
+  });
+
+  // --- nome acessível ---
+  document.querySelectorAll('a[href], button, [role="button"]').forEach((el) => {
+    const cs = getComputedStyle(el);
+    if (cs.display === "none" || cs.visibility === "hidden") return;
+    const r = el.getBoundingClientRect();
+    if (r.width < 1 || r.height < 1) return;
+    const name = (el.innerText || "").trim() || el.getAttribute("aria-label") ||
+      el.getAttribute("title") || (el.querySelector("img") && el.querySelector("img").alt) || "";
+    if (!name.trim()) R.names.push({ sel: path(el), href: el.getAttribute("href") || "" });
+  });
+
+  // --- imagens ---
+  document.querySelectorAll("img").forEach((el) => {
+    const r = el.getBoundingClientRect();
+    if (r.width < 1 && r.height < 1) return;
+    const issues = [];
+    if (el.getAttribute("alt") === null) issues.push("sem alt");
+    if (!el.getAttribute("width") || !el.getAttribute("height")) issues.push("sem width/height");
+    if (issues.length) R.images.push({ sel: path(el), src: (el.currentSrc || el.src || "").split("/").pop(), issues });
+  });
+
+  // --- títulos ---
+  const hs = [...document.querySelectorAll("h1,h2,h3,h4,h5,h6")].map((h) => ({
+    level: +h.tagName[1], text: (h.innerText || "").trim().slice(0, 50),
+  }));
+  R.headings = hs;
+
+  // --- estouro horizontal ---
+  const se = document.scrollingElement || document.documentElement;
+  R.overflow = { scrollWidth: se.scrollWidth, inner: innerWidth };
+
+  // --- meta ---
+  const d = document.querySelector('meta[name="description"]');
+  R.meta = { title: document.title, description: d ? d.content : null,
+             lang: document.documentElement.lang };
+
+  // --- links internos ---
+  R.links = [...new Set([...document.querySelectorAll('a[href^="/"]')].map((a) => a.getAttribute("href")))];
+
+  return R;
+})()`;
+
+/* ---------- orquestração ---------- */
+
+async function startServer() {
+  const p = spawn("npx", ["vite", "preview", "--port", String(PORT), "--strictPort"], {
+    cwd: process.cwd(), stdio: ["ignore", "pipe", "pipe"], detached: false,
+  });
+  let log = "";
+  p.stdout.on("data", (d) => (log += d));
+  p.stderr.on("data", (d) => (log += d));
+
+  // Espera a porta responder de verdade, em vez de adivinhar pelo stdout.
+  for (let i = 0; i < 60; i++) {
+    try {
+      const r = await fetch(BASE + "/", { signal: AbortSignal.timeout(1500) });
+      if (r.ok || r.status === 404) return p;
+    } catch { /* ainda subindo */ }
+    await new Promise((r) => setTimeout(r, 500));
   }
-  console.log();
+  p.kill();
+  throw new Error(`preview não subiu em 30s. Saída:\n${log.slice(-800)}`);
 }
 
-/* ---------- relatório ---------- */
-jsErrors.slice(0, 8).forEach((e) => flag("ALTO", "runtime", e));
-[...badAssets].forEach((a) => flag("ALTO", "midia", `asset ${a}`));
+const ALL = { contrast: [], overMedia: [], ghost: [], targets: [], names: [],
+              images: [], overflow: [], jsErrors: [], badAssets: [], headings: [],
+              meta: [], badLinks: [] };
 
-const ordem = { ALTO: 0, MEDIO: 1, BAIXO: 2 };
-found.sort((a, b) => ordem[a.sev] - ordem[b.sev]);
-const conta = found.reduce((m, f) => ({ ...m, [f.sev]: (m[f.sev] || 0) + 1 }), {});
-
-console.log("\n" + "=".repeat(70));
-console.log(`${routes.length} rotas · ${medicoes} medições de contraste · ${jsErrors.length} erros de JS · ${badAssets.size} assets 4xx`);
-console.log(`ACHADOS: ${found.length}  (alto ${conta.ALTO || 0} · médio ${conta.MEDIO || 0} · baixo ${conta.BAIXO || 0})`);
-console.log("=".repeat(70));
-
-const vistos = new Set();
-for (const f of found) {
-  const k = `${f.sev}|${f.area}|${f.msg.replace(/\/(en|pt)\S*/, "…")}`;
-  if (vistos.has(k)) continue;
-  vistos.add(k);
-  console.log(`[${f.sev.padEnd(5)}] ${f.area.padEnd(11)} ${f.msg}`);
+function push(list, route, width, scroll, items) {
+  for (const it of items) list.push({ route, width, scroll, ...it });
 }
-if (!found.length) console.log("Nada a corrigir.");
 
-await browser.close();
-process.exit(conta.ALTO ? 1 : 0);
+async function run() {
+  const server = await startServer();
+  const browser = await chromium.launch({ executablePath: CHROME });
+  const ROUTES = routes();
+  // O conjunto de rotas VÁLIDAS é sempre o completo, mesmo em --fast:
+  // senão o amostrador acusa como quebrado o link que ele só não visitou.
+  const known = new Set();
+  for (const lang of ["pt", "en"]) {
+    for (const p of PAGES) known.add(`/${lang}${p ? "/" + p : ""}`);
+    for (const p of PRACTICE) known.add(`/${lang}/${p}`);
+    for (const c of CASES) known.add(`/${lang}/work/${c}`);
+    known.add(`/${lang}/systems`); known.add(`/${lang}/business`); // redirecionam
+  }
+  known.add("/privacidade"); known.add("/pt"); known.add("/en");
+  let n = 0;
+  const total = ROUTES.length * WIDTHS.length;
+
+  try {
+    for (const width of WIDTHS) {
+      const ctx = await browser.newContext({
+        viewport: { width, height: 900 },
+        deviceScaleFactor: 1,
+        userAgent: width < 500
+          ? "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+          : undefined,
+        hasTouch: width < 500,
+      });
+      const page = await ctx.newPage();
+
+      const jsErr = [], bad = [];
+      page.on("pageerror", (e) => jsErr.push(String(e.message).slice(0, 200)));
+      page.on("console", (m) => { if (m.type() === "error") jsErr.push(String(m.text()).slice(0, 200)); });
+      page.on("response", (r) => {
+        if (r.status() >= 400) bad.push({ status: r.status(), url: r.url().replace(BASE, "") });
+      });
+
+      for (const route of ROUTES) {
+        n++;
+        if (!AS_JSON) process.stderr.write(`\r  ${n}/${total}  ${width}px  ${route}${" ".repeat(20)}`);
+        jsErr.length = 0; bad.length = 0;
+
+        try {
+          await page.goto(BASE + route, { waitUntil: "networkidle", timeout: 30000 });
+        } catch {
+          ALL.jsErrors.push({ route, width, scroll: 0, message: "TIMEOUT ao carregar" });
+          continue;
+        }
+        await page.waitForTimeout(900);
+
+        let metaDone = false;
+        for (const s of SCROLLS) {
+          await page.evaluate((f) => {
+            const se = document.scrollingElement || document.documentElement;
+            se.scrollTop = (se.scrollHeight - innerHeight) * f;
+          }, s);
+          await page.waitForTimeout(850);
+
+          // medir duas vezes: só vale o que está PARADO (mata falso
+          // positivo de animação de entrada em voo)
+          const a = await page.evaluate(PROBE);
+          await page.waitForTimeout(420);
+          const b = await page.evaluate(PROBE);
+
+          const stable = (xs, ys, key) => {
+            const set = new Set(ys.map((y) => y.sel + "|" + (key ? y[key] : "")));
+            return xs.filter((x) => set.has(x.sel + "|" + (key ? x[key] : "")));
+          };
+
+          push(ALL.contrast, route, width, s, stable(a.contrast, b.contrast, "ratio"));
+          push(ALL.overMedia, route, width, s, stable(a.overMedia, b.overMedia, "media"));
+          push(ALL.ghost, route, width, s, stable(a.ghost, b.ghost, "opacity"));
+          push(ALL.targets, route, width, s, stable(a.targets, b.targets));
+          push(ALL.names, route, width, s, stable(a.names, b.names));
+
+          if (b.overflow.scrollWidth > b.overflow.inner + 1) {
+            ALL.overflow.push({ route, width, scroll: s, ...b.overflow });
+          }
+          if (!metaDone) {
+            metaDone = true;
+            push(ALL.images, route, width, s, b.images);
+            ALL.meta.push({ route, width, ...b.meta });
+            ALL.headings.push({ route, width, headings: b.headings });
+            for (const href of b.links) {
+              const clean = href.split("#")[0].split("?")[0].replace(/\/$/, "");
+              if (clean && !known.has(clean) && clean !== "") {
+                ALL.badLinks.push({ route, width, href });
+              }
+            }
+          }
+        }
+
+        for (const m of new Set(jsErr)) ALL.jsErrors.push({ route, width, message: m });
+        for (const x of bad) ALL.badAssets.push({ route, width, ...x });
+      }
+      await ctx.close();
+    }
+  } finally {
+    await browser.close();
+    server.kill();
+  }
+  if (!AS_JSON) process.stderr.write("\r" + " ".repeat(70) + "\r");
+}
+
+/* ---------- saída ---------- */
+
+function dedupe(list, keyFn) {
+  const m = new Map();
+  for (const it of list) {
+    const k = keyFn(it);
+    if (!m.has(k)) m.set(k, { ...it, hits: 1, routes: new Set([it.route]), widths: new Set([it.width]) });
+    else { const e = m.get(k); e.hits++; e.routes.add(it.route); e.widths.add(it.width); }
+  }
+  return [...m.values()].sort((a, b) => b.hits - a.hits);
+}
+
+function report() {
+  const C = dedupe(ALL.contrast, (x) => x.sel + "|" + x.ratio);
+  const M = dedupe(ALL.overMedia, (x) => x.sel + "|" + x.media);
+  const G = dedupe(ALL.ghost, (x) => x.sel + "|" + x.opacity);
+  const T = dedupe(ALL.targets, (x) => x.sel + "|" + x.w + "x" + x.h);
+  const N = dedupe(ALL.names, (x) => x.sel + "|" + x.href);
+  const I = dedupe(ALL.images, (x) => x.sel + "|" + x.issues.join(","));
+  const O = dedupe(ALL.overflow, (x) => x.route + "|" + x.width);
+  const J = dedupe(ALL.jsErrors, (x) => x.message);
+  const A = dedupe(ALL.badAssets, (x) => x.status + "|" + x.url);
+  const L = dedupe(ALL.badLinks, (x) => x.href);
+
+  // títulos
+  const headIssues = [];
+  for (const h of ALL.headings) {
+    if (h.width !== 1440) continue;
+    const h1 = h.headings.filter((x) => x.level === 1);
+    if (h1.length === 0) headIssues.push({ route: h.route, problema: "nenhum h1" });
+    else if (h1.length > 1) headIssues.push({ route: h.route, problema: `${h1.length} h1`, quais: h1.map((x) => x.text) });
+    let prev = 0;
+    for (const x of h.headings) {
+      if (prev && x.level > prev + 1) {
+        headIssues.push({ route: h.route, problema: `salto h${prev} → h${x.level}`, em: x.text });
+        break;
+      }
+      prev = x.level;
+    }
+  }
+
+  // meta
+  const metaIssues = [];
+  const titles = new Map();
+  for (const m of ALL.meta) {
+    if (m.width !== 1440) continue;
+    if (!m.title) metaIssues.push({ route: m.route, problema: "sem <title>" });
+    if (!m.description) metaIssues.push({ route: m.route, problema: "sem meta description" });
+    const wantLang = m.route.startsWith("/en") ? "en" : "pt";
+    if (m.lang && m.lang.slice(0, 2) !== wantLang && m.route !== "/privacidade") {
+      metaIssues.push({ route: m.route, problema: `lang="${m.lang}" mas a rota é ${wantLang}` });
+    }
+    if (m.title) titles.set(m.title, [...(titles.get(m.title) || []), m.route]);
+  }
+  for (const [t, rs] of titles) {
+    if (rs.length > 1) metaIssues.push({ route: rs.join(", "), problema: `título repetido: "${t}"` });
+  }
+
+  const out = { contraste: C, sobreMidia: M, fantasma: G, alvos: T, semNome: N,
+                imagens: I, estouro: O, erroJS: J, assets4xx: A,
+                linksQuebrados: L, titulos: headIssues, meta: metaIssues };
+
+  writeFileSync("verify-report.json", JSON.stringify(out, null, 2));
+
+  if (AS_JSON) { console.log(JSON.stringify(out, null, 2)); }
+  else {
+    const line = (label, arr, fmt) => {
+      console.log(`\n${label}  —  ${arr.length}`);
+      if (!arr.length) return;
+      for (const x of arr.slice(0, 14)) {
+        console.log("   " + fmt(x));
+        const rs = [...x.routes];
+        console.log("      " + rs.slice(0, 3).join(" ") + (rs.length > 3 ? ` (+${rs.length - 3} rotas)` : "") +
+                    "  @ " + [...x.widths].join("/") + "px");
+      }
+      if (arr.length > 14) console.log(`   … +${arr.length - 14}`);
+    };
+
+    console.log("\n" + "=".repeat(64));
+    console.log("  VERIFY — o que o visitante vê, medido");
+    console.log("=".repeat(64));
+
+    line("CONTRASTE reprovado", C, (x) => `${x.ratio}:1 (precisa ${x.need}) ${x.size}px  ${x.color} sobre ${x.bg}\n      ${x.sel}\n      "${x.text}"`);
+    line("TEXTO FANTASMA (opacidade parada, elemento no miolo da tela)", G,
+      (x) => `opacidade ${x.opacity}  ${x.sel}\n      "${x.text}"\n      dono da opacidade: ${x.dono} (${x.donoOpacity})  ·  animação: ${x.anim}`);
+    line("ESTOURO HORIZONTAL", O, (x) => `${x.route} @${x.width}px — scrollWidth ${x.scrollWidth} > ${x.inner}`);
+    line("ERRO DE JS", J, (x) => x.message);
+    line("ASSET 4xx", A, (x) => `${x.status}  ${x.url}`);
+    line("LINK INTERNO QUEBRADO", L, (x) => x.href);
+    line("ALVO DE TOQUE < 24px", T, (x) => `${x.w}×${x.h}  ${x.sel}  "${x.text}"`);
+    line("LINK/BOTÃO SEM NOME ACESSÍVEL", N, (x) => `${x.sel}  href=${x.href}`);
+    line("IMAGEM", I, (x) => `${x.issues.join(" + ")}  ${x.src}  ${x.sel}`);
+    line("TEXTO SOBRE MÍDIA (contraste não calculável — conferir o pior quadro)", M,
+      (x) => `sobre <${x.media}>  ${x.size}px ${x.color}\n      ${x.sel}\n      "${x.text}"`);
+
+    console.log(`\nHIERARQUIA DE TÍTULOS  —  ${headIssues.length}`);
+    for (const x of headIssues.slice(0, 14)) console.log(`   ${x.route}: ${x.problema}${x.em ? ` (em "${x.em}")` : ""}${x.quais ? " → " + x.quais.join(" | ") : ""}`);
+
+    console.log(`\nTITLE / DESCRIPTION / LANG  —  ${metaIssues.length}`);
+    for (const x of metaIssues.slice(0, 14)) console.log(`   ${x.route}: ${x.problema}`);
+
+    console.log("\n" + "=".repeat(64));
+  }
+
+  const blockers = C.length + G.length + O.length + J.length + A.length + L.length + N.length;
+  if (!AS_JSON) {
+    console.log(`  BLOQUEADORES: ${blockers}   ·   relatório completo em verify-report.json`);
+    console.log("=".repeat(64) + "\n");
+  }
+  return blockers === 0 ? 0 : 1;
+}
+
+await run();
+process.exit(report());
