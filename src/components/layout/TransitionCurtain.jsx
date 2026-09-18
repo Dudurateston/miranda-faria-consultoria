@@ -113,7 +113,7 @@ export default function TransitionCurtain() {
 .mf-curtain__m{
   width:clamp(96px,12vw,176px);opacity:1;position:absolute;z-index:1;
   left:50%;top:50%;translate:-50% -50%;
-  filter:drop-shadow(0 2px 18px rgba(20,20,20,0.28));
+  /* sem drop-shadow: sombra escura sobre o cobre chapado virava mancha */
   will-change:transform,opacity;
 }
 `}</style>
