@@ -399,7 +399,7 @@ html[data-skin="dark"] [data-theme="on-deep"] .mf-nav{background:rgba(22,20,15,0
 [data-theme="on-deep"] .mf-nav__logo{filter:none}
 /* M e branco-prata (logo oficial). Sobre osso, ganha um tom de prata
    discreto pra nao sumir; na skin escura fica branco puro. */
-html:not([data-skin="dark"]) .mf-nav__logo{filter:brightness(0.88) saturate(0.85)}
+/* Eduardo 18/09: M do nav INTEGRAL — sem dim, igual ao oficial (o filtro brightness/saturate lavava o prata) */
 /* Eduardo 17/09: o M-marca d'agua do menu mobile precisava ler nos dois temas.
    Claro: prata invertida = tinta sobre osso. Escuro: osso-prata direto. */
 html:not([data-skin="dark"]) .mf-mnav__wm{filter:invert(1) brightness(1.1);opacity:0.07}

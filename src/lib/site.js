@@ -93,8 +93,8 @@ export const NAV_MEDIA = {
    vão pras páginas/temas a que pertencem). */
 export const SECTION_MEDIA = {
   hiwStack: NAV_MEDIA.how,
-  /* Eduardo 17/09: voltar ao antigo "camadas ordem" (Fundacao/Dados/Sistema/Superficie) */
-  servicosFaixa: "/art/nv_camadas.mp4",
+  /* Eduardo 18/09: a faixa usa o MESMO video da NavBar "Sistemas & Gestao" (nv_sistemas) */
+  servicosFaixa: "/art/nv_sistemas.mp4",
   insightsPreview: NAV_MEDIA.diag,
   aboutBand: "/art/nv_placa.mp4",
   sobreReel: "/art/sobre_reel.mp4",

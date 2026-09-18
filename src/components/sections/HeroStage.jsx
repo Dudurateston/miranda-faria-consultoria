@@ -376,7 +376,7 @@ html[data-skin="dark"] .mf-hero__scrim{
 .mf-hero__ltr{display:inline-block;will-change:transform,opacity}
 .mf-hero__dot{color:var(--mf-copper,#B5502E)}
 /* Portao: o M OFICIAL prata — escurece levemente sobre osso no claro. */
-html:not([data-skin="dark"]) .mf-intro__m{filter:brightness(0.88) saturate(0.85)}
+/* Eduardo 18/09: M do portao INTEGRAL — prata cheio, igual ao oficial */
 .mf-hero__role{
   /* KICKER (Eduardo 17/09: "finalmente facil de ler") — rastreio
      0.28em abria demais os glifos do mono; agora justo, maior e
