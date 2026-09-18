@@ -162,7 +162,11 @@ export default function Servicos() {
   font-size:1.02rem;line-height:1.55;
   color:var(--color-text-secondary);
 }
-.mf-srv__band{margin:3.5rem 0 0;aspect-ratio:21/9;overflow:hidden;position:relative}
+/* Eduardo 18/09: o M da faixa entra DE DENTRO da composição — painel grafite
+   com o M em osso a contraste pleno (antes: video a 32% de opacidade sobre
+   fundo claro = M lavado, ilegível) e sem crop que cortasse o M. */
+.mf-srv__band{margin:3.5rem 0 0;aspect-ratio:16/9;overflow:hidden;position:relative;background:#1A1A18;
+  border-top:1px solid rgba(181,80,46,.45);border-bottom:1px solid rgba(181,80,46,.45)}
 .mf-srv__layers{
   position:absolute;inset:0;margin:0;display:flex;flex-direction:column;
   justify-content:space-between;padding:clamp(0.9rem,2.4vw,1.8rem) clamp(0.9rem,2.4vw,1.8rem);
@@ -171,11 +175,12 @@ export default function Servicos() {
 .mf-srv__layer{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-secondary);
+  color:#F5F1EA;
+  text-shadow:0 1px 2px rgba(10,10,10,.55);
   padding-left:clamp(0.5rem,4vw,3.5rem);
 }
 .mf-srv__stat{
-  margin:1.1rem 0 0;max-width:56ch;
+  margin:1.4rem 0 0;max-width:56ch;
   font-family:var(--font-body);font-weight:300;font-size:var(--text-body-md);
   line-height:var(--leading-body);color:var(--color-text-secondary);
 }
@@ -187,9 +192,7 @@ export default function Servicos() {
 }
 .mf-srv__band img,
 .mf-srv__band video{
-  width:100%;height:100%;object-fit:cover;display:block;opacity:0.32;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 15%,black 85%,transparent 100%);
-  mask-image:linear-gradient(90deg,transparent 0%,black 15%,black 85%,transparent 100%);
+  width:100%;height:100%;object-fit:cover;display:block;opacity:1;
 }
 
 .mf-srv__list{display:flex;flex-direction:column;margin-top:3rem}

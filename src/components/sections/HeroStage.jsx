@@ -6,7 +6,7 @@ import { copy, practices, PRACTICE_SLUGS } from "@/content/copy";
 /* Rede 3D em chunk proprio: Three.js (~250KB gz) so entra na home,
    asincrono — as outras rotas e o primeiro paint nao pagam por ele. */
 const Network3D = React.lazy(() => import("./HeroCanvas3D"));
-import { WHATSAPP_URL, CALENDLY_URL, M_LOGO_BONE, M_LOGO_INK, M_LOGO } from "@/lib/site";
+import { WHATSAPP_URL, CALENDLY_URL, M_LOGO } from "@/lib/site";
 
 /**
  * Portão de entrada — a animação que independe do usuário (referência
@@ -279,8 +279,9 @@ export default function HeroStage() {
       <div className="mf-hero__scrim" aria-hidden="true" />
 
       <div ref={content} className="mf-hero__content" style={{ opacity: 0 }}>
-        <img className="mf-hero__mark mf-hero__mark--bone" src={M_LOGO_BONE} alt="" aria-hidden="true" />
-        <img className="mf-hero__mark mf-hero__mark--ink" src={M_LOGO_INK} alt="" aria-hidden="true" />
+        {/* Eduardo 18/09: o M da hero é o MESMO da versão publicada —
+            o prata oficial (m-logo-320), um só asset nos dois temas. */}
+        <img className="mf-hero__mark" src={M_LOGO} alt="" aria-hidden="true" />
         <h1 className="mf-hero__title" aria-label={t.wordmark}>
           {t.wordmark.split("").map((ch, i) => (
             <span key={i} className="mf-hero__ltr" aria-hidden="true">
@@ -366,9 +367,6 @@ html[data-skin="dark"] .mf-hero__scrim{
   mix-blend-mode:normal;filter:drop-shadow(0 0 12px rgba(26,26,24,0.10));
 }
 /* O M adapta ao tema: tinta no claro, osso no escuro — assets próprios, sem filtro. */
-.mf-hero__mark--ink{display:none}
-html:not([data-skin="dark"]) .mf-hero__mark--bone{display:none}
-html:not([data-skin="dark"]) .mf-hero__mark--ink{display:inline-block}
 .mf-hero__title{
   font-family:var(--font-display);font-weight:400;
   font-size:clamp(2.8rem,9vw,6.5rem);line-height:1.04;

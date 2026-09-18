@@ -402,7 +402,7 @@ html[data-skin="dark"] [data-theme="on-deep"] .mf-nav{background:rgba(22,20,15,0
 html:not([data-skin="dark"]) .mf-nav__logo{filter:brightness(0.88) saturate(0.85)}
 /* Eduardo 17/09: o M-marca d'agua do menu mobile precisava ler nos dois temas.
    Claro: prata invertida = tinta sobre osso. Escuro: osso-prata direto. */
-html:not([data-skin="dark"]) .mf-mnav__wm{filter:invert(1);opacity:0.10}
+html:not([data-skin="dark"]) .mf-mnav__wm{filter:invert(1) brightness(1.1);opacity:0.07}
 html[data-skin="dark"] .mf-mnav__wm{filter:none;opacity:0.10}
 .mf-nav[data-show="false"]{opacity:0;transform:translateY(-100%);pointer-events:none}
 .mf-nav[data-show="true"]{opacity:1;transform:translateY(0);pointer-events:auto}
