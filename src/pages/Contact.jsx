@@ -23,11 +23,19 @@ export default function Contact() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  /* B5 (relatório): antispam — honeypot + tempo mínimo de preenchimento */
+  const openedAt = React.useRef(Date.now());
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setError("");
     const fd = new FormData(e.currentTarget);
+    /* honeypot preenchido ou envio abaixo de 3s = bot: finge sucesso,
+       descarta em silêncio */
+    if ((fd.get("website") || "").toString().trim() || Date.now() - openedAt.current < 3000) {
+      setSent(true);
+      return;
+    }
     const nome = String(fd.get("nome") || "").trim();
     const email = String(fd.get("email") || "").trim();
     const mensagem = String(fd.get("mensagem") || "").trim();
@@ -120,6 +128,15 @@ export default function Contact() {
                 <p className="mf-form__sent">{f.sent}</p>
               ) : (
                 <form onSubmit={onSubmit} className="mf-form__grid" noValidate>
+            {/* honeypot: invisível para humanos, irresistível para bots */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{ position: "absolute", left: "-9999px", height: 0, width: 0, opacity: 0 }}
+            />
                   <label className="mf-form__field">
                     <span className="mf-label">{f.name} *</span>
                     <input name="nome" type="text" autoComplete="name" required aria-required="true" />

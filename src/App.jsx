@@ -36,12 +36,6 @@ import LogoEasterEgg from "@/components/layout/LogoEasterEgg";
 
 
 
-const Connect = React.lazy(() => import("@/pages/Connect"));
-const Login = React.lazy(() => import("@/pages/Login"));
-const Register = React.lazy(() => import("@/pages/Register"));
-const ForgotPassword = React.lazy(() => import("@/pages/ForgotPassword"));
-const ResetPassword = React.lazy(() => import("@/pages/ResetPassword"));
-const OAuthConsent = React.lazy(() => import("@/pages/OAuthConsent"));
 import SmoothScroll from "@/components/SmoothScroll";
 import CopperCursor from "@/components/CopperCursor";
 import MfProgress from "@/components/MfProgress";
@@ -130,12 +124,9 @@ const AuthenticatedApp = () => {
 
       {/* Paginas de infraestrutura Base44 — sem prefixo de idioma. */}
       <Route path="/privacidade" element={<PrivacyPolicy />} />
-      <Route path="/connect" element={<Connect />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/oauth/consent" element={<OAuthConsent />} />
+      {/* B3 (relatório): rotas de autenticação REMOVIDAS — site sem área
+          logada, sem MCP; /register criava conta real aberta a qualquer
+          um e /forgot-password enviava e-mail sob comando de desconhecido. */}
       <Route path="*" element={<PageNotFound />} />
     </Routes>
       </React.Suspense>
