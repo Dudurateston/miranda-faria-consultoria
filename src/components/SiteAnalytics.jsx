@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { trackPageView, trackWhatsApp, track } from "@/lib/siteAnalytics";
 import { initGA, gaPageView } from "@/lib/ga";
+import { getConsent } from "@/lib/siteAnalytics";
 
 /**
  * Olhos do site (v2, 17/09) — coleta automática de KPIs p/ BI:
@@ -50,8 +51,14 @@ export default function SiteAnalytics() {
   /* rota → page_view (+ GA) + 404 */
   useEffect(() => {
     pathRef.current = location.pathname;
-    initGA();
-    gaPageView(location.pathname);
+    /* B2 (relatório): GA só carrega com consentimento concedido (LGPD) */
+    if (getConsent() === "granted") {
+      initGA();
+      gaPageView(location.pathname);
+    }
+    const onConsent = () => { if (getConsent() === "granted") { initGA(); gaPageView(pathRef.current); } };
+    window.addEventListener("mf-consent-changed", onConsent);
+    return () => window.removeEventListener("mf-consent-changed", onConsent);
     trackPageView(location.pathname);
     if (page404()) track("404_view", { page: location.pathname });
     // rotas lazy: o chunk renderiza depois do mount — observa depois

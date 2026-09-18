@@ -25,7 +25,8 @@ export const M_LOGO_BONE = "/art/m-logo-bone.webp";
 export const M_LOGO_HERO = "/art/m-logo-hero.webp";
 // Servidos do bucket publico miranda-faria no Supabase: qualidade original
 // (fonte 4K) sem pesar no bundle do app. Hero continua local (LCP).
-export const REELS_URL = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_reels.mp4";
+/* A3 (relatório): mídia servida do PRÓPRIO domínio — sem dependência de terceiro */
+export const REELS_URL = "/art/design/hq_reels.mp4";
 export const CORTE_GIF = "/art/corte.mp4";
 export const WATERMARK_GIF = "/art/watermark.webp";
 export const PARTICLES_VIDEO = "/art/cta_particles.mp4";
@@ -49,8 +50,8 @@ export const LINKEDIN_URL = "https://www.linkedin.com";
 /* ---- Arte generativa (Drive "superagente base44", otimizada de 4K) ----
    Particulas de cobre e placa Miranda Faria: geradas por IA, usadas como
    arte de marca — nunca como prova de escritorio fisico. */
-export const DESIGN_PARTICLES = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_particles2.mp4";
-export const DESIGN_SIGN = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_sign.mp4";
+export const DESIGN_PARTICLES = "/art/design/hq_particles2.mp4";
+export const DESIGN_SIGN = "/art/design/hq_sign.mp4";
 export const DESIGN_POSTER = "/art/design_open_poster.jpg";
 
 /* Duas peças novas (Drive 05/09), as mais fortes do conjunto — as duas
@@ -60,8 +61,8 @@ export const DESIGN_POSTER = "/art/design_open_poster.jpg";
    caos que vira ordem. Loop costurado com dissolve de 0,8s.
    VEIO: dolly por um cânion de estratos com um veio incandescente de
    cobre no eixo. Fecha a página. Loop em vai-e-volta, sem corte. */
-export const DESIGN_LAYERS = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_camadas.mp4";
-export const DESIGN_SEAM = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria/design/hq_veio.mp4";
+export const DESIGN_LAYERS = "/art/design/hq_camadas.mp4";
+export const DESIGN_SEAM = "/art/design/hq_veio.mp4";
 
 const SUPA_PUB = "https://neyrifcfmpwqvadppihu.supabase.co/storage/v1/object/public/miranda-faria";
 export const BRAND_FACADE = "/art/brand-facade.webp";
@@ -103,6 +104,12 @@ export const SECTION_MEDIA = {
 
 export const VIDEO_USE_LIMIT = {
   "art/corte.mp4": 2,
+  /* A3: design removido do Supabase — mídia local agora (relatório B1/A3) */
+  "art/design/hq_reels.mp4": 1,
+  "art/design/hq_particles2.mp4": 1,
+  "art/design/hq_sign.mp4": 1,
+  "art/design/hq_camadas.mp4": 1,
+  "art/design/hq_veio.mp4": 1,
   "art/lead_loop.mp4": 1,
   "art/automacao_loop.mp4": 1,
   "art/celeste.mp4": 1,

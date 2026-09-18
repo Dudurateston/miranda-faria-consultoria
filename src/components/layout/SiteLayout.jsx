@@ -3,6 +3,7 @@ import { Outlet, useLocation, useMatch } from "react-router-dom";
 import SiteNav from "@/components/layout/SiteNav";
 import Footer from "@/components/Footer";
 import MobileWhatsAppBar from "@/components/MobileWhatsAppBar";
+import MobileCalendlyBar from "@/components/MobileCalendlyBar";
 import { LANGS, useLang, swapLangInPath } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 
@@ -78,8 +79,8 @@ export default function SiteLayout() {
         </Suspense>
       </main>
       <Footer />
-      {lang === "pt" && <MobileWhatsAppBar />}
-      {lang === "pt" && <div className="h-20 md:hidden" />}
+      {lang === "pt" ? <MobileWhatsAppBar /> : <MobileCalendlyBar />}
+      <div className="h-20 md:hidden" />
 
       <style>{`
 .mf-progress{

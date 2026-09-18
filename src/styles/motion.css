@@ -28,16 +28,23 @@
     .mf-stage > * {
       animation: mf-rise linear both;
       animation-timeline: view();
-      animation-range: entry 8% cover 34%;
+      /* A2.1 (relatório): "cover 34%" terminava antes de o elemento
+         inteiro entrar — itens altos ficavam a 0,49 no meio da tela.
+         Agora a revelação COMPLETA quando o elemento entrou. */
+      animation-range: entry 0% entry 60%;
     }
 
     /* Escalonamento por posição: cada filho entra um pouco depois do
        anterior, deslocando a faixa de animação em vez de usar delay —
-       delay não existe em linha do tempo de scroll. */
-    .mf-stage > *:nth-child(2) { animation-range: entry 14% cover 40%; }
-    .mf-stage > *:nth-child(3) { animation-range: entry 20% cover 46%; }
-    .mf-stage > *:nth-child(4) { animation-range: entry 26% cover 52%; }
-    .mf-stage > *:nth-child(5) { animation-range: entry 30% cover 56%; }
+       delay não existe em linha do tempo de scroll. Antes ia só até o
+       5º; do 6º em diante voltava à faixa base (A2.1: /work tem 14). */
+    .mf-stage > *:nth-child(2) { animation-range: entry 5% entry 65%; }
+    .mf-stage > *:nth-child(3) { animation-range: entry 10% entry 70%; }
+    .mf-stage > *:nth-child(4) { animation-range: entry 15% entry 75%; }
+    .mf-stage > *:nth-child(5) { animation-range: entry 20% entry 80%; }
+    .mf-stage > *:nth-child(6) { animation-range: entry 25% entry 85%; }
+    .mf-stage > *:nth-child(7) { animation-range: entry 30% entry 90%; }
+    .mf-stage > *:nth-child(n+8) { animation-range: entry 35% entry 95%; }
 
     /* --------------------------------------------------------
        2. A ABERTURA QUE SE AFASTA

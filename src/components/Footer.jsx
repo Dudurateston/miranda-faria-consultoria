@@ -88,7 +88,7 @@ export default function Footer() {
               {t.footer.privacy}
             </Link>
             <ThemeToggle lang={lang} variant="foot" />
-            <span className="mf-foot__copy">© 2023 Miranda Faria</span>
+            <span className="mf-foot__copy">© {new Date().getFullYear()} Miranda Faria</span>
           </div>
           </div>
         </div>

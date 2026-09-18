@@ -34,7 +34,13 @@
     "email",
     "mensagem"
   ],
+  /* B1 (relatório): SEM create anônimo o formulário nunca gravou —
+     0 registros desde o lançamento. Mesmo formato do SiteEvent. */
+  "public_permissions": {
+    "create": true
+  },
   "rls": {
+    "create": null,
     "read": {
       "user_condition": {
         "role": "admin"

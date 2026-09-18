@@ -20,6 +20,7 @@ export default function ConsentBanner() {
 
   const decide = (v) => {
     setConsent(v);
+    window.dispatchEvent(new CustomEvent("mf-consent-changed"));
     setDecision(v);
   };
 

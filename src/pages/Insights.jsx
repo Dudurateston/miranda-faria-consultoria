@@ -516,7 +516,7 @@ export default function Insights() {
 .mf-dg__step[data-state="now"]{color:var(--color-text-primary)}
 .mf-dg__step[data-state="done"]{color:var(--mf-terracotta);cursor:pointer}
 .mf-dg__step:disabled{cursor:default}
-.mf-dg__stepn{opacity:0.7}
+.mf-dg__stepn{opacity:1}
 .mf-dg__steprule{width:clamp(1.2rem,4vw,3rem);height:1px;background:var(--color-divider)}
 
 /* paineis */
