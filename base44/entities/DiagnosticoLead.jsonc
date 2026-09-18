@@ -1,0 +1,68 @@
+{
+  "name": "DiagnosticoLead",
+  "type": "object",
+  "public_permissions": {
+    "create": true
+  },
+  "properties": {
+    "dor": {
+      "type": "string"
+    },
+    "driver_valor": {
+      "type": "string"
+    },
+    "porte": {
+      "type": "string"
+    },
+    "urgencia": {
+      "type": "string",
+      "enum": ["alta", "media", "baixa", ""]
+    },
+    "vazamento_piso": {
+      "type": "number"
+    },
+    "vazamento_teto": {
+      "type": "number"
+    },
+    "classificacao_icp": {
+      "type": "string",
+      "enum": ["qualificado", "marginal", "desqualificar", ""]
+    },
+    "vertical_recomendada": {
+      "type": "string"
+    },
+    "lang": {
+      "type": "string",
+      "enum": ["pt", "en"]
+    },
+    "contato": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "rls": {
+    "create": null,
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  },
+  "required": []
+}

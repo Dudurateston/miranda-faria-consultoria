@@ -8,28 +8,23 @@ import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
 import { trackDiagnosis } from "@/lib/siteAnalytics";
 import { WHATSAPP_URL_BARE } from "@/lib/site";
+import { base44 } from "@/api/base44Client";
+import { calcularDiagnostico, FONTES } from "@/lib/diagnostico";
 
 /**
  * Diagnóstico — o instrumento que substituiu a página de insights.
  *
- * A metodologia que Eduardo usa em vendas, virada ferramenta: quantificar
- * o custo da dor ANTES de falar de preço. Três perguntas — dor, porte,
- * urgência — e uma estimativa do vazamento mensal, com a solução
- * mapeada e o lead chegando no WhatsApp já qualificado. Tudo client-side,
- * sem formulário, sem fricção: cada resposta avança sozinha.
+ * Rebuild v3.27 (spec final 17/09): motor [piso, teto] com fontes
+ * A/B/C por dor, pergunta de driver condicional, linha da conta
+ * visível, recuperação específica por dor (a faixa genérica 35–60%
+ * saiu) e gravação em DiagnosticoLead (mesma RLS do SiteEvent:
+ * create aberto, leitura só admin). A manchete é SEMPRE o piso —
+ * conservador por construção: se errar, erra para baixo.
+ *
+ * Fluxo: dor → driver (condicional) → porte/base (condicional) →
+ * urgência → resultado. Tudo client-side, sem fricção: cada resposta
+ * avança sozinha.
  */
-
-/** Faixas de faturamento (mesma ordem de copy.diag.revenues). */
-const REVENUE = { pt: [8_000, 20_000, 60_000, 180_000], en: [8_000, 20_000, 60_000, 180_000] };
-
-/** Modelo por dor: função(receita) -> vazamento mensal estimado. */
-const LEAK_MODEL = {
-  marketplace: (r) => r * 0.2, // comissão média de 15–30% fica no meio
-  excel: (r) => 1600 + r * 0.02, // horas de operação manual + erro de digitação
-  curiosos: (r) => 2400 + r * 0.01, // ~10h/semana com quem não compra
-  pessoa: (r) => r * 0.12, // carteira e processo que saem junto com a pessoa
-  cego: (r) => r * 0.04, // margem na mesa: decisão de preço e estoque no chute
-};
 
 /** Dor -> solução que resolve, e para onde ela aponta. */
 const SOLUTION = {
@@ -37,54 +32,54 @@ const SOLUTION = {
     marketplace: {
       practice: "gestao",
       t: "Casa própria digital",
-      d: "Catálogo e pedido direto, sem comissão no meio. O dinheiro cai na sua conta e o cliente fica no seu banco.",
+      d: "Catálogo e pedido direto, sem comissão no meio. O dinheiro cai na sua conta e o cliente fica no seu banco. A economia é a comissão sobre a fatia que migrar — não o total.",
     },
     excel: {
       practice: "gestao",
       t: "Painel que atualiza sozinho",
-      d: "A planilha manual vira sistema — e o processo para de depender da memória de alguém.",
+      d: "A planilha manual vira sistema: o erro cai de ~6% para ~0,3% no que for automatizado. O que continuar manual continua errando — a solução não promete o que não entrega.",
     },
     curiosos: {
       practice: "desenvolvimento",
       t: "Sistema que filtra",
-      d: "FAQ, qualificação e orçamento automático: o lead chega pronto e o curioso se atende sozinho.",
+      d: "FAQ, qualificação e orçamento automático: o lead chega pronto e o curioso se atende sozinho. A triagem resolve a pergunta repetida; a decisão humana continua humana.",
     },
     pessoa: {
       practice: "gestao",
-      t: "CRM próprio",
-      d: "O histórico do cliente fica no sistema, não na cabeça de quem pode sair amanhã.",
+      t: "Processo no nome da empresa",
+      d: "A rotina e o histórico do cliente passam a viver no sistema da empresa. Se a pessoa sair, o processo não sai junto — e a reposição, quando precisar, é mais curta.",
     },
     cego: {
       practice: "gestao",
       t: "Dashboards de decisão",
-      d: "Venda, margem e estoque numa tela só: o padrão aparece e a decisão deixa de ser chute.",
+      d: "Venda, margem e estoque numa tela só: o painel habilita o ganho de 3% a 8% de margem que a precificação granular traz. Habilita — não garante.",
     },
   },
   en: {
     marketplace: {
       practice: "gestao",
       t: "Your own digital storefront",
-      d: "Catalogue and ordering direct, no commission in the middle. The money lands in your account and the customer stays in your database.",
+      d: "Catalogue and ordering direct, no commission in the middle. The savings are the commission on the share that migrates — not the whole volume.",
     },
     excel: {
       practice: "gestao",
       t: "A panel that updates itself",
-      d: "The manual spreadsheet becomes a system — the process stops depending on someone's memory.",
+      d: "The manual spreadsheet becomes a system: error drops from ~6% to ~0.3% on whatever gets automated. What stays manual keeps erring — the fix doesn't promise what it can't deliver.",
     },
     curiosos: {
       practice: "desenvolvimento",
       t: "A system that filters",
-      d: "FAQ, qualification and automatic quoting: the lead arrives ready and the tire-kicker self-serves.",
+      d: "FAQ, qualification and automatic quoting: the lead arrives ready and the tire-kicker self-serves. Triage kills the repeated question; human judgement stays human.",
     },
     pessoa: {
       practice: "gestao",
-      t: "Your own CRM",
-      d: "The customer history lives in the system, not in the head of whoever might leave tomorrow.",
+      t: "Process in the company's name",
+      d: "Routines and client history live in the company's system. If the person leaves, the process doesn't leave with them — and replacement, if needed, is shorter.",
     },
     cego: {
       practice: "gestao",
       t: "Decision dashboards",
-      d: "Sales, margin and stock on one screen: the pattern shows up and the decision stops being a guess.",
+      d: "Sales, margin and stock on one screen: the panel enables the 3–8% margin gain that granular pricing brings. Enables — does not guarantee.",
     },
   },
 };
@@ -118,24 +113,30 @@ function useCountUp(target, active, ms = 1100) {
   return v;
 }
 
+/** Perguntas condicionais: driver + base numerica, por dor. */
+const num = (v) => Number(v);
+
 export default function Insights() {
   const { lang, path } = useLang();
   const t = copy[lang].diag;
   usePageTitle(t.label, "insights");
 
   const [pain, setPain] = useState(null);
-  const [revenue, setRevenue] = useState(null);
+  const [driver, setDriver] = useState(null);
+  const [base, setBase] = useState(null);
   const [urgency, setUrgency] = useState(null);
-  const [phase, setPhase] = useState(0); // 0 dor · 1 porte · 2 urgencia · 3 resultado
+  const [phase, setPhase] = useState(0); // 0 dor · 1 driver · 2 base · 3 urgencia · 4 resultado
   const trackedResult = useRef(false);
+  const savedLead = useRef(false);
+  const timer = useRef(0);
+
   useEffect(() => {
-    if (phase === 3 && !trackedResult.current) {
+    if (phase === 4 && !trackedResult.current) {
       trackedResult.current = true;
       // medicao propria (LGPD): so as escolhas, nada pessoal
-      trackDiagnosis(JSON.stringify({ pain, revenue, urgency }));
+      trackDiagnosis(JSON.stringify({ pain, driver, base, urgency }));
     }
   }, [phase]);
-  const timer = useRef(0);
 
   const pick = (setter, nextPhase) => (v) => {
     setter(v);
@@ -143,41 +144,100 @@ export default function Insights() {
     timer.current = setTimeout(() => setPhase(nextPhase), 260);
   };
 
-  const leak = useMemo(() => {
-    if (phase !== 3 || pain == null || revenue == null) return 0;
-    const r = REVENUE[lang][revenue];
-    return LEAK_MODEL[pain](r);
-  }, [phase, pain, revenue, lang]);
+  const driverCfg = pain != null ? t.driverQ[pain] : null;
+  const baseCfg = pain != null ? t.baseQ[pain] : null;
 
-  const shown = useCountUp(leak, phase === 3);
+  /** Inputs do motor a partir das escolhas — valores ja em escala mensal. */
+  const inputs = useMemo(() => {
+    if (pain == null || driver == null || base == null) return null;
+    const d = num(driver);
+    const b = num(base);
+    switch (pain) {
+      case "marketplace":
+        return { receita: b, fatiaCanal: d };
+      case "excel":
+        return { lancamentosMes: Math.round(d * 4.33), custoErro: b };
+      case "curiosos":
+        return { conversasMes: Math.round(d * 4.33), minutosPorConversa: 15, custoHora: b };
+      case "pessoa":
+        return { salario: b, oQuePara: driver };
+      case "cego":
+        return { margemMes: Math.round(b * 0.2), frequencia: driver, isAverageMargin: true };
+      default:
+        return null;
+    }
+  }, [pain, driver, base]);
+
+  const diag = useMemo(
+    () => (phase === 4 && inputs ? calcularDiagnostico({ dor: pain, inputs, lang }) : null),
+    [phase, inputs, pain, lang]
+  );
+
+  const shown = useCountUp(diag?.piso || 0, phase === 4);
+
+  /** ICP: classifica so para o banco — o visitante nao ve rotulo de "desqualificado". */
+  const icp = useMemo(() => {
+    if (!diag) return "";
+    const limQ = lang === "pt" ? 3000 : 600;
+    const limD = lang === "pt" ? 500 : 100;
+    if (diag.piso < limD) return "desqualificar";
+    if (urgency === "now" || diag.piso >= limQ) return "qualificado";
+    return "marginal";
+  }, [diag, urgency, lang]);
+
+  useEffect(() => {
+    if (phase !== 4 || !diag || savedLead.current) return;
+    savedLead.current = true;
+    try {
+      const rec = {
+        dor: pain,
+        driver_valor: String(driver),
+        porte: String(base),
+        urgencia: { now: "alta", months: "media", later: "baixa" }[urgency] || "",
+        vazamento_piso: Math.round(diag.piso),
+        vazamento_teto: Math.round(diag.teto),
+        classificacao_icp: icp,
+        vertical_recomendada: SOLUTION[lang][pain]?.practice || "",
+        lang,
+        contato: "",
+        session_id: "",
+      };
+      base44.entities.DiagnosticoLead.create(rec).catch(() => {});
+    } catch {
+      /* gravacao nunca bloqueia o resultado */
+    }
+  }, [phase, diag]);
+
+  const rec = diag?.recuperacao?.[lang] || null;
+  const fonte = diag?.fonte || FONTES[pain] || null;
+  const sol = pain != null ? SOLUTION[lang][pain] : null;
   const result = t.result;
 
-  // desdobramentos do vazamento: dia util e faixa recuperavel
-  const bare = (n) => round100(n).toLocaleString(lang === "pt" ? "pt-BR" : "en-US");
-  const cur = lang === "pt" ? "R$ " : "$";
-  const daily = leak / 22; // ~22 dias uteis
-  const recLo = leak * 0.35,
-    recHi = leak * 0.6;
-  const [copied, setCopied] = useState(false);
-
   const painLabel = pain != null ? t.pains.find((p) => p.id === pain)?.t : "";
-  const revLabel = revenue != null ? t.revenues[revenue] : "";
   const urgLabel = urgency != null ? t.urgencies.find((u) => u.id === urgency)?.t : "";
-  const sol = pain != null ? SOLUTION[lang][pain] : null;
+  const driverLabel =
+    pain != null && driver != null
+      ? (driverCfg?.opts.find((o) => String(num(o[0])) === String(num(driver))) || [])[1] || ""
+      : "";
+  const baseLabel =
+    pain != null && base != null
+      ? (baseCfg?.opts.find((o) => String(num(o[0])) === String(num(base))) || [])[1] || ""
+      : "";
 
   const waText = encodeURIComponent(
     lang === "pt"
-      ? `Olá Eduardo. Fiz o diagnóstico no site:\n• Dor: ${painLabel}\n• Faturamento: ${revLabel}\n• Urgência: ${urgLabel}\n• Vazamento estimado: ${fmt("pt", leak)}/mês (${fmt("pt", daily)} por dia útil)\n• Recuperável: ${cur}${bare(recLo)}–${bare(recHi)}/mês\nQuero conversar sobre a solução — ${sol?.t}.`
-      : `Hi Eduardo. I ran the diagnosis on your site:\n• Pain: ${painLabel}\n• Revenue: ${revLabel}\n• Urgency: ${urgLabel}\n• Estimated leak: ${fmt("en", leak)}/mo (${fmt("en", daily)} per business day)\n• Recoverable: ${cur}${bare(recLo)}–${bare(recHi)}/mo\nI'd like to talk about the fix — ${sol?.t}.`
+      ? `Olá Eduardo. Fiz o diagnóstico no site:\n• Dor: ${painLabel}\n• Driver: ${driverLabel}\n• Porte: ${baseLabel}\n• Urgência: ${urgLabel}\n• Vazamento estimado: ${fmt("pt", diag?.piso || 0)} a ${fmt("pt", diag?.teto || 0)}/mês (piso conservador)\nQuero conversar sobre a solução — ${sol?.t}.`
+      : `Hi Eduardo. I ran the diagnosis on your site:\n• Pain: ${painLabel}\n• Driver: ${driverLabel}\n• Size: ${baseLabel}\n• Urgency: ${urgLabel}\n• Estimated leak: ${fmt("en", diag?.piso || 0)} to ${fmt("en", diag?.teto || 0)}/mo (conservative floor)\nI'd like to talk about the fix — ${sol?.t}.`
   );
 
-  const stepNames = [t.steps.pain, t.steps.revenue, t.steps.urgency];
+  const stepNames = [t.steps.pain, t.steps.driver, t.steps.base, t.steps.urgency];
+  const [copied, setCopied] = useState(false);
 
   const copyResult = async () => {
     const plain =
       lang === "pt"
-        ? `Diagnóstico — Miranda Faria\n• Dor: ${painLabel}\n• Faturamento: ${revLabel}\n• Urgência: ${urgLabel}\n• Vazamento estimado: ${fmt("pt", leak)}/mês (${fmt("pt", daily)} por dia útil)\n• Recuperável: ${cur}${bare(recLo)}–${bare(recHi)}/mês\n• Solução apontada: ${sol?.t}`
-        : `Diagnosis — Miranda Faria\n• Pain: ${painLabel}\n• Revenue: ${revLabel}\n• Urgency: ${urgLabel}\n• Estimated leak: ${fmt("en", leak)}/mo (${fmt("en", daily)} per business day)\n• Recoverable: ${cur}${bare(recLo)}–${bare(recHi)}/mo\n• Suggested fix: ${sol?.t}`;
+        ? `Diagnóstico — Miranda Faria\n• Dor: ${painLabel}\n• Driver: ${driverLabel}\n• Porte: ${baseLabel}\n• Urgência: ${urgLabel}\n• Vazamento estimado: ${fmt("pt", diag?.piso || 0)} a ${fmt("pt", diag?.teto || 0)}/mês (piso conservador)\n• A conta: ${diag?.linhaConta || ""}\n• Fonte: ${fonte?.origem?.pt || ""}\n• Solução apontada: ${sol?.t}`
+        : `Diagnosis — Miranda Faria\n• Pain: ${painLabel}\n• Driver: ${driverLabel}\n• Size: ${baseLabel}\n• Urgency: ${urgLabel}\n• Estimated leak: ${fmt("en", diag?.piso || 0)} to ${fmt("en", diag?.teto || 0)}/mo (conservative floor)\n• The math: ${diag?.linhaConta || ""}\n• Source: ${fonte?.origem?.en || ""}\n• Suggested fix: ${sol?.t}`;
     try {
       await navigator.clipboard.writeText(plain);
       setCopied(true);
@@ -185,6 +245,16 @@ export default function Insights() {
     } catch {
       /* clipboard indisponivel: o botao simplesmente nao marca */
     }
+  };
+
+  const restart = () => {
+    setPain(null);
+    setDriver(null);
+    setBase(null);
+    setUrgency(null);
+    trackedResult.current = false;
+    savedLead.current = false;
+    setPhase(0);
   };
 
   return (
@@ -221,7 +291,7 @@ export default function Insights() {
                     <span className="mf-dg__stepn">{String(i + 1).padStart(2, "0")}</span>
                     <span className="mf-dg__stepl">{s}</span>
                   </button>
-                  {i < 2 && <span className="mf-dg__steprule" aria-hidden="true" />}
+                  {i < 3 && <span className="mf-dg__steprule" aria-hidden="true" />}
                 </React.Fragment>
               ))}
             </div>
@@ -248,34 +318,57 @@ export default function Insights() {
               </div>
             )}
 
-            {/* PASSO 1 — o porte */}
-            {phase === 1 && (
+            {/* PASSO 1 — o driver da dor (condicional) */}
+            {phase === 1 && driverCfg && (
               <div className="mf-dg__panel" key="p1">
                 <button type="button" className="mf-dg__back" onClick={() => setPhase(0)}>
                   ← {result.back}
                 </button>
-                <h2 className="mf-dg__q">{t.revenueQ}</h2>
-                <p className="mf-dg__hint">{t.revenueHint}</p>
-                <div className="mf-dg__opts mf-dg__opts--rev">
-                  {t.revenues.map((r, i) => (
+                <h2 className="mf-dg__q">{driverCfg.q}</h2>
+                <div className="mf-dg__opts mf-dg__opts--driver">
+                  {driverCfg.opts.map((o) => (
                     <button
-                      key={r}
+                      key={o[0]}
                       type="button"
-                      className="mf-dg__opt mf-dg__opt--rev"
-                      data-on={revenue === i ? "true" : "false"}
-                      onClick={() => pick(setRevenue, 2)(i)}
+                      className="mf-dg__opt mf-dg__opt--drv"
+                      data-on={String(num(driver)) === String(num(o[0])) ? "true" : "false"}
+                      onClick={() => pick(setDriver, 2)(o[0])}
                     >
-                      <span className="mf-dg__optt">{r}</span>
+                      <span className="mf-dg__optt">{o[1]}</span>
                     </button>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* PASSO 2 — a urgencia */}
-            {phase === 2 && (
+            {/* PASSO 2 — a base numerica (condicional) */}
+            {phase === 2 && baseCfg && (
               <div className="mf-dg__panel" key="p2">
                 <button type="button" className="mf-dg__back" onClick={() => setPhase(1)}>
+                  ← {result.back}
+                </button>
+                <h2 className="mf-dg__q">{baseCfg.q}</h2>
+                {baseCfg.hint && <p className="mf-dg__hint">{baseCfg.hint}</p>}
+                <div className="mf-dg__opts mf-dg__opts--base">
+                  {baseCfg.opts.map((o) => (
+                    <button
+                      key={o[0]}
+                      type="button"
+                      className="mf-dg__opt mf-dg__opt--base"
+                      data-on={String(num(base)) === String(num(o[0])) ? "true" : "false"}
+                      onClick={() => pick(setBase, 3)(o[0])}
+                    >
+                      <span className="mf-dg__optt">{o[1]}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* PASSO 3 — a urgencia */}
+            {phase === 3 && (
+              <div className="mf-dg__panel" key="p3">
+                <button type="button" className="mf-dg__back" onClick={() => setPhase(2)}>
                   ← {result.back}
                 </button>
                 <h2 className="mf-dg__q">{t.urgencyQ}</h2>
@@ -286,11 +379,7 @@ export default function Insights() {
                       type="button"
                       className="mf-dg__opt mf-dg__opt--urg"
                       data-on={urgency === u.id ? "true" : "false"}
-                      onClick={() => {
-                        setUrgency(u.id);
-                        clearTimeout(timer.current);
-                        timer.current = setTimeout(() => setPhase(3), 260);
-                      }}
+                      onClick={() => pick(setUrgency, 4)(u.id)}
                     >
                       <span className="mf-dg__optt">{u.t}</span>
                       <span className="mf-dg__optd">{u.d}</span>
@@ -301,31 +390,47 @@ export default function Insights() {
             )}
 
             {/* RESULTADO */}
-            {phase === 3 && sol && (
-              <div className="mf-dg__panel mf-dg__panel--result" key="p3">
+            {phase === 4 && diag && sol && (
+              <div className="mf-dg__panel mf-dg__panel--result" key="p4">
                 <p className="mf-label">{result.label}</p>
-                <p className="mf-dg__num">{fmt(lang, shown)}</p>
-                <p className="mf-dg__per">
-                  {result.perMonth}
-                  <span className="mf-dg__sep">·</span>
-                  {fmt(lang, leak * 12)} {result.perYear}
-                  <span className="mf-dg__sep">·</span>
-                  {fmt(lang, daily)} {result.perDay}
+                <p className="mf-dg__num">
+                  {fmt(lang, shown)}
+                  <span className="mf-dg__teto">
+                    {" "}{result.to} {fmt(lang, diag.teto)}
+                  </span>
                 </p>
+                <p className="mf-dg__per">
+                  {result.perMonth} · {result.range}
+                  <span className="mf-dg__sep">·</span>
+                  {fmt(lang, (diag.piso || 0) * 12)} {result.perYear}
+                </p>
+
+                <p className="mf-dg__nature">{result.natureLabel}</p>
+
+                <div className="mf-dg__account">
+                  <p className="mf-label">{result.accountLabel}</p>
+                  <p className="mf-dg__linha">{diag.linhaConta}</p>
+                  <p className="mf-dg__fonte">
+                    {result.sourceLabel}: {fonte?.origem?.[lang]} · {lang === "pt" ? "Nível de evidência" : "Evidence level"} {fonte?.nivel}
+                  </p>
+                </div>
+
                 <p className="mf-dg__reading">{result.reading}</p>
                 {urgency === "now" && (
                   <p className="mf-dg__delay">
-                    {result.delayCost} <strong>{fmt(lang, leak)}</strong>.
+                    {result.delayCost} <strong>{fmt(lang, diag.piso)}</strong>.
                   </p>
                 )}
 
-                <div className="mf-dg__recovery">
-                  <p className="mf-label">
-                    {result.recoveryLabel} <strong className="mf-dg__recrange">{cur}{bare(recLo)}–{bare(recHi)}</strong> {result.perMonth}
-                  </p>
-                  <p className="mf-dg__recnote">{result.recoveryNote}</p>
-                  <p className="mf-dg__pricing">{result.pricingNote}</p>
-                </div>
+                {rec && (
+                  <div className="mf-dg__recovery">
+                    <p className="mf-label">{result.recoveryLabel}</p>
+                    <p className="mf-dg__solt2">{rec.titulo}</p>
+                    <p className="mf-dg__recnote">{rec.descricao}</p>
+                  </div>
+                )}
+
+                <p className="mf-dg__limit">{result.limitNote}</p>
 
                 <div className="mf-dg__sol">
                   <p className="mf-label">{result.solutionLabel}</p>
@@ -353,21 +458,20 @@ export default function Insights() {
                     type="button"
                     className="mf-dg__again"
                     onClick={() => {
-                      setPain(null);
-                      setRevenue(null);
+                      setDriver(null);
+                      setBase(null);
                       setUrgency(null);
-                      setPhase(0);
+                      trackedResult.current = false;
+                      savedLead.current = false;
+                      setPhase(1);
                     }}
                   >
+                    {result.restart2}
+                  </button>
+                  <button type="button" className="mf-dg__again" onClick={restart}>
                     {result.restart}
                   </button>
                 </div>
-
-                <details className="mf-dg__how">
-                  <summary>{result.howLabel}</summary>
-                  <p>{result.how}</p>
-                </details>
-                <p className="mf-dg__meta">{t.meta}</p>
               </div>
             )}
           </div>
@@ -429,7 +533,8 @@ export default function Insights() {
 .mf-dg__opts{display:grid;grid-template-columns:1fr;gap:0.8rem;margin-top:1.75rem}
 @media(min-width:860px){
   .mf-dg__opts--pain{grid-template-columns:1fr 1fr}
-  .mf-dg__opts--rev{grid-template-columns:repeat(4,1fr)}
+  .mf-dg__opts--driver{grid-template-columns:repeat(4,1fr)}
+  .mf-dg__opts--base{grid-template-columns:repeat(4,1fr)}
   .mf-dg__opts--urg{grid-template-columns:repeat(3,1fr)}
 }
 .mf-dg__opt{min-height:44px;
@@ -463,12 +568,33 @@ export default function Insights() {
   color:var(--color-text-primary);margin:0.9rem 0 0;
   font-variant-numeric:tabular-nums;
 }
+.mf-dg__teto{
+  font-size:clamp(1.1rem,2.2vw,1.6rem);color:var(--color-text-secondary);
+}
 .mf-dg__per{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-ghost);margin:0.9rem 0 0;
+  color:var(--color-text-secondary);margin:0.9rem 0 0;
 }
 .mf-dg__sep{margin:0 0.6rem;opacity:0.5}
+.mf-dg__nature{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-secondary);margin:1.1rem 0 0;
+}
+.mf-dg__account{
+  margin-top:1.5rem;padding:1.25rem 1.4rem;
+  border:1px solid var(--color-divider);
+}
+.mf-dg__account .mf-label{margin:0}
+.mf-dg__linha{
+  font-family:var(--font-mono);font-size:13px;line-height:1.7;
+  color:var(--color-text-primary);margin:0.8rem 0 0;
+}
+.mf-dg__fonte{
+  font-family:var(--font-mono);font-size:12px;line-height:1.7;
+  color:var(--color-text-secondary);margin:0.6rem 0 0;
+}
 .mf-dg__delay{
   font-family:var(--font-body);font-weight:300;
   font-size:var(--text-body-lg);color:var(--color-text-secondary);
@@ -485,9 +611,17 @@ export default function Insights() {
   border:1px solid var(--color-divider);
 }
 .mf-dg__recovery .mf-label{margin:0}
-.mf-dg__recrange{color:var(--mf-terracotta);font-weight:400;letter-spacing:0}
+.mf-dg__solt2{
+  font-family:var(--font-display);font-weight:400;
+  font-size:var(--text-body-lg);line-height:1.3;
+  color:var(--color-text-primary);margin:0.8rem 0 0;
+}
 .mf-dg__evidence{font-family:var(--font-mono);font-size:12px;line-height:1.7;color:var(--color-text-secondary);max-width:62ch;margin-top:1.1rem;border-left:2px solid var(--color-accent);padding-left:1rem}
-.mf-dg__pricing{font-family:var(--font-mono);font-size:12px;line-height:1.7;color:var(--color-text-secondary);margin-top:.75rem}
+.mf-dg__limit{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);line-height:var(--leading-body);
+  color:var(--color-text-secondary);margin:1.5rem 0 0;max-width:58ch;
+}
 .mf-dg__recnote{
   font-family:var(--font-body);font-weight:300;
   font-size:var(--text-body-md);line-height:var(--leading-body);
@@ -540,18 +674,6 @@ export default function Insights() {
 }
 .mf-dg__again:hover{color:var(--color-text-primary)}
 
-.mf-dg__how{margin-top:2.5rem;border-top:1px solid var(--color-divider);padding-top:1.2rem}
-.mf-dg__how summary{
-  cursor:pointer;font-family:var(--font-mono);font-size:var(--text-label);
-  letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-ghost);list-style-position:inside;
-}
-.mf-dg__how summary:hover{color:var(--color-text-primary)}
-.mf-dg__how p{
-  font-family:var(--font-body);font-weight:300;
-  font-size:var(--text-body-md);line-height:var(--leading-body);
-  color:var(--color-text-secondary);margin:0.9rem 0 0;max-width:64ch;
-}
 .mf-dg__meta{
   font-family:var(--font-body);font-weight:300;
   font-size:var(--text-body-md);color:var(--color-text-ghost);

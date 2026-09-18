@@ -30,6 +30,7 @@ export default function HowIWork() {
   return (
     <>
       <PageHeader label={t.label} lead={t.lead} intro={t.intro} />
+      {t.science && <p className="mf-hw__science">{t.science}</p>}
       <MfRule />
 
       <section className="mf-hiw" data-depth="0.30">
@@ -262,6 +263,7 @@ export default function HowIWork() {
   font-family:var(--font-mono);font-size:var(--text-body-md);
   letter-spacing:0.04em;color:var(--color-text-secondary);
 }
+        .mf-hw__science{font-family:var(--font-mono);font-size:12px;line-height:1.7;color:var(--color-text-secondary);max-width:62ch;margin-top:1.1rem;border-left:2px solid var(--color-accent);padding-left:1rem}
       `}</style>
     </>
   );

@@ -43,7 +43,7 @@ export const copy = {
         servicos: "Four solutions, one operating principle: systems, websites, design and automation.",
         about: "Design engineer working across brand, product and data — technology applied to a business that actually exists.",
         how: "How a project runs here: diagnosis first, demo in the first week, delivery in the owner's hands.",
-        insights: "Three questions and an estimate of what the problem costs — before any talk of price.",
+        insights: "Four questions and a defensible estimate of what the problem costs — before any talk of price or technology.",
         contact: "Bring the problem, not a spec. Same-day response, straight from who builds it.",
         practice: "Management systems, websites, automation and identity — one hand from diagnosis to delivery.",
       },
@@ -155,6 +155,8 @@ export const copy = {
       lead: "Four layers, one person.",
       intro:
         "Every project moves through the same four layers. They are the reason a single person can carry a whole system without it falling apart in the middle.",
+      science:
+        "And there is science under the method, not taste: across 136 studies, a statistical rule beats expert judgement by ~10% in decision accuracy (Grove et al., 2000, Psychological Assessment), and companies that decide on data run 5–6% more productive than their peers (Brynjolfsson, Hitt & Kim, 2011, 179 public companies). Deciding by number is not a preference — it is measured.",
       layers: [
         {
           t: "Surface",
@@ -344,18 +346,17 @@ export const copy = {
       label: "Diagnosis",
       lead: "How much leaks out every month?",
       intro:
-        "Three questions and an estimate of what the problem costs — before any talk of price or technology. That is how I work: size the pain first, prescribe second.",
+        "Four questions and a defensible estimate of what the problem costs — before any talk of price or technology. Size the pain first, prescribe second.",
       evidence:
-        "Two numbers worth keeping: answering a customer within 5 minutes makes you 21× more likely to qualify them than taking 30 — MIT/InsideSales. And the average company takes 42 hours to answer a lead — Harvard Business Review. A system exists to keep you on the right side of those numbers.",
-      meta: "An estimate from market averages. The real diagnosis happens in the conversation.",
-      steps: { pain: "The pain", revenue: "The size", urgency: "The urgency" },
+        "Two numbers worth keeping: answering a customer within 5 minutes makes you 21× more likely to qualify them than taking 30 — MIT/InsideSales lead response study. And the average company takes 42 hours to answer a lead — Harvard Business Review. A system exists to keep you on the right side of those numbers.",
+      steps: { pain: "The pain", driver: "The driver", base: "The size", urgency: "The urgency" },
       painQ: "Where does it hurt most today?",
       painHint: "Pick the main one.",
       pains: [
         {
           id: "marketplace",
-          t: "I depend on a marketplace",
-          d: "iFood, Rappi, Instagram — the middleman takes a cut of every sale and owns the customer.",
+          t: "The marketplace takes its cut",
+          d: "Amazon, eBay, Etsy, delivery apps — a commission on every sale, and the customer belongs to them.",
         },
         {
           id: "excel",
@@ -378,9 +379,20 @@ export const copy = {
           d: "Pricing and stock decisions by gut feel.",
         },
       ],
-      revenueQ: "Approximate monthly revenue?",
-      revenueHint: "Ranges — no exact number needed here.",
-      revenues: ["Up to $10k", "$10–30k", "$30–100k", "$100k+"],
+      driverQ: {
+        marketplace: { q: "What share of your sales goes through a marketplace?", opts: [["0.20", "Up to 20%"], ["0.35", "20–50%"], ["0.60", "More than 50%"]] },
+        excel: { q: "How many orders or entries pass through someone's hands per week?", opts: [["25", "Up to 50"], ["125", "50–200"], ["600", "200–1,000"], ["1500", "More than 1,000"]] },
+        curiosos: { q: "How many conversations per week never become a sale?", opts: [["5", "Up to 10"], ["20", "10–30"], ["65", "30–100"], ["150", "More than 100"]] },
+        pessoa: { q: "If that person left tomorrow, what stops?", opts: [["atendimento", "Customer service"], ["processo", "The whole process"], ["documentado", "Nothing — it's documented"]] },
+        cego: { q: "How often do you set a price or make a purchase with no number in front of you?", opts: [["sempre", "Almost always"], ["asvezes", "Sometimes"], ["quase_nunca", "Almost never"]] },
+      },
+      baseQ: {
+        marketplace: { q: "Approximate monthly revenue?", hint: "Ranges — no exact number needed.", opts: [["8000", "Up to $10k"], ["20000", "$10–30k"], ["60000", "$30–100k"], ["180000", "$100k+"]] },
+        excel: { q: "What does one of those errors cost you, roughly?", hint: "An estimate — the literature measures the error rate, not the reais.", opts: [["12", "Up to $25"], ["37", "$25–50"], ["75", "$50–100"]] },
+        curiosos: { q: "What does an hour of that person's time cost?", hint: "Fully-loaded hourly cost, ranges.", opts: [["7", "Up to $15/hr"], ["22", "$15–30/hr"], ["45", "$30–60/hr"]] },
+        pessoa: { q: "Their approximate monthly salary?", hint: "Ranges.", opts: [["800", "Up to $1k"], ["1750", "$1–2.5k"], ["3750", "$2.5–5k"], ["6500", "$5k+"]] },
+        cego: { q: "Approximate monthly revenue?", hint: "Margin is estimated as a sector average — and says so on the result.", opts: [["8000", "Up to $10k"], ["20000", "$10–30k"], ["60000", "$30–100k"], ["180000", "$100k+"]] },
+      },
       urgencyQ: "When do you want this solved?",
       urgencies: [
         { id: "now", t: "It's bleeding now", d: "Every month of delay costs real money." },
@@ -389,25 +401,26 @@ export const copy = {
       ],
       result: {
         label: "Your estimated leak",
+        range: "conservative floor",
+        to: "to",
         perMonth: "per month",
         perYear: "per year",
-        delayCost: "Every month of delay costs about",
+        delayCost: "Every month of delay costs at least",
+        natureLabel: "Model estimate — not a measured result",
+        sourceLabel: "Source",
+        accountLabel: "The math, on the screen",
+        limitNote:
+          "This estimate uses market ranges. Three numbers tighten it: your actual commission rate, your average ticket, and how many orders you process per week. That's what we pin down in the conversation.",
+        recoveryLabel: "What the fix actually recovers",
         solutionLabel: "What fixes it",
         solutionSee: "See the solution",
         cta: "Message on WhatsApp with the diagnosis ready",
         restart: "Run it again",
-        perDay: "per business day",
-        recoveryLabel: "Recoverable",
-        recoveryNote:
-          "Operations like this usually recover a good part of that within the first quarter — the rest is profit that was being left on the table.",
-        reading: "This is the price of leaving things as they are — not a quote, a leak.",
         copyCta: "Copy result",
         copied: "Copied",
         back: "Back",
-        howLabel: "How we estimated",
-        pricingNote:
-          "How the proposal arrives: as a fraction of the annual saving the diagnosis points to — never as a number in a vacuum. Price is born from context, not from a rate card.",
-        how: "Each pain maps to a market average: marketplace fees of 15–30% of revenue, hours lost to manual operation and unqualified inquiries — about a quarter of a business's week drains into repetitive tasks (Smartsheet) —, or the margin left on the table when decisions run on gut feel. The ranges are deliberately conservative: ~30% of the activities in most operations are automatable (McKinsey), and the estimate only counts what the basics recover. The honest number comes from the conversation.",
+        reading: "This is the price of leaving things as they are — not a quote, a leak.",
+        restart2: "Run a different pain",
       },
     },
   },
@@ -424,7 +437,7 @@ export const copy = {
         servicos: "Quatro soluções, um princípio de operação: sistemas, sites, design e automação.",
         about: "Design engineer entre marca, produto e dados — tecnologia aplicada a negócio que existe de verdade.",
         how: "Como um projeto corre por aqui: diagnóstico primeiro, demo na primeira semana, entrega na mão do dono.",
-        insights: "Três perguntas e uma estimativa do custo do seu problema — antes de falar de preço ou tecnologia.",
+        insights: "Quatro perguntas e uma estimativa defensável do custo do seu problema — antes de falar de preço ou tecnologia.",
         contact: "Traga o problema, não a especificação. Resposta no mesmo dia, direto com quem executa.",
         practice: "Sistemas de gestão, sites, automação e identidade — uma mão só do diagnóstico à entrega.",
       },
@@ -536,6 +549,8 @@ export const copy = {
       lead: "Quatro camadas, uma pessoa.",
       intro:
         "Todo projeto passa pelas mesmas quatro camadas. É por isso que uma pessoa só consegue carregar o sistema inteiro sem ele desmontar no meio.",
+      science:
+        "E há ciência por baixo do método, não gosto: em 136 estudos, a regra estatística vence o julgamento de especialista em ~10% de precisão (Grove et al., 2000, Psychological Assessment) — e empresas que decidem por dado operam 5–6% mais produtivas que as demais (Brynjolfsson, Hitt & Kim, 2011, 179 empresas de capital aberto). Decidir por número não é preferência — é medido.",
       layers: [
         {
           t: "Superfície",
@@ -725,18 +740,17 @@ export const copy = {
       label: "Diagnóstico",
       lead: "Quanto está vazando por mês?",
       intro:
-        "Três perguntas e uma estimativa do custo do seu problema — antes de falar de preço ou de tecnologia. É assim que eu trabalho: primeiro o tamanho da dor, depois a solução.",
+        "Quatro perguntas e uma estimativa defensável do custo do seu problema — antes de falar de preço ou de tecnologia. Primeiro o tamanho da dor, depois a solução.",
       evidence:
-        "Dois números para guardar: quem responde a um cliente em 5 minutos tem 21× mais chance de qualificá-lo do que quem demora 30 — MIT/InsideSales. E a média das empresas demora 42 horas para responder um lead — Harvard Business Review. Um sistema existe pra você ficar do lado certo desses números.",
-      meta: "Estimativa a partir de médias de mercado. O diagnóstico de verdade acontece na conversa.",
-      steps: { pain: "A dor", revenue: "O porte", urgency: "A urgência" },
+        "Dois números para guardar: quem responde a um cliente em 5 minutos tem 21× mais chance de qualificá-lo do que quem demora 30 — estudo de resposta a leads do MIT/InsideSales. E a média das empresas demora 42 horas para responder um lead — Harvard Business Review. Um sistema existe pra você ficar do lado certo desses números.",
+      steps: { pain: "A dor", driver: "O driver", base: "O porte", urgency: "A urgência" },
       painQ: "Onde dói mais hoje?",
       painHint: "Escolha o principal.",
       pains: [
         {
           id: "marketplace",
-          t: "Dependo de marketplace",
-          d: "iFood, Rappi, Instagram — o meio fica com comissão em cada venda e com o cliente.",
+          t: "O marketplace fica com a comissão",
+          d: "iFood, Mercado Livre, Rappi — comissão em cada venda, e o cliente é deles.",
         },
         {
           id: "excel",
@@ -746,7 +760,7 @@ export const copy = {
         {
           id: "curiosos",
           t: "Muita mensagem de curioso, pouca venda",
-          d: "Horas do dia gastas respondendo mensagem de quem nunca compra — e o cliente de verdade espera.",
+          d: "Horas do dia gastas respondendo quem nunca compra — e o cliente de verdade espera.",
         },
         {
           id: "pessoa",
@@ -759,9 +773,20 @@ export const copy = {
           d: "Decisão de preço e estoque no chute.",
         },
       ],
-      revenueQ: "Faturamento mensal aproximado?",
-      revenueHint: "Faixas — ninguém precisa de número exato aqui.",
-      revenues: ["Até R$ 10 mil", "R$ 10–30 mil", "R$ 30–100 mil", "Mais de R$ 100 mil"],
+      driverQ: {
+        marketplace: { q: "Que fatia das suas vendas passa por marketplace?", opts: [["0.20", "Até 20%"], ["0.35", "20–50%"], ["0.60", "Mais de 50%"]] },
+        excel: { q: "Quantos pedidos ou lançamentos por semana passam pela mão de alguém?", opts: [["25", "Até 50"], ["125", "50–200"], ["600", "200–1.000"], ["1500", "Mais de 1.000"]] },
+        curiosos: { q: "Quantas conversas por semana não viram venda?", opts: [["5", "Até 10"], ["20", "10–30"], ["65", "30–100"], ["150", "Mais de 100"]] },
+        pessoa: { q: "Se essa pessoa sair amanhã, o que para?", opts: [["atendimento", "O atendimento"], ["processo", "O processo inteiro"], ["documentado", "Nada — está documentado"]] },
+        cego: { q: "Com que frequência você define preço ou compra sem número na frente?", opts: [["sempre", "Quase sempre"], ["asvezes", "Às vezes"], ["quase_nunca", "Quase nunca"]] },
+      },
+      baseQ: {
+        marketplace: { q: "Faturamento mensal aproximado?", hint: "Faixas — ninguém precisa de número exato aqui.", opts: [["8000", "Até R$ 10 mil"], ["20000", "R$ 10–30 mil"], ["60000", "R$ 30–100 mil"], ["180000", "Mais de R$ 100 mil"]] },
+        excel: { q: "Quanto custa um erro desses, aproximadamente?", hint: "Estimativa sua — a literatura mede a taxa de erro, não o real.", opts: [["25", "Até R$ 50"], ["75", "R$ 50–100"], ["150", "R$ 100–200"]] },
+        curiosos: { q: "Quanto custa a hora dessa pessoa?", hint: "Custo-hora cheio, em faixas.", opts: [["10", "Até R$ 20/h"], ["30", "R$ 20–40/h"], ["60", "R$ 40–80/h"]] },
+        pessoa: { q: "Salário mensal aproximado dessa pessoa?", hint: "Faixas.", opts: [["1500", "Até R$ 2 mil"], ["3500", "R$ 2–5 mil"], ["7500", "R$ 5–10 mil"], ["14000", "Mais de R$ 10 mil"]] },
+        cego: { q: "Faturamento mensal aproximado?", hint: "A margem entra como média setorial — e o resultado avisa isso.", opts: [["8000", "Até R$ 10 mil"], ["20000", "R$ 10–30 mil"], ["60000", "R$ 30–100 mil"], ["180000", "Mais de R$ 100 mil"]] },
+      },
       urgencyQ: "Quando você quer resolver?",
       urgencies: [
         { id: "now", t: "Já está sangrando", d: "Cada mês de atraso custa dinheiro de verdade." },
@@ -770,25 +795,26 @@ export const copy = {
       ],
       result: {
         label: "Seu vazamento estimado",
+        range: "piso conservador",
+        to: "a",
         perMonth: "por mês",
         perYear: "por ano",
-        delayCost: "Cada mês de atraso custa cerca de",
+        delayCost: "Cada mês de atraso custa pelo menos",
+        natureLabel: "Estimativa de modelo — não é resultado medido",
+        sourceLabel: "Fonte",
+        accountLabel: "A conta, na tela",
+        limitNote:
+          "Esta estimativa usa faixas de mercado. Três números apertam ela: sua comissão real, seu ticket médio e quantos pedidos você processa por semana. É isso que a gente levanta na conversa.",
+        recoveryLabel: "O que a solução de fato recupera",
         solutionLabel: "O que resolve",
         solutionSee: "Ver a solução",
         cta: "Falar no WhatsApp com o diagnóstico pronto",
         restart: "Refazer o diagnóstico",
-        perDay: "por dia útil",
-        recoveryLabel: "Recuperável",
-        recoveryNote:
-          "Operações como essa costumam recuperar boa parte disso já no primeiro trimestre — o resto é lucro que ficava na mesa.",
-        reading: "É o preço de manter as coisas como estão — não um orçamento, um vazamento.",
         copyCta: "Copiar resultado",
         copied: "Copiado",
         back: "Voltar",
-        howLabel: "Como estimamos",
-        pricingNote:
-          "Como a proposta chega: como fração da economia anual que o diagnóstico apontar — nunca como número solto. O preço nasce do contexto, não da tabela.",
-        how: "Cada dor mapeia uma média de mercado: comissões de 15–30% da receita no modelo marketplace, horas perdidas com operação manual e atendimento de curiosos — cerca de um quarto da semana de um negócio escorre em tarefas repetitivas (Smartsheet) —, ou a margem que fica na mesa quando a decisão é no chute. As faixas são deliberadamente conservadoras: ~30% das atividades da maioria das operações são automatizáveis (McKinsey), e a estimativa conta só o que o básico recupera. O número honesto sai da conversa.",
+        reading: "É o preço de manter as coisas como estão — não um orçamento, um vazamento.",
+        restart2: "Testar outra dor",
       },
     },
   },
@@ -985,7 +1011,7 @@ export const cases = {
         "The kit is a template, not a finished art: the dashed area says whose message it is, and everything around it stays the event's. Two ratios — post and story — cover the whole feed.",
       impact:
         "The edition's social campaign ran on this system: 79.6 thousand views in the period, over 200 new followers — one visual language across every exhibitor's post.",
-      media: { dir: "roda-agro-marca", shots: 3, video: false },
+      media: { dir: "roda-agro-marca", shots: 4, video: false },
     },
     {
       slug: "uaiso-travel",
@@ -1252,7 +1278,7 @@ export const cases = {
         "O kit é template, não arte fechada: a área pontilhada diz de quem é a mensagem, e tudo ao redor permanece da feira. Duas proporções — post e story — cobrem o feed inteiro.",
       impact:
         "A campanha social da edição rodou nesse sistema: 79,6 mil visualizações no período e mais de 200 novos seguidores — uma linguagem visual única em cada post de expositor.",
-      media: { dir: "roda-agro-marca", shots: 3, video: false },
+      media: { dir: "roda-agro-marca", shots: 4, video: false },
     },
     {
       slug: "uaiso-travel",
