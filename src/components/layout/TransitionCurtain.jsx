@@ -60,7 +60,9 @@ export default function TransitionCurtain() {
       if (v === "copper") {
         cover.fromTo(el, { transformOrigin: "top center", scaleY: 0 },
           { scaleY: 1, duration: 0.45, ease: "power3.inOut" }, 0)
-          .fromTo(m, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 0.15);
+          .fromTo(m, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 0.15)
+          .fromTo(el.querySelector(".mf-curtain__dot"), { opacity: 0, scale: 0.4, y: 6 },
+            { opacity: 1, scale: 1, y: 0, duration: 0.22, ease: "back.out(2.2)" }, 0.38);
       } else if (v === "curtain") {
         cover.fromTo(el, { transformOrigin: "top center", scaleY: 0 },
           { scaleY: 1, duration: 0.45, ease: "power3.inOut" }, 0)
@@ -97,8 +99,10 @@ export default function TransitionCurtain() {
     /* Transparencia do M (Eduardo, 17/09): ele agora chega a opacity 1
        no cover e SEGURA 150ms na revelacao antes de desvanecer — antes o
        fade-out disparava com o fade-in inacabado e o M vivia translucido. */
+    const dot = el.querySelector(".mf-curtain__dot");
     t.set(m, { opacity: 1 }, 0)
-      .to(m, { opacity: 0, duration: 0.2, ease: "power2.in" }, 0.15);
+      .set(dot, { opacity: 1 }, 0)
+      .to([m, dot], { opacity: 0, duration: 0.2, ease: "power2.in" }, 0.15);
     if (v === "copper") {
       t.set(el, { transformOrigin: "bottom center" }, 0.04)
         .to(el, { scaleY: 0, duration: 0.55, ease: "expo.inOut" }, 0.04);
@@ -119,7 +123,10 @@ export default function TransitionCurtain() {
           <span key={i} className="mf-curtain__col" />
         ))}
       </div>
-      <img className="mf-curtain__m" src={M_LOGO_CURTAIN} alt="" style={{ opacity: mOn ? 1 : 0 }} />
+      <div className="mf-curtain__mark" aria-hidden="true">
+        <img className="mf-curtain__m" src={M_LOGO_CURTAIN} alt="" style={{ opacity: mOn ? 1 : 0 }} />
+        <span className="mf-curtain__dot" />
+      </div>
       <style>{`
 .mf-curtain{
   position:fixed;inset:0;z-index:150;
@@ -144,10 +151,19 @@ export default function TransitionCurtain() {
   border-bottom:1px solid rgba(181,80,46,0.55);
   transform:scaleY(0);
 }
+.mf-curtain__mark{
+  position:absolute;z-index:1;left:50%;top:50%;translate:-50% -50%;
+  display:flex;align-items:flex-end;gap:0.09em;
+}
 .mf-curtain__m{
-  width:clamp(84px,10.5vw,156px);opacity:1;position:absolute;z-index:1;
-  left:50%;top:50%;translate:-50% -50%;
+  width:clamp(96px,12vw,176px);opacity:1;
   will-change:transform,opacity;
+}
+/* Ponto final do M. na transicao — osso sobre cobre (Eduardo, 17/09). */
+.mf-curtain__dot{
+  display:block;width:clamp(15px,1.9vw,27px);height:clamp(15px,1.9vw,27px);
+  border-radius:50%;background:var(--bone, #F5F1EA);opacity:0;
+  margin-bottom:0.06em;will-change:transform,opacity;
 }
 .mf-curtain[data-v="copper"] .mf-curtain__m{filter:drop-shadow(0 0 12px rgba(20,20,20,0.4))}
 `}</style>

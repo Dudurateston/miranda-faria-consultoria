@@ -51,6 +51,13 @@ body{-webkit-tap-highlight-color:transparent}
     repeating-linear-gradient(-115deg, transparent 0 140px, rgba(181,80,46,0.05) 140px 141px);
   animation:meshdrift 46s linear infinite;
 }
+/* Eduardo 17/09: no tema escuro os fios discretos viram claros (osso),
+   senao somem no grafite. */
+html[data-skin="dark"] .mf-home{
+  background-image:
+    repeating-linear-gradient(115deg, transparent 0 90px, rgba(239,234,224,0.05) 90px 91px),
+    repeating-linear-gradient(-115deg, transparent 0 140px, rgba(214,126,80,0.06) 140px 141px);
+}
 @keyframes meshdrift{to{background-position:640px 320px, -560px -280px}}
 
 .mf-h{

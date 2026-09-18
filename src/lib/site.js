@@ -15,7 +15,7 @@ export const M_LOGO = "/art/m-logo-320.webp";
    SVG oficial (#fff -> #f0f2f2 -> #a8abad). Eduardo 17/09: "meu logo tem
    um tom mais branco" — acabou o osso-cinza. Sobre fundos claros (nav/hero
    na skin clara) o CSS da um filtro de prata pra manter visibilidade. */
-export const M_LOGO_CURTAIN = "/art/m-logo-curtain.webp";
+export const M_LOGO_CURTAIN = "/art/m-logo-curtain-720.webp" /* 720px, osso puro */;
 /* M em OSSO PURO para fundos escuros/cobre (Eduardo 17/09: o prata
    oficial lavado sobre grafite/cobre dava erro de contraste). */
 export const M_LOGO_BONE = "/art/m-logo-bone.webp";
