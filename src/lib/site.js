@@ -93,15 +93,16 @@ export const NAV_MEDIA = {
    vão pras páginas/temas a que pertencem). */
 export const SECTION_MEDIA = {
   hiwStack: NAV_MEDIA.how,
-  /* Eduardo 18/09: a faixa usa o MESMO video da NavBar "Sistemas & Gestao" (nv_sistemas) */
-  servicosFaixa: "/art/nv_sistemas.mp4",
+  /* Eduardo 18/09: a faixa usa o MESMO video da HOME, secao Solucoes,
+     linha "Sistemas & Gestao" (corte.mp4) — o video de camadas. */
+  servicosFaixa: CORTE_GIF,
   insightsPreview: NAV_MEDIA.diag,
   aboutBand: "/art/nv_placa.mp4",
   sobreReel: "/art/sobre_reel.mp4",
 };
 
 export const VIDEO_USE_LIMIT = {
-  "art/corte.mp4": 1,
+  "art/corte.mp4": 2,
   "art/lead_loop.mp4": 1,
   "art/automacao_loop.mp4": 1,
   "art/celeste.mp4": 1,

@@ -44,14 +44,11 @@ export default function Servicos() {
             ))}
           </div>
 
+          {/* Eduardo 18/09: sem legenda sobre o vídeo — a faixa é o corte
+              de camadas em simbiose com a página, texto embaixo, não em cima. */}
           <Reveal delay={200}>
             <figure className="mf-srv__band">
               <AutoVideo src={SECTION_MEDIA.servicosFaixa} />
-              <figcaption className="mf-srv__layers" aria-hidden="true">
-                {t.bandLayers.map((l, i) => (
-                  <span key={i} className="mf-srv__layer">{l}</span>
-                ))}
-              </figcaption>
             </figure>
             <p className="mf-srv__stat">
               {t.bandStat}
@@ -162,23 +159,16 @@ export default function Servicos() {
   font-size:1.02rem;line-height:1.55;
   color:var(--color-text-secondary);
 }
-/* Eduardo 18/09: o M da faixa entra DE DENTRO da composição — painel grafite
-   com o M em osso a contraste pleno (antes: video a 32% de opacidade sobre
-   fundo claro = M lavado, ilegível) e sem crop que cortasse o M. */
-.mf-srv__band{margin:3.5rem 0 0;aspect-ratio:16/9;overflow:hidden;position:relative;background:#1A1A18;
-  border-top:1px solid rgba(181,80,46,.45);border-bottom:1px solid rgba(181,80,46,.45)}
-.mf-srv__layers{
-  position:absolute;inset:0;margin:0;display:flex;flex-direction:column;
-  justify-content:space-between;padding:clamp(0.9rem,2.4vw,1.8rem) clamp(0.9rem,2.4vw,1.8rem);
-  pointer-events:none;
+/* Eduardo 18/09: o corte.mp4 tem fundo osso — a faixa dissolve na página
+   (simbiose, sem moldura), 16:9 sem crop, contraste pleno. */
+.mf-srv__band{margin:3.5rem 0 0;aspect-ratio:16/9;overflow:hidden;position:relative}
+.mf-srv__band img,
+.mf-srv__band video{
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 7%,black 93%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,black 7%,black 93%,transparent 100%);
 }
-.mf-srv__layer{
-  font-family:var(--font-mono);font-size:var(--text-label);
-  letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:#F5F1EA;
-  text-shadow:0 1px 2px rgba(10,10,10,.55);
-  padding-left:clamp(0.5rem,4vw,3.5rem);
-}
+
+
 .mf-srv__stat{
   margin:1.4rem 0 0;max-width:56ch;
   font-family:var(--font-body);font-weight:300;font-size:var(--text-body-md);
