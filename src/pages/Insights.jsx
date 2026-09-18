@@ -174,6 +174,9 @@ export default function Insights() {
   );
 
   const shown = useCountUp(diag?.piso || 0, phase === 4);
+  /* Caminho 'documentado' (dor pessoa-chave): a conta da zero de propósito.
+     Tratar como resposta válida, nao como numero quebrado (spec 17/09). */
+  const isZero = !!(diag && diag.piso <= 0);
 
   /** ICP: classifica so para o banco — o visitante nao ve rotulo de "desqualificado". */
   const icp = useMemo(() => {
@@ -395,9 +398,11 @@ export default function Insights() {
                 <p className="mf-label">{result.label}</p>
                 <p className="mf-dg__num">
                   {fmt(lang, shown)}
-                  <span className="mf-dg__teto">
-                    {" "}{result.to} {fmt(lang, diag.teto)}
-                  </span>
+                  {!isZero && (
+                    <span className="mf-dg__teto">
+                      {" "}{result.to} {fmt(lang, diag.teto)}
+                    </span>
+                  )}
                 </p>
                 <p className="mf-dg__per">
                   {result.perMonth} · {result.range}
@@ -415,14 +420,14 @@ export default function Insights() {
                   </p>
                 </div>
 
-                <p className="mf-dg__reading">{result.reading}</p>
-                {urgency === "now" && (
+                <p className="mf-dg__reading">{isZero ? result.zeroReading : result.reading}</p>
+                {urgency === "now" && !isZero && (
                   <p className="mf-dg__delay">
                     {result.delayCost} <strong>{fmt(lang, diag.piso)}</strong>.
                   </p>
                 )}
 
-                {rec && (
+                {rec && !isZero && (
                   <div className="mf-dg__recovery">
                     <p className="mf-label">{result.recoveryLabel}</p>
                     <p className="mf-dg__solt2">{rec.titulo}</p>
