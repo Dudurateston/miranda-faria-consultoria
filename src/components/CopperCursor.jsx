@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 
 // Cursor editorial: ponto de 8px em cobre que segue o mouse com lerp.
-// Sem estados de hover — é sempre só o ponto (Eduardo, 17/09).
+// Em [data-cursor="link"] vira ANEL de cobre (Eduardo, 17/09: só ponto
+// ou anel, nunca a mãozinha nativa do navegador).
 // Não renderiza em telas de toque nem com prefers-reduced-motion.
 export default function CopperCursor() {
   const dotRef = useRef(null);
@@ -16,27 +17,40 @@ export default function CopperCursor() {
   useEffect(() => {
     if (!active) return;
 
-    document.body.style.cursor = "none";
+    /* A mãozinha nativa do navegador SAI: quando o cursor custom está
+       ativo, nada de pointer — só o ponto ou o anel de cobre. */
+    document.documentElement.classList.add("mf-nocursor");
     const dot = dotRef.current;
 
     let mx = window.innerWidth / 2;
     let my = window.innerHeight / 2;
     let x = mx;
     let y = my;
+    let hovered = false;
     let raf = 0;
 
-    /* Eduardo 17/09: o cursor é SÓ o ponto de cobre. Sem crescer, sem
-       virar anel, sem trocar de cor em link. */
     const render = () => {
       x += (mx - x) * 0.18;
       y += (my - y) * 0.18;
-      dot.style.transform = `translate(${x - 4}px, ${y - 4}px)`;
+      const size = hovered ? 40 : 8;
+      dot.style.transform = `translate(${x - size / 2}px, ${y - size / 2}px)`;
+      dot.style.width = size + "px";
+      dot.style.height = size + "px";
+      if (hovered) {
+        dot.style.background = "transparent";
+        dot.style.borderWidth = "1px";
+      } else {
+        dot.style.background = "#B5502E";
+        dot.style.borderWidth = "0px";
+      }
       raf = requestAnimationFrame(render);
     };
 
     const onMove = (e) => {
       mx = e.clientX;
       my = e.clientY;
+      const t = e.target;
+      hovered = !!(t && t.closest && t.closest('[data-cursor="link"]'));
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
@@ -45,7 +59,7 @@ export default function CopperCursor() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMove);
-      document.body.style.cursor = "";
+      document.documentElement.classList.remove("mf-nocursor");
     };
   }, [active]);
 
@@ -70,6 +84,8 @@ export default function CopperCursor() {
         transition: "width 200ms ease, height 200ms ease, background 200ms ease, border-width 200ms ease",
         willChange: "transform",
       }}
-    />
+    >
+      <style>{`.mf-nocursor, .mf-nocursor *{cursor:none!important}`}</style>
+    </div>
   );
 }
