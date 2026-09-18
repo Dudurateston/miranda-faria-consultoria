@@ -87,6 +87,15 @@ export default function Footer() {
             <Link to={path("privacidade")} data-cursor="link" className="mf-foot__link">
               {t.footer.privacy}
             </Link>
+            <a
+              href={`https://wa.me/5537999512146?text=${encodeURIComponent((lang === "en" ? "I spotted an issue on the site: " : "Encontrei um problema no site: ") + (typeof window !== "undefined" ? window.location.pathname : "/"))}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="link"
+              className="mf-foot__link mf-foot__link--report"
+            >
+              {t.footer.report}
+            </a>
             <ThemeToggle lang={lang} variant="foot" />
             <span className="mf-foot__copy">© 2023 Miranda Faria</span>
           </div>

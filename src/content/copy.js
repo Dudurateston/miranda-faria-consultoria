@@ -295,6 +295,7 @@ export const copy = {
     footer: {
       tagline: "Miranda Faria · Design Engineer & Creative Technologist",
       privacy: "Privacy",
+      report: "Report an issue",
       linkedin: "LinkedIn",
       sellers: "Sales reps' app",
     },
@@ -690,6 +691,7 @@ export const copy = {
     footer: {
       tagline: "Miranda Faria · Consultoria & Tecnologia · Brasil",
       privacy: "Política de Privacidade",
+      report: "Reportar problema",
       linkedin: "LinkedIn",
       sellers: "App dos vendedores",
     },
