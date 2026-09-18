@@ -372,12 +372,12 @@ html[data-skin="dark"] .mf-hero__scrim{
   display:flex;flex-direction:column;align-items:center;text-align:center;
   padding:0 var(--gutter);
 }
-.mf-hero__mark--dark{display:none}
-html[data-skin="dark"] .mf-hero__mark--light{display:none}
-html[data-skin="dark"] .mf-hero__mark--dark{display:block}
-.mf-intro__m--dark{display:none}
-html[data-skin="dark"] .mf-intro__m--light{display:none}
-html[data-skin="dark"] .mf-intro__m--dark{display:block}
+img.mf-hero__mark--dark{display:none}
+html[data-skin="dark"] img.mf-hero__mark--light{display:none}
+html[data-skin="dark"] img.mf-hero__mark--dark{display:block}
+img.mf-intro__m--dark{display:none}
+html[data-skin="dark"] img.mf-intro__m--light{display:none}
+html[data-skin="dark"] img.mf-intro__m--dark{display:block}
 /* Linha viva da tese: filete com pulso de cobre viajando (mesma familia do StrataCorte) */
 .mf-hero__thesis{width:min(34rem,72vw);margin:1.5rem auto 1.4rem;position:relative}
 .mf-hero__thesisline{display:block;height:1px;width:100%;background:var(--hairline);position:relative;overflow:visible}
