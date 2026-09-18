@@ -45,7 +45,7 @@ export default function Footer() {
               data-cursor="link"
               aria-label="Miranda Faria"
             >
-              <img src={M_LOGO} alt="" />
+              <img src={M_LOGO} alt="" aria-hidden="true" />
             </button>
             <p className="mf-foot__tag">{t.footer.tagline}</p>
           </div>
@@ -126,7 +126,7 @@ export default function Footer() {
 .mf-foot__row{display:flex;align-items:center;justify-content:space-between;gap:1.4rem 2.5rem;flex-wrap:wrap}
 .mf-foot__row--sub{border-top:1px solid var(--mf-rule);padding-top:1.4rem}
 .mf-foot__brand{display:flex;align-items:center;gap:1rem}
-.mf-foot__mark{background:none;border:0;padding:0;cursor:pointer;display:flex}
+.mf-foot__mark{background:none;border:0;padding:0;cursor:pointer;display:flex;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:flex-start}
 .mf-foot__mark img{height:34px;width:auto;display:block;filter:invert(1) brightness(1.05) contrast(0.9)}
 .mf-foot__tag{
   font-family:var(--font-mono);font-size:var(--text-label);

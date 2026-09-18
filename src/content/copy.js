@@ -35,10 +35,10 @@ export const copy = {
     meta: {
       title: "Miranda Faria — Design Engineer & Creative Technologist",
       description:
-        "I design and build complete web systems — brand, product and data as one — solo, using an orchestrated AI workflow.",
+        "I design and build complete web systems — brand, product and data as one — with an orchestrated AI workflow.",
       skip: "Skip to content",
       pages: {
-        home: "Complete web systems — brand, product and data as one — built solo, shipped fast.",
+        home: "Complete web systems — brand, product and data as one — built end-to-end, shipped fast.",
         work: "Management systems, websites and identity delivered end to end — parts, logistics, agribusiness, retail and the arts.",
         servicos: "Four solutions, one operating principle: systems, websites, design and automation.",
         about: "Design engineer working across brand, product and data — technology applied to a business that actually exists.",
@@ -101,7 +101,7 @@ export const copy = {
         cta: "Book a call",
       },
       heroCta: "Get in touch",
-      netHint: "hover · drag the nodes",
+      netHint: "hover · drag the nodes · click to explore",
       sobrePreview: { label: "About", cta: "Learn more" },
       techPreview: {
         label: "Technology",
@@ -230,7 +230,7 @@ export const copy = {
       body: [
         "I'm Eduardo Miranda Faria. Miranda Faria carries my own name, and the M opening this site is mine: whoever talks to me talks to whoever builds — from the first WhatsApp voice note to the system running on your screen.",
         "I'm from Piumhi, in the Minas Gerais countryside, with an office in Belo Horizonte — working with companies across Brazil: parts distributors, repair shops, logistics, retail and services. The kind of business that has billed enough to know a loose spreadsheet doesn't scale anymore.",
-        "I work solo, brief to delivery, with AI as leverage through the whole process: it accelerates the code and the visual work; architecture, hierarchy and what gets cut stay mine to decide. Genuinely custom, without an agency's overhead — everything that leaves here passes through my hands before it reaches you.",
+        "I lead every project personally, brief to delivery, with AI as leverage through the whole process: it accelerates the code and the visual work; architecture, hierarchy and what gets cut stay mine to decide. Genuinely custom, without an agency's overhead — everything that leaves here passes through my hands before it reaches you.",
       ],
       location: "Piumhi, Minas Gerais — office in Belo Horizonte · working with clients across Brazil.",
       facadeCaption: "Generative brand art — AI",
@@ -496,7 +496,7 @@ export const copy = {
         cta: "Chamar no WhatsApp",
       },
       heroCta: "Fale comigo",
-      netHint: "passe o mouse · arraste os nós",
+      netHint: "passe o mouse · arraste os nós · clique para explorar",
       sobrePreview: { label: "Sobre", cta: "Saiba mais" },
       techPreview: {
         label: "Tecnologia",
@@ -625,7 +625,7 @@ export const copy = {
       body: [
         "Sou Eduardo Miranda Faria. A Miranda Faria leva o meu nome e o M que abre este site: quem conversa comigo fala com quem constrói — do primeiro áudio no WhatsApp até o sistema rodando na sua tela.",
         "Sou de Piumhi, interior de Minas Gerais, com escritório em Belo Horizonte — e operação em empresas de todo o Brasil: distribuidoras, oficinas, transportadoras, comércio e prestadores de serviço. Gente que já faturou o suficiente pra saber que planilha solta não escala mais.",
-        "Trabalho sozinho, do briefing à entrega, com IA como alavanca em todo o processo: ela acelera o código e a criação visual; arquitetura, hierarquia e o que fica de fora continuam sendo decisão minha. Sob medida de verdade, sem o custo de uma agência — tudo que sai daqui passa pela minha mão antes de chegar na sua.",
+        "Lidero cada projeto pessoalmente, do briefing à entrega, com IA como alavanca em todo o processo: ela acelera o código e a criação visual; arquitetura, hierarquia e o que fica de fora continuam sendo decisão minha. Sob medida de verdade, sem o custo de uma agência — tudo que sai daqui passa pela minha mão antes de chegar na sua.",
       ],
       location: "Piumhi, Minas Gerais — escritório em Belo Horizonte · atendimento para todo o Brasil.",
       facadeCaption: "Arte generativa de marca — IA",

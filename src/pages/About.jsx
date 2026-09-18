@@ -209,9 +209,10 @@ export default function About() {
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--mf-terracotta-deep);text-decoration:none;
+  display:inline-flex;align-items:center;min-height:24px;padding:2px 0;
 }
 .mf-about__sellerswa:hover{opacity:0.7}
-.mf-about__sellersapp{
+.mf-about__sellersapp{display:inline-flex;align-items:center;min-height:24px;padding:2px 0;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-secondary);text-decoration:none;

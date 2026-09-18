@@ -91,7 +91,7 @@ export default function TransitionCurtain() {
   return (
     <div ref={curtain} className="mf-curtain" data-theme="dark" data-v="copper" style={{ display: "none" }} aria-hidden="true">
       <div className="mf-curtain__circle" />
-      <img className="mf-curtain__m" src={M_LOGO_CURTAIN} alt="" style={{ opacity: mOn ? 1 : 0 }} />
+      <img className="mf-curtain__m" src={M_LOGO_CURTAIN} alt="" aria-hidden="true" style={{ opacity: mOn ? 1 : 0 }} />
       <style>{`
 .mf-curtain{
   position:fixed;inset:0;z-index:150;

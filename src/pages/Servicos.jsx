@@ -34,6 +34,16 @@ function StrataCorte({ layers }) {
       lines.push({ d: wave(y + k * 6, 16 + k * 5, k * 4), w: 1, op: 0.10, i: b * 2 + k });
     }
   }
+  // particulas de dados: fluem lentas na camada Dados (03)
+  const dots = [];
+  for (let k = 0; k < 9; k++) {
+    dots.push({ x: (k * 197) % 1600, y: 560 + (k % 3) * 44, r: 2.5 + (k % 2), d: k });
+  }
+  // hatch de bedrock: tracos diagonais na Fundacao (04)
+  const hatch = [];
+  for (let x = -40; x < 1700; x += 56) {
+    hatch.push(`M ${x} 780 L ${x + 34} 900`);
+  }
   return (
     <svg className="mf-corte" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" role="img">
       <defs>
@@ -43,7 +53,16 @@ function StrataCorte({ layers }) {
           <stop offset="0.82" stopColor="#B5502E" stopOpacity="0.85" />
           <stop offset="1" stopColor="#B5502E" stopOpacity="0" />
         </linearGradient>
+        <clipPath id="corte-bandas"><rect x="0" y="0" width={W} height={H} /></clipPath>
       </defs>
+      <g clipPath="url(#corte-bandas)">
+        {/* bandas: cada estrato ganha um vazio quase-solido — o corte le corpo */}
+        {ys.map((y, i) => (
+          <path key={`band${i}`} className={`mf-corte__band mf-corte__band--${i}`}
+            d={`${wave(y, 22 + i * 6, i % 2 ? 10 : -10)} L 1680 900 L -80 900 Z`}
+            fill="currentColor" strokeWidth="0" />
+        ))}
+      </g>
       <g className="mf-corte__drift">
         {ys.map((y, i) => (
           <path key={`bound${i}`} className="mf-corte__bound" style={{ "--i": i }}
@@ -54,15 +73,27 @@ function StrataCorte({ layers }) {
           <path key={`tex${i}`} className="mf-corte__tex" style={{ "--i": l.i }}
             d={l.d} fill="none" stroke="currentColor" strokeWidth={l.w} opacity={l.op} />
         ))}
+        {/* particulas de dados atravessando o estrato 03 */}
+        {dots.map((d, i) => (
+          <circle key={`dot${i}`} className="mf-corte__dot" style={{ "--di": d.d }}
+            cx={d.x} cy={d.y} r={d.r} fill="var(--mf-copper,#B5502E)" opacity="0.7" />
+        ))}
         <path className="mf-corte__veio"
           d={`M -80 640 C 260 600, 480 690, 720 650 S 1150 590, 1680 635`}
           fill="none" stroke="url(#cobre-veio)" strokeWidth={2.5} />
+        {/* bedrock: a Fundacao e rocha macica — hatch diagonal */}
+        <path className="mf-corte__hatch" d={hatch.join(" ")} stroke="currentColor" strokeWidth="1" opacity="0.12" fill="none" />
       </g>
+      {/* log de profundidade: escopo a esquerda, escala a direita */}
       {layers.map((name, i) => (
-        <g key={name} className="mf-corte__log" style={{ "--i": i }}>
+        <g key={name} className="mf-corte__log mf-corte__stratum" style={{ "--i": i }}>
+          <rect className="mf-corte__hit" x="0" y={ys[i] + (i === 0 ? 10 : 0)} width={W} height={(ys[i + 1] ?? 900) - ys[i]} fill="transparent" />
           <line x1={72} y1={ys[i] + 34} x2={112} y2={ys[i] + 34} stroke="currentColor" strokeWidth={1} opacity={0.4} />
           <text x={128} y={ys[i] + 38} className="mf-corte__label">
             {`0${i + 1} · ${name}`}
+          </text>
+          <text x={1528} y={ys[i] + 38} className="mf-corte__label mf-corte__depth">
+            {`${(i * 0.75).toFixed(2)}`}
           </text>
         </g>
       ))}
@@ -235,7 +266,22 @@ export default function Servicos() {
 @keyframes mf-corte-fade{to{opacity:1}}
 @keyframes mf-corte-pulsa{0%,100%{opacity:0.72}50%{opacity:1}}
 @keyframes mf-corte-drift{from{transform:translateX(-18px)}to{transform:translateX(18px)}}
-@media(max-width:700px){.mf-srv__band{aspect-ratio:16/10}.mf-corte__label{font-size:58px}}
+/* bandas: o estrato mais fundo, mais denso — solo tem peso */
+.mf-corte__band--0{opacity:0.028}
+.mf-corte__band--1{opacity:0.042}
+.mf-corte__band--2{opacity:0.058}
+.mf-corte__band--3{opacity:0.078}
+/* particulas de dados: corrente continua, lenta, na camada Dados */
+.mf-corte__dot{animation:mf-corte-flux ease-in-out infinite alternate;animation-duration:calc(16s + 7s * var(--di))}
+@keyframes mf-corte-flux{from{transform:translateX(-64px)}to{transform:translateX(64px)}}
+/* hover: apontar um estrato acende sua etiqueta e engrossa o limite */
+.mf-corte__hit{cursor:default}
+.mf-corte__stratum{transition:opacity 0.3s ease}
+.mf-corte__log:hover .mf-corte__label{opacity:1;fill:var(--mf-copper,#B5502E)}
+.mf-corte__stratum ~ .mf-corte__drift{transition:opacity 0.3s ease}
+/* escala de profundidade a direita: numeros mono, discretos */
+.mf-corte__depth{text-anchor:end;opacity:0.35}
+@media(max-width:700px){.mf-srv__band{aspect-ratio:16/10}.mf-corte__label{font-size:58px}.mf-corte__depth{display:none}}
 
 
 .mf-srv__stat{

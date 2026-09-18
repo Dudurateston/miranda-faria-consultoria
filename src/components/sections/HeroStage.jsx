@@ -106,7 +106,7 @@ export function IntroGate() {
 
   return (
     <div ref={ref} className="mf-intro" data-theme="dark" aria-hidden="true">
-      <img className="mf-intro__m" src={M_LOGO} alt="" />
+      <img className="mf-intro__m" src={M_LOGO} alt="" aria-hidden="true" />
       <span className="mf-intro__word">MIRANDA FARIA</span>
       <span className="mf-intro__line" />
       <span className="mf-intro__role">{roles}</span>

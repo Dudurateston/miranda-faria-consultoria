@@ -540,7 +540,7 @@ html[data-skin="dark"] .mf-mnav__wm{filter:none;opacity:0.10}
   .mf-nav__links{display:none}
   .mf-nav__burger{display:flex;position:fixed;top:0.62rem;right:var(--gutter);z-index:120;margin:0;
   background:rgba(250,247,241,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:2px;border:1px solid var(--mf-rule)}
-  .mf-nav__brand{flex:0 1 auto;min-width:0}
+  .mf-nav__brand{flex:0 1 auto;min-width:0;min-height:44px;min-width:44px;padding-left:0.4rem;margin-left:-0.4rem}
   .mf-nav__logo{height:26px;width:auto}
 
   .mf-nav__cta{display:none}

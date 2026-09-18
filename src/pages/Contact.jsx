@@ -101,7 +101,7 @@ export default function Contact() {
           </Reveal>
 
           <Reveal delay={260}>
-            <p className="mf-label mf-contact__response">{t.response} · {WHATSAPP_DISPLAY}</p>
+            <p className="mf-label mf-contact__response">{t.response} · {lang === "en" ? "+55 " + WHATSAPP_DISPLAY : WHATSAPP_DISPLAY}</p>
           </Reveal>
 
           <Reveal delay={300}>
@@ -241,7 +241,7 @@ export default function Contact() {
   font-size:var(--text-body-lg);color:var(--color-text-primary);
   margin:0.6rem 0 0;
 }
-.mf-contact__sellerslinks{display:flex;flex-wrap:wrap;gap:0.6rem 2rem;margin-top:0.9rem}
+.mf-contact__sellerslinks{display:flex;flex-wrap:wrap;gap:0.6rem 2rem;margin-top:0.9rem} .mf-contact__sellerslinks a{display:inline-flex;align-items:center;min-height:24px;padding:2px 0}
 .mf-contact__sellerslinks a{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;

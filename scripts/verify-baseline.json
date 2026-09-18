@@ -1,64 +1,111 @@
 {
-  "gravadoEm": "2026-09-17T17:38:34.138Z",
-  "midias": {
-    "pt/home": 5,
-    "pt/servicos": 2,
-    "pt/insights": 2,
-    "pt/work": 2,
-    "pt/about": 2,
-    "pt/contact": 2,
-    "pt/how-i-work": 2,
-    "pt/gestao": 2,
-    "pt/desenvolvimento": 2,
-    "pt/design": 3,
-    "pt/automacao": 2,
-    "pt/work/roda-agro": 4,
-    "en/home": 5,
-    "en/servicos": 2,
-    "en/insights": 2,
-    "en/work": 2,
-    "en/about": 2,
-    "en/contact": 2,
-    "en/how-i-work": 2,
-    "en/gestao": 2,
-    "en/desenvolvimento": 2,
-    "en/design": 3,
-    "en/automacao": 2,
-    "en/work/roda-agro": 4,
-    "pt/privacidade": 0
+  "gerado_em": "2026-09-18T14:43:20.291Z",
+  "app": "6a74f6e6fbaa381e21a2415b (oficial) — medida na build local corrigida (v3.41-audit)",
+  "bundle": {
+    "hero_chunk_KB": 531,
+    "index_KB": 355,
+    "vendor_KB": 183
   },
-  "legiveis1Tela": {
-    "pt/home": 15,
-    "pt/servicos": 25,
-    "pt/insights": 26,
-    "pt/work": 38,
-    "pt/about": 22,
-    "pt/contact": 24,
-    "pt/how-i-work": 22,
-    "pt/gestao": 19,
-    "pt/desenvolvimento": 20,
-    "pt/design": 19,
-    "pt/automacao": 19,
-    "pt/work/roda-agro": 18,
-    "en/home": 15,
-    "en/servicos": 24,
-    "en/insights": 27,
-    "en/work": 38,
-    "en/about": 25,
-    "en/contact": 24,
-    "en/how-i-work": 22,
-    "en/gestao": 18,
-    "en/desenvolvimento": 21,
-    "en/design": 20,
-    "en/automacao": 18,
-    "en/work/roda-agro": 18,
-    "pt/privacidade": 5
+  "perf": {
+    "LCP_ms_390_4G": 3612,
+    "CLS": 0.008,
+    "fps": "headless sem GPU — artefato, medir com GPU antes do lancamento"
   },
-  "fpsMin": 16,
-  "bundleBytes": 1410657,
-  "homeTelas": {
-    "390": 10.3,
-    "768": 9.4,
-    "1440": 8.4
-  }
+  "por_viewport": {
+    "390": {
+      "home": {
+        "h": 8901,
+        "readable": 16,
+        "imgs": 7,
+        "videos": 12
+      },
+      "servicos": {
+        "h": 3965,
+        "readable": 26,
+        "imgs": 4,
+        "videos": 5
+      },
+      "insights": {
+        "h": 2323,
+        "readable": 27,
+        "imgs": 4,
+        "videos": 5
+      },
+      "work": {
+        "h": 5722,
+        "readable": 26,
+        "imgs": 4,
+        "videos": 5
+      },
+      "how-i-work": {
+        "h": 5665,
+        "readable": 24,
+        "imgs": 4,
+        "videos": 6
+      },
+      "about": {
+        "h": 4172,
+        "readable": 22,
+        "imgs": 4,
+        "videos": 6
+      },
+      "contact": {
+        "h": 2616,
+        "readable": 27,
+        "imgs": 4,
+        "videos": 5
+      }
+    },
+    "1440": {
+      "home": {
+        "h": 7091,
+        "readable": 60,
+        "imgs": 7,
+        "videos": 12
+      },
+      "servicos": {
+        "h": 3184,
+        "readable": 78,
+        "imgs": 4,
+        "videos": 5
+      },
+      "insights": {
+        "h": 1687,
+        "readable": 85,
+        "imgs": 4,
+        "videos": 5
+      },
+      "work": {
+        "h": 4025,
+        "readable": 95,
+        "imgs": 4,
+        "videos": 5
+      },
+      "how-i-work": {
+        "h": 4299,
+        "readable": 78,
+        "imgs": 4,
+        "videos": 6
+      },
+      "about": {
+        "h": 2967,
+        "readable": 77,
+        "imgs": 4,
+        "videos": 6
+      },
+      "contact": {
+        "h": 2019,
+        "readable": 80,
+        "imgs": 4,
+        "videos": 5
+      }
+    }
+  },
+  "perguntas_pos_lancamento": [
+    "Qual dor e escolhida mais vezes no Diagnostico?",
+    "Em que rolagem as pessoas param, por rota?",
+    "Qual CTA converte mais (hero, contato, rodape)?",
+    "Qual case e mais aberto e qual link externo e mais clicado?",
+    "PT vs EN: onde o comportamento diverge?"
+  ]
 }
