@@ -170,11 +170,19 @@ const PROBE = `(() => {
     const o = effOpacity(el);
 
     // As revelações deste site são dirigidas por SCROLL (animation-timeline:
-    // view()), não por tempo — então esperar não as termina. O filtro certo
-    // é geométrico: só é fantasma o que está PARADO no miolo confortável da
-    // tela e mesmo assim não chegou a opacidade cheia. O que está na borda
-    // está legitimamente no meio da revelação.
-    const settled = r.top > innerHeight * 0.12 && r.bottom < innerHeight * 0.88;
+    // view()), não por tempo — esperar não as termina. O filtro tem de ser
+    // geométrico.
+    //
+    // CUIDADO, e o motivo desta linha existir: a primeira versão usava
+    // 12%–88% da altura e chamava isso de "miolo da tela". NÃO É. Uma
+    // varredura de 1% em 1% em /pt/work mostrou 66 medições abaixo de
+    // 4,5:1, TODAS entre 68% e 97% da altura — o terço de baixo, onde o
+    // fade-in de entrada legitimamente acontece. Nenhuma acima da linha do
+    // meio. Aquele filtro transformou uma animação correta em 99 defeitos.
+    //
+    // A zona de leitura de verdade é o miolo: 25%–75%. Texto que ainda
+    // está subindo pela borda inferior não é fantasma, é revelação.
+    const settled = r.top > innerHeight * 0.25 && r.bottom < innerHeight * 0.75;
 
     if (o > 0.06 && o < 0.85) {
       if (settled) {
@@ -196,7 +204,10 @@ const PROBE = `(() => {
           }
         } catch { anim = "erro"; }
         R.ghost.push({ sel: path(el), text: txt.slice(0, 60), opacity: +o.toFixed(3),
-          dono: path(owner), donoOpacity: +ow.toFixed(3), anim });
+          dono: path(owner), donoOpacity: +ow.toFixed(3), anim,
+          // sem isto o achado não é auditável: opacidade parcial no terço
+          // de baixo é revelação, no miolo é defeito.
+          telaPct: Math.round(100 * ((r.top + r.bottom) / 2) / innerHeight) });
       }
       return; // fantasma já é o achado; contraste dele não acrescenta
     }
@@ -499,8 +510,8 @@ function report() {
     console.log("=".repeat(64));
 
     line("CONTRASTE reprovado", C, (x) => `${x.ratio}:1 (precisa ${x.need}) ${x.size}px  ${x.color} sobre ${x.bg}\n      ${x.sel}\n      "${x.text}"`);
-    line("TEXTO FANTASMA (opacidade parada, elemento no miolo da tela)", G,
-      (x) => `opacidade ${x.opacity}  ${x.sel}\n      "${x.text}"\n      dono da opacidade: ${x.dono} (${x.donoOpacity})  ·  animação: ${x.anim}`);
+    line("TEXTO FANTASMA (opacidade parada no MIOLO da tela, 25%-75%)", G,
+      (x) => `opacidade ${x.opacity}  a ${x.telaPct}% da altura da tela  ${x.sel}\n      "${x.text}"\n      dono da opacidade: ${x.dono} (${x.donoOpacity})  ·  animação: ${x.anim}`);
     line("ESTOURO HORIZONTAL", O, (x) => `${x.route} @${x.width}px — scrollWidth ${x.scrollWidth} > ${x.inner}`);
     line("ERRO DE JS", J, (x) => x.message);
     line("ASSET 4xx", A, (x) => `${x.status}  ${x.url}`);
