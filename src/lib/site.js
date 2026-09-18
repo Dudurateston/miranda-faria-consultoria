@@ -11,6 +11,7 @@ export const SELLERS_APP_URL = "https://vendas-uai-hub.base44.app";
 
 // Assets oficiais — logo principal transparente, hero em MP4 e mídias de seção.
 export const M_LOGO = "/art/m-logo-320.webp";
+export const M_LOGO_DARK = "/art/m-logo-320-dark.webp";
 /* M da CORTINA: branco-prata SOLIDO 100% opaco — recolorido do ramp do
    SVG oficial (#fff -> #f0f2f2 -> #a8abad). Eduardo 17/09: "meu logo tem
    um tom mais branco" — acabou o osso-cinza. Sobre fundos claros (nav/hero

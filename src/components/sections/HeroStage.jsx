@@ -6,7 +6,7 @@ import { copy, practices, PRACTICE_SLUGS } from "@/content/copy";
 /* Rede 3D em chunk proprio: Three.js (~250KB gz) so entra na home,
    asincrono — as outras rotas e o primeiro paint nao pagam por ele. */
 const Network3D = React.lazy(() => import("./HeroCanvas3D"));
-import { WHATSAPP_URL, CALENDLY_URL, M_LOGO } from "@/lib/site";
+import { WHATSAPP_URL, CALENDLY_URL, M_LOGO, M_LOGO_DARK } from "@/lib/site";
 
 /**
  * Portão de entrada — a animação que independe do usuário (referência
@@ -106,7 +106,8 @@ export function IntroGate() {
 
   return (
     <div ref={ref} className="mf-intro" data-theme="dark" aria-hidden="true">
-      <img className="mf-intro__m" src={M_LOGO} alt="" aria-hidden="true" />
+      <img className="mf-intro__m mf-intro__m--light" src={M_LOGO} alt="" aria-hidden="true" />
+      <img className="mf-intro__m mf-intro__m--dark" src={M_LOGO_DARK} alt="" aria-hidden="true" />
       <span className="mf-intro__word">MIRANDA FARIA</span>
       <span className="mf-intro__line" />
       <span className="mf-intro__role">{roles}</span>
@@ -265,6 +266,9 @@ export default function HeroStage() {
       .fromTo(".mf-hero__role",
         { opacity: 0, letterSpacing: "0.44em" },
         { opacity: 1, letterSpacing: "0.14em", duration: 0.8 }, base + 1.268)
+      .fromTo(".mf-hero__thesis",
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.7 }, base + 1.42)
       .fromTo(".mf-hero__cta",
         { opacity: 0, y: 18 },
         { opacity: 1, y: 0, duration: 0.7 }, base + 1.608);
@@ -281,7 +285,8 @@ export default function HeroStage() {
       <div ref={content} className="mf-hero__content" style={{ opacity: 0 }}>
         {/* Eduardo 18/09: o M da hero é o MESMO da versão publicada —
             o prata oficial (m-logo-320), um só asset nos dois temas. */}
-        <img className="mf-hero__mark" src={M_LOGO} alt="" aria-hidden="true" />
+        <img className="mf-hero__mark mf-hero__mark--light" src={M_LOGO} alt="" aria-hidden="true" />
+        <img className="mf-hero__mark mf-hero__mark--dark" src={M_LOGO_DARK} alt="" aria-hidden="true" />
         <h1 className="mf-hero__title" aria-label={t.wordmark}>
           {t.wordmark.split("").map((ch, i) => (
             <span key={i} className="mf-hero__ltr" aria-hidden="true">
@@ -291,6 +296,12 @@ export default function HeroStage() {
           <span className="mf-hero__ltr mf-hero__dot" aria-hidden="true">.</span>
         </h1>
         <p className="mf-hero__role">{t.role}</p>
+        <div className="mf-hero__thesis">
+          <span className="mf-hero__thesisline" aria-hidden="true">
+            <i className="mf-hero__linepulse" />
+          </span>
+          <p className="mf-hero__lead">{t.thesis.lead}</p>
+        </div>
         <a
           href={lang === "en" ? CALENDLY_URL : WHATSAPP_URL}
           target="_blank"
@@ -361,6 +372,22 @@ html[data-skin="dark"] .mf-hero__scrim{
   display:flex;flex-direction:column;align-items:center;text-align:center;
   padding:0 var(--gutter);
 }
+.mf-hero__mark--dark{display:none}
+html[data-skin="dark"] .mf-hero__mark--light{display:none}
+html[data-skin="dark"] .mf-hero__mark--dark{display:block}
+.mf-intro__m--dark{display:none}
+html[data-skin="dark"] .mf-intro__m--light{display:none}
+html[data-skin="dark"] .mf-intro__m--dark{display:block}
+/* Linha viva da tese: filete com pulso de cobre viajando (mesma familia do StrataCorte) */
+.mf-hero__thesis{width:min(34rem,72vw);margin:1.5rem auto 1.4rem;position:relative}
+.mf-hero__thesisline{display:block;height:1px;width:100%;background:var(--hairline);position:relative;overflow:visible}
+.mf-hero__linepulse{position:absolute;top:-1px;left:0;width:64px;height:3px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--copper),transparent);
+  animation:mf-pulse-x 6.5s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes mf-pulse-x{0%{transform:translateX(-64px);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translateX(calc(min(34rem,72vw)));opacity:0}}
+@media (prefers-reduced-motion: reduce){.mf-hero__linepulse{animation:none;opacity:0}}
+.mf-hero__lead{margin:0.9rem 0 0;text-align:center;font-family:var(--font-body);font-size:clamp(0.95rem,1.35vw,1.12rem);
+  line-height:1.5;color:var(--ink-dim);max-width:34ch;margin-inline:auto}
 .mf-hero__mark{
   width:clamp(34px,4.6vw,52px);height:auto;
   margin:0 auto 1.8rem;display:block;
