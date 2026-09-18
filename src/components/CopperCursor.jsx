@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 // Cursor editorial: ponto de 8px em cobre que segue o mouse com lerp.
-// Sobre [data-cursor="link"] cresce para 40px, fundo transparente e borda cobre.
+// Sem estados de hover — é sempre só o ponto (Eduardo, 17/09).
 // Não renderiza em telas de toque nem com prefers-reduced-motion.
 export default function CopperCursor() {
   const dotRef = useRef(null);
@@ -23,31 +23,20 @@ export default function CopperCursor() {
     let my = window.innerHeight / 2;
     let x = mx;
     let y = my;
-    let hovered = false;
     let raf = 0;
 
+    /* Eduardo 17/09: o cursor é SÓ o ponto de cobre. Sem crescer, sem
+       virar anel, sem trocar de cor em link. */
     const render = () => {
       x += (mx - x) * 0.18;
       y += (my - y) * 0.18;
-      const size = hovered ? 40 : 8;
-      dot.style.transform = `translate(${x - size / 2}px, ${y - size / 2}px)`;
-      dot.style.width = size + "px";
-      dot.style.height = size + "px";
-      if (hovered) {
-        dot.style.background = "transparent";
-        dot.style.borderWidth = "1px";
-      } else {
-        dot.style.background = "#B5502E";
-        dot.style.borderWidth = "0px";
-      }
+      dot.style.transform = `translate(${x - 4}px, ${y - 4}px)`;
       raf = requestAnimationFrame(render);
     };
 
     const onMove = (e) => {
       mx = e.clientX;
       my = e.clientY;
-      const t = e.target;
-      hovered = !!(t && t.closest && t.closest('[data-cursor="link"]'));
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });

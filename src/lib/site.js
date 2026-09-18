@@ -15,7 +15,8 @@ export const M_LOGO = "/art/m-logo-320.webp";
    SVG oficial (#fff -> #f0f2f2 -> #a8abad). Eduardo 17/09: "meu logo tem
    um tom mais branco" — acabou o osso-cinza. Sobre fundos claros (nav/hero
    na skin clara) o CSS da um filtro de prata pra manter visibilidade. */
-export const M_LOGO_CURTAIN = "/art/m-logo-curtain-720.webp" /* 720px, osso puro */;
+export const M_LOGO_CURTAIN = "/art/m-logo-curtain-720.webp" /* 720px, osso puro */
+export const M_LOGO_INK = "/art/m-logo-ink.webp";
 /* M em OSSO PURO para fundos escuros/cobre (Eduardo 17/09: o prata
    oficial lavado sobre grafite/cobre dava erro de contraste). */
 export const M_LOGO_BONE = "/art/m-logo-bone.webp";
@@ -81,7 +82,7 @@ export const NAV_MEDIA = {
     automacao: "/art/nv_autom.mp4",
   },
   about: "/art/nv_sobre.mp4",
-  how: "/art/nv_tech.mp4",
+  how: "/art/nv_tech_yoyo.mp4",
   diag: "/art/nv_diag.mp4",
 };
 
@@ -107,6 +108,7 @@ export const VIDEO_USE_LIMIT = {
   "art/geo.mp4": 1,
   "art/nv_sistemas.mp4": 2,
   "art/nv_camadas.mp4": 1,
+  "art/nv_tech_yoyo.mp4": 2,
   "art/nv_placa.mp4": 2,
   "art/nv_dev.mp4": 1,
   "art/nv_design.mp4": 1,

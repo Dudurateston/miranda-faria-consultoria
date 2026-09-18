@@ -6,7 +6,7 @@ import { copy, practices, PRACTICE_SLUGS } from "@/content/copy";
 /* Rede 3D em chunk proprio: Three.js (~250KB gz) so entra na home,
    asincrono — as outras rotas e o primeiro paint nao pagam por ele. */
 const Network3D = React.lazy(() => import("./HeroCanvas3D"));
-import { WHATSAPP_URL, CALENDLY_URL, M_LOGO_BONE } from "@/lib/site";
+import { WHATSAPP_URL, CALENDLY_URL, M_LOGO_BONE, M_LOGO_INK, M_LOGO } from "@/lib/site";
 
 /**
  * Portão de entrada — a animação que independe do usuário (referência
@@ -106,7 +106,7 @@ export function IntroGate() {
 
   return (
     <div ref={ref} className="mf-intro" data-theme="dark" aria-hidden="true">
-      <img className="mf-intro__m" src={M_LOGO_BONE} alt="" />
+      <img className="mf-intro__m" src={M_LOGO} alt="" />
       <span className="mf-intro__word">MIRANDA FARIA</span>
       <span className="mf-intro__line" />
       <span className="mf-intro__role">{roles}</span>
@@ -279,7 +279,8 @@ export default function HeroStage() {
       <div className="mf-hero__scrim" aria-hidden="true" />
 
       <div ref={content} className="mf-hero__content" style={{ opacity: 0 }}>
-        <img className="mf-hero__mark" src={M_LOGO_BONE} alt="" aria-hidden="true" />
+        <img className="mf-hero__mark mf-hero__mark--bone" src={M_LOGO_BONE} alt="" aria-hidden="true" />
+        <img className="mf-hero__mark mf-hero__mark--ink" src={M_LOGO_INK} alt="" aria-hidden="true" />
         <h1 className="mf-hero__title" aria-label={t.wordmark}>
           {t.wordmark.split("").map((ch, i) => (
             <span key={i} className="mf-hero__ltr" aria-hidden="true">
@@ -364,7 +365,10 @@ html[data-skin="dark"] .mf-hero__scrim{
   margin:0 auto 1.8rem;display:block;
   mix-blend-mode:normal;filter:drop-shadow(0 0 12px rgba(26,26,24,0.10));
 }
-html:not([data-skin="dark"]) .mf-hero__mark{filter:invert(1) sepia(0.25) brightness(0.96)}
+/* O M adapta ao tema: tinta no claro, osso no escuro — assets próprios, sem filtro. */
+.mf-hero__mark--ink{display:none}
+html:not([data-skin="dark"]) .mf-hero__mark--bone{display:none}
+html:not([data-skin="dark"]) .mf-hero__mark--ink{display:inline-block}
 .mf-hero__title{
   font-family:var(--font-display);font-weight:400;
   font-size:clamp(2.8rem,9vw,6.5rem);line-height:1.04;
@@ -373,8 +377,8 @@ html:not([data-skin="dark"]) .mf-hero__mark{filter:invert(1) sepia(0.25) brightn
 }
 .mf-hero__ltr{display:inline-block;will-change:transform,opacity}
 .mf-hero__dot{color:var(--mf-copper,#B5502E)}
-/* No tema claro o portao e osso: o M em osso some — vira tinta. */
-html:not([data-skin="dark"]) .mf-intro__m{filter:invert(1) sepia(0.25) brightness(0.96)}
+/* Portao: o M OFICIAL prata — escurece levemente sobre osso no claro. */
+html:not([data-skin="dark"]) .mf-intro__m{filter:brightness(0.88) saturate(0.85)}
 .mf-hero__role{
   /* KICKER (Eduardo 17/09: "finalmente facil de ler") — rastreio
      0.28em abria demais os glifos do mono; agora justo, maior e

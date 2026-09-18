@@ -74,12 +74,15 @@ export default function HomeInsights() {
 .mf-dgprev__art{
   /* A carta celeste integrada: preenche a coluna e as bordas se
      dissolvem no fundo — em simbiose, sem moldura de video. */
-  margin:0;height:100%;min-height:300px;overflow:hidden;
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 14%,black 86%,transparent 100%);
-  mask-image:linear-gradient(to bottom,transparent 0%,black 14%,black 86%,transparent 100%);
+  /* Eduardo 17/09: proporção real do vídeo (16:9) — antes o
+     object-fit:cover cortava boa parte da carta celeste. */
+  margin:0;overflow:hidden;
+  aspect-ratio:16/9;width:100%;height:auto;align-self:end;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%);
 }
 .mf-dgprev__art img,
-.mf-dgprev__art video{width:100%;height:100%;object-fit:cover;display:block}
+.mf-dgprev__art video{width:100%;height:100%;object-fit:contain;display:block}
       `}</style>
     </section>
   );
