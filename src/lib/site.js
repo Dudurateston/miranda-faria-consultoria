@@ -90,7 +90,8 @@ export const NAV_MEDIA = {
    vão pras páginas/temas a que pertencem). */
 export const SECTION_MEDIA = {
   hiwStack: NAV_MEDIA.how,
-  servicosFaixa: NAV_MEDIA.solutions.gestao,
+  /* Eduardo 17/09: voltar ao antigo "camadas ordem" (Fundacao/Dados/Sistema/Superficie) */
+  servicosFaixa: "/art/nv_camadas.mp4",
   insightsPreview: NAV_MEDIA.diag,
   aboutBand: "/art/nv_placa.mp4",
   sobreReel: "/art/sobre_reel.mp4",
@@ -105,6 +106,7 @@ export const VIDEO_USE_LIMIT = {
   "art/hero_loop.mp4": 1,
   "art/geo.mp4": 1,
   "art/nv_sistemas.mp4": 2,
+  "art/nv_camadas.mp4": 1,
   "art/nv_placa.mp4": 2,
   "art/nv_dev.mp4": 1,
   "art/nv_design.mp4": 1,

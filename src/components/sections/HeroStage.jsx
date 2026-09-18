@@ -364,9 +364,7 @@ html[data-skin="dark"] .mf-hero__scrim{
   margin:0 auto 1.8rem;display:block;
   mix-blend-mode:normal;filter:drop-shadow(0 0 12px rgba(26,26,24,0.10));
 }
-html:not([data-skin="dark"]) .mf-hero__mark{filter:brightness(0.88) saturate(0.85) drop-shadow(0 0 12px rgba(26,26,24,0.10))
-  will-change:transform,opacity;
-}
+html:not([data-skin="dark"]) .mf-hero__mark{filter:invert(1) sepia(0.25) brightness(0.96)}
 .mf-hero__title{
   font-family:var(--font-display);font-weight:400;
   font-size:clamp(2.8rem,9vw,6.5rem);line-height:1.04;
@@ -375,6 +373,8 @@ html:not([data-skin="dark"]) .mf-hero__mark{filter:brightness(0.88) saturate(0.8
 }
 .mf-hero__ltr{display:inline-block;will-change:transform,opacity}
 .mf-hero__dot{color:var(--mf-copper,#B5502E)}
+/* No tema claro o portao e osso: o M em osso some — vira tinta. */
+html:not([data-skin="dark"]) .mf-intro__m{filter:invert(1) sepia(0.25) brightness(0.96)}
 .mf-hero__role{
   /* KICKER (Eduardo 17/09: "finalmente facil de ler") — rastreio
      0.28em abria demais os glifos do mono; agora justo, maior e
