@@ -13,7 +13,7 @@ export default function HomeCta() {
 
   return (
     <section className="mf-h mf-cta" data-theme="dark">
-      <AutoVideo className="mf-cta__bg" src={PARTICLES_VIDEO} preloadOffset="1600px" />
+      <AutoVideo className="mf-cta__bg" src={PARTICLES_VIDEO} preloadOffset="400px" />
       <img className="mf-cta__wm" src={WATERMARK_GIF} alt="" loading="lazy" width="640" height="360" aria-hidden="true" />
       <div className="mf-h__inner mf-cta__inner">
         <Reveal>
