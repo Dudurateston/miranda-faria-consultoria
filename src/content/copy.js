@@ -209,10 +209,10 @@ export const copy = {
           },
           {
             tag: "03",
-            name: "Measured live",
-            hint: "Click to measure again.",
+            name: "Frame time",
+            hint: "Press and drag — break the 60fps.",
             caption:
-              "No benchmark, no promise: the real weight of this page — bytes, requests, DOM nodes, load time — measured in your browser, right now, by the page itself. Click to measure again. Performance is measured, not promised.",
+              "The real time of every frame of this page, measured live. Press and drag across the panel to inject load and watch the line climb over the 16.7ms budget — then release and see it recover. Performance is measured, not promised.",
           },
         ],
       },
@@ -605,10 +605,10 @@ export const copy = {
           },
           {
             tag: "03",
-            name: "Medida ao vivo",
-            hint: "Clique pra medir de novo.",
+            name: "Tempo de quadro",
+            hint: "Pressione e arraste — quebre os 60fps.",
             caption:
-              "Sem benchmark, sem promessa: o peso real desta página — bytes, requisições, nós do DOM, tempo de carga — medido no seu navegador, agora, pela própria página. Clique pra medir de novo. Performance se mede, não se promete.",
+              "O tempo real de cada quadro desta página, medido ao vivo. Pressione e arraste pelo painel pra injetar carga e ver a linha subir acima da meta de 16,7ms — solte e veja ela se recuperar. Performance se mede, não se promete.",
           },
         ],
       },
@@ -958,7 +958,7 @@ export const cases = {
       process:
         "Brand first — palette, type, the geological strata motif — then a token system, then the code. The hero is a hand-written WebGL shader: a liquid metal M with no video, no image sequence, no library — raw GLSL computed per frame. The homepage went through a long sequence of failed approaches (a 65-frame scroll sequence, manual vectorisation) before the direction settled on procedural motion with no external asset.",
       decisions:
-        "The diagnosis engine — three questions that quantify the visitor's leak before any talk of price — is real arithmetic running in the page, not a form. The technology section carries a 60fps flow-field in raw Canvas 2D with zero animation dependencies, and the page's own weight measured live in your browser rather than promised on a slide. Documented every abandoned path in the repository. Real /en and /pt routes over a hash toggle. No contact form: a direct link converts better than a field.",
+        "The diagnosis engine — three questions that quantify the visitor's leak before any talk of price — is real arithmetic running in the page, not a form. The technology section carries a 60fps flow-field in raw Canvas 2D with zero animation dependencies, and an FPS counter measured in your browser rather than promised on a slide. Documented every abandoned path in the repository. Real /en and /pt routes over a hash toggle. No contact form: a direct link converts better than a field.",
       impact:
         "The site is the case. Shader, canvas, motion system, two languages, the diagnostic engine and every line of CSS — designed, built and deployed by one person, in weeks, not quarters.",
       media: { dir: "miranda-faria", shots: 5, video: true },
@@ -1225,7 +1225,7 @@ export const cases = {
       process:
         "Marca primeiro — paleta, tipografia, o motivo de estratos geológicos — depois o sistema de tokens, depois o código. A hero é um shader WebGL escrito à mão: um M de metal líquido sem vídeo, sem sequência de imagens, sem biblioteca — GLSL puro, calculado quadro a quadro. A home passou por uma sequência longa de caminhos que falharam (sequência de 65 quadros, vetorização manual) antes da direção assentar em movimento procedural, sem asset externo.",
       decisions:
-        "O motor de diagnóstico — três perguntas que quantificam o vazamento do visitante antes de qualquer conversa sobre preço — é aritmética real rodando na página, não formulário. A aba Tecnologia carrega um campo de fluxo a 60fps em Canvas 2D puro, zero dependências de animação, com o peso da própria página medido ao vivo no seu navegador em vez de prometido no slide. Cada caminho abandonado está documentado no repositório. Rotas reais /en e /pt em vez de toggle por hash. Sem formulário de contato: link direto converte mais que campo para preencher.",
+        "O motor de diagnóstico — três perguntas que quantificam o vazamento do visitante antes de qualquer conversa sobre preço — é aritmética real rodando na página, não formulário. A aba Tecnologia carrega um campo de fluxo a 60fps em Canvas 2D puro, zero dependências de animação, com contador de FPS medido no seu navegador em vez de prometido no slide. Cada caminho abandonado está documentado no repositório. Rotas reais /en e /pt em vez de toggle por hash. Sem formulário de contato: link direto converte mais que campo para preencher.",
       impact:
         "O site é o case. Shader, canvas, sistema de movimento, dois idiomas, o motor de diagnóstico e cada linha de CSS — desenhado, construído e publicado por uma pessoa, em semanas, não em trimestres.",
       media: { dir: "miranda-faria", shots: 5, video: true },
