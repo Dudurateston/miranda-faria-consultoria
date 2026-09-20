@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 
 /**
- * FrameTimeGraph — terceira prova viva da aba Tecnologia.
- *
- * O tempo real de cada quadro desta página, medido no rAF e plotado
- * ao vivo — performance é medida, não prometida. A linha de 16,7 ms
- * é a meta de 60 fps; picos acima dela são o seu navegador dando
- * conta (ou não) da página inteira. Canvas 2D puro, zero dependências.
+ * FrameTimeGraph → "REEL DE QUADROS" (Eduardo 19/09: contador de FPS
+ * fora, algo disruptivo no lugar). A performance da página vira uma
+ * TIRA DE FILME que avança um quadro por frame REAL renderizado:
+ * a 60fps a tira corre lisa; puxe o drag pra injetar carga e ela
+ * ENGAJA de verdade na sua frente — cada salto é um frame perdido,
+ * medido, não encenado. Quadros que estouram a meta ganham marca de
+ * cobre. Canvas 2D puro, zero dependências.
  */
-
-const N = 96; // quadros no grafico (1,6s de historia a 60fps)
 const TARGET = 16.7;
 
 export default function FrameTimeGraph() {
@@ -30,7 +29,6 @@ export default function FrameTimeGraph() {
       raf = 0,
       running = false,
       alive = true;
-    let samples = new Array(N).fill(TARGET);
     let last = performance.now();
     let statAcc = 0,
       statFrames = 0;
@@ -38,59 +36,87 @@ export default function FrameTimeGraph() {
     let load = 0; // 0..1
     let drag = null; // {x0, load0} | null
 
-    const Y_MAX = 40; // ms no topo do grafico
+    /* REEL: a tira avança 1 célula por frame RENDERIZADO — 60fps =
+       60 células/s (liso); frame lento = a tira desacelera na sua
+       frente. Frames perdidos (>1.4x a meta) levam marca de cobre. */
+    const CELL = 46;
+    const STRIP_H = 72;
+    let scrollX = 0;
+    let frameIdx = 0;
+    const lost = new Set();
+    const hudRef = { ms: 0, fps: 0 };
+
+    const cellArt = (i, x, yTop) => {
+      // padrao unico por quadro: barras deterministicas (xorshift)
+      let s = (i * 2654435761 + 1) >>> 0;
+      for (let b = 0; b < 6; b++) {
+        s ^= s << 13; s >>>= 0;
+        s ^= s >>> 17; s ^= s << 5; s >>>= 0;
+        const bx = x + 5 + ((s >>> 7) % (CELL - 10));
+        const by = yTop + 14 + (s % 22);
+        const bh = 7 + (s % 22);
+        ctx.fillStyle = b === 0 ? "rgba(224,138,95,0.55)" : "rgba(242,238,230,0.16)";
+        ctx.fillRect(bx, by, 2.5, bh);
+      }
+    };
 
     const draw = () => {
       ctx.fillStyle = "#16130f";
       ctx.fillRect(0, 0, W, H);
-      const padT = 10,
-        padB = 22;
-      const yOf = (ms) => padT + (1 - Math.min(ms, Y_MAX) / Y_MAX) * (H - padT - padB);
+      const yTop = Math.max(12, Math.round((H - STRIP_H) / 2));
+      const yB = yTop + STRIP_H;
 
-      // faixa de meta (60 fps): linha em 16,7ms
-      const yT = yOf(TARGET);
-      ctx.strokeStyle = "rgba(179,122,96,0.55)";
-      ctx.setLineDash([4, 5]);
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(10, yT);
-      ctx.lineTo(W - 10, yT);
-      ctx.stroke();
-      ctx.setLineDash([]);
+      // HUD: meta a esquerda, medido a direita
       ctx.font = "10px ui-monospace, monospace";
-      ctx.fillStyle = "rgba(224,138,95,0.75)";
       ctx.textAlign = "left";
-      ctx.fillText("16,7ms · 60fps", 12, yT - 5);
+      ctx.fillStyle = "rgba(224,138,95,0.75)";
+      ctx.fillText("META 16,7MS · 60FPS", 12, yTop - 8);
+      ctx.textAlign = "right";
+      ctx.fillStyle = hudRef.ms ? "rgba(242,238,230,0.8)" : "rgba(242,238,230,0.35)";
+      ctx.fillText(hudRef.ms ? hudRef.ms + " MS · " + hudRef.fps + " FPS" : "MEDINDO", W - 12, yTop - 8);
 
-      // a serie temporal: cada amostra vira um ponto conectado
-      ctx.strokeStyle = "rgba(242,238,230,0.55)";
-      ctx.lineWidth = 1.2;
-      ctx.beginPath();
-      samples.forEach((ms, i) => {
-        const x = 10 + (i / (N - 1)) * (W - 20);
-        const y = yOf(ms);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
+      // tira de filme: fundo e trilhos
+      ctx.fillStyle = "rgba(242,238,230,0.045)";
+      ctx.fillRect(0, yTop, W, STRIP_H);
+      ctx.fillStyle = "rgba(242,238,230,0.4)";
+      ctx.fillRect(0, yTop, W, 1);
+      ctx.fillRect(0, yB - 1, W, 1);
 
-      // pontos que estouram a meta ganham cobre
-      samples.forEach((ms, i) => {
-        if (ms > TARGET * 1.35) {
-          const x = 10 + (i / (N - 1)) * (W - 20);
-          const y = yOf(ms);
-          ctx.fillStyle = "rgba(224,138,95,0.9)";
-          ctx.beginPath();
-          ctx.arc(x, y, 1.8, 0, Math.PI * 2);
-          ctx.fill();
+      const first = Math.floor(scrollX / CELL) - 1;
+      const count = Math.ceil(W / CELL) + 2;
+      for (let k = 0; k < count; k++) {
+        const idx = first + k;
+        if (idx < 0) continue;
+        const x = idx * CELL - scrollX;
+        // separador de quadro
+        ctx.fillStyle = "rgba(242,238,230,0.16)";
+        ctx.fillRect(x, yTop + 1, 1, STRIP_H - 2);
+        // perfuracoes (sprockets) do filme
+        ctx.fillStyle = "#16130f";
+        ctx.fillRect(x + 12, yTop + 3, 10, 6);
+        ctx.fillRect(x + 12, yB - 9, 10, 6);
+        ctx.strokeStyle = "rgba(242,238,230,0.25)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x + 12.5, yTop + 3.5, 9, 5);
+        ctx.strokeRect(x + 12.5, yB - 8.5, 9, 5);
+        // conteudo do quadro (identidade unica)
+        if (idx <= frameIdx) cellArt(idx, x, yTop);
+        // frame PERDIDO: o gap que a tira deu, marcado em cobre
+        if (lost.has(idx)) {
+          ctx.fillStyle = "rgba(224,138,95,0.85)";
+          ctx.fillRect(x + CELL - 3, yTop + 1, 2, STRIP_H - 2);
         }
-      });
+      }
 
-      // barra de carga injetada (canto inferior direito) com leitura
+      // playhead: onde o proximo quadro entra
+      ctx.fillStyle = "rgba(224,138,95,0.9)";
+      ctx.fillRect(W - 2, yTop, 2, STRIP_H);
+
+      // barra de carga injetada (canto inferior direito)
       if (load > 0.005) {
         const bw = 64;
         const bx = W - bw - 12;
-        const by = H - 20;
+        const by = H - 14;
         ctx.strokeStyle = "rgba(242,238,230,0.25)";
         ctx.lineWidth = 1;
         ctx.strokeRect(bx, by, bw, 6);
@@ -99,12 +125,8 @@ export default function FrameTimeGraph() {
         ctx.fillStyle = "rgba(224,138,95,0.8)";
         ctx.font = "9px ui-monospace, monospace";
         ctx.textAlign = "left";
-        ctx.fillText(Math.round(load * 100) + "%", bx, by - 3);
+        ctx.fillText(Math.round(load * 100) + "% CARGA", bx, by - 3);
       }
-      // rotulo do eixo
-      ctx.fillStyle = "rgba(242,238,230,0.35)";
-      ctx.fillText("now →", W - 46, H - 8);
-      ctx.fillText("frame time (ms)", 12, H - 8);
     };
 
     const burn = (ms) => {
@@ -117,29 +139,32 @@ export default function FrameTimeGraph() {
 
     const frame = (now) => {
       if (!alive) return;
-      const t0 = performance.now();
       // decai devagar quando nao esta sendo arrastado
       if (!drag) load *= 0.985;
       if (running && load > 0.005) burn(load * 18);
       const dt = now - last;
       last = now;
       if (running && dt > 0 && dt < 400) {
-        samples.push(dt);
-        if (samples.length > N) samples.shift();
+        // quadro RENDERIZADO: a tira avanca uma celula
+        if (dt > TARGET * 1.4) lost.add(frameIdx);
+        frameIdx++;
+        scrollX += CELL;
+        if (lost.size > 240) lost.delete(frameIdx - 300);
         statAcc += dt;
         statFrames++;
         if (statAcc >= 400) {
           const avg = statAcc / statFrames;
           const fps = Math.round(1000 / avg);
           const verdict =
-            fps >= 55 ? "✓ seu aparelho segura 60fps"
-            : fps >= 40 ? "seu aparelho segura bem"
-            : "seu aparelho sofre — solte o drag";
-          setHud({ ms: Math.min(99, Math.round(avg * 10) / 10), fps, verdict });
+            fps >= 55 ? "✓ liso a 60fps"
+            : fps >= 40 ? "segura bem"
+            : "a tira esta engasgando — solte o drag";
+          hudRef.ms = Math.min(99, Math.round(avg * 10) / 10);
+          hudRef.fps = fps;
+          setHud({ ms: hudRef.ms, fps, verdict });
           statAcc = 0;
           statFrames = 0;
         }
-        void t0;
         draw();
       }
       raf = requestAnimationFrame(frame);
@@ -204,8 +229,8 @@ export default function FrameTimeGraph() {
       <canvas ref={canvasRef} />
       <figcaption className="mf-tf__hud" aria-hidden="true">
         <span>{hud.ms > 0 ? `${hud.ms} ms/frame` : "—"}</span>
-        <span>{hud.fps > 0 ? `${hud.fps} fps` : "measuring"}</span>
-        <span>{hud.verdict || "drag → load"}</span>
+        <span>{hud.fps > 0 ? `${hud.fps} fps` : "medindo"}</span>
+        <span>{hud.verdict || "puxe o drag → injeta carga"}</span>
       </figcaption>
     </figure>
   );

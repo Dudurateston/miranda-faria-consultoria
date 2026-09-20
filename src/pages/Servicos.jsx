@@ -80,7 +80,7 @@ function StrataCorte({ layers }) {
         ))}
         <path className="mf-corte__veio"
           d={`M -80 640 C 260 600, 480 690, 720 650 S 1150 590, 1680 635`}
-          fill="none" stroke="url(#cobre-veio)" strokeWidth={2.5} />
+          fill="none" stroke="url(#cobre-veio)" strokeWidth={3.5} />
         {/* bedrock: a Fundacao e rocha macica — hatch diagonal */}
         <path className="mf-corte__hatch" d={hatch.join(" ")} stroke="currentColor" strokeWidth="1" opacity="0.12" fill="none" />
       </g>
@@ -261,16 +261,16 @@ export default function Servicos() {
 .mf-corte__drift{animation:mf-corte-drift 16s ease-in-out infinite alternate}
 .mf-corte__log line{stroke-dasharray:80;stroke-dashoffset:80;animation:mf-corte-draw 0.9s var(--ease-out-expo) forwards;animation-delay:calc(1s + 0.16s * var(--i))}
 .mf-corte__log text{opacity:0;animation:mf-corte-fade 0.8s ease forwards;animation-delay:calc(1.15s + 0.16s * var(--i))}
-.mf-corte__label{font-family:var(--font-mono);font-size:26px;letter-spacing:0.22em;text-transform:uppercase;fill:currentColor;opacity:0.55}
+.mf-corte__label{font-family:var(--font-mono);font-size:26px;letter-spacing:0.22em;text-transform:uppercase;fill:currentColor;opacity:0.78}
 @keyframes mf-corte-draw{to{stroke-dashoffset:0}}
 @keyframes mf-corte-fade{to{opacity:1}}
 @keyframes mf-corte-pulsa{0%,100%{opacity:0.72}50%{opacity:1}}
 @keyframes mf-corte-drift{from{transform:translateX(-18px)}to{transform:translateX(18px)}}
 /* bandas: o estrato mais fundo, mais denso — solo tem peso */
-.mf-corte__band--0{opacity:0.028}
-.mf-corte__band--1{opacity:0.042}
-.mf-corte__band--2{opacity:0.058}
-.mf-corte__band--3{opacity:0.078}
+.mf-corte__band--0{opacity:0.05}
+.mf-corte__band--1{opacity:0.08}
+.mf-corte__band--2{opacity:0.115}
+.mf-corte__band--3{opacity:0.16}
 /* particulas de dados: corrente continua, lenta, na camada Dados */
 .mf-corte__dot{animation:mf-corte-flux ease-in-out infinite alternate;animation-duration:calc(16s + 7s * var(--di))}
 @keyframes mf-corte-flux{from{transform:translateX(-64px)}to{transform:translateX(64px)}}
@@ -280,7 +280,7 @@ export default function Servicos() {
 .mf-corte__log:hover .mf-corte__label{opacity:1;fill:var(--mf-copper,#B5502E)}
 .mf-corte__stratum ~ .mf-corte__drift{transition:opacity 0.3s ease}
 /* escala de profundidade a direita: numeros mono, discretos */
-.mf-corte__depth{text-anchor:end;opacity:0.35}
+.mf-corte__depth{text-anchor:end;opacity:0.6}
 @media(max-width:700px){.mf-srv__band{aspect-ratio:16/10}.mf-corte__label{font-size:58px}.mf-corte__depth{display:none}}
 
 

@@ -156,26 +156,51 @@ export default function HomeServicos() {
   transition:opacity 0.45s ease, padding 0.45s cubic-bezier(0.22,1,0.36,1);
 }
 .mf-srows:not(.mf-srows--pin):hover .mf-srow:not(:hover){opacity:0.32}
-/* ===== MODO PINADO (desktop + motion ok, so com .mf-srows--pin) ===== */
+/* ===== MODO PINADO v2 (Eduardo 19/09: "o video podia ocupar a tela
+   inteira com o texto DENTRO dele") — cada capitulo = video FULLBLEED
+   com scrim de legibilidade, nome grande na base e numeral fantasma
+   no alto. Cinema, nao catalogo ao lado. ===== */
 .mf-srows--pin{
   position:relative;height:100svh;margin-top:2rem;
-  border-top:none;overflow:hidden;
+  border-top:none;overflow:visible;
 }
 .mf-srows--pin .mf-srow__wrap,.mf-srows--pin > div{height:100%}
 .mf-srows--pin .mf-srow{
   position:absolute;inset:0;margin:0;height:100%;
-  grid-template-columns:clamp(3.2rem,7vw,6rem) 1fr clamp(180px,24vw,320px);
-  align-content:center;padding:0;border-bottom:none;
+  display:block;padding:0;border-bottom:none;
   opacity:0;visibility:hidden;
 }
-.mf-srows--pin .mf-srow__num{
-  font-size:clamp(2.6rem,6.5vw,5rem);line-height:0.9;color:var(--mf-copper-text,#A6481F);
+/* scrim: o texto mora DENTRO do video e continua legivel */
+.mf-srows--pin .mf-srow::before{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,
+    rgba(16,12,9,0.82) 0%, rgba(16,12,9,0.34) 34%,
+    rgba(16,12,9,0.05) 62%, transparent 100%);
 }
-.mf-srows--pin .mf-srow__name{font-size:clamp(1.9rem,4vw,3.4rem)}
-.mf-srows--pin .mf-srow__desc{font-size:clamp(0.95rem,1.25vw,1.1rem);max-width:44ch}
-.mf-srows--pin .mf-srow__go{opacity:1;transform:none}
-.mf-srows--pin .mf-srow__media{width:100%;aspect-ratio:4/3}
-.mf-srows--pin .mf-srow__gif,.mf-srows--pin .mf-srow__media video{opacity:0.85}
+/* "ocupar a tela INTEIRA" (Eduardo 19/09): o VIDEO escapa da coluna
+   de conteudo ate as bordas da viewport (o pin-spacer do GSAP engole
+   margem negativa no elemento pinado; no filho funciona). Texto e
+   numeral ficam na grade editorial, sob o video com scrim. */
+.mf-srows--pin .mf-srow__media{
+  position:absolute;top:0;bottom:0;
+  left:calc(50% - 50vw);width:100vw;
+  aspect-ratio:auto;border:none;border-radius:0;
+}
+.mf-srows--pin .mf-srow__gif,.mf-srows--pin .mf-srow__media video{opacity:1}
+.mf-srows--pin .mf-srow__num{
+  position:absolute;z-index:2;top:clamp(1rem,3.5vh,2rem);left:0;
+  font-size:clamp(4.5rem,12vw,10rem);line-height:0.8;
+  color:rgba(244,241,233,0.14);
+}
+.mf-srows--pin .mf-srow__body{
+  position:absolute;z-index:2;left:0;right:20%;bottom:clamp(1.6rem,6vh,3.2rem);
+  display:flex;flex-direction:column;gap:0.7rem;color:#F4F1E9;
+}
+.mf-srows--pin .mf-srow__name{font-size:clamp(2.2rem,4.6vw,3.9rem);color:#F4F1E9}
+.mf-srows--pin .mf-srow__desc{font-size:clamp(0.95rem,1.2vw,1.08rem);color:rgba(244,241,233,0.85);max-width:52ch}
+.mf-srows--pin .mf-srow__go{opacity:1;transform:none;color:#F4F1E9}
+.mf-srows--pin .mf-srow:hover{padding-left:0;padding-right:0}
+.mf-srows--pin .mf-srow:hover .mf-srow__num{color:rgba(244,241,233,0.14);text-indent:0}
 .mf-srows__rail{
   position:absolute;right:0;top:50%;transform:translateY(-50%);
   display:flex;flex-direction:column;gap:0.8rem;z-index:3;

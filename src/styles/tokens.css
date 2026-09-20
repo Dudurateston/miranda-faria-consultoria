@@ -123,6 +123,11 @@
   --color-divider: var(--hairline);
 }
 
+/* 19/09 v3: capitulos imersivos da home escapam da coluna ate a
+   borda da viewport; o clip evita scrollbar horizontal fantasma
+   (clip, diferente de hidden, nao cria scroll-container). */
+html{overflow-x:clip}
+
 /* A troca acompanha a rampa em vez de estalar na fronteira. */
 body,
 .mf-label,

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLang } from "@/lib/i18n";
 import ThemeToggle from "@/components/layout/ThemeToggle";
@@ -6,18 +6,13 @@ import { copy, getPractice, cases } from "@/content/copy";
 import { WHATSAPP_URL_BARE, M_LOGO, NAV_MEDIA } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
-/* 19/09: painel Trabalhos usava <video> cru; sem src ele continuava
-   rodando escondido igual aos outros. Mesma disciplina do AutoVideo. */
+/* 19/09 v3 (Eduardo: "os videos antigos AINDA aparecem brevemente"):
+   o aborto anterior so rodava ao FECHAR o painel — na TROCA de item com
+   o painel aberto, o Chromium continuava pintando o frame do video
+   anterior enquanto o novo carregava. Correcao definitiva, igual ao
+   AutoVideo: remontagem por KEY — elemento novo nao guarda frame velho. */
 function NavDropVideo({ src }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const v = ref.current;
-    if (!v || src) return;
-    v.pause();
-    v.removeAttribute("src");
-    v.load();
-  }, [src]);
-  return <video ref={ref} src={src} autoPlay muted loop playsInline preload="metadata" />;
+  return <video key={src ?? "off"} src={src} autoPlay muted loop playsInline preload="metadata" />;
 }
 
 const SUB_MEDIA = [

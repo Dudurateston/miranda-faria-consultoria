@@ -18,7 +18,7 @@ export const M_LOGO_DARK = "/art/m-logo-320-dark.webp";
    na skin clara) o CSS da um filtro de prata pra manter visibilidade. */
 /* M da CORTINA: osso CHAPADO sobre o círculo de cobre. O prata metálico
    (gradiente 61→215) tinha traços escuros que sumiam no cobre (18/09). */
-export const M_LOGO_CURTAIN = "/art/m-logo-curtain.webp"  /* oficial, igual ao site publicado */
+export const M_LOGO_CURTAIN = "/art/m-logo-curtain-deboss.webp"  /* 19/09 v3 (Eduardo: contraste estranho, "parece um erro") — M "stamp" espresso-cobre escuro (3,1:1) no lugar do branco chapado (7,9:1) sobre o cobre */
 export const M_LOGO_INK = "/art/m-logo-ink.webp";
 /* M em OSSO PURO para fundos escuros/cobre (Eduardo 17/09: o prata
    oficial lavado sobre grafite/cobre dava erro de contraste). */

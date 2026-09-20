@@ -39,6 +39,7 @@ export default function HowIWork() {
     window.matchMedia("(min-width: 861px)").matches &&
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
+  const [chapter, setChapter] = useState(() => (pinned ? 0 : -1));
   useScrollStagger(layersRef, {
     selector: ".mf-hiw__layer", stagger: 0.12, y: 36, enabled: !pinned,
   });
@@ -49,29 +50,24 @@ export default function HowIWork() {
     if (!el) return undefined;
     const rows = gsap.utils.toArray(".mf-hiw__layer", el);
     if (rows.length < 2) return undefined;
+    const cur = { i: 0 };
     const ctx = gsap.context(() => {
-      gsap.set(rows, { autoAlpha: 0, y: 70 });
-      gsap.set(rows[0], { autoAlpha: 1, y: 0 });
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: el,
-          start: "top top",
-          end: "+=" + rows.length * 85 + "%",
-          pin: true,
-          scrub: 0.6,
-          anticipatePin: 1,
+      /* DESCIDA (v3, Eduardo: "a ideia e boa mas mal implementada"):
+         sem scrub — o scroll avanca CAPITULOS discretos e o CSS
+         transiciona a morphologia (zona de foco <-> estrato compacto
+         empilhado em cima). A coluna geologica se forma enquanto a
+         escavacao desce; o medidor acompanha 0,75m por camada. */
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top top",
+        end: "+=" + rows.length * 100 + "%",
+        pin: true,
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          const i = Math.min(rows.length - 1, Math.floor(self.progress * rows.length * 0.999));
+          if (i !== cur.i) { cur.i = i; setChapter(i); }
         },
       });
-      /* ESTRATOS (19/09 v2): a camada nova ENTRA por baixo e as
-         anteriores ACOMODAM (nudge de compactacao) — no fim do pin
-         as 4 estao empilhadas na tela: a coluna geologica e literal.
-         Gramatica propria, distinta dos capitulos das Solucoes. */
-      rows.forEach((row, i) => {
-        if (i === 0) return;
-        tl.to(row, { autoAlpha: 1, y: 0, duration: 1, ease: "power2.out" }, i)
-          .to(rows.slice(0, i), { y: "-=10", duration: 1, ease: "power2.out" }, i);
-      });
-      tl.to({}, { duration: 0.5 });
     }, el);
     return () => { ctx.revert(); };
   }, [pinned]);
@@ -79,7 +75,6 @@ export default function HowIWork() {
   return (
     <>
       <PageHeader label={t.label} lead={t.lead} intro={t.intro} />
-      {t.science && <p className="mf-hw__science">{t.science}</p>}
       <MfRule />
 
       <section className="mf-hiw" data-depth="0.30">
@@ -87,9 +82,15 @@ export default function HowIWork() {
           ref={layersRef}
           className={pinned ? "mf-hiw__stack mf-hiw__stack--pin mf-stage" : "mf-hiw__stack mf-stage"}
         >
+          {pinned && (
+            <div className="mf-hiw__meter" aria-hidden="true">
+              <span className="mf-hiw__meter-l">{lang === "pt" ? "PROFUNDIDADE" : "DEPTH"}</span>
+              <span className="mf-hiw__meter-v">−{(Math.max(0, chapter) * 0.75).toFixed(2)} m</span>
+            </div>
+          )}
           {t.layers.map((l, i) => (
             <article
-              className="mf-hiw__layer"
+              className={`mf-hiw__layer${pinned ? (chapter === i ? " is-focus" : i < chapter ? " is-settled" : "") : ""}`}
               key={l.t}
               style={{ "--depth": i }}
             >
@@ -102,6 +103,16 @@ export default function HowIWork() {
           ))}
         </div>
       </section>
+
+      {/* Eduardo 19/09 (print): o paragrafo de ciencia estava espremido
+          entre o header e o pin — parecia fora de lugar. Agora ele mora
+          ABAIXO dos estratos: "ciencia POR BAIXO do metodo" vira literal,
+          nota de rodape da escavacao. */}
+      {t.science && (
+        <div className="mf-hiw__note">
+          <p className="mf-hw__science">{t.science}</p>
+        </div>
+      )}
 
       <MfRule />
 
@@ -191,20 +202,47 @@ export default function HowIWork() {
 .mf-hiw__stack{max-width:var(--max-width-page);margin:0 auto}
 /* ===== MODO PINADO (desktop + motion ok) ===== */
 .mf-hiw__stack--pin{height:100svh;position:relative;overflow:hidden}
-/* ESTRATOS: faixas horizontais em slots fixos (25svh cada); a pilha
-   preenche a tela conforme o scroll e no fim a coluna fica completa. */
+/* DESCIDA (v3): cada capitulo tem ZONA DE FOCO que encolhe conforme
+   a coluna cresce; capitulos lidos viram estratos compactos (12svh)
+   empilhados no topo. Gramatica propria: Solucao = imersao fullbleed;
+   How-I-Work = escavacao. O medidor a direita desce 0,75m por camada —
+   a MESMA escala do corte geologico da pagina Servicos. */
 .mf-hiw__stack--pin .mf-hiw__layer{
-  position:absolute;left:0;right:0;top:calc(var(--depth) * 25svh);
-  padding:0.3rem 0;border-bottom:1px solid var(--color-divider);
+  position:absolute;left:0;right:0;overflow:hidden;
+  top:calc(var(--depth) * 12svh + 2svh);
+  height:calc(94svh - var(--depth) * 12svh);
+  padding:1.2svh 0 0;
+  border-bottom:1px solid var(--color-divider);
   grid-template-columns:clamp(4.5rem,9vw,8rem) 1fr;align-items:baseline;
+  opacity:0;transform:translateY(70px);
+  transition:top 0.75s var(--ease-out-expo),height 0.75s var(--ease-out-expo),
+    opacity 0.55s ease,transform 0.75s var(--ease-out-expo);
+}
+.mf-hiw__stack--pin .mf-hiw__layer.is-focus,
+.mf-hiw__stack--pin .mf-hiw__layer.is-settled{
+  opacity:1;transform:translateY(0);
+}
+.mf-hiw__stack--pin .mf-hiw__layer.is-settled{
+  top:calc(var(--depth) * 12svh);height:12svh;padding-top:0.6svh;
+  grid-template-columns:clamp(3rem,5vw,4.5rem) 1fr;
 }
 .mf-hiw__stack--pin .mf-hiw__layer:first-child{border-top:1px solid var(--color-divider)}
-.mf-hiw__stack--pin .mf-hiw__num{
-  font-size:clamp(2rem,4.5vw,3.4rem);line-height:0.9;
+.mf-hiw__stack--pin .is-focus .mf-hiw__num{
+  font-size:clamp(2.6rem,6vw,4.6rem);line-height:0.9;
   color:var(--mf-copper-text,#A6481F);
 }
-.mf-hiw__stack--pin .mf-hiw__name{font-size:clamp(1.5rem,2.6vw,2.2rem)}
-.mf-hiw__stack--pin .mf-hiw__desc{font-size:clamp(0.9rem,1.05vw,1rem);max-width:56ch}
+.mf-hiw__stack--pin .is-focus .mf-hiw__name{font-size:clamp(1.9rem,3.2vw,2.8rem)}
+.mf-hiw__stack--pin .is-focus .mf-hiw__desc{opacity:1;font-size:clamp(0.95rem,1.1vw,1.05rem);max-width:56ch}
+.mf-hiw__stack--pin .is-settled .mf-hiw__num{font-size:clamp(1.05rem,1.6vw,1.4rem);color:var(--color-text-ghost)}
+.mf-hiw__stack--pin .is-settled .mf-hiw__name{font-size:clamp(1rem,1.4vw,1.25rem)}
+.mf-hiw__stack--pin .is-settled .mf-hiw__desc{opacity:0;font-size:0.85rem;transition:opacity 0.3s ease}
+.mf-hiw__meter{
+  position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:3;
+  display:flex;flex-direction:column;gap:0.35rem;text-align:right;
+  font-family:var(--font-mono);
+}
+.mf-hiw__meter-l{font-size:10px;letter-spacing:0.3em;color:var(--color-text-ghost)}
+.mf-hiw__meter-v{font-size:clamp(1.25rem,1.9vw,1.7rem);color:var(--mf-copper-text,#A6481F);font-variant-numeric:tabular-nums}
 
 .mf-hiw__layer{
   display:grid;grid-template-columns:4.5rem 1fr;
@@ -331,7 +369,8 @@ export default function HowIWork() {
   font-family:var(--font-mono);font-size:var(--text-body-md);
   letter-spacing:0.04em;color:var(--color-text-secondary);
 }
-        .mf-hw__science{font-family:var(--font-mono);font-size:12px;line-height:1.7;color:var(--color-text-secondary);max-width:62ch;margin-top:1.1rem;border-left:2px solid var(--color-accent);padding-left:1rem}
+        .mf-hw__science{font-family:var(--font-mono);font-size:12px;line-height:1.7;color:var(--color-text-secondary);max-width:62ch;margin:0;border-left:2px solid var(--color-accent);padding-left:1rem}
+.mf-hiw__note{max-width:var(--max-width-page);margin:2.8rem auto 0;padding:0 var(--gutter)}
       `}</style>
     </>
   );

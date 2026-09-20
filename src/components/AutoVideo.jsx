@@ -20,25 +20,18 @@ export default function AutoVideo({ src, className, label, poster, preloadOffset
     if (ref.current) io.observe(ref.current);
     return () => io.disconnect();
   }, []);
-  /* 19/09 v2 (Eduardo: "aparece o video antigo por uma fracao de
-     segundo"): o Chromium continua PINTANDO o ultimo frame do video
-     anterior enquanto o novo carrega na troca de src. Tambem nao aborta
-     ao remover src. Em QUALQUER mudanca de src: pausa, limpa o frame
-     velho e recarrega limpo. */
-  useEffect(() => {
-    const v = ref.current;
-    if (!v) return;
-    v.pause();
-    if (!src) v.removeAttribute("src");
-    v.load();
-  }, [src]);
+  /* 19/09 v3 (Eduardo: "os videos antigos ainda aparecem brevemente"):
+     remontagem por KEY — trocar src cria um elemento <video> NOVO, que
+     nao guarda frame nenhum do anterior. O bug do Chromium de pintar o
+     ultimo frame do video velho durante a carga fica impossivel por
+     construcao, em vez de mitigado por aborto. */
+  const finalSrc = live ? src : undefined;
   return (
     <video
+      key={finalSrc ?? "off"}
       ref={ref}
       className={className}
-      src={live ? src : undefined}
-      /* 19/09: poster so quando live — abaixo da dobra nao baixava
-         nada de video mas baixava o poster (101KB na 1a tela). */
+      src={finalSrc}
       poster={live ? still : undefined}
       autoPlay={live}
       muted
