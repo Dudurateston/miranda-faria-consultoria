@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "@/components/TransitionLink";
@@ -46,38 +46,48 @@ export default function HomeServicos() {
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
   const [chapter, setChapter] = useState(() => (pinned ? 0 : -1));
+  /* v3.54 (Eduardo 20/09: "sombra preta que sobe em linha" + transicao
+     lamacenta + ritmo estranho): receita Awwwards — WIPE por clip-path
+     (nunca crossfade de 2 videos), 30% do segmento para transicao e 70%
+     de PLATO travado, scrub 0.8 de inercia, scrim ESTÁTICO em tom de osso
+     no palco (nao viaja com o capitulo — mata a banda escura), e no
+     transicao o capitulo que sai mantem o video (hold) para o wipe cobrir
+     imagem de verdade, nunca vazio. */
+  const [hold, setHold] = useState(-1);
   const rowsRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!pinned) return undefined;
     const el = rowsRef.current;
     if (!el) return undefined;
     const rows = gsap.utils.toArray(".mf-srow", el);
     if (rows.length < 2) return undefined;
-    const cur = { i: 0 };
+    const cur = { i: 0, h: -1 };
     const ctx = gsap.context(() => {
-      gsap.set(rows, { autoAlpha: 0, y: 90 });
-      gsap.set(rows[0], { autoAlpha: 1, y: 0 });
+      gsap.set(rows, { clipPath: "inset(100% 0% 0% 0%)" });
+      gsap.set(rows[0], { clipPath: "inset(0% 0% 0% 0%)" });
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
           start: "top top",
-          end: "+=" + rows.length * 110 + "%",
+          end: "+=" + rows.length * 100 + "%",
           pin: true,
-          scrub: 0.6,
+          scrub: 0.8,
           anticipatePin: 1,
           onUpdate: (self) => {
-            const i = Math.min(rows.length - 1, Math.floor(self.progress * rows.length));
+            const p = self.progress * rows.length;
+            const i = Math.min(rows.length - 1, Math.floor(p));
+            const h = i > 0 && p - Math.floor(p) < 0.3 ? i - 1 : -1;
             if (i !== cur.i) { cur.i = i; setChapter(i); }
+            if (h !== cur.h) { cur.h = h; setHold(h); }
           },
         },
       });
       rows.forEach((row, i) => {
         if (i === 0) return;
-        tl.to(row, { autoAlpha: 1, y: 0, duration: 1 }, i)
-          .to(rows[i - 1], { autoAlpha: 0, y: -90, duration: 1 }, i);
+        tl.to(row, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.3, ease: "none" }, i);
       });
-      tl.to({}, { duration: 0.5 }); // respiro no fim antes de soltar o pin
+      tl.to({}, { duration: 0.7 }); // fecha o timeline em 4.0: plató do último capítulo antes de soltar o pin
     }, el);
     return () => { ctx.revert(); };
   }, [pinned]);
@@ -96,11 +106,16 @@ export default function HomeServicos() {
           aria-live={pinned ? "polite" : undefined}
         >
           {pinned && (
+            <>
             <div className="mf-srows__rail" aria-hidden="true">
               {VERTICALS.map((v, i) => (
                 <span key={v.slug} className={i === chapter ? "is-on" : undefined} />
               ))}
             </div>
+            <span className="mf-srows__hud" aria-hidden="true">
+              {String(chapter + 1).padStart(2, "0")} / {String(VERTICALS.length).padStart(2, "0")}
+            </span>
+            </>
           )}
           {VERTICALS.map(({ slug, gif }, i) => {
             const p = getPractice(lang, slug);
@@ -116,8 +131,9 @@ export default function HomeServicos() {
                 <span className="mf-srow__media">
                   <AutoVideo
                     className="mf-srow__gif"
-                    /* pinado: so o capitulo ativo carrega/roda o video */
-                    src={pinned ? (chapter === i ? gif : undefined) : gif}
+                    /* pinado: capitulo ativo + o que está saindo (hold).
+                       No plató resta 1 vídeo; na transição, 2. */
+                    src={pinned ? ((chapter === i || hold === i) ? gif : undefined) : gif}
                   />
                 </span>
               </Link>
@@ -168,14 +184,19 @@ export default function HomeServicos() {
 .mf-srows--pin .mf-srow{
   position:absolute;inset:0;margin:0;height:100%;
   display:block;padding:0;border-bottom:none;
-  opacity:0;visibility:hidden;
+  will-change:clip-path; /* wipe via GSAP; os vídeos ficam 100% opacos */
 }
-/* scrim: o texto mora DENTRO do video e continua legivel */
-.mf-srows--pin .mf-srow::before{
-  content:"";position:absolute;inset:0;z-index:1;
+/* scrim ESTÁTICO no PALCO (v3.54): degradê em tom de OSSO na base — não
+   viaja com o capítulo (mata a banda preta que subia em linha). O texto
+   vira TINTA sobre o osso: 100% a identidade do site, legível em qualquer
+   tema (color-mix com as vars). */
+.mf-srows--pin::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(to top,
-    rgba(16,12,9,0.82) 0%, rgba(16,12,9,0.34) 34%,
-    rgba(16,12,9,0.05) 62%, transparent 100%);
+    color-mix(in srgb, var(--color-bg) 97%, transparent) 0%,
+    color-mix(in srgb, var(--color-bg) 88%, transparent) 24%,
+    color-mix(in srgb, var(--color-bg) 30%, transparent) 40%,
+    transparent 54%);
 }
 /* "ocupar a tela INTEIRA" (Eduardo 19/09): o VIDEO escapa da coluna
    de conteudo ate as bordas da viewport (o pin-spacer do GSAP engole
@@ -194,11 +215,11 @@ export default function HomeServicos() {
 }
 .mf-srows--pin .mf-srow__body{
   position:absolute;z-index:2;left:0;right:20%;bottom:clamp(1.6rem,6vh,3.2rem);
-  display:flex;flex-direction:column;gap:0.7rem;color:#F4F1E9;
+  display:flex;flex-direction:column;gap:0.7rem;color:var(--color-text-primary);
 }
-.mf-srows--pin .mf-srow__name{font-size:clamp(2.2rem,4.6vw,3.9rem);color:#F4F1E9}
-.mf-srows--pin .mf-srow__desc{font-size:clamp(0.95rem,1.2vw,1.08rem);color:rgba(244,241,233,0.85);max-width:52ch}
-.mf-srows--pin .mf-srow__go{opacity:1;transform:none;color:#F4F1E9}
+.mf-srows--pin .mf-srow__name{font-size:clamp(2.2rem,4.6vw,3.9rem);color:var(--color-text-primary)}
+.mf-srows--pin .mf-srow__desc{font-size:clamp(0.95rem,1.2vw,1.08rem);color:var(--color-text-secondary);max-width:52ch}
+.mf-srows--pin .mf-srow__go{opacity:1;transform:none;color:var(--color-text-primary)}
 .mf-srows--pin .mf-srow:hover{padding-left:0;padding-right:0}
 .mf-srows--pin .mf-srow:hover .mf-srow__num{color:rgba(244,241,233,0.14);text-indent:0}
 .mf-srows__rail{
@@ -210,6 +231,12 @@ export default function HomeServicos() {
   transition:background 0.3s ease,width 0.3s ease;
 }
 .mf-srows__rail span.is-on{background:var(--copper,#B5502E);width:40px}
+.mf-srows__hud{
+  position:absolute;right:0;top:clamp(1rem,3.5vh,2rem);z-index:3;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);color:rgba(244,241,233,0.6);
+  pointer-events:none;
+}
 .mf-srow:hover{padding-left:0.9rem;padding-right:0.35rem}
 .mf-srow:hover .mf-srow__num{color:var(--mf-copper-text,#A6481F);text-indent:0.25rem}
 .mf-srow__num{
