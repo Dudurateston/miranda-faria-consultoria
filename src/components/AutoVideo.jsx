@@ -20,6 +20,16 @@ export default function AutoVideo({ src, className, label, poster, preloadOffset
     if (ref.current) io.observe(ref.current);
     return () => io.disconnect();
   }, []);
+  /* 19/09: remover o atributo src NAO aborta a reproducao no Chromium —
+     o video continuava rolando atras de painel fechado (nav empilhava
+     varios videos ativos). Sem src => para e solta o recurso. */
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || src) return;
+    v.pause();
+    v.removeAttribute("src");
+    v.load();
+  }, [src]);
   return (
     <video
       ref={ref}
