@@ -1,6 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
 import Link from "@/components/TransitionLink";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
@@ -14,8 +12,6 @@ import {
   WHATSAPP_URL_BARE,
 } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
-
-gsap.registerPlugin(ScrollTrigger);
 
 /**
  * As quatro soluções em LINHAS estilo spence — scroll reveal em cascata,
@@ -34,64 +30,6 @@ export default function HomeServicos() {
   const { lang, path } = useLang();
   const t = copy[lang];
 
-  /* AWWWARDS FASE 1 (19/09): as 4 solucoes viram CAPITULOS PINADOS no
-     desktop — a secao prende na tela e cada solucao assume a tela inteira
-     conforme o scroll, com numeral grande, video so do capitulo ATIVO
-     (melhora ate o peso: 1 video por vez em vez de 4 no stream) e trilho
-     de progresso em cobre. Mobile e prefers-reduced-motion: layout de
-     linhas atual, intocado. */
-  const [pinned] = useState(() =>
-    typeof window !== "undefined" &&
-    window.matchMedia("(min-width: 861px)").matches &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-  const [chapter, setChapter] = useState(() => (pinned ? 0 : -1));
-  /* v3.54 (Eduardo 20/09: "sombra preta que sobe em linha" + transicao
-     lamacenta + ritmo estranho): receita Awwwards — WIPE por clip-path
-     (nunca crossfade de 2 videos), 30% do segmento para transicao e 70%
-     de PLATO travado, scrub 0.8 de inercia, scrim ESTÁTICO em tom de osso
-     no palco (nao viaja com o capitulo — mata a banda escura), e no
-     transicao o capitulo que sai mantem o video (hold) para o wipe cobrir
-     imagem de verdade, nunca vazio. */
-  const [hold, setHold] = useState(-1);
-  const rowsRef = useRef(null);
-
-  useLayoutEffect(() => {
-    if (!pinned) return undefined;
-    const el = rowsRef.current;
-    if (!el) return undefined;
-    const rows = gsap.utils.toArray(".mf-srow", el);
-    if (rows.length < 2) return undefined;
-    const cur = { i: 0, h: -1 };
-    const ctx = gsap.context(() => {
-      gsap.set(rows, { clipPath: "inset(100% 0% 0% 0%)" });
-      gsap.set(rows[0], { clipPath: "inset(0% 0% 0% 0%)" });
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: el,
-          start: "top top",
-          end: "+=" + rows.length * 100 + "%",
-          pin: true,
-          scrub: 0.8,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const p = self.progress * rows.length;
-            const i = Math.min(rows.length - 1, Math.floor(p));
-            const h = i > 0 && p - Math.floor(p) < 0.3 ? i - 1 : -1;
-            if (i !== cur.i) { cur.i = i; setChapter(i); }
-            if (h !== cur.h) { cur.h = h; setHold(h); }
-          },
-        },
-      });
-      rows.forEach((row, i) => {
-        if (i === 0) return;
-        tl.to(row, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.3, ease: "none" }, i);
-      });
-      tl.to({}, { duration: 0.7 }); // fecha o timeline em 4.0: plató do último capítulo antes de soltar o pin
-    }, el);
-    return () => { ctx.revert(); };
-  }, [pinned]);
-
   return (
     <section className="mf-h">
       <div className="mf-h__inner">
@@ -100,48 +38,24 @@ export default function HomeServicos() {
         </Reveal>
         <LineReveal className="mf-h__lead" dot>{t.servicos.lead}</LineReveal>
 
-        <div
-          ref={rowsRef}
-          className={pinned ? "mf-srows mf-srows--pin" : "mf-srows"}
-          aria-live={pinned ? "polite" : undefined}
-        >
-          {pinned && (
-            <>
-            <div className="mf-srows__rail" aria-hidden="true">
-              {VERTICALS.map((v, i) => (
-                <span key={v.slug} className={i === chapter ? "is-on" : undefined} />
-              ))}
-            </div>
-            <span className="mf-srows__hud" aria-hidden="true">
-              {String(chapter + 1).padStart(2, "0")} / {String(VERTICALS.length).padStart(2, "0")}
-            </span>
-            </>
-          )}
+        <div className="mf-srows">
           {VERTICALS.map(({ slug, gif }, i) => {
             const p = getPractice(lang, slug);
             if (!p) return null;
-            const row = (
-              <Link to={path(slug)} className="mf-srow" data-cursor="link">
-                <span className="mf-srow__num">{String(i + 1).padStart(2, "0")}</span>
-                <span className="mf-srow__body">
-                  <span className="mf-srow__name">{p.label}</span>
-                  <span className="mf-srow__desc">{t.servicos.cards?.[slug] ?? p.lead}</span>
-                  <span className="mf-srow__go">{t.servicos.seeVertical} →</span>
-                </span>
-                <span className="mf-srow__media">
-                  <AutoVideo
-                    className="mf-srow__gif"
-                    /* pinado: capitulo ativo + o que está saindo (hold).
-                       No plató resta 1 vídeo; na transição, 2. */
-                    src={pinned ? ((chapter === i || hold === i) ? gif : undefined) : gif}
-                  />
-                </span>
-              </Link>
-            );
-            return pinned ? (
-              <div key={slug}>{row}</div>
-            ) : (
-              <Reveal key={slug} delay={i * 110}>{row}</Reveal>
+            return (
+              <Reveal key={slug} delay={i * 110}>
+                <Link to={path(slug)} className="mf-srow" data-cursor="link">
+                  <span className="mf-srow__num">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="mf-srow__body">
+                    <span className="mf-srow__name">{p.label}</span>
+                    <span className="mf-srow__desc">{t.servicos.cards?.[slug] ?? p.lead}</span>
+                    <span className="mf-srow__go">{t.servicos.seeVertical} →</span>
+                  </span>
+                  <span className="mf-srow__media">
+                    <AutoVideo className="mf-srow__gif" src={gif} />
+                  </span>
+                </Link>
+              </Reveal>
             );
           })}
         </div>
@@ -171,72 +85,7 @@ export default function HomeServicos() {
   border-bottom:1px solid var(--mf-rule);
   transition:opacity 0.45s ease, padding 0.45s cubic-bezier(0.22,1,0.36,1);
 }
-.mf-srows:not(.mf-srows--pin):hover .mf-srow:not(:hover){opacity:0.32}
-/* ===== MODO PINADO v2 (Eduardo 19/09: "o video podia ocupar a tela
-   inteira com o texto DENTRO dele") — cada capitulo = video FULLBLEED
-   com scrim de legibilidade, nome grande na base e numeral fantasma
-   no alto. Cinema, nao catalogo ao lado. ===== */
-.mf-srows--pin{
-  position:relative;height:100svh;margin-top:2rem;
-  border-top:none;overflow:visible;
-}
-.mf-srows--pin .mf-srow__wrap,.mf-srows--pin > div{height:100%}
-.mf-srows--pin .mf-srow{
-  position:absolute;inset:0;margin:0;height:100%;
-  display:block;padding:0;border-bottom:none;
-  will-change:clip-path; /* wipe via GSAP; os vídeos ficam 100% opacos */
-}
-/* scrim ESTÁTICO no PALCO (v3.54): degradê em tom de OSSO na base — não
-   viaja com o capítulo (mata a banda preta que subia em linha). O texto
-   vira TINTA sobre o osso: 100% a identidade do site, legível em qualquer
-   tema (color-mix com as vars). */
-.mf-srows--pin::after{
-  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(to top,
-    color-mix(in srgb, var(--color-bg) 97%, transparent) 0%,
-    color-mix(in srgb, var(--color-bg) 88%, transparent) 24%,
-    color-mix(in srgb, var(--color-bg) 30%, transparent) 40%,
-    transparent 54%);
-}
-/* "ocupar a tela INTEIRA" (Eduardo 19/09): o VIDEO escapa da coluna
-   de conteudo ate as bordas da viewport (o pin-spacer do GSAP engole
-   margem negativa no elemento pinado; no filho funciona). Texto e
-   numeral ficam na grade editorial, sob o video com scrim. */
-.mf-srows--pin .mf-srow__media{
-  position:absolute;top:0;bottom:0;
-  left:calc(50% - 50vw);width:100vw;
-  aspect-ratio:auto;border:none;border-radius:0;
-}
-.mf-srows--pin .mf-srow__gif,.mf-srows--pin .mf-srow__media video{opacity:1}
-.mf-srows--pin .mf-srow__num{
-  position:absolute;z-index:2;top:clamp(1rem,3.5vh,2rem);left:0;
-  font-size:clamp(4.5rem,12vw,10rem);line-height:0.8;
-  color:rgba(244,241,233,0.14);
-}
-.mf-srows--pin .mf-srow__body{
-  position:absolute;z-index:2;left:0;right:20%;bottom:clamp(1.6rem,6vh,3.2rem);
-  display:flex;flex-direction:column;gap:0.7rem;color:var(--color-text-primary);
-}
-.mf-srows--pin .mf-srow__name{font-size:clamp(2.2rem,4.6vw,3.9rem);color:var(--color-text-primary)}
-.mf-srows--pin .mf-srow__desc{font-size:clamp(0.95rem,1.2vw,1.08rem);color:var(--color-text-secondary);max-width:52ch}
-.mf-srows--pin .mf-srow__go{opacity:1;transform:none;color:var(--color-text-primary)}
-.mf-srows--pin .mf-srow:hover{padding-left:0;padding-right:0}
-.mf-srows--pin .mf-srow:hover .mf-srow__num{color:rgba(244,241,233,0.14);text-indent:0}
-.mf-srows__rail{
-  position:absolute;right:0;top:50%;transform:translateY(-50%);
-  display:flex;flex-direction:column;gap:0.8rem;z-index:3;
-}
-.mf-srows__rail span{
-  width:26px;height:2px;background:var(--mf-rule);
-  transition:background 0.3s ease,width 0.3s ease;
-}
-.mf-srows__rail span.is-on{background:var(--copper,#B5502E);width:40px}
-.mf-srows__hud{
-  position:absolute;right:0;top:clamp(1rem,3.5vh,2rem);z-index:3;
-  font-family:var(--font-mono);font-size:var(--text-label);
-  letter-spacing:var(--tracking-label);color:rgba(244,241,233,0.6);
-  pointer-events:none;
-}
+.mf-srows:hover .mf-srow:not(:hover){opacity:0.32}
 .mf-srow:hover{padding-left:0.9rem;padding-right:0.35rem}
 .mf-srow:hover .mf-srow__num{color:var(--mf-copper-text,#A6481F);text-indent:0.25rem}
 .mf-srow__num{
