@@ -20,14 +20,16 @@ export default function AutoVideo({ src, className, label, poster, preloadOffset
     if (ref.current) io.observe(ref.current);
     return () => io.disconnect();
   }, []);
-  /* 19/09: remover o atributo src NAO aborta a reproducao no Chromium —
-     o video continuava rolando atras de painel fechado (nav empilhava
-     varios videos ativos). Sem src => para e solta o recurso. */
+  /* 19/09 v2 (Eduardo: "aparece o video antigo por uma fracao de
+     segundo"): o Chromium continua PINTANDO o ultimo frame do video
+     anterior enquanto o novo carrega na troca de src. Tambem nao aborta
+     ao remover src. Em QUALQUER mudanca de src: pausa, limpa o frame
+     velho e recarrega limpo. */
   useEffect(() => {
     const v = ref.current;
-    if (!v || src) return;
+    if (!v) return;
     v.pause();
-    v.removeAttribute("src");
+    if (!src) v.removeAttribute("src");
     v.load();
   }, [src]);
   return (
