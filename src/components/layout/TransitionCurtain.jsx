@@ -56,7 +56,10 @@ export default function TransitionCurtain() {
         .set(circle, { scale: 0 })
         .to(circle, { scale: 1, duration: 0.55, ease: "power3.inOut" }, 0)
         .fromTo(m, { opacity: 0, scale: 0.86 },
-          { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }, 0.28);
+          { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }, 0.28)
+        .fromTo(el.querySelector(".mf-curtain__word"),
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 0.36);
     };
 
     document.addEventListener("click", onClick, true);
@@ -82,8 +85,11 @@ export default function TransitionCurtain() {
     });
     /* O M segura 150ms em opacity 1 antes de desvanecer — nunca
        translúcido no meio da coreografia (regra da casa). */
+    const word = el.querySelector(".mf-curtain__word");
     t.set(m, { opacity: 1 }, 0)
+      .set(word, { opacity: 1 }, 0)
       .to(m, { opacity: 0, duration: 0.2, ease: "power2.in" }, 0.15)
+      .to(word, { opacity: 0, duration: 0.18, ease: "power2.in" }, 0.12)
       .to(circle, { scale: 0, duration: 0.6, ease: "expo.inOut" }, 0.04);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loc.pathname]);
@@ -92,6 +98,7 @@ export default function TransitionCurtain() {
     <div ref={curtain} className="mf-curtain" data-theme="dark" data-v="copper" style={{ display: "none" }} aria-hidden="true">
       <div className="mf-curtain__circle" />
       <img className="mf-curtain__m" src={M_LOGO_CURTAIN} alt="" aria-hidden="true" style={{ opacity: mOn ? 1 : 0 }} />
+      <span className="mf-curtain__word" aria-hidden="true" style={{ opacity: mOn ? 1 : 0 }}>MIRANDA FARIA</span>
       <style>{`
 .mf-curtain{
   position:fixed;inset:0;z-index:150;
@@ -111,9 +118,21 @@ export default function TransitionCurtain() {
   will-change:transform;
 }
 .mf-curtain__m{
-  width:clamp(96px,12vw,176px);opacity:1;position:absolute;z-index:1;
-  left:50%;top:50%;translate:-50% -50%;
+  /* 19/09 v2 (Eduardo: 'nao tenho certeza se e um M bonito que chame
+     atencao'): o M ocupava so 2,9% do centro da tela — engolido pelo
+     cobre. Agora o M manda no momento (~19vw) e o wordmark assenta
+     embaixo: virou momento de MARCA, nao flash de cor. */
+  width:clamp(120px,19vw,300px);opacity:1;position:absolute;z-index:1;
+  left:50%;top:50%;translate:-50% -54%;
   /* sem drop-shadow: sombra escura sobre o cobre chapado virava mancha */
+  will-change:transform,opacity;
+}
+.mf-curtain__word{
+  position:absolute;z-index:1;
+  left:50%;top:50%;translate:-50% 9vw;
+  font-family:var(--font-mono);font-size:clamp(11px,1.1vw,15px);
+  letter-spacing:0.42em;text-indent:0.42em;text-transform:uppercase;
+  color:#F5F1EA;white-space:nowrap;
   will-change:transform,opacity;
 }
 `}</style>

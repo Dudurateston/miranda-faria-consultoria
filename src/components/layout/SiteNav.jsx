@@ -491,6 +491,10 @@ html[data-skin="dark"] .mf-mnav__wm{filter:none;opacity:0.10}
   transition:transform var(--duration-base) var(--ease-out-expo),
              opacity var(--duration-fast) var(--ease-in-out);
 }
+/* 19/09 (Eduardo: burger BRANCO demais no tema escuro, claro perfeito):
+   mesma regra do M escuro — osso-dim pra nao brilhar sobre o grafite. */
+[data-theme="dark"] .mf-nav__burger span{background:rgba(245,241,234,0.6)}
+[data-theme="on-deep"] .mf-nav__burger span{background:rgba(245,241,234,0.6)}
 .mf-nav__burger[aria-expanded="true"] span:first-child{transform:translateY(4.25px) rotate(45deg)}
 .mf-nav__burger[aria-expanded="true"] span:last-child{transform:translateY(-4.25px) rotate(-45deg)}
 
