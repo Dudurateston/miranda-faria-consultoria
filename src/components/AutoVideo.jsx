@@ -35,7 +35,9 @@ export default function AutoVideo({ src, className, label, poster, preloadOffset
       ref={ref}
       className={className}
       src={live ? src : undefined}
-      poster={still}
+      /* 19/09: poster so quando live — abaixo da dobra nao baixava
+         nada de video mas baixava o poster (101KB na 1a tela). */
+      poster={live ? still : undefined}
       autoPlay={live}
       muted
       loop

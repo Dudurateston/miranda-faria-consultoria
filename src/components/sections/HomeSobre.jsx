@@ -16,7 +16,7 @@ export default function HomeSobre() {
     <section className="mf-h">
       <div className="mf-h__inner mf-sobre">
         <figure className="mf-sobre__media">
-          <AutoVideo src={SECTION_MEDIA.sobreReel} />
+          <AutoVideo src={SECTION_MEDIA.sobreReel} preloadOffset="0px" />
         </figure>
         <div className="mf-sobre__text">
           <Reveal>

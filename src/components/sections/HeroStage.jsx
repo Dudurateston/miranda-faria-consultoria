@@ -106,8 +106,7 @@ export function IntroGate() {
 
   return (
     <div ref={ref} className="mf-intro" data-theme="dark" aria-hidden="true">
-      <img className="mf-intro__m mf-intro__m--light" src={M_LOGO} alt="" aria-hidden="true" />
-      <img className="mf-intro__m mf-intro__m--dark" src={M_LOGO_DARK} alt="" aria-hidden="true" />
+      <img className="mf-intro__m" src={theme === "dark" ? M_LOGO_DARK : M_LOGO} alt="" aria-hidden="true" />
       <span className="mf-intro__word">MIRANDA FARIA</span>
       <span className="mf-intro__line" />
       <span className="mf-intro__role">{roles}</span>
@@ -225,6 +224,7 @@ export function IntroGate() {
 
 export default function HeroStage() {
   const { lang, path } = useLang();
+  const { theme } = useTheme();
   const t = copy[lang].home;
   const content = useRef(null);
   const [hintVisible, setHintVisible] = useState(false);
@@ -285,8 +285,9 @@ export default function HeroStage() {
       <div ref={content} className="mf-hero__content" style={{ opacity: 0 }}>
         {/* Eduardo 18/09: o M da hero é o MESMO da versão publicada —
             o prata oficial (m-logo-320), um só asset nos dois temas. */}
-        <img className="mf-hero__mark mf-hero__mark--light" src={M_LOGO} alt="" aria-hidden="true" />
-        <img className="mf-hero__mark mf-hero__mark--dark" src={M_LOGO_DARK} alt="" aria-hidden="true" />
+        {/* 19/09: um so M no DOM (o do tema ativo) — antes os dois
+            baixavam sempre e so um aparecia: 49KB perdidos por visita. */}
+        <img className="mf-hero__mark" src={theme === "dark" ? M_LOGO_DARK : M_LOGO} alt="" aria-hidden="true" />
         <h1 className="mf-hero__title" aria-label={t.wordmark}>
           {t.wordmark.split("").map((ch, i) => (
             <span key={i} className="mf-hero__ltr" aria-hidden="true">
