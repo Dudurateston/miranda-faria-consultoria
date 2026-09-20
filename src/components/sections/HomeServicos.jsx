@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "@/components/TransitionLink";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
@@ -12,6 +14,8 @@ import {
   WHATSAPP_URL_BARE,
 } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
+
+gsap.registerPlugin(ScrollTrigger);
 
 /**
  * As quatro soluções em LINHAS estilo spence — scroll reveal em cascata,
@@ -30,6 +34,54 @@ export default function HomeServicos() {
   const { lang, path } = useLang();
   const t = copy[lang];
 
+  /* AWWWARDS FASE 1 (19/09): as 4 solucoes viram CAPITULOS PINADOS no
+     desktop — a secao prende na tela e cada solucao assume a tela inteira
+     conforme o scroll, com numeral grande, video so do capitulo ATIVO
+     (melhora ate o peso: 1 video por vez em vez de 4 no stream) e trilho
+     de progresso em cobre. Mobile e prefers-reduced-motion: layout de
+     linhas atual, intocado. */
+  const [pinned] = useState(() =>
+    typeof window !== "undefined" &&
+    window.matchMedia("(min-width: 861px)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+  const [chapter, setChapter] = useState(() => (pinned ? 0 : -1));
+  const rowsRef = useRef(null);
+
+  useEffect(() => {
+    if (!pinned) return undefined;
+    const el = rowsRef.current;
+    if (!el) return undefined;
+    const rows = gsap.utils.toArray(".mf-srow", el);
+    if (rows.length < 2) return undefined;
+    const cur = { i: 0 };
+    const ctx = gsap.context(() => {
+      gsap.set(rows, { autoAlpha: 0, y: 90 });
+      gsap.set(rows[0], { autoAlpha: 1, y: 0 });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: el,
+          start: "top top",
+          end: "+=" + rows.length * 110 + "%",
+          pin: true,
+          scrub: 0.6,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const i = Math.min(rows.length - 1, Math.floor(self.progress * rows.length));
+            if (i !== cur.i) { cur.i = i; setChapter(i); }
+          },
+        },
+      });
+      rows.forEach((row, i) => {
+        if (i === 0) return;
+        tl.to(row, { autoAlpha: 1, y: 0, duration: 1 }, i)
+          .to(rows[i - 1], { autoAlpha: 0, y: -90, duration: 1 }, i);
+      });
+      tl.to({}, { duration: 0.5 }); // respiro no fim antes de soltar o pin
+    }, el);
+    return () => { ctx.revert(); };
+  }, [pinned]);
+
   return (
     <section className="mf-h">
       <div className="mf-h__inner">
@@ -38,24 +90,42 @@ export default function HomeServicos() {
         </Reveal>
         <LineReveal className="mf-h__lead" dot>{t.servicos.lead}</LineReveal>
 
-        <div className="mf-srows">
+        <div
+          ref={rowsRef}
+          className={pinned ? "mf-srows mf-srows--pin" : "mf-srows"}
+          aria-live={pinned ? "polite" : undefined}
+        >
+          {pinned && (
+            <div className="mf-srows__rail" aria-hidden="true">
+              {VERTICALS.map((v, i) => (
+                <span key={v.slug} className={i === chapter ? "is-on" : undefined} />
+              ))}
+            </div>
+          )}
           {VERTICALS.map(({ slug, gif }, i) => {
             const p = getPractice(lang, slug);
             if (!p) return null;
-            return (
-              <Reveal key={slug} delay={i * 110}>
-                <Link to={path(slug)} className="mf-srow" data-cursor="link">
-                  <span className="mf-srow__num">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="mf-srow__body">
-                    <span className="mf-srow__name">{p.label}</span>
-                    <span className="mf-srow__desc">{t.servicos.cards?.[slug] ?? p.lead}</span>
-                    <span className="mf-srow__go">{t.servicos.seeVertical} →</span>
-                  </span>
-                  <span className="mf-srow__media">
-                    <AutoVideo className="mf-srow__gif" src={gif} />
-                  </span>
-                </Link>
-              </Reveal>
+            const row = (
+              <Link to={path(slug)} className="mf-srow" data-cursor="link">
+                <span className="mf-srow__num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="mf-srow__body">
+                  <span className="mf-srow__name">{p.label}</span>
+                  <span className="mf-srow__desc">{t.servicos.cards?.[slug] ?? p.lead}</span>
+                  <span className="mf-srow__go">{t.servicos.seeVertical} →</span>
+                </span>
+                <span className="mf-srow__media">
+                  <AutoVideo
+                    className="mf-srow__gif"
+                    /* pinado: so o capitulo ativo carrega/roda o video */
+                    src={pinned ? (chapter === i ? gif : undefined) : gif}
+                  />
+                </span>
+              </Link>
+            );
+            return pinned ? (
+              <div key={slug}>{row}</div>
+            ) : (
+              <Reveal key={slug} delay={i * 110}>{row}</Reveal>
             );
           })}
         </div>
@@ -85,7 +155,36 @@ export default function HomeServicos() {
   border-bottom:1px solid var(--mf-rule);
   transition:opacity 0.45s ease, padding 0.45s cubic-bezier(0.22,1,0.36,1);
 }
-.mf-srows:hover .mf-srow:not(:hover){opacity:0.32}
+.mf-srows:not(.mf-srows--pin):hover .mf-srow:not(:hover){opacity:0.32}
+/* ===== MODO PINADO (desktop + motion ok, so com .mf-srows--pin) ===== */
+.mf-srows--pin{
+  position:relative;height:100svh;margin-top:2rem;
+  border-top:none;overflow:hidden;
+}
+.mf-srows--pin .mf-srow__wrap,.mf-srows--pin > div{height:100%}
+.mf-srows--pin .mf-srow{
+  position:absolute;inset:0;margin:0;height:100%;
+  grid-template-columns:clamp(3.2rem,7vw,6rem) 1fr clamp(180px,24vw,320px);
+  align-content:center;padding:0;border-bottom:none;
+  opacity:0;visibility:hidden;
+}
+.mf-srows--pin .mf-srow__num{
+  font-size:clamp(2.6rem,6.5vw,5rem);line-height:0.9;color:var(--mf-copper-text,#A6481F);
+}
+.mf-srows--pin .mf-srow__name{font-size:clamp(1.9rem,4vw,3.4rem)}
+.mf-srows--pin .mf-srow__desc{font-size:clamp(0.95rem,1.25vw,1.1rem);max-width:44ch}
+.mf-srows--pin .mf-srow__go{opacity:1;transform:none}
+.mf-srows--pin .mf-srow__media{width:100%;aspect-ratio:4/3}
+.mf-srows--pin .mf-srow__gif,.mf-srows--pin .mf-srow__media video{opacity:0.85}
+.mf-srows__rail{
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:0.8rem;z-index:3;
+}
+.mf-srows__rail span{
+  width:26px;height:2px;background:var(--mf-rule);
+  transition:background 0.3s ease,width 0.3s ease;
+}
+.mf-srows__rail span.is-on{background:var(--copper,#B5502E);width:40px}
 .mf-srow:hover{padding-left:0.9rem;padding-right:0.35rem}
 .mf-srow:hover .mf-srow__num{color:var(--mf-copper-text,#A6481F);text-indent:0.25rem}
 .mf-srow__num{
