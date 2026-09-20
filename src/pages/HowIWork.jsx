@@ -13,7 +13,7 @@ import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import TerraformCanvas from "@/components/TerraformCanvas";
 import MotionCurves from "@/components/MotionCurves";
-import FrameTimeGraph from "@/components/FrameTimeGraph";
+import LiveMetrics from "@/components/LiveMetrics";
 import { usePageTitle } from "@/lib/usePageTitle";
 import { SECTION_MEDIA } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
@@ -166,7 +166,7 @@ export default function HowIWork() {
                 </div>
               </div>
               <div className="mf-hiw__democell">
-                <FrameTimeGraph />
+                <LiveMetrics />
                 <div className="mf-hiw__democap">
                   <span className="mf-hiw__demotag">{t.demo.items[2].tag}</span>
                   <span className="mf-hiw__demoname">{t.demo.items[2].name}</span>
