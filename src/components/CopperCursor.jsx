@@ -59,10 +59,13 @@ export default function CopperCursor() {
        sao puxados sutilmente na direcao do mouse (max 10px, lerp proprio).
        Usa a propriedade CSS `translate` (separada do `transform`), então
        nao briga com as animacoes do GSAP nos mesmos elementos. Elementos
-       gigantes (capitulos pinados) ficam de fora pelo limite de altura. */
+       gigantes (capitulos pinados) ficam de fora pelo limite de altura.
+       UNIVERSAL (19/09 v2): a, button e summary entram automaticamente —
+       o site inteiro fica magnetico sem precisar de data-cursor em cada
+       elemento. */
     let magnets = [];
     const refreshMagnets = () => {
-      magnets = [...document.querySelectorAll("[data-cursor]")].filter(
+      magnets = [...document.querySelectorAll("a, button, summary, [data-cursor]")].filter(
         (el) => el.isConnected
       );
     };

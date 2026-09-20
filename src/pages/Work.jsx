@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useState } from "react";
 import Link from "@/components/TransitionLink";
+import Reveal from "@/components/Reveal";
 
 import PageHeader from "@/components/layout/PageHeader";
 import MfRule from "@/components/MfRule";
@@ -103,8 +104,8 @@ export default function Work() {
         ) : (
           <div ref={listRef} className="mf-work__list mf-stage">
             {list.map((c, i) => (
+              <Reveal key={c.slug} delay={(i % 6) * 70}>
               <Link
-                key={c.slug}
                 to={path(`work/${c.slug}`)}
                 className="mf-work__item"
                 data-cursor="link"
@@ -119,6 +120,7 @@ export default function Work() {
                   <span className="mf-label mf-work__year">{c.year}</span>
                 </div>
               </Link>
+              </Reveal>
             ))}
           </div>
         )}

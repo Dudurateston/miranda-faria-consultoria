@@ -13,10 +13,11 @@ export function useScrollStagger(ref, {
   duration = 0.8,
   delay = 0,
   start = "top 75%",
+  enabled = true,
 } = {}) {
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || !enabled) return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mq.matches) return;
 
@@ -40,5 +41,5 @@ export function useScrollStagger(ref, {
       if (tween.scrollTrigger) tween.scrollTrigger.kill();
       tween.kill();
     };
-  }, [ref, selector, stagger, y, duration, delay, start]);
+  }, [ref, selector, stagger, y, duration, delay, start, enabled]);
 }

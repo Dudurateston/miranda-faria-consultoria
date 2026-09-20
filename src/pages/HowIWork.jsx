@@ -1,4 +1,9 @@
-import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+import React, { useState, useRef, useEffect } from "react";
 import PageHeader from "@/components/layout/PageHeader";
 import MfRule from "@/components/MfRule";
 import Reveal from "@/components/Reveal";
@@ -25,7 +30,54 @@ export default function HowIWork() {
   const layersRef = useRef(null);
   usePageTitle(t.label, "how");
 
-  useScrollStagger(layersRef, { selector: ".mf-hiw__layer", stagger: 0.12, y: 36 });
+  /* AWWWARDS FASE 1 (19/09): as 4 camadas do processo viram um momento
+     PINADO no desktop — cada camada assume a tela inteira com o scroll
+     (scrub), numeral grande em cobre e trilho de progresso. Mobile e
+     prefers-reduced-motion mantem a lista empilhada de hoje. */
+  const [pinned] = useState(() =>
+    typeof window !== "undefined" &&
+    window.matchMedia("(min-width: 861px)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+  const [chapter, setChapter] = useState(() => (pinned ? 0 : -1));
+
+  useScrollStagger(layersRef, {
+    selector: ".mf-hiw__layer", stagger: 0.12, y: 36, enabled: !pinned,
+  });
+
+  useEffect(() => {
+    if (!pinned) return undefined;
+    const el = layersRef.current;
+    if (!el) return undefined;
+    const rows = gsap.utils.toArray(".mf-hiw__layer", el);
+    if (rows.length < 2) return undefined;
+    const cur = { i: 0 };
+    const ctx = gsap.context(() => {
+      gsap.set(rows, { autoAlpha: 0, y: 90 });
+      gsap.set(rows[0], { autoAlpha: 1, y: 0 });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: el,
+          start: "top top",
+          end: "+=" + rows.length * 110 + "%",
+          pin: true,
+          scrub: 0.6,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const i = Math.min(rows.length - 1, Math.floor(self.progress * rows.length));
+            if (i !== cur.i) { cur.i = i; setChapter(i); }
+          },
+        },
+      });
+      rows.forEach((row, i) => {
+        if (i === 0) return;
+        tl.to(row, { autoAlpha: 1, y: 0, duration: 1 }, i)
+          .to(rows[i - 1], { autoAlpha: 0, y: -90, duration: 1 }, i);
+      });
+      tl.to({}, { duration: 0.5 });
+    }, el);
+    return () => { ctx.revert(); };
+  }, [pinned]);
 
   return (
     <>
@@ -34,7 +86,17 @@ export default function HowIWork() {
       <MfRule />
 
       <section className="mf-hiw" data-depth="0.30">
-        <div ref={layersRef} className="mf-hiw__stack mf-stage">
+        <div
+          ref={layersRef}
+          className={pinned ? "mf-hiw__stack mf-hiw__stack--pin mf-stage" : "mf-hiw__stack mf-stage"}
+        >
+          {pinned && (
+            <div className="mf-hiw__rail" aria-hidden="true">
+              {t.layers.map((l, i) => (
+                <span key={l.t} className={i === chapter ? "is-on" : undefined} />
+              ))}
+            </div>
+          )}
           {t.layers.map((l, i) => (
             <article
               className="mf-hiw__layer"
@@ -137,6 +199,28 @@ export default function HowIWork() {
 
 .mf-hiw{padding:0 var(--gutter) var(--section-gap)}
 .mf-hiw__stack{max-width:var(--max-width-page);margin:0 auto}
+/* ===== MODO PINADO (desktop + motion ok) ===== */
+.mf-hiw__stack--pin{height:100svh;position:relative;overflow:hidden}
+.mf-hiw__stack--pin .mf-hiw__layer{
+  position:absolute;inset:0;height:100%;padding:0;
+  border-bottom:none;align-content:center;align-items:center;
+  grid-template-columns:clamp(4.5rem,10vw,9rem) 1fr;
+}
+.mf-hiw__stack--pin .mf-hiw__layer:first-child{border-top:none}
+.mf-hiw__stack--pin .mf-hiw__num{
+  font-size:clamp(2.4rem,6vw,4.6rem);line-height:0.9;
+  color:var(--mf-copper-text,#A6481F);
+}
+.mf-hiw__stack--pin .mf-hiw__desc{max-width:52ch}
+.mf-hiw__rail{
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:0.8rem;z-index:3;
+}
+.mf-hiw__rail span{
+  width:26px;height:2px;background:var(--color-divider);
+  transition:background 0.3s ease,width 0.3s ease;
+}
+.mf-hiw__rail span.is-on{background:var(--copper,#B5502E);width:40px}
 
 .mf-hiw__layer{
   display:grid;grid-template-columns:4.5rem 1fr;
