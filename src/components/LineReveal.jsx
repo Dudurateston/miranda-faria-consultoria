@@ -13,29 +13,27 @@ export default function LineReveal({
   className = "",
   children,
   dot = false,
+  mark = ".",
   stagger = 0.08,
   duration = 0.8,
   delay = 0,
   start = "top 75%",
 }) {
   const ref = useRef(null);
-  const rawText = typeof children === "string" ? children : String(children ?? "");
-  // bug perceptual (Eduardo, 25/09): quando a copy ja termina em "." e dot=true,
-  // o ponto cobre decorativo duplicava ("real.."). Corta ponto(s) finais da copy
-  // ANTES de montar as linhas. E se a frase termina em "?" ou "!", NAO adiciona
-  // ponto nenhum — ponto cobre é assinatura de frase afirmativa ("resolver?.").
-  const stripped = rawText.replace(/[.\s]+$/, "");
-  const text = dot ? stripped : rawText;
+  // Eduardo, 25/09: o PONTO DUPLO (pontuacao da frase + marca cobre) é assinatura
+  // intencional da casa — ex.: "negócio real.." e "resolver??" na seção Diagnóstico.
+  // mark define qual é a marca cobre (default "."; HomeInsights usa "?").
+  const text = typeof children === "string" ? children : String(children ?? "");
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    // ponto final em cobre — identidade da casa (Eduardo, 17/09)
+    // marca final em cobre — identidade da casa (Eduardo, 17/09)
     const mkDot = () => {
       const d = document.createElement("span");
       d.className = "lr__word lr__dot";
-      d.textContent = ".";
+      d.textContent = mark;
       return d;
     };
 
@@ -102,9 +100,8 @@ export default function LineReveal({
         el.appendChild(lineEl);
         inners.push(inner);
       });
-      // ponto em cobre cola na ultima palavra (sem espaco antes) — só em frase afirmativa
-      if (dot && inners.length && !/[?!…]$/.test(stripped.trim()))
-        inners[inners.length - 1].appendChild(mkDot());
+      // marca em cobre cola na ultima palavra (sem espaco antes)
+      if (dot && inners.length) inners[inners.length - 1].appendChild(mkDot());
       // 3. animar. Ao terminar, o clip deixa de ser necessario — se a
       // quebra mudar depois (fonte/resize), o texto nunca fica cortado.
       gsap.set(el, { opacity: 1 });
