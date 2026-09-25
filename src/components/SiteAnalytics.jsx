@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { trackPageView, trackWhatsApp, track } from "@/lib/siteAnalytics";
 import { initGA, gaPageView } from "@/lib/ga";
+import { initClarity } from "@/lib/clarity";
 import { getConsent } from "@/lib/siteAnalytics";
 
 /**
@@ -54,9 +55,10 @@ export default function SiteAnalytics() {
     /* B2 (relatório): GA só carrega com consentimento concedido (LGPD) */
     if (getConsent() === "granted") {
       initGA();
+      initClarity();
       gaPageView(location.pathname);
     }
-    const onConsent = () => { if (getConsent() === "granted") { initGA(); gaPageView(pathRef.current); } };
+    const onConsent = () => { if (getConsent() === "granted") { initGA(); initClarity(); gaPageView(pathRef.current); } };
     window.addEventListener("mf-consent-changed", onConsent);
     return () => window.removeEventListener("mf-consent-changed", onConsent);
     trackPageView(location.pathname);

@@ -10,7 +10,7 @@
  * Enquanto o ID estiver vazio, nenhuma chamada sai do navegador.
  */
 
-export const GA_MEASUREMENT_ID = ""; // cole aqui o ID "G-…" da propriedade
+export const GA_MEASUREMENT_ID = "G-CCY8ETS6BF"; // propriedade GA4 556001875 (Miranda Faria — Site)
 
 const ID_RE = /^G-[A-Z0-9]{6,}$/;
 let loaded = false;
