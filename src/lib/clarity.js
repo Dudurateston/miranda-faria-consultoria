@@ -10,7 +10,7 @@
  * do GA4, em SiteAnalytics.jsx); sem consentimento, zero coleta.
  */
 
-export const CLARITY_ID = ""; // cole aqui o Project ID do Clarity
+export const CLARITY_ID = "yo1ibw7966"; // Project ID do Clarity (mirandafaria.com.br)
 
 const ID_RE = /^[a-z0-9]{10,20}$/i;
 let loaded = false;
