@@ -19,7 +19,13 @@ export default function LineReveal({
   start = "top 75%",
 }) {
   const ref = useRef(null);
-  const text = typeof children === "string" ? children : String(children ?? "");
+  const rawText = typeof children === "string" ? children : String(children ?? "");
+  // bug perceptual (Eduardo, 25/09): quando a copy ja termina em "." e dot=true,
+  // o ponto cobre decorativo duplicava ("real.."). Corta ponto(s) finais da copy
+  // ANTES de montar as linhas. E se a frase termina em "?" ou "!", NAO adiciona
+  // ponto nenhum — ponto cobre é assinatura de frase afirmativa ("resolver?.").
+  const stripped = rawText.replace(/[.\s]+$/, "");
+  const text = dot ? stripped : rawText;
 
   useEffect(() => {
     const el = ref.current;
@@ -96,8 +102,9 @@ export default function LineReveal({
         el.appendChild(lineEl);
         inners.push(inner);
       });
-      // ponto em cobre cola na ultima palavra (sem espaco antes)
-      if (dot && inners.length) inners[inners.length - 1].appendChild(mkDot());
+      // ponto em cobre cola na ultima palavra (sem espaco antes) — só em frase afirmativa
+      if (dot && inners.length && !/[?!…]$/.test(stripped.trim()))
+        inners[inners.length - 1].appendChild(mkDot());
       // 3. animar. Ao terminar, o clip deixa de ser necessario — se a
       // quebra mudar depois (fonte/resize), o texto nunca fica cortado.
       gsap.set(el, { opacity: 1 });
