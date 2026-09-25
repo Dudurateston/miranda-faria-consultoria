@@ -29,9 +29,12 @@ function upsert(selector, attrs, content) {
 /* Palavras-chave por pagina (Eduardo 17/09: "coloque palavras chaves,
    tags"). Base institucional + tags da rota — leves, sem stuffing. */
 const BASE_KEYWORDS = {
+  /* 25/09 (Eduardo: mudanca pra Irlanda, clientes internacionais):
+     alvo primario Reino Unido + Irlanda, depois BR. */
   en: [
-    "design engineer", "creative technologist", "web consultancy",
-    "web design brazil", "systems development", "automation", "AI workflow",
+    "web consultancy Ireland", "web design Dublin", "freelance web developer UK",
+    "design engineer", "creative technologist", "systems development",
+    "automation", "AI workflow", "remote web consultant",
   ],
   pt: [
     "design engineer", "consultoria de tecnologia", "desenvolvimento web",

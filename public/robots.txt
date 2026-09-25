@@ -8,5 +8,6 @@ Disallow: /forgot-password
 Disallow: /reset-password
 Disallow: /oauth/
 Disallow: /connect
+Disallow: /painel
 
 Sitemap: https://mirandafaria.com.br/sitemap.xml

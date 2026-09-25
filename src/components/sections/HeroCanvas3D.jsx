@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import * as THREE from "three";
 import { cases, practices, PRACTICE_SLUGS } from "@/content/copy";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Hero — A REDE VIVA 3D.
@@ -54,12 +55,19 @@ const NET_SKIN = {
 const skinNow = () => (document.documentElement.getAttribute("data-skin") === "dark" ? NET_SKIN.dark : NET_SKIN.light);
 
 function Network3D({ lang, path }) {
+  /* FIX 25/09 (Eduardo: "voltar pelo botao voltar deixa a hero bugada"):
+     as bolas navegavam com window.location.assign — descarga inteira da
+     pagina; ao voltar, o Chrome restaura do bfcache com o contexto WebGL
+     morto (canvas congelado). Agora navega via SPA: o app continua
+     montado, a hero desmonta limpa e volta com a entrada completa. */
+  const navigate = useNavigate();
   const mount = useRef(null);
   const [label, setLabel] = useState(null); // { name, x, y }
   const [hint, setHint] = useState(false); // "arraste para explorar" (1a vez na sessao visual)
 
   useEffect(() => {
     const el = mount.current;
+    let gone = false; // impede navigate apos desmontar
     const section = el.closest(".mf-hero");
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const isMobile = section.clientWidth < 860;
@@ -389,7 +397,7 @@ function Network3D({ lang, path }) {
           renderer.domElement.style.cursor = "default";
           gsap.to(camera.userData, { baseZ: 2.0, duration: 0.55, ease: "power3.in" });
           gsap.to(".mf-hero__content", { opacity: 0, duration: 0.3 });
-          setTimeout(() => window.location.assign(to), 520);
+          setTimeout(() => { if (!gone) navigate(to); }, 520);
         }
       }
       drag.on = false;
@@ -526,10 +534,25 @@ function Network3D({ lang, path }) {
       const sk = skinNow();
       live.forEach((mm) => mm.color.setHex(sk[mm.userData.slot]));
     };
+    /* BLINDAGEM bfcache/contexto: qualquer retorno com contexto WebGL
+       morto (aba oculta, bfcache, GPU reset) remove o canvas morto em
+       vez de exibir congelado; pageshow persistido re-acorda o loop. */
+    const onCtxLost = (e) => {
+      e.preventDefault();
+      stop();
+      if (renderer.domElement.parentNode === el) el.removeChild(renderer.domElement);
+    };
+    renderer.domElement.addEventListener("webglcontextlost", onCtxLost);
+    const onShow = (e) => { if (e.persisted && !gone) start(); };
+    window.addEventListener("pageshow", onShow);
+
     const skinObs = new MutationObserver(repaint);
     skinObs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-skin"] });
 
     return () => {
+      gone = true;
+      renderer.domElement.removeEventListener("webglcontextlost", onCtxLost);
+      window.removeEventListener("pageshow", onShow);
       skinObs.disconnect();
       stop(); io.disconnect();
       document.removeEventListener("visibilitychange", onVis);

@@ -24,6 +24,7 @@ const Insights = React.lazy(() => import("@/pages/Insights"));
 const About = React.lazy(() => import("@/pages/About"));
 const Contact = React.lazy(() => import("@/pages/Contact"));
 const PrivacyPolicy = React.lazy(() => import("@/pages/PrivacyPolicy"));
+const Painel = React.lazy(() => import("@/pages/Painel"));
 import Home from "@/pages/Home";
 import TransitionCurtain from "@/components/layout/TransitionCurtain";
 import LogoEasterEgg from "@/components/layout/LogoEasterEgg";
@@ -124,6 +125,10 @@ const AuthenticatedApp = () => {
 
       {/* Paginas de infraestrutura Base44 — sem prefixo de idioma. */}
       <Route path="/privacidade" element={<PrivacyPolicy />} />
+
+      {/* PAINEL OPERACIONAL (25/09): fora do casco de idioma, sem SEO,
+          robots disallow. Leitura das entidades exige login admin. */}
+      <Route path="/painel" element={<Painel />} />
       {/* B3 (relatório): rotas de autenticação REMOVIDAS — site sem área
           logada, sem MCP; /register criava conta real aberta a qualquer
           um e /forgot-password enviava e-mail sob comando de desconhecido. */}

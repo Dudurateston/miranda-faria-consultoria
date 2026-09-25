@@ -1,8 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR" translate="no">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 25/09 (Eduardo: "traducao automatica do navegador bagunca as
+         letras"). O tradutor do Chrome injeta <font> dentro dos spans
+         que as animacoes de texto (LineReveal/GSAP) quebram em linhas e
+         caracteres — vira sopa de letrinhas. O site ja e nativamente
+         PT/EN (toggle no rodape), entao maquina de traduzir nao soma:
+         notranslate desliga a barra do Google Translate na pagina. -->
+    <meta name="google" content="notranslate" />
     <!-- Pre-paint: aplica o tema escolhido antes do bundle para nao piscar. -->
     <script>
       try { if (localStorage.getItem("mf-theme") === "dark") document.documentElement.dataset.skin = "dark"; } catch (e) {}
@@ -25,7 +32,8 @@
       imagesizes="(max-width: 900px) 92vw, 1100px"
     />
 
-    <meta name="description" content="I design and build complete web systems — brand, product and data as one — solo, using an orchestrated AI workflow." />
+    <meta name="description" content="I design and build complete web systems — brand, product and data as one — solo, using an orchestrated AI workflow. Serving clients in Ireland, the UK and worldwide." />
+    <meta name="keywords" content="web consultancy Ireland, web design Dublin, freelance web developer UK, design engineer, custom business systems, AI automation consultant, remote web consultant London, systems development" />
 
     <!-- Dados estruturados (Eduardo 17/09): entidade + servicos que o
          Google le para painel de conhecimento e Search Console. -->
@@ -41,7 +49,7 @@
           "url": "https://mirandafaria.com.br/",
           "description": "Design engineer e consultoria em tecnologia: sistemas de gestão, desenvolvimento web, design e automação com IA — do diagnóstico à entrega, uma só mão.",
           "founder": { "@type": "Person", "name": "Eduardo Miranda" },
-          "areaServed": ["BR", "Minas Gerais"],
+          "areaServed": ["IE", "GB", "Dublin", "London", "BR", "Minas Gerais"],
           "priceRange": "$$",
           "knowsLanguage": ["pt-BR", "en"],
           "makesOffer": [
