@@ -224,12 +224,12 @@ export const copy = {
     },
     about: {
       label: "About",
-      lead: "Every growing company discovers the same thing: what worked until now is no longer enough. That is the moment I step in to solve it.",
+      lead: "What held the company back becomes what moves it.",
       portraitFallback: "EMF",
       name: "Eduardo Miranda Faria",
       body: [
-        "I solve management problems of every kind: processes that only work with the owner on top, information scattered across spreadsheets and WhatsApp, orders that get lost, gut-feel control. Every project starts with diagnosing the real problem and ends with the operation running on a system, in the company's name, without depending on whoever built it.",
-        "Two fronts move together. Simple, corporate automation: a workflow any employee understands on day one, and a dashboard that shows the whole business at a glance. And the brand: not a logo touch-up, but a complete rebuild, with strategy, visual identity and art direction so the company looks like the size it already is.",
+        "What holds it back has a name: processes that only work with the owner on top, information scattered across spreadsheets and WhatsApp, orders that get lost, gut-feel control.",
+        "On the other side, the operation runs on a system, in the company's name. Two fronts move together: simple, corporate automation, with a workflow any employee understands on day one and a dashboard that shows the whole business at a glance; and the brand, which is not a logo touch-up but a complete rebuild, with strategy, visual identity and art direction so the company looks like the size it already is.",
         "I'm Eduardo Miranda Faria, from Piumhi, in the Minas Gerais countryside, with an office in Belo Horizonte. Miranda Faria carries my name because whoever talks to me talks to whoever builds: from the first voice note to the system live, I lead every project personally. And I only call it delivered when the problem is solved, not when the deadline runs out.",
       ],
       location: "Piumhi, Minas Gerais — office in Belo Horizonte · working with clients across Brazil.",
@@ -620,12 +620,12 @@ export const copy = {
     },
     about: {
       label: "Quem faz",
-      lead: "Toda empresa que cresce descobre a mesma coisa: o que deu certo até aqui não é mais suficiente. É nesse momento que eu entro pra resolver.",
+      lead: "O que travava a empresa vira o que a move.",
       portraitFallback: "EMF",
       name: "Eduardo Miranda Faria",
       body: [
-        "Resolvo problemas de gestão de todo tipo: processo que só funciona com o dono em cima, informação espalhada em planilha e WhatsApp, pedido que se perde, controle feito no olho. Cada projeto começa pelo diagnóstico do problema real e termina com a operação rodando em sistema, no nome da empresa, sem depender de quem construiu.",
-        "Duas frentes andam juntas. A automação simples e empresarial: fluxo que o funcionário entende no primeiro dia e um painel que mostra o negócio inteiro num olhar. E a marca: não o retoque de um logo, mas a reconstrução completa, com estratégia, identidade visual e criação artística para a empresa parecer o tamanho que ela já é.",
+        "O que trava tem nome: processo que só funciona com o dono em cima, informação espalhada em planilha e WhatsApp, pedido que se perde, controle feito no olho.",
+        "Do outro lado, a operação rodando em sistema, no nome da empresa. Duas frentes andam juntas: a automação simples e empresarial, com fluxo que o funcionário entende no primeiro dia e um painel que mostra o negócio inteiro num olhar; e a marca, que não é o retoque de um logo, mas a reconstrução completa, com estratégia, identidade visual e criação artística, para a empresa parecer o tamanho que ela já é.",
         "Sou Eduardo Miranda Faria, de Piumhi, interior de Minas Gerais, com escritório em Belo Horizonte. A Miranda Faria leva meu nome porque quem conversa comigo fala com quem constrói: do primeiro áudio ao sistema no ar, eu lidero cada projeto pessoalmente. E só considero entregue quando o problema está resolvido, não quando o prazo vence.",
       ],
       location: "Piumhi, Minas Gerais — escritório em Belo Horizonte · atendimento para todo o Brasil.",

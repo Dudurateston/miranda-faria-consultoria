@@ -72,8 +72,6 @@ html[data-skin="dark"] .mf-home{
   letter-spacing:var(--tracking-display);color:var(--color-text-primary);
   margin:1.25rem 0 0;
 }
-/* lead de frase longa (Sobre): cai de display-xl pra display-lg pra respirar (Eduardo 25/09) */
-.mf-h__lead--long{font-size:var(--text-display-lg)}
 .mf-h__cta{
   display:inline-block;margin-top:2.5rem;
   font-family:var(--font-mono);font-size:var(--text-label);
