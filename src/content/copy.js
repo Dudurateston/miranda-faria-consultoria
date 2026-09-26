@@ -102,7 +102,7 @@ export const copy = {
       },
       heroCta: "Get in touch",
       netHint: "hover · drag the nodes · click to explore",
-      sobrePreview: { label: "About", cta: "Learn more" },
+      sobrePreview: { label: "About", cta: "Learn more", body: "Management problems are solved with systems, not effort. I diagnose, build the operation in the company's name, and only call it done when it runs without me." },
       techPreview: {
         label: "Technology",
         lead: "A lean stack, driven by method.",
@@ -498,7 +498,7 @@ export const copy = {
       },
       heroCta: "Fale comigo",
       netHint: "passe o mouse · arraste os nós · clique para explorar",
-      sobrePreview: { label: "Sobre", cta: "Saiba mais" },
+      sobrePreview: { label: "Sobre", cta: "Saiba mais", body: "Problema de gestão se resolve com sistema, não com esforço. Eu diagnostico, monto a operação no nome da empresa e só considero entregue quando ela roda sem mim." },
       techPreview: {
         label: "Tecnologia",
         lead: "Stack enxuto, dirigido por método.",

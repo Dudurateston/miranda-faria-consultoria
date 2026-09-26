@@ -24,7 +24,7 @@ export default function HomeSobre() {
           </Reveal>
           <LineReveal className="mf-h__lead mf-h__lead--long" dot>{t.about.lead}</LineReveal>
           <Reveal delay={140}>
-            <p className="mf-sobre__body">{t.about.body[0]}</p>
+            <p className="mf-sobre__body">{t.home.sobrePreview.body}</p>
           </Reveal>
           <Reveal delay={200}>
             <Link to={path("about")} className="mf-h__cta" data-cursor="link">
