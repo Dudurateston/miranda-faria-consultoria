@@ -1001,7 +1001,7 @@ export const cases = {
         "Made certification the axis of the identity: in a market full of scrap, the paper that proves it is a design asset.",
       impact:
         "The yard transmits trust before the first conversation.",
-      media: { dir: "1000-pecas-marca", shots: 3, video: false },
+      media: { dir: "1000-pecas-marca", shots: 1, video: false }, // 02/03 têm telefone provisório e "ROTAFORTE" — fora até o dono decidir
     },
     {
       slug: "roda-agro-marca",
@@ -1268,7 +1268,7 @@ export const cases = {
         "A certificação virou o eixo da identidade: num mercado cheio de sucata, o papel que prova é ativo de design.",
       impact:
         "O pátio transmite confiança antes da primeira conversa.",
-      media: { dir: "1000-pecas-marca", shots: 3, video: false },
+      media: { dir: "1000-pecas-marca", shots: 1, video: false }, // 02/03 têm telefone provisório e "ROTAFORTE" — fora até o dono decidir
     },
     {
       slug: "roda-agro-marca",
