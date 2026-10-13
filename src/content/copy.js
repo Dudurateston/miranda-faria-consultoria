@@ -351,7 +351,7 @@ export const copy = {
       intro:
         "Four questions and a defensible estimate of what the problem costs — before any talk of price or technology. Size the pain first, prescribe second.",
       evidence:
-        "Two numbers worth keeping: answering a customer within 5 minutes makes you 21× more likely to qualify them than taking 30 — MIT/InsideSales lead response study. And the average company takes 42 hours to answer a lead — Harvard Business Review. A system exists to keep you on the right side of those numbers.",
+        "One number worth keeping: the average company takes 42 hours to answer a lead — Harvard Business Review. A system exists to keep you on the right side of that number.",
       steps: { pain: "The pain", driver: "The driver", base: "The size", urgency: "The urgency" },
       painQ: "Where does it hurt most today?",
       painHint: "Pick the main one.",
@@ -749,7 +749,7 @@ export const copy = {
       intro:
         "Quatro perguntas e uma estimativa defensável do custo do seu problema — antes de falar de preço ou de tecnologia. Primeiro o tamanho da dor, depois a solução.",
       evidence:
-        "Dois números para guardar: quem responde a um cliente em 5 minutos tem 21× mais chance de qualificá-lo do que quem demora 30 — estudo de resposta a leads do MIT/InsideSales. E a média das empresas demora 42 horas para responder um lead — Harvard Business Review. Um sistema existe pra você ficar do lado certo desses números.",
+        "Um número para guardar: a média das empresas demora 42 horas para responder um lead — Harvard Business Review. Um sistema existe pra você ficar do lado certo desse número.",
       steps: { pain: "A dor", driver: "O driver", base: "O porte", urgency: "A urgência" },
       painQ: "Onde dói mais hoje?",
       painHint: "Escolha o principal.",
