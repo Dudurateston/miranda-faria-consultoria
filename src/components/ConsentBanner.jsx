@@ -33,7 +33,7 @@ export default function ConsentBanner() {
       aria-live="polite"
       aria-label={t.title}
     >
-      <p className="mf-consent__label">LGPD</p>
+      <p className="mf-consent__label">{lang === "en" ? "GDPR" : "LGPD"}</p>
       <p className="mf-consent__text">{t.text}</p>
       <div className="mf-consent__actions">
         <button
