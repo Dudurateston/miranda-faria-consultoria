@@ -32,56 +32,40 @@
       imagesizes="(max-width: 900px) 92vw, 1100px"
     />
 
-    <meta name="description" content="I design and build complete web systems — brand, product and data as one — solo, using an orchestrated AI workflow. Serving clients in Ireland, the UK and worldwide." />
+    <!-- 15/10 (site-seo): padrao em PT (html lang pt-BR, x-default /pt).
+         Cada rota troca title/description/OG no navegador (usePageTitle). -->
+    <meta name="description" content="Sistemas de gestão, automação com IA, sites e identidade para empresas que já passaram da planilha. Diagnóstico primeiro, demonstração na primeira semana." />
     <meta name="keywords" content="web consultancy Ireland, web design Dublin, freelance web developer UK, design engineer, custom business systems, AI automation consultant, remote web consultant London, systems development" />
     <!-- Hardening: nao vazar a URL completa (querystrings utm_*) para
          sites de terceiros quando um link de saida e clicado. -->
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-    <!-- Dados estruturados (Eduardo 17/09): entidade + servicos que o
-         Google le para painel de conhecimento e Search Console. -->
+    <!-- Dados estruturados (Eduardo 17/09; refeito 15/10 site-seo): UM bloco
+         so, com empresa, fundador, site e os dois produtos. O bloco Person
+         "Miranda Faria / Design Engineer" saiu: duplicava e contradizia a
+         empresa. FAQPage fica nas paginas de produto (useJsonLd). Versao
+         anterior: historico do git desta branch. -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "ProfessionalService",
-          "@id": "https://mirandafaria.com.br/#org",
-          "name": "Miranda Faria",
-          "slogan": "Consultoria & Tecnologia",
-          "url": "https://mirandafaria.com.br/",
-          "description": "Design engineer e consultoria em tecnologia: sistemas de gestão, desenvolvimento web, design e automação com IA — do diagnóstico à entrega, uma só mão.",
-          "founder": { "@type": "Person", "name": "Eduardo Miranda" },
-          "areaServed": ["IE", "GB", "Dublin", "London", "BR", "Minas Gerais"],
-          "priceRange": "$$",
-          "knowsLanguage": ["pt-BR", "en"],
-          "makesOffer": [
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sistemas & Gestão" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Desenvolvimento Web" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Design & Identidade" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automação com IA" } }
-          ]
-        },
-        {
-          "@type": "WebSite",
-          "@id": "https://mirandafaria.com.br/#site",
-          "url": "https://mirandafaria.com.br/",
-          "name": "Miranda Faria",
-          "inLanguage": ["pt-BR", "en"],
-          "publisher": { "@id": "https://mirandafaria.com.br/#org" }
-        }
-      ]
-    }
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {"@type": ["Organization", "ProfessionalService"], "@id": "https://mirandafaria.com.br/#org", "name": "Miranda Faria", "alternateName": "Miranda Faria Consultoria", "url": "https://mirandafaria.com.br/", "logo": "https://mirandafaria.com.br/favicon-512.png", "image": "https://mirandafaria.com.br/og.png", "slogan": "Consultoria & Tecnologia", "description": "Sistemas de gestão sob medida, sites, identidade visual e automação com IA, do diagnóstico à entrega. Produtos: Apontador (ponto e absenteísmo para indústrias) e Eightyfive (frequência para escolas de inglês na Irlanda).", "founder": {"@id": "https://mirandafaria.com.br/#eduardo"}, "email": "eduardo@mirandafaria.com.br", "address": {"@type": "PostalAddress", "addressLocality": "Piumhi", "addressRegion": "MG", "addressCountry": "BR"}, "areaServed": [{"@type": "Country", "name": "Brazil"}, {"@type": "Country", "name": "Ireland"}, {"@type": "Country", "name": "United Kingdom"}], "knowsLanguage": ["pt-BR", "en"], "makesOffer": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Sistemas & Gestão", "url": "https://mirandafaria.com.br/pt/gestao"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Desenvolvimento Web", "url": "https://mirandafaria.com.br/pt/desenvolvimento"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Design & Identidade", "url": "https://mirandafaria.com.br/pt/design"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Automação com IA", "url": "https://mirandafaria.com.br/pt/automacao"}}, {"@type": "Offer", "itemOffered": {"@id": "https://mirandafaria.com.br/pt/apontador#app"}}, {"@type": "Offer", "itemOffered": {"@id": "https://mirandafaria.com.br/en/eightyfive#app"}}]},
+    {"@type": "Person", "@id": "https://mirandafaria.com.br/#eduardo", "name": "Eduardo Miranda Faria", "jobTitle": "Fundador", "worksFor": {"@id": "https://mirandafaria.com.br/#org"}, "url": "https://mirandafaria.com.br/pt/about", "knowsLanguage": ["pt-BR", "en"]},
+    {"@type": "WebSite", "@id": "https://mirandafaria.com.br/#site", "url": "https://mirandafaria.com.br/", "name": "Miranda Faria", "inLanguage": ["pt-BR", "en"], "publisher": {"@id": "https://mirandafaria.com.br/#org"}},
+    {"@type": "SoftwareApplication", "@id": "https://mirandafaria.com.br/pt/apontador#app", "name": "Apontador", "url": "https://mirandafaria.com.br/pt/apontador", "applicationCategory": "BusinessApplication", "applicationSubCategory": "Controle de ponto e absenteísmo", "operatingSystem": "Web", "inLanguage": "pt-BR", "description": "Lê o AFD do relógio de ponto (Portaria 671) e os relatórios do sistema de ponto, e mostra absenteísmo por dia, setor e mês, horas extras e seu custo, e pontos de atenção da CLT.", "featureList": ["Leitura do AFD da Portaria 671 e do leiaute da Portaria 1510", "Importação de relatórios em CSV, Excel, HTML ou PDF", "Absenteísmo por dia, setor e mês, com atestado separado de falta sem justificativa", "Horas extras, faltantes e custo das extras", "Folha de ausentes do dia e relatório mensal para Excel"], "audience": {"@type": "BusinessAudience", "audienceType": "Indústrias no Brasil"}, "publisher": {"@id": "https://mirandafaria.com.br/#org"}},
+    {"@type": "SoftwareApplication", "@id": "https://mirandafaria.com.br/en/eightyfive#app", "name": "Eightyfive", "url": "https://mirandafaria.com.br/en/eightyfive", "applicationCategory": "EducationalApplication", "applicationSubCategory": "Attendance register", "operatingSystem": "Web", "inLanguage": "en", "description": "Attendance register for English language schools in Ireland listed on ILEP or using the TrustEd Ireland mark: 15-minute rule, class teacher student count, six-week absence alerts, 85% forecasts and full record export.", "featureList": ["15-minute lateness rule per class or segment", "Class teacher student count", "Alert at 25% or more uncertified absence in the first six weeks", "Forecast of each student's attendance against 85%", "Full attendance record export"], "audience": {"@type": "BusinessAudience", "audienceType": "English language schools in Ireland"}, "publisher": {"@id": "https://mirandafaria.com.br/#org"}}
+  ]
+}
     </script>
     <meta name="theme-color" content="#F5F1EA" />
-    <title>Miranda Faria — Design Engineer &amp; Creative Technologist</title>
+    <title>Miranda Faria — Sistemas sob medida, automação e sites</title>
 
     <!-- Cartao de link: e a primeira impressao quando o portfolio e
          colado no LinkedIn ou no WhatsApp, antes do site abrir. -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Miranda Faria" />
-    <meta property="og:title" content="Miranda Faria — Design Engineer &amp; Creative Technologist" />
-    <meta property="og:description" content="Brand, product and data as one system — designed and shipped by one person." />
+    <meta property="og:title" content="Miranda Faria — Sistemas sob medida, automação e sites" />
+    <meta property="og:description" content="Sistemas de gestão, automação com IA, sites e identidade para empresas que já passaram da planilha. Diagnóstico primeiro, demonstração na primeira semana." />
     <meta property="og:image" content="https://mirandafaria.com.br/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -96,19 +80,9 @@
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:locale:alternate" content="en_US" />
 
-    <!-- Dado estruturado: quem assina o site — pessoa, nao empresa. -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Miranda Faria",
-      "url": "https://mirandafaria.com.br",
-      "jobTitle": "Design Engineer",
-      "description": "Design, development and data systems — designed and shipped by one person.",
-      "knowsAbout": ["Brand Identity", "Web Development", "Data Systems", "Creative Technology"]
-    }
-    </script>
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Miranda Faria — Sistemas sob medida, automação e sites" />
+    <meta name="twitter:description" content="Sistemas de gestão, automação com IA, sites e identidade para empresas que já passaram da planilha. Diagnóstico primeiro, demonstração na primeira semana." />
     <meta name="twitter:image" content="https://mirandafaria.com.br/og.png" />
   </head>
   <body>
