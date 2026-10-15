@@ -23,6 +23,15 @@ const COPY = {
 };
 
 export default function PageNotFound() {
+  /* 15/10 (site-seo): a SPA responde 200 para qualquer URL (soft 404).
+     Sem status 404 do servidor, o minimo e pedir noindex na pagina. */
+  React.useEffect(() => {
+    const m = document.createElement("meta");
+    m.setAttribute("name", "robots");
+    m.setAttribute("content", "noindex");
+    document.head.appendChild(m);
+    return () => m.remove();
+  }, []);
   const lang = window.location.pathname.startsWith("/en") ? "en" : "pt";
   const t = COPY[lang];
   const home = lang === "en" ? "/en" : "/pt";
