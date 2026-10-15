@@ -6,6 +6,7 @@ import MobileWhatsAppBar from "@/components/MobileWhatsAppBar";
 import MobileCalendlyBar from "@/components/MobileCalendlyBar";
 import { LANGS, useLang, swapLangInPath } from "@/lib/i18n";
 import { copy } from "@/content/copy";
+import { MONO_LANG_PAGES } from "@/content/produtos";
 
 /**
  * Mantem no <head> os alternates de idioma. Feito a mao em vez de
@@ -36,10 +37,18 @@ function useDocumentHead(lang, pathname) {
     }
     canon.setAttribute("href", origin + pathname);
 
-    const alternates = [
-      ...LANGS.map((l) => ({ hreflang: l, href: origin + swapLangInPath(pathname, l) })),
-      { hreflang: "x-default", href: origin + swapLangInPath(pathname, "pt") },
-    ];
+    /* Pagina de um idioma so (Apontador PT, Eightyfive EN): sem par no
+       outro idioma, o hreflang aponta so para a versao real. */
+    const only = MONO_LANG_PAGES[pathname.split("/").filter(Boolean)[1]];
+    const alternates = only
+      ? [
+          { hreflang: only, href: origin + swapLangInPath(pathname, only) },
+          { hreflang: "x-default", href: origin + swapLangInPath(pathname, only) },
+        ]
+      : [
+          ...LANGS.map((l) => ({ hreflang: l, href: origin + swapLangInPath(pathname, l) })),
+          { hreflang: "x-default", href: origin + swapLangInPath(pathname, "pt") },
+        ];
     alternates.forEach(({ hreflang, href }) => {
       const link = document.createElement("link");
       link.setAttribute("rel", "alternate");
