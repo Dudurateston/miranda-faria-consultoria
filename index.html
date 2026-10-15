@@ -72,11 +72,13 @@
 
     <!-- SEO do dominio: o site e uma SPA de duas rotas (/pt, /en) —
          canonical fixa a raiz, hreflang declara os dois idiomas. -->
-    <link rel="canonical" href="https://mirandafaria.com.br/pt" />
+    <!-- 15/10 (site-seo, revisao Codex): canonical fixo em /pt removido.
+         Ele valia para TODA rota no HTML sem JS (inclusive a 404). O
+         canonical e o og:url agora sao so por rota: SiteLayout e
+         usePageTitle no navegador; a Base44 injeta o da rota no servidor. -->
     <!-- hreflang vivem no SiteLayout, atualizados por rota; aqui so causavam
          duplicatas com x-default conflitante no head renderizado. -->
 
-    <meta property="og:url" content="https://mirandafaria.com.br/pt" />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:locale:alternate" content="en_US" />
 
