@@ -93,11 +93,10 @@ export function usePageTitle(pageTitle, pageKey) {
     upsert('meta[name="twitter:title"]', { tag: "meta", name: "twitter:title" }, document.title);
     upsert('meta[name="twitter:description"]', { tag: "meta", name: "twitter:description" }, desc);
 
-    /* hreflang: PT/EN da mesma rota + x-default */
-    const path = window.location.pathname.replace(/^\/(pt|en)(?=\/|$)/, "");
-    const other = lang === "pt" ? "en" : "pt";
-    upsert('link[rel="alternate"][hreflang="pt"]', { tag: "link", rel: "alternate", hreflang: "pt", href: `${window.location.origin}/pt${path}` }, null);
-    upsert('link[rel="alternate"][hreflang="en"]', { tag: "link", rel: "alternate", hreflang: "en", href: `${window.location.origin}/en${path}` }, null);
-    upsert('link[rel="alternate"][hreflang="x-default"]', { tag: "link", rel: "alternate", hreflang: "x-default", href: `${window.location.origin}/pt${path}` }, null);
+    /* hreflang: mora SO no SiteLayout (data-mf-alt). 15/10 (site-seo):
+       este hook tambem criava pt/en/x-default sem a marca data-mf-alt,
+       e o SiteLayout so remove as suas, entao o <head> ficava com os
+       alternates em dobro. Paginas de um idioma (MONO_LANG_PAGES) sao
+       tratadas la. */
   }, [lang, pageTitle, pageKey]);
 }
