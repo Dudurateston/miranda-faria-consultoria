@@ -40,10 +40,10 @@ export const APONTADOR = {
   diagSteps: [
     "Exporte o AFD do último mês no relógio ou no sistema de ponto.",
     "Mande o arquivo pelo WhatsApp.",
-    "Receba um PDF com faltas, horas extras e pontos de atenção. O arquivo é apagado depois do envio.",
+    "Receba um PDF com faltas, horas extras e pontos de atenção. No diagnóstico grátis, o arquivo é apagado depois do envio do PDF.",
   ],
   diagAlt:
-    "Prefere não mandar dados? Importe o arquivo na demonstração: ele é lido no seu navegador e não sai do seu computador.",
+    "Prefere não mandar dados? Importe o arquivo na demonstração. Na demonstração, o arquivo é lido no seu navegador e não sai do seu computador.",
   diagNote:
     "O diagnóstico é uma leitura dos números do ponto. Não substitui a análise do seu contador ou do advogado trabalhista.",
   faqTitle: "Perguntas frequentes",
@@ -58,11 +58,11 @@ export const APONTADOR = {
     },
     {
       q: "Como funciona o diagnóstico grátis?",
-      a: "Você manda o AFD do último mês pelo WhatsApp e recebe um PDF com faltas, horas extras e pontos de atenção da CLT. O arquivo serve só para isso e é apagado depois do envio.",
+      a: "Você manda o AFD do último mês pelo WhatsApp e recebe um PDF com faltas, horas extras e pontos de atenção da CLT. No diagnóstico grátis, o arquivo serve só para isso e é apagado depois do envio do PDF.",
     },
     {
       q: "Onde ficam os dados dos funcionários?",
-      a: "No computador da empresa, no navegador. O Apontador não guarda CPF, PIS nem CTPS.",
+      a: "Na demonstração, os dados ficam no navegador do seu computador, e CPF, PIS e CTPS não são guardados. Na versão contratada, onde os dados ficam e quem acessa é explicado antes da implantação.",
     },
     {
       q: "Quanto custa?",
