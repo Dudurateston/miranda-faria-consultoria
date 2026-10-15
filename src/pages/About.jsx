@@ -110,9 +110,11 @@ export default function About() {
               <a href={WHATSAPP_URL_SELLER} target="_blank" rel="noopener noreferrer" className="mf-about__sellerswa" data-cursor="link">
                 {s.wa} →
               </a>
-              <a href={SELLERS_APP_URL} target="_blank" rel="noopener noreferrer" className="mf-about__sellersapp" data-cursor="link">
-                {s.app} ↗
-              </a>
+              {SELLERS_APP_URL ? (
+                <a href={SELLERS_APP_URL} target="_blank" rel="noopener noreferrer" className="mf-about__sellersapp" data-cursor="link">
+                  {s.app} ↗
+                </a>
+              ) : null}
             </div>
           </Reveal>
         </div>
