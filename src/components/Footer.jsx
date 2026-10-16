@@ -102,7 +102,7 @@ export default function Footer() {
               {t.footer.privacy}
             </Link>
             <a
-              href={`https://wa.me/5537999512146?text=${encodeURIComponent((lang === "en" ? "I spotted an issue on the site: " : "Encontrei um problema no site: ") + (typeof window !== "undefined" ? window.location.pathname : "/"))}`}
+              href={`https://wa.me/5537997731250?text=${encodeURIComponent((lang === "en" ? "I spotted an issue on the site: " : "Encontrei um problema no site: ") + (typeof window !== "undefined" ? window.location.pathname : "/"))}`}
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="link"
