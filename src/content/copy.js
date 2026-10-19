@@ -46,6 +46,7 @@ export const copy = {
         insights: "Four questions and a defensible estimate of what the problem costs — before any talk of price or technology.",
         contact: "Bring the problem, not a spec. Same-day response, straight from who builds it.",
         practice: "Management systems, websites, automation and identity — one hand from diagnosis to delivery.",
+        eightyfive: "Attendance register for ILEP and TrustEd Ireland schools: 15-minute rule, 85% forecasts, six-week alerts and an exportable record.",
       },
     },
     nav: {
@@ -125,7 +126,7 @@ export const copy = {
       label: "Work",
       lead: "Systems in the field.",
       intro:
-        "Projects shipped end to end — brand, interface, data model and deployment, across nine sectors. Those with their own domain are linked live: go see for yourself. The client-confidential ones stay on screens and recordings.",
+        "Projects shipped end to end — brand, interface, data model and deployment, across more than ten sectors. Those with their own domain are linked live: go see for yourself. The client-confidential ones stay on screens and recordings.",
       viewCase: "Read the case",
       sections: {
         problem: "Problem",
@@ -147,6 +148,8 @@ export const copy = {
       factsDelivery: "Delivered",
       factsDeliverySystems: "Complete system",
       factsDeliverySite: "Complete site",
+      factsDeliveryDesign: "Identity system",
+      factsDeliveryAutomation: "Automation",
       backToIndex: "All work",
       nextCase: "Next project",
     },
@@ -349,7 +352,7 @@ export const copy = {
       intro:
         "Four questions and a defensible estimate of what the problem costs — before any talk of price or technology. Size the pain first, prescribe second.",
       evidence:
-        "Two numbers worth keeping: answering a customer within 5 minutes makes you 21× more likely to qualify them than taking 30 — MIT/InsideSales lead response study. And the average company takes 42 hours to answer a lead — Harvard Business Review. A system exists to keep you on the right side of those numbers.",
+        "One number worth keeping: the average company takes 42 hours to answer a lead — Harvard Business Review. A system exists to keep you on the right side of that number.",
       steps: { pain: "The pain", driver: "The driver", base: "The size", urgency: "The urgency" },
       painQ: "Where does it hurt most today?",
       painHint: "Pick the main one.",
@@ -442,6 +445,7 @@ export const copy = {
         insights: "Quatro perguntas e uma estimativa defensável do custo do seu problema — antes de falar de preço ou tecnologia.",
         contact: "Traga o problema, não a especificação. Resposta no mesmo dia, direto com quem executa.",
         practice: "Sistemas de gestão, sites, automação e identidade — uma mão só do diagnóstico à entrega.",
+        apontador: "Lê o AFD do relógio de ponto (Portaria 671) e mostra faltas, horas extras e absenteísmo por setor. Peça um diagnóstico grátis do seu AFD.",
       },
     },
     nav: {
@@ -521,7 +525,7 @@ export const copy = {
       label: "Trabalhos",
       lead: "Projetos em campo.",
       intro:
-        "Projetos entregues de ponta a ponta — marca, interface, banco de dados e publicação, em nove setores. Os que têm domínio próprio estão linkados ao vivo: entre e veja. Os confidenciais seguem em imagem e vídeo.",
+        "Projetos entregues de ponta a ponta — marca, interface, banco de dados e publicação, em mais de dez setores. Os que têm domínio próprio estão linkados ao vivo: entre e veja. Os confidenciais seguem em imagem e vídeo.",
       viewCase: "Ler o case",
       sections: {
         problem: "Problema",
@@ -543,6 +547,8 @@ export const copy = {
       factsDelivery: "Entregue",
       factsDeliverySystems: "Sistema completo",
       factsDeliverySite: "Site completo",
+      factsDeliveryDesign: "Sistema de identidade",
+      factsDeliveryAutomation: "Automação",
       backToIndex: "Todos os trabalhos",
       nextCase: "Próximo projeto",
     },
@@ -745,7 +751,7 @@ export const copy = {
       intro:
         "Quatro perguntas e uma estimativa defensável do custo do seu problema — antes de falar de preço ou de tecnologia. Primeiro o tamanho da dor, depois a solução.",
       evidence:
-        "Dois números para guardar: quem responde a um cliente em 5 minutos tem 21× mais chance de qualificá-lo do que quem demora 30 — estudo de resposta a leads do MIT/InsideSales. E a média das empresas demora 42 horas para responder um lead — Harvard Business Review. Um sistema existe pra você ficar do lado certo desses números.",
+        "Um número para guardar: a média das empresas demora 42 horas para responder um lead — Harvard Business Review. Um sistema existe pra você ficar do lado certo desse número.",
       steps: { pain: "A dor", driver: "O driver", base: "O porte", urgency: "A urgência" },
       painQ: "Onde dói mais hoje?",
       painHint: "Escolha o principal.",
@@ -834,7 +840,7 @@ export const cases = {
     {
       slug: "queijos-serra",
       practice: "gestao",
-      role: "Direção, design e desenvolvimento",
+      role: "Direction, design & development",
       name: "Queijos da Serra",
       sector: "Artisanal cheese production",
       year: "2024",
@@ -853,7 +859,7 @@ export const cases = {
     {
       slug: "roda-agro",
       practice: "desenvolvimento",
-      role: "Direção, design e desenvolvimento",
+      role: "Direction, design & development",
       name: "Roda de Agronegócios",
       sector: "Agribusiness trade fair",
       year: "2026",
@@ -872,7 +878,7 @@ export const cases = {
     {
       slug: "paulo-henrique",
       practice: "desenvolvimento",
-      role: "Direção, design e desenvolvimento",
+      role: "Direction, design & development",
       name: "Paulo Henrique",
       sector: "Athlete and performance coach",
       year: "2026",
@@ -891,7 +897,7 @@ export const cases = {
     {
       slug: "motormoura",
       practice: "gestao",
-      role: "Direção, design e desenvolvimento",
+      role: "Direction, design & development",
       name: "MotorMoura",
       sector: "Auto parts distribution",
       year: "2026",
@@ -911,7 +917,7 @@ export const cases = {
     {
       slug: "1000-pecas",
       practice: "gestao",
-      role: "Direção, design e desenvolvimento",
+      role: "Direction, design & development",
       name: "1000 Peças Truck Center",
       sector: "Heavy vehicle parts",
       year: "2026",
@@ -929,8 +935,8 @@ export const cases = {
     {
       slug: "rota-forte",
       practice: "desenvolvimento",
-      role: "Direção, design e desenvolvimento",
-      name: "Rota Fort",
+      role: "Direction, design & development",
+      name: "Rota Forte",
       sector: "Munck and crane rental",
       year: "2026",
       summary: "Institutional site with an equipment catalogue — the quote starts on WhatsApp.",
@@ -947,7 +953,7 @@ export const cases = {
     {
       slug: "miranda-faria",
       practice: "design",
-      role: "Direção, design e desenvolvimento",
+      role: "Direction, design & development",
       name: "This site",
       sector: "Miranda Faria",
       year: "2026",
@@ -966,7 +972,7 @@ export const cases = {
     {
       slug: "motormoura-marca",
       practice: "design",
-      role: "Direção, design e desenvolvimento",
+      role: "Direction, design & development",
       name: "MotorMoura — Identity",
       sector: "Auto parts distribution",
       year: "2026",
@@ -984,7 +990,7 @@ export const cases = {
     {
       slug: "1000-pecas-marca",
       practice: "design",
-      role: "Direção, design e desenvolvimento",
+      role: "Direction, design & development",
       name: "1000 Peças — Identity",
       sector: "Heavy vehicle parts",
       year: "2026",
@@ -997,12 +1003,12 @@ export const cases = {
         "Made certification the axis of the identity: in a market full of scrap, the paper that proves it is a design asset.",
       impact:
         "The yard transmits trust before the first conversation.",
-      media: { dir: "1000-pecas-marca", shots: 3, video: false },
+      media: { dir: "1000-pecas-marca", shots: 1, video: false }, // 02/03 têm telefone provisório e "ROTAFORTE" — fora até o dono decidir
     },
     {
       slug: "roda-agro-marca",
       practice: "design",
-      role: "Direção, design e desenvolvimento",
+      role: "Direction, design & development",
       name: "Roda de Agronegócios — Identity",
       sector: "Events — agribusiness",
       year: "2026",
@@ -1197,7 +1203,7 @@ export const cases = {
       slug: "rota-forte",
       practice: "desenvolvimento",
       role: "Direção, design e desenvolvimento",
-      name: "Rota Fort",
+      name: "Rota Forte",
       sector: "Locação de munck e guindaste",
       year: "2026",
       summary: "Site institucional com catálogo de equipamentos — o orçamento começa no WhatsApp.",
@@ -1255,16 +1261,16 @@ export const cases = {
       name: "1000 Peças — Identidade",
       sector: "Desmanche de caminhões",
       year: "2026",
-      summary: "Marca, faixada, uniforme e redes sociais para um desmanche certificado.",
+      summary: "Marca, fachada, uniforme e redes sociais para um desmanche certificado.",
       problem:
         "Um desmanche de caminhões certificado, com a credibilidade do papel timbrado e a presença visual de qualquer oficina de esquina.",
       process:
-        "Identidade aplicada onde o cliente realmente olha: a faixada, o uniforme e as redes — um sistema só, da rua à tela.",
+        "Identidade aplicada onde o cliente realmente olha: a fachada, o uniforme e as redes — um sistema só, da rua à tela.",
       decisions:
         "A certificação virou o eixo da identidade: num mercado cheio de sucata, o papel que prova é ativo de design.",
       impact:
         "O pátio transmite confiança antes da primeira conversa.",
-      media: { dir: "1000-pecas-marca", shots: 3, video: false },
+      media: { dir: "1000-pecas-marca", shots: 1, video: false }, // 02/03 têm telefone provisório e "ROTAFORTE" — fora até o dono decidir
     },
     {
       slug: "roda-agro-marca",
@@ -1509,7 +1515,7 @@ export const practices = {
       ],
       proofLabel: "Proof, not promise",
       proofs: [
-        "Rota Fort: a page whose only job is to route the right enquiry to WhatsApp — and it does.",
+        "Rota Forte: a page whose only job is to route the right enquiry to WhatsApp — and it does.",
         "Paulo Henrique: a presentation site with a performance lab the visitor actually uses.",
         "1000 Peças: an institutional catalogue that routes quotes to the chat without exposing price — the sales strategy becomes interface.",
       ],
@@ -1685,7 +1691,7 @@ export const practices = {
       proofLabel: "Prova, não promessa",
       proofs: [
         "MotorMoura: identidade completa — logo, manual, cartões, selos e kit de impressão.",
-        "1000 Peças: marca, faixada, uniforme e social, de um sistema de identidade só.",
+        "1000 Peças: marca, fachada, uniforme e social, de um sistema de identidade só.",
         "Roda de Agronegócios: identidade da 22ª edição — selo central, convite e peças de divulgação.",
         "Este site: identidade, movimento e código pela mesma mão que você contrataria.",
       ],
@@ -1731,7 +1737,7 @@ export const practices = {
       ],
       proofLabel: "Prova, não promessa",
       proofs: [
-        "Rota Fort: uma página cujo único trabalho é levar o orçamento certo pro WhatsApp — e ela leva.",
+        "Rota Forte: uma página cujo único trabalho é levar o orçamento certo pro WhatsApp — e ela leva.",
         "Paulo Henrique: site de apresentação com um laboratório de performance que o visitante usa de verdade.",
         "1000 Peças: catálogo institucional que leva o orçamento pro chat sem expor preço — a estratégia comercial vira interface.",
       ],

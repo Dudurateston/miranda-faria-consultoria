@@ -82,7 +82,7 @@ export default function WorkCase() {
               <li>
                 <span className="mf-case__factk">{t.factsDelivery}</span>
                 <span className="mf-case__factv">
-                  {item.practice === "systems" ? t.factsDeliverySystems : t.factsDeliverySite}
+                  {({ gestao: t.factsDeliverySystems, design: t.factsDeliveryDesign, automacao: t.factsDeliveryAutomation }[item.practice]) || t.factsDeliverySite}
                 </span>
               </li>
             </ul>

@@ -25,6 +25,9 @@ const About = React.lazy(() => import("@/pages/About"));
 const Contact = React.lazy(() => import("@/pages/Contact"));
 const PrivacyPolicy = React.lazy(() => import("@/pages/PrivacyPolicy"));
 const Painel = React.lazy(() => import("@/pages/Painel"));
+/* Paginas de produto (15/10): Apontador so PT, Eightyfive so EN. */
+const Apontador = React.lazy(() => import("@/pages/Apontador"));
+const Eightyfive = React.lazy(() => import("@/pages/Eightyfive"));
 import Home from "@/pages/Home";
 import TransitionCurtain from "@/components/layout/TransitionCurtain";
 import LogoEasterEgg from "@/components/layout/LogoEasterEgg";
@@ -121,6 +124,8 @@ const AuthenticatedApp = () => {
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
         <Route path="privacidade" element={<PrivacyPolicy />} />
+        <Route path="apontador" element={<Apontador />} />
+        <Route path="eightyfive" element={<Eightyfive />} />
       </Route>
 
       {/* Paginas de infraestrutura Base44 — sem prefixo de idioma. */}

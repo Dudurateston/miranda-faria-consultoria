@@ -1,13 +1,25 @@
 export const WHATSAPP_URL =
-  "https://wa.me/5537999512146?text=Olá%20Eduardo,%20gostaria%20de%20agendar%20uma%20reunião";
+  "https://wa.me/5531997731250?text=Olá%20Eduardo,%20gostaria%20de%20agendar%20uma%20reunião";
 
 // CTAs WhatsApp — variam só pela mensagem pré-preenchida.
-export const WHATSAPP_URL_BARE = "https://wa.me/5537999512146";
+export const WHATSAPP_URL_BARE = "https://wa.me/5531997731250";
 export const WHATSAPP_URL_SITE =
-  "https://wa.me/5537999512146?text=Olá%20Eduardo,%20vi%20seu%20site%20e%20gostaria%20de%20conversar";
+  "https://wa.me/5531997731250?text=Olá%20Eduardo,%20vi%20seu%20site%20e%20gostaria%20de%20conversar";
 export const WHATSAPP_URL_SELLER =
-  "https://wa.me/5537999512146?text=Olá%20Eduardo,%20quero%20ser%20vendedor%20e%20fazer%20parte%20do%20time";
-export const SELLERS_APP_URL = "https://vendas-uai-hub.base44.app";
+  "https://wa.me/5531997731250?text=Olá%20Eduardo,%20quero%20ser%20vendedor%20e%20fazer%20parte%20do%20time";
+/* 15/10 (site-seo): o app dos vendedores ainda era o "Hub de Vendas U.AI",
+   marca encerrada. Vazio = os links somem (Footer, About, Contact).
+   Antigo: "https://vendas-uai-hub.base44.app". */
+export const SELLERS_APP_URL = "";
+
+/* Paginas de produto (15/10). WhatsApp de vendas do Apontador = o da
+   assinatura dos e-mails do Brasil. Os demais CTAs seguem no numero
+   do site ate o dono decidir unificar. */
+export const WHATSAPP_APONTADOR_URL =
+  "https://wa.me/5531997731250?text=Ol%C3%A1%20Eduardo%2C%20quero%20o%20diagn%C3%B3stico%20gr%C3%A1tis%20do%20AFD%20da%20minha%20f%C3%A1brica";
+export const WHATSAPP_APONTADOR_DISPLAY = "+55 31 99773-1250";
+export const APONTADOR_DEMO_URL = "https://apontador-demo.base44.app";
+export const EIGHTYFIVE_DEMO_URL = "https://eightyfive.base44.app";
 
 // Assets oficiais — logo principal transparente, hero em MP4 e mídias de seção.
 export const M_LOGO = "/art/m-logo-320.webp";
@@ -37,16 +49,19 @@ export const AUTOM_VIDEO = "/art/automacao_loop.mp4";
 export const LOGO_ANIM_GIF = "/art/watermark_logo.webp";
 export const GEO_GIF = "/art/geo.mp4";
 export const CELESTE_GIF = "/art/celeste.mp4";
-export const WHATSAPP_DISPLAY = "(37) 99951-2146";
-export const EMAIL = "edumirandamf@gmail.com";
+export const WHATSAPP_DISPLAY = "(31) 99773-1250";
+/* 15/10 (site-seo): mesmo endereco dos e-mails de prospeccao, para quem
+   recebeu o e-mail reconhecer o dominio. Antigo: edumirandamf@gmail.com */
+export const EMAIL = "eduardo@mirandafaria.com.br";
 export const MARCA = "Miranda Faria";
 
 // CTA internacional: agendamento em vez de WhatsApp (DECISIONS.md).
 export const CALENDLY_URL = "https://calendly.com/edumirandamf";
 
-// TODO(pendencia): confirmar a URL real do perfil. Registrado como
-// pendencia aberta no RECAP.md — hoje aponta para a home do LinkedIn.
-export const LINKEDIN_URL = "https://www.linkedin.com";
+// TODO(pendencia): colocar a URL real do perfil quando o dono criar.
+// 15/10 (site-seo): vazio = o link some do rodape. Antes apontava para a
+// home generica do LinkedIn (link quebrado para quem clicava).
+export const LINKEDIN_URL = "";
 
 /* ---- Arte generativa (Drive "superagente base44", otimizada de 4K) ----
    Particulas de cobre e placa Miranda Faria: geradas por IA, usadas como

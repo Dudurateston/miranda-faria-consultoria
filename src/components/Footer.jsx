@@ -62,33 +62,47 @@ export default function Footer() {
             <Link to={path("contact")} data-cursor="link" className="mf-foot__link">
               {t.nav.contact}
             </Link>
+            {/* 15/10 (site-seo): produto do mercado de cada idioma. */}
+            {lang === "pt" ? (
+              <Link to="/pt/apontador" data-cursor="link" className="mf-foot__link">
+                Apontador
+              </Link>
+            ) : (
+              <Link to="/en/eightyfive" data-cursor="link" className="mf-foot__link">
+                Eightyfive
+              </Link>
+            )}
           </nav>
           </div>
           <div className="mf-foot__row mf-foot__row--sub">
           <div className="mf-foot__meta">
-            <a
-              href={LINKEDIN_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-cursor="link"
-              className="mf-foot__link"
-            >
-              {t.footer.linkedin}
-            </a>
-            <a
-              href={SELLERS_APP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-cursor="link"
-              className="mf-foot__link mf-foot__link--sellers"
-            >
-              {t.footer.sellers} ↗
-            </a>
+            {LINKEDIN_URL ? (
+              <a
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor="link"
+                className="mf-foot__link"
+              >
+                {t.footer.linkedin}
+              </a>
+            ) : null}
+            {SELLERS_APP_URL ? (
+              <a
+                href={SELLERS_APP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor="link"
+                className="mf-foot__link mf-foot__link--sellers"
+              >
+                {t.footer.sellers} ↗
+              </a>
+            ) : null}
             <Link to={path("privacidade")} data-cursor="link" className="mf-foot__link">
               {t.footer.privacy}
             </Link>
             <a
-              href={`https://wa.me/5537999512146?text=${encodeURIComponent((lang === "en" ? "I spotted an issue on the site: " : "Encontrei um problema no site: ") + (typeof window !== "undefined" ? window.location.pathname : "/"))}`}
+              href={`https://wa.me/5531997731250?text=${encodeURIComponent((lang === "en" ? "I spotted an issue on the site: " : "Encontrei um problema no site: ") + (typeof window !== "undefined" ? window.location.pathname : "/"))}`}
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="link"
@@ -97,7 +111,7 @@ export default function Footer() {
               {t.footer.report}
             </a>
             <ThemeToggle lang={lang} variant="foot" />
-            <span className="mf-foot__copy">© 2023 Miranda Faria</span>
+            <span className="mf-foot__copy">© {new Date().getFullYear()} Miranda Faria</span>
           </div>
           </div>
         </div>

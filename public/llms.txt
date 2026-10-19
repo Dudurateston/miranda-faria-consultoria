@@ -1,0 +1,37 @@
+# Miranda Faria
+
+> Miranda Faria is a small software and design studio run by Eduardo Miranda Faria, based in Piumhi, Minas Gerais, Brazil. It builds custom business systems, websites, brand identity and AI automation, and two products: Apontador (time-clock and absenteeism analysis for factories in Brazil) and Eightyfive (attendance records for English language schools in Ireland). The site is bilingual: Portuguese at /pt and English at /en.
+
+Miranda Faria works from diagnosis to delivery with one person accountable for the whole project. Systems are handed over in the client's name: the client runs them and keeps the data and access.
+
+## Products
+
+- [Apontador (PT)](https://mirandafaria.com.br/pt/apontador): reads the AFD file that Brazilian time clocks generate (Portaria MTP 671/2021, and the older Portaria 1510 layout) or the reports the time-keeping system exports (CSV, Excel, HTML, PDF). Shows absenteeism by day, sector and month, separating justified from unjustified absence, overtime and its cost, the daily absence sheet and labour-law (CLT) points of attention. Offer: a free diagnosis of one month of AFD. No need to change the time clock.
+- [Apontador demo](https://apontador-demo.base44.app): public demo with fictional factories; visitors can import their own file, which is read in the browser.
+- [Eightyfive (EN)](https://mirandafaria.com.br/en/eightyfive): attendance register for English language schools in Ireland listed on ILEP or authorised to use the TrustEd Ireland mark. Applies the 15-minute rule, records the class teacher's student count, flags 25% or more uncertified absence in the first six weeks, forecasts each student against the 85% attendance requirement and exports the full record.
+- [Eightyfive demo](https://eightyfive.base44.app): demo with sample data.
+
+## Services
+
+- [Systems and management (PT)](https://mirandafaria.com.br/pt/gestao) / [EN](https://mirandafaria.com.br/en/gestao): custom management systems (stock, sales, attendance, KPIs).
+- [Development (PT)](https://mirandafaria.com.br/pt/desenvolvimento) / [EN](https://mirandafaria.com.br/en/desenvolvimento): websites, web systems and apps.
+- [Design (PT)](https://mirandafaria.com.br/pt/design) / [EN](https://mirandafaria.com.br/en/design): brand identity and interface design.
+- [Automation (PT)](https://mirandafaria.com.br/pt/automacao) / [EN](https://mirandafaria.com.br/en/automacao): AI and WhatsApp automation of repetitive work.
+- [All services (PT)](https://mirandafaria.com.br/pt/servicos) / [EN](https://mirandafaria.com.br/en/servicos)
+
+## About and method
+
+- [How a project runs (PT)](https://mirandafaria.com.br/pt/how-i-work) / [EN](https://mirandafaria.com.br/en/how-i-work): diagnosis first, a working demo early, delivery in the owner's hands.
+- [Free cost diagnosis (PT)](https://mirandafaria.com.br/pt/insights) / [EN](https://mirandafaria.com.br/en/insights): four questions that estimate what an operational problem costs per month.
+- [Work and case studies (PT)](https://mirandafaria.com.br/pt/work) / [EN](https://mirandafaria.com.br/en/work)
+- [About Eduardo Miranda Faria (PT)](https://mirandafaria.com.br/pt/about) / [EN](https://mirandafaria.com.br/en/about)
+
+## Contact
+
+- [Contact (PT)](https://mirandafaria.com.br/pt/contact) / [EN](https://mirandafaria.com.br/en/contact)
+- Email: eduardo@mirandafaria.com.br
+- Languages: Portuguese and English. Markets: Brazil, Ireland and the United Kingdom (remote).
+
+## Optional
+
+- [Privacy policy (PT)](https://mirandafaria.com.br/pt/privacidade)
