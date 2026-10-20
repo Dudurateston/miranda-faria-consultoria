@@ -378,15 +378,21 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/fatos/"/>
   </url>
   <url>
-    <loc>https://mirandafaria.com.br/guias/afd-absenteismo.html</loc>
+    <loc>https://mirandafaria.com.br/guias/arquivo-afd-portaria-671.html</loc>
     <lastmod>2026-10-20</lastmod>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/guias/afd-absenteismo.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/guias/afd-absenteismo.html"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/guias/arquivo-afd-portaria-671.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/guias/arquivo-afd-portaria-671.html"/>
   </url>
   <url>
-    <loc>https://mirandafaria.com.br/guides/ireland-attendance-rules.html</loc>
+    <loc>https://mirandafaria.com.br/guias/calculo-absenteismo-fabrica.html</loc>
     <lastmod>2026-10-20</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/guides/ireland-attendance-rules.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/guides/ireland-attendance-rules.html"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://mirandafaria.com.br/guias/calculo-absenteismo-fabrica.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/guias/calculo-absenteismo-fabrica.html"/>
+  </url>
+  <url>
+    <loc>https://mirandafaria.com.br/guides/ilep-trusted-attendance-85-percent.html</loc>
+    <lastmod>2026-10-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirandafaria.com.br/guides/ilep-trusted-attendance-85-percent.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirandafaria.com.br/guides/ilep-trusted-attendance-85-percent.html"/>
   </url>
 </urlset>
