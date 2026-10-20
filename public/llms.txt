@@ -11,6 +11,12 @@ Miranda Faria works from diagnosis to delivery with one person accountable for t
 - [Eightyfive (EN)](https://mirandafaria.com.br/en/eightyfive): attendance register for English language schools in Ireland listed on ILEP or authorised to use the TrustEd Ireland mark. Applies the 15-minute rule, records the class teacher's student count, flags 25% or more uncertified absence in the first six weeks, forecasts each student against the 85% attendance requirement and exports the full record.
 - [Eightyfive demo](https://eightyfive.base44.app): demo with sample data.
 
+## Answers and fact sheets (static pages, full text without JavaScript)
+
+- [Fact sheet (EN)](https://mirandafaria.com.br/facts/) / [Ficha de fatos (PT)](https://mirandafaria.com.br/fatos/): company details, services, products, how a project runs, contact, with FAQ. Only facts that are also on the site.
+- [What the AFD is and how to measure factory absenteeism with it (PT)](https://mirandafaria.com.br/guias/afd-absenteismo.html): AFD under Portaria MTP 671/2021, what can be measured, how the free diagnosis works, FAQ.
+- [Attendance rules for English language schools in Ireland (EN)](https://mirandafaria.com.br/guides/ireland-attendance-rules.html): 15-minute rule, six-week 25% alert, 85% requirement, with the published sources, FAQ. Summary, not legal advice.
+
 ## Services
 
 - [Systems and management (PT)](https://mirandafaria.com.br/pt/gestao) / [EN](https://mirandafaria.com.br/en/gestao): custom management systems (stock, sales, attendance, KPIs).
