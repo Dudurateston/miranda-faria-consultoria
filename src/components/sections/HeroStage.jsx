@@ -228,6 +228,29 @@ export default function HeroStage() {
   const t = copy[lang].home;
   const content = useRef(null);
   const [hintVisible, setHintVisible] = useState(false);
+  /* 20/10 (site-seo, desempenho): celular recebe a imagem estatica da rede
+     e nao baixa o chunk do Three.js (~137KB gz) nem roda WebGL; o desktop
+     monta a rede 3D so depois do carregamento, em tempo ocioso. "poster" |
+     "wait" | "3d". A rede 3D no desktop e identica a de antes. */
+  const [net, setNet] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(max-width: 859px)").matches ? "poster" : "wait");
+  useEffect(() => {
+    if (net !== "wait") return undefined;
+    let cancelled = false;
+    let idleId;
+    const go = () => { if (!cancelled) setNet("3d"); };
+    const start = () => {
+      if (window.requestIdleCallback) idleId = window.requestIdleCallback(go, { timeout: 1500 });
+      else idleId = setTimeout(go, 300);
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+    return () => {
+      cancelled = true;
+      window.removeEventListener("load", start);
+      if (idleId !== undefined) (window.cancelIdleCallback || clearTimeout)(idleId);
+    };
+  }, [net]);
 
   // HUD de affordance: so no desktop, aparece depois de 2s parado e
   // some no primeiro movimento do mouse — quem ja mexeu nao precisa de dica
@@ -277,9 +300,13 @@ export default function HeroStage() {
 
   return (
     <section className="mf-hero" data-theme="dark" aria-label={t.wordmark}>
-      <React.Suspense fallback={<div className="mf-hero__net3d" />}>
-        <Network3D lang={lang} path={path} />
-      </React.Suspense>
+      {net === "3d" ? (
+        <React.Suspense fallback={<div className="mf-hero__net3d" />}>
+          <Network3D lang={lang} path={path} />
+        </React.Suspense>
+      ) : (
+        <div className={net === "poster" ? "mf-hero__net3d mf-hero__net3d--poster" : "mf-hero__net3d"} aria-hidden="true" />
+      )}
       <div className="mf-hero__scrim" aria-hidden="true" />
 
       <div ref={content} className="mf-hero__content" style={{ opacity: 0 }}>
@@ -329,6 +356,8 @@ export default function HeroStage() {
   overflow:hidden;background:var(--mf-graphite);
 }
 .mf-hero__net3d{position:absolute;inset:0}
+.mf-hero__net3d--poster{background:url(/art/net-poster-light.webp) center/cover no-repeat}
+html[data-skin="dark"] .mf-hero__net3d--poster{background-image:url(/art/net-poster-dark.webp)}
 .mf-hero__tip{
   position:absolute;z-index:3;pointer-events:none;
   font-family:var(--font-mono);font-size:var(--text-label);

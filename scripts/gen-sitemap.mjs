@@ -45,8 +45,9 @@ try {
    JSON-LD no HTML bruto, legiveis por robos que nao rodam JavaScript. */
 const STATIC_PAIRS = [{ pt: "/fatos/", en: "/facts/" }];
 const STATIC_MONO = [
-  { path: "/guias/afd-absenteismo.html", lang: "pt" },
-  { path: "/guides/ireland-attendance-rules.html", lang: "en" },
+  { path: "/guias/arquivo-afd-portaria-671.html", lang: "pt" },
+  { path: "/guias/calculo-absenteismo-fabrica.html", lang: "pt" },
+  { path: "/guides/ilep-trusted-attendance-85-percent.html", lang: "en" },
 ];
 
 /** Cada URL declara seus equivalentes de idioma, como manda o hreflang. */

@@ -22,15 +22,8 @@
     <link rel="manifest" href="/manifest.json" />
 
 
-    <!-- A arte da hero e o maior elemento da primeira tela; pre-carregar
-         tira o atraso entre a fonte pintar e a imagem aparecer. -->
-    <link
-      rel="preload"
-      as="image"
-      href="/art/hero.webp"
-      imagesrcset="/art/hero@800.webp 800w, /art/hero.webp 1600w"
-      imagesizes="(max-width: 900px) 92vw, 1100px"
-    />
+    <!-- 20/10 (site-seo): o preload de /art/hero.webp foi removido; nenhuma
+         pagina usa essa imagem (baixava 97-299KB sem pintar nada). -->
 
     <!-- 15/10 (site-seo): padrao em PT (html lang pt-BR, x-default /pt).
          Cada rota troca title/description/OG no navegador (usePageTitle). -->

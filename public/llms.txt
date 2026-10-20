@@ -14,8 +14,9 @@ Miranda Faria works from diagnosis to delivery with one person accountable for t
 ## Answers and fact sheets (static pages, full text without JavaScript)
 
 - [Fact sheet (EN)](https://mirandafaria.com.br/facts/) / [Ficha de fatos (PT)](https://mirandafaria.com.br/fatos/): company details, services, products, how a project runs, contact, with FAQ. Only facts that are also on the site.
-- [What the AFD is and how to measure factory absenteeism with it (PT)](https://mirandafaria.com.br/guias/afd-absenteismo.html): AFD under Portaria MTP 671/2021, what can be measured, how the free diagnosis works, FAQ.
-- [Attendance rules for English language schools in Ireland (EN)](https://mirandafaria.com.br/guides/ireland-attendance-rules.html): 15-minute rule, six-week 25% alert, 85% requirement, with the published sources, FAQ. Summary, not legal advice.
+- [O que é o arquivo AFD da Portaria 671 e o que dá para tirar dele (PT)](https://mirandafaria.com.br/guias/arquivo-afd-portaria-671.html): AFD under Portaria MTP 671/2021 (arts. 81 and 82), what it contains, what can be measured from it, official sources, FAQ.
+- [Como calcular o absenteísmo da fábrica: fórmula e exemplo (PT)](https://mirandafaria.com.br/guias/calculo-absenteismo-fabrica.html): absenteeism rate formula, a clearly illustrative worked example, what to count, FAQ.
+- [ILEP and TrustEd attendance rules: the 85% requirement explained (EN)](https://mirandafaria.com.br/guides/ilep-trusted-attendance-85-percent.html): 85% minimum, 15-minute rule, six-week 25% alert, records and unannounced inspections, with the official source. Summary, not legal advice.
 
 ## Services
 

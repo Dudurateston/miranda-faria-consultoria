@@ -59,6 +59,9 @@ html[data-skin="dark"] .mf-home{
     repeating-linear-gradient(-115deg, transparent 0 140px, rgba(214,126,80,0.06) 140px 141px);
 }
 @keyframes meshdrift{to{background-position:640px 320px, -560px -280px}}
+/* 20/10 (site-seo, desempenho): a deriva do fundo repinta a pagina inteira
+   (8000px) a cada quadro; no celular fica parada. Desktop identico. */
+@media (max-width:859px),(prefers-reduced-motion:reduce){.mf-home{animation:none}}
 
 .mf-h{
   position:relative;
