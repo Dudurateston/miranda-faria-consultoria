@@ -14,6 +14,25 @@
     <script>
       try { if (localStorage.getItem("mf-theme") === "dark") document.documentElement.dataset.skin = "dark"; } catch (e) {}
     </script>
+    <!-- Preload do M do portao de entrada (LCP da primeira tela): so na
+         home, so na 1a visita da sessao, so sem reduced-motion — nada de
+         fetch inutil nas outras 49 rotas. Espelha as condicoes do IntroGate
+         (sessionStorage mf-intro + prefers-reduced-motion) e usa a variante
+         do tema ja aplicado acima. -->
+    <script>
+      try {
+        var __p = location.pathname.replace(/\/+$/, "");
+        if (__p === "" || __p === "/pt" || __p === "/en") {
+          if (sessionStorage.getItem("mf-intro") !== "1" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            var __l = document.createElement("link");
+            __l.rel = "preload";
+            __l.as = "image";
+            __l.href = document.documentElement.dataset.skin === "dark" ? "/art/m-logo-320-dark.webp" : "/art/m-logo-320.webp";
+            document.head.appendChild(__l);
+          }
+        }
+      } catch (e) {}
+    </script>
 
     <!-- Marca propria. Antes apontava para o logo do Base44, o que fazia
          o site exibir a marca da plataforma na aba do navegador. -->
