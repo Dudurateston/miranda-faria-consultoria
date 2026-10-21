@@ -15,6 +15,36 @@
 
 export const MONO_LANG_PAGES = { apontador: "pt", eightyfive: "en" };
 
+/* Produtos proprios nas listas de portfolio (Work, Home e menu — revisao
+   Codex 21/10): UMA lista compartilhada por idioma, com lead fiel em cada
+   lingua (as rotas continuam monolinguas: Apontador fala PT, Eightyfive
+   fala EN). Nada de numero inventado nem screenshot de dados reais. */
+export const getPortfolioProducts = (lang) => {
+  const pt = lang === "pt";
+  return [
+    {
+      slug: "apontador",
+      name: "Apontador",
+      to: "/pt/apontador",
+      lead: pt
+        ? "Ponto, faltas e horas extras da fábrica, sem planilha."
+        : "Clock-ins, absences and factory overtime, no spreadsheets.",
+      tag: pt ? "Produto próprio · Miranda Faria" : "In-house product · Miranda Faria",
+      media: { img: "/art/m-logo-320.webp" },
+    },
+    {
+      slug: "eightyfive",
+      name: "Eightyfive",
+      to: "/en/eightyfive",
+      lead: pt
+        ? "Um diário de presença construído em torno da regra dos 85%."
+        : "An attendance register built around the 85% rule.",
+      tag: pt ? "Produto próprio · Miranda Faria" : "In-house product · Miranda Faria",
+      media: { img: "/art/m-logo-320.webp" },
+    },
+  ];
+};
+
 const ORIGIN = "https://mirandafaria.com.br";
 
 export const APONTADOR = {

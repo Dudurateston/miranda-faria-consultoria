@@ -224,7 +224,8 @@ export default function HowIWork() {
 .mf-tf--half{height:clamp(200px,30vh,260px)}
 .mf-tf canvas{display:block;width:100%;height:100%}
 .mf-tf__canvas{display:block;width:100%;height:100%}
-.mf-tf__canvas:focus-visible{outline:2px solid var(--mf-copper, #B5502E);outline-offset:2px}
+.mf-tf__load-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;margin:0}
+.mf-tf:focus-within{outline:2px solid var(--mf-copper, #B5502E);outline-offset:3px}
 .mf-tf__hud{
   position:absolute;right:0.9rem;bottom:0.75rem;
   display:flex;gap:1.25rem;

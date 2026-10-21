@@ -4,7 +4,7 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy, cases } from "@/content/copy";
-import { APONTADOR, EIGHTYFIVE } from "@/content/produtos";
+import { getPortfolioProducts } from "@/content/produtos";
 
 /**
  * Trabalho selecionado na Home — a lista de cases no padrão spence:
@@ -30,10 +30,7 @@ export default function HomeTrabalho() {
     .filter(Boolean)
     .slice(0, 6);
   const shown = list.length ? list : cases[lang].slice(0, 6);
-  const products = [
-    { slug: "apontador", name: "Apontador", to: "/pt/apontador", lead: APONTADOR.lead },
-    { slug: "eightyfive", name: "Eightyfive", to: "/en/eightyfive", lead: EIGHTYFIVE.lead },
-  ];
+  const products = getPortfolioProducts(lang); // leads fiéis por idioma
 
   return (
     <section className="mf-h">
@@ -73,7 +70,7 @@ export default function HomeTrabalho() {
                   <span className="mf-trow__desc">{p.lead}</span>
                 </span>
                 <span className="mf-trow__meta">
-                  <span className="mf-label">{t.work.productTag}</span>
+                  <span className="mf-label">{p.tag}</span>
                 </span>
                 <span className="mf-trow__go">{t.work.viewProduct} →</span>
               </a>

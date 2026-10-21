@@ -4,7 +4,7 @@ import { useLang } from "@/lib/i18n";
 import ThemeToggle from "@/components/layout/ThemeToggle";
 import { copy, getPractice, cases } from "@/content/copy";
 import { WHATSAPP_URL_BARE, M_LOGO, NAV_MEDIA } from "@/lib/site";
-import { APONTADOR, EIGHTYFIVE } from "@/content/produtos";
+import { getPortfolioProducts } from "@/content/produtos";
 import AutoVideo from "@/components/AutoVideo";
 
 /* 19/09 v3 (Eduardo: "os videos antigos AINDA aparecem brevemente"):
@@ -48,17 +48,9 @@ export default function SiteNav({ revealAfterHero = false }) {
   // TODOS os cases ativos — o dropdown de Trabalhos mostra o portfólio
   // completo, na mesma ordem da página /work (14 cases, PT e EN).
   const projects = cases[lang];
-  /* Produtos proprios no drop do Trabalhos: Apontador (PT) e Eightyfive (EN) —
-     paginas monolíngues, link direto para a versão real, sem 404. */
-  const navProducts = lang === "pt"
-    ? [
-        { slug: "apontador", name: "Apontador", to: "/pt/apontador", tag: copy.pt.work.productTag, media: { img: M_LOGO } },
-        { slug: "eightyfive", name: "Eightyfive", to: "/en/eightyfive", tag: copy.pt.work.productTag, media: { img: M_LOGO } },
-      ]
-    : [
-        { slug: "apontador", name: "Apontador", to: "/pt/apontador", tag: copy.en.work.productTag, media: { img: M_LOGO } },
-        { slug: "eightyfive", name: "Eightyfive", to: "/en/eightyfive", tag: copy.en.work.productTag, media: { img: M_LOGO } },
-      ];
+  /* Produtos proprios no drop do Trabalhos — lista compartilhada de
+     produtos.js (leads fieis PT/EN, tag "· Miranda Faria"). */
+  const navProducts = getPortfolioProducts(lang);
   const dropItems = [...projects, ...navProducts];
   const location = useLocation();
 
@@ -295,20 +287,27 @@ export default function SiteNav({ revealAfterHero = false }) {
                 ))}
               </div>
               <div className="mf-nav__submedia" aria-hidden="true">
-                {(tDrop ? dropItems[tIdx] : null)?.media?.video ? (
-                  <NavDropVideo
-                    src={`/work/${(tDrop ? dropItems[tIdx] : null)?.media?.dir ?? dropItems[tIdx]?.slug}/video.mp4`}
-                    poster={`/work/${(tDrop ? dropItems[tIdx] : null)?.media?.dir ?? dropItems[tIdx]?.slug}/01.webp`}
-                  />
-                ) : (tDrop ? dropItems[tIdx] : null)?.media?.img ? (
-                  <img src={dropItems[tIdx].media.img} alt="" loading="lazy" />
-                ) : (
-                  <img
-                    src={`/work/${(tDrop ? dropItems[tIdx] : null)?.media?.dir ?? dropItems[tIdx]?.slug}/01.webp`}
-                    alt=""
-                    loading="lazy"
-                  />
-                )}
+                {tDrop ? (() => {
+                  /* midia SO com painel aberto (revisao Codex): fechado apos
+                     hover em produto, o fallback /work/<produto>/01.webp
+                     nao existe e dava 404. */
+                  const item = dropItems[tIdx] ?? dropItems[0];
+                  if (item.media?.video) {
+                    return (
+                      <NavDropVideo
+                        src={`/work/${item.media?.dir ?? item.slug}/video.mp4`}
+                        poster={`/work/${item.media?.dir ?? item.slug}/01.webp`}
+                      />
+                    );
+                  }
+                  return (
+                    <img
+                      src={item.media?.img ?? `/work/${item.media?.dir ?? item.slug}/01.webp`}
+                      alt=""
+                      loading="lazy"
+                    />
+                  );
+                })() : null}
                 <span className="mf-nav__subcap">
                   {String(tIdx + 1).padStart(2, "0")} · {dropItems[tIdx]?.name ?? dropItems[0]?.name}
                 </span>

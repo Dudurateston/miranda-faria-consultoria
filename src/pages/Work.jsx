@@ -7,7 +7,7 @@ import MfRule from "@/components/MfRule";
 import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { copy, cases, PRACTICE_SLUGS, practices as practiceCopy } from "@/content/copy";
-import { APONTADOR, EIGHTYFIVE } from "@/content/produtos";
+import { getPortfolioProducts } from "@/content/produtos";
 import { usePageTitle } from "@/lib/usePageTitle";
 
 /* Filtro do índice de cases — setor e solução.
@@ -36,12 +36,9 @@ export default function Work() {
   const { lang, path } = useLang();
   const t = copy[lang].work;
   const all = cases[lang];
-  /* Produtos proprios: paginas monolíngues linkadas na versão real.
-     Apontador fala PT (indústrias BR), Eightyfive fala EN (Irlanda). */
-  const products = [
-    { slug: "apontador", name: "Apontador", to: "/pt/apontador", lead: APONTADOR.lead },
-    { slug: "eightyfive", name: "Eightyfive", to: "/en/eightyfive", lead: EIGHTYFIVE.lead },
-  ];
+  /* Produtos proprios: lista compartilhada de produtos.js (leads fiéis
+     por idioma; rotas monolíngues linkadas na versão real, sem 404). */
+  const products = getPortfolioProducts(lang);
   const listRef = useRef(null);
   usePageTitle(t.label, "work");
 
@@ -158,7 +155,7 @@ export default function Work() {
                   <p className="mf-work__summary">{p.lead}</p>
                 </div>
                 <div className="mf-work__meta">
-                  <span className="mf-label">{t.productTag}</span>
+                  <span className="mf-label">{p.tag}</span>
                   <span className="mf-label mf-work__year">{t.viewProduct} →</span>
                 </div>
               </a>

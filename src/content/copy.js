@@ -129,7 +129,7 @@ export const copy = {
         "Projects shipped end to end — brand, interface, data model and deployment, across more than ten sectors. Those with their own domain are linked live: go see for yourself. The client-confidential ones stay on screens and recordings.",
       viewCase: "Read the case",
       productsLabel: "In-house products",
-      productTag: "In-house product · Eduardo Miranda",
+
       viewProduct: "See the product",
       sections: {
         problem: "Problem",
@@ -531,7 +531,7 @@ export const copy = {
         "Projetos entregues de ponta a ponta — marca, interface, banco de dados e publicação, em mais de dez setores. Os que têm domínio próprio estão linkados ao vivo: entre e veja. Os confidenciais seguem em imagem e vídeo.",
       viewCase: "Ler o case",
       productsLabel: "Produtos próprios",
-      productTag: "Produto próprio · Eduardo Miranda",
+
       viewProduct: "Ver o produto",
       sections: {
         problem: "Problema",
