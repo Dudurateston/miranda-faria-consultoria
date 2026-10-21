@@ -5,7 +5,7 @@ import { base44 } from "@/api/base44Client";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { WHATSAPP_URL, WHATSAPP_URL_EN, EMAIL, WHATSAPP_DISPLAY, WHATSAPP_URL_SELLER, WHATSAPP_URL_SELLER_EN, SELLERS_APP_URL } from "@/lib/site";
+import { WHATSAPP_URL, WHATSAPP_URL_EN, CALENDLY_URL, EMAIL, WHATSAPP_DISPLAY, WHATSAPP_URL_SELLER, WHATSAPP_URL_SELLER_EN, SELLERS_APP_URL } from "@/lib/site";
 
 /**
  * Contato — CTA direto no WhatsApp no topo e, abaixo, o formulario
@@ -79,15 +79,17 @@ export default function Contact() {
           <Reveal delay={200}>
             <div className="mf-contact__actions">
               <a
-                href={lang === "en" ? WHATSAPP_URL_EN : WHATSAPP_URL}
+                href={lang === "en" ? CALENDLY_URL : WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mf-contact__primary"
                 data-cursor="link"
               >
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
-                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.13-1.55a9.9 9.9 0 0 0 4.9 1.28c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.79 14.07c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.13.11-1.83-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.16-4.94-4.36-.14-.2-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.81 1.98.88 2.13.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.16-.3.36-.43.48-.14.13-.28.27-.12.55.16.28.72 1.19 1.55 1.93 1.06.94 1.96 1.24 2.24 1.38.28.14.44.12.61-.05.16-.17.7-.81.89-1.09.19-.28.38-.23.63-.14.26.1 1.65.78 1.94.92.28.14.47.21.54.33.07.12.07.7-.17 1.38z"/>
-                </svg>
+                {lang !== "en" && (
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.87.5 3.62 1.44 5.13L2 22l5.13-1.55a9.9 9.9 0 0 0 4.9 1.28c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.79 14.07c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.13.11-1.83-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.16-4.94-4.36-.14-.2-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.81 1.98.88 2.13.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.16-.3.36-.43.48-.14.13-.28.27-.12.55.16.28.72 1.19 1.55 1.93 1.06.94 1.96 1.24 2.24 1.38.28.14.44.12.61-.05.16-.17.7-.81.89-1.09.19-.28.38-.23.63-.14.26.1 1.65.78 1.94.92.28.14.47.21.54.33.07.12.07.7-.17 1.38z"/>
+                  </svg>
+                )}
                 {t.primary}
               </a>
               <a
