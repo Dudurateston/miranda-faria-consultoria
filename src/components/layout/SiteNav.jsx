@@ -105,9 +105,13 @@ export default function SiteNav({ revealAfterHero = false }) {
   const dropItems = [...projects, ...navProducts];
   const location = useLocation();
 
-  // o menu de tela cheia fecha sozinho ao navegar, no ESC e trava o
-  // scroll do corpo enquanto esta aberto
-  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+  /* TODOS os drops fecham ao navegar (21/10, Eduardo): a cortina de
+     rota suprime os onClick que fechavam painéis (stopImmediatePropagation
+     na captura), então o fechamento passou a morar AQUI — pathname trocou,
+     todos os painéis se recolhem enquanto a tela ainda está coberta. */
+  useEffect(() => {
+    setMenuOpen(false); setDrop(false); setTDrop(false); setXDrop(null);
+  }, [location.pathname]);
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") setMenuOpen(false); };
     window.addEventListener("keydown", onKey);

@@ -78,7 +78,12 @@ export default function TransitionCurtain() {
       const a = e.target.closest && e.target.closest("a");
       if (!isInternal(a)) return;
       const href = a.getAttribute("href");
-      if (href === locRef.current) return;
+      /* mesma PATHNAME com ?query ou #hash (ex.: /pt/work#caso) não troca
+         pathname, então o effect de rota NUNCA rodaria — a cortina abriria
+         e viveria até o fallback de 2s. Esses cliques atravessam NATIVOS:
+         sem cortina, com o onClick do Link intacto (e o hash nativo no
+         lugar, intocado). */
+      if (href.split(/[?#]/)[0] === locRef.current) return;
       if (mq.matches) return; /* reduced-motion: o router age sozinho */
       /* preventDefault NÃO basta: o <Link> do react-router não checa
          defaultPrevented e navega na hora, matando o cover no berço.
@@ -147,7 +152,11 @@ export default function TransitionCurtain() {
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const el = curtain.current;
-    if (mq.matches) { el.style.display = "none"; busy.current = false; return; }
+    /* reduced-motion (inclusive se ligar NO MEIO do gesto, cobrindo a
+     * tela): hard-reset completo — mata timeline, limpa fallback, devolve
+     * o overflow do html. Nunca esconder só o display e deixar o html
+     * travado com overflow hidden. */
+    if (mq.matches) { hardCleanup(el); return; }
     if (getComputedStyle(el).display === "none") return;
     busy.current = true;
     if (fallback.current) { clearTimeout(fallback.current); fallback.current = null; }
