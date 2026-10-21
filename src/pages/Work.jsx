@@ -39,6 +39,9 @@ export default function Work() {
   usePageTitle(t.label, "work");
 
   const { setor, solucao, set } = useWorkFilter(lang);
+  /* 21/10: no mobile os 13 chips de setor empurravam o primeiro case para
+     ~1500px. Recolhidos num toggle que abre em linha; URL (?setor=) intacta. */
+  const [sectorsOpen, setSectorsOpen] = useState(false);
 
   const sectors = useMemo(
     () => [...new Set(all.map((c) => c.sector))].sort((a, b) => a.localeCompare(b)),
@@ -73,14 +76,21 @@ export default function Work() {
 
       <section className="mf-work" data-depth="0.26">
         <div className="mf-work__filters mf-stage" aria-label={t.filterLabel}>
-          <div className="mf-work__filter-row">
+          <div className="mf-work__filter-row mf-work__filter-row--sector">
             <span className="mf-work__filter-title">{t.filterSector}</span>
-            <button type="button" className={chip(setor === "todos")} aria-pressed={setor === "todos"}
-              onClick={() => set("setor", "todos")}>{t.filterAll}</button>
-            {sectors.map((s) => (
-              <button key={s} type="button" className={chip(setor === s)} aria-pressed={setor === s}
-                onClick={() => set("setor", s)}>{s}</button>
-            ))}
+            <button type="button" className="mf-work__sector-toggle" aria-expanded={sectorsOpen}
+              aria-controls="mf-work-sector-chips" onClick={() => setSectorsOpen((v) => !v)}>
+              {setor === "todos" ? t.filterAll : setor}
+              <span aria-hidden="true">{sectorsOpen ? "-" : "+"}</span>
+            </button>
+            <div id="mf-work-sector-chips" className={`mf-work__chips${sectorsOpen ? " is-open" : ""}`}>
+              <button type="button" className={chip(setor === "todos")} aria-pressed={setor === "todos"}
+                onClick={() => { set("setor", "todos"); setSectorsOpen(false); }}>{t.filterAll}</button>
+              {sectors.map((s) => (
+                <button key={s} type="button" className={chip(setor === s)} aria-pressed={setor === s}
+                  onClick={() => { set("setor", s); setSectorsOpen(false); }}>{s}</button>
+              ))}
+            </div>
           </div>
           <div className="mf-work__filter-row">
             <span className="mf-work__filter-title">{t.filterSolution}</span>
@@ -130,6 +140,8 @@ export default function Work() {
 .mf-work{padding:0 var(--gutter) var(--section-gap)}
 .mf-work__filters{max-width:var(--max-width-page);margin:0 auto 1.2rem;display:flex;flex-direction:column;gap:0.9rem}
 .mf-work__filter-row{display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem}
+.mf-work__chips{display:contents}
+.mf-work__sector-toggle{display:none}
 .mf-work__filter-title{font-family:var(--font-mono);font-size:var(--text-label);letter-spacing:var(--tracking-label);color:var(--color-text-ghost);margin-right:0.6rem}
 .mf-work__chip{
   font-family:var(--font-mono);font-size:var(--text-label);letter-spacing:var(--tracking-label);
@@ -177,6 +189,10 @@ export default function Work() {
 
 @media (max-width:820px){
   .mf-work__item{grid-template-columns:1fr;gap:0.8rem}
+  .mf-work__sector-toggle{display:inline-flex;align-items:center;gap:0.45rem;font-family:var(--font-mono);font-size:var(--text-label);letter-spacing:var(--tracking-label);color:var(--color-text-secondary);background:none;border:1px solid var(--color-divider);border-radius:999px;padding:0.5rem 1rem;min-height:44px;cursor:pointer}
+  .mf-work__chips{display:none}
+  .mf-work__chips.is-open{display:flex;flex-wrap:wrap;gap:0.5rem;flex-basis:100%}
+  .mf-work__filters{gap:0.7rem;margin-bottom:0.9rem}
   .mf-work__item,.mf-work__filters .mf-work__chip{min-height:44px}
   .mf-work__meta{flex-direction:row;text-align:left;gap:1rem}
 }

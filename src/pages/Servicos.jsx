@@ -6,7 +6,7 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy, getPractice } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { WHATSAPP_URL } from "@/lib/site";
+import { WHATSAPP_URL, WHATSAPP_URL_EN } from "@/lib/site";
 
 /**
  * Servicos — visao geral das quatro solucoes, com numeros reais da
@@ -170,7 +170,7 @@ export default function Servicos() {
           </div>
           <Reveal delay={160}>
             <a
-              href={WHATSAPP_URL}
+              href={lang === "en" ? WHATSAPP_URL_EN : WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="mf-srv__cta"

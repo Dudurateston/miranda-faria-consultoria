@@ -1,5 +1,6 @@
 import React from "react";
-import { WHATSAPP_URL } from "@/lib/site";
+import { WHATSAPP_URL, WHATSAPP_URL_EN } from "@/lib/site";
+import { useLang } from "@/lib/i18n";
 
 export default function WhatsAppButton({
   children = "Chamar no WhatsApp",
@@ -7,6 +8,7 @@ export default function WhatsAppButton({
   className = "",
   style,
 }) {
+  const { lang } = useLang();
   const base = {
     display: "inline-flex",
     alignItems: "center",
@@ -30,7 +32,7 @@ export default function WhatsAppButton({
 
   return (
     <a
-      href={WHATSAPP_URL}
+      href={lang === "en" ? WHATSAPP_URL_EN : WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
       data-cursor="link"

@@ -7,6 +7,16 @@ export const WHATSAPP_URL_SITE =
   "https://wa.me/5531997731250?text=Olá%20Eduardo,%20vi%20seu%20site%20e%20gostaria%20de%20conversar";
 export const WHATSAPP_URL_SELLER =
   "https://wa.me/5531997731250?text=Olá%20Eduardo,%20quero%20ser%20vendedor%20e%20fazer%20parte%20do%20time";
+
+/* Prefill EN (21/10): mesmo canal e mesmo numero; a mensagem abre no idioma
+   do visitante. Usado so nos CTAs EN que anunciam "Message on WhatsApp" -
+   os CTAs de agendamento seguem no Calendly (regra PT=WhatsApp / EN=Calendly). */
+export const WHATSAPP_URL_EN =
+  "https://wa.me/5531997731250?text=Hi%20Eduardo,%20I%27d%20like%20to%20schedule%20a%20meeting";
+export const WHATSAPP_URL_SITE_EN =
+  "https://wa.me/5531997731250?text=Hi%20Eduardo,%20I%20saw%20your%20site%20and%20would%20like%20to%20talk";
+export const WHATSAPP_URL_SELLER_EN =
+  "https://wa.me/5531997731250?text=Hi%20Eduardo,%20I%27d%20like%20to%20join%20the%20sales%20team";
 /* 15/10 (site-seo): o app dos vendedores ainda era o "Hub de Vendas U.AI",
    marca encerrada. Vazio = os links somem (Footer, About, Contact).
    Antigo: "https://vendas-uai-hub.base44.app". */
@@ -52,7 +62,7 @@ export const CELESTE_GIF = "/art/celeste.mp4";
 export const WHATSAPP_DISPLAY = "(31) 99773-1250";
 /* 15/10 (site-seo): mesmo endereco dos e-mails de prospeccao, para quem
    recebeu o e-mail reconhecer o dominio. Antigo: edumirandamf@gmail.com */
-export const EMAIL = "eduardo@mirandafaria.com.br";
+export const EMAIL = "Eduardo@mirandafaria.com.br";
 export const MARCA = "Miranda Faria";
 
 // CTA internacional: agendamento em vez de WhatsApp (DECISIONS.md).

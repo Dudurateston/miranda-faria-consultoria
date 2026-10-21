@@ -7,7 +7,7 @@ import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { SECTION_MEDIA, WHATSAPP_URL_SELLER, SELLERS_APP_URL } from "@/lib/site";
+import { SECTION_MEDIA, WHATSAPP_URL_SELLER, WHATSAPP_URL_SELLER_EN, SELLERS_APP_URL } from "@/lib/site";
 import AutoVideo from "@/components/AutoVideo";
 
 export default function About() {
@@ -107,7 +107,7 @@ export default function About() {
           </Reveal>
           <Reveal delay={200}>
             <div className="mf-about__sellersctas">
-              <a href={WHATSAPP_URL_SELLER} target="_blank" rel="noopener noreferrer" className="mf-about__sellerswa" data-cursor="link">
+              <a href={lang === "en" ? WHATSAPP_URL_SELLER_EN : WHATSAPP_URL_SELLER} target="_blank" rel="noopener noreferrer" className="mf-about__sellerswa" data-cursor="link">
                 {s.wa} →
               </a>
               {SELLERS_APP_URL ? (

@@ -90,7 +90,23 @@ export default function ConsentBanner() {
   text-underline-offset:3px;
 }
 @media(max-width:859px){
-  .mf-consent{right:var(--gutter);bottom:5.4rem}
+  /* 21/10: banner tinha ~410px de altura em janelas estreitas e cobria os
+     CTAs da primeira tela ("Fale comigo"/"Contato"). Agora e bottom-sheet
+     fixo no rodape, por cima da barra de CTA mobile (que volta quando o
+     banner e dispensado), compacto: em 360/390 os CTAs da hero ficam limpos.
+     Texto, botoes, consentimento e gated-tracking seguem identicos. */
+  .mf-consent{left:var(--gutter);right:var(--gutter);bottom:0;max-width:none;z-index:60;
+    padding:0.65rem 0.85rem calc(0.7rem + env(safe-area-inset-bottom));
+    border-left:none;border-right:none;border-bottom:none}
+  .mf-consent__label{margin-bottom:0.15rem;font-size:9px}
+  .mf-consent__text{font-size:12px;line-height:1.42;margin-bottom:0.55rem}
+  .mf-consent__actions{gap:0.45rem}
+  .mf-consent__yes,.mf-consent__no{padding:0.45rem 0.8rem}
+}
+@media(max-width:359px){
+  /* Em janelas 320 o texto e cortado em 3 linhas; a politica completa segue
+     a um toque no link. Sem isso o sheet cobriria os CTAs empilhados. */
+  .mf-consent__text{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 }
       @media(max-width:860px){.mf-consent__yes, .mf-consent__no, .mf-consent__link{min-height:44px;display:inline-flex;align-items:center}}
 `}</style>

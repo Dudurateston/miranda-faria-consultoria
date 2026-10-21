@@ -4,7 +4,7 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
-import { WHATSAPP_URL_SITE, WATERMARK_GIF, PARTICLES_VIDEO } from "@/lib/site";
+import { WHATSAPP_URL_SITE, WHATSAPP_URL_SITE_EN, WATERMARK_GIF, PARTICLES_VIDEO } from "@/lib/site";
 
 /** CTA final — watermark M animado no fundo, "Vamos conversar" + WhatsApp. */
 export default function HomeCta() {
@@ -22,7 +22,7 @@ export default function HomeCta() {
         <LineReveal className="mf-cta__lead">{t.lead}</LineReveal>
         <Reveal delay={180}>
           <a
-            href={WHATSAPP_URL_SITE}
+            href={lang === "en" ? WHATSAPP_URL_SITE_EN : WHATSAPP_URL_SITE}
             target="_blank"
             rel="noopener noreferrer"
             className="mf-cta__btn"

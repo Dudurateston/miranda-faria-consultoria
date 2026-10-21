@@ -5,7 +5,7 @@ import { base44 } from "@/api/base44Client";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { WHATSAPP_URL, EMAIL, WHATSAPP_DISPLAY, WHATSAPP_URL_SELLER, SELLERS_APP_URL } from "@/lib/site";
+import { WHATSAPP_URL, WHATSAPP_URL_EN, EMAIL, WHATSAPP_DISPLAY, WHATSAPP_URL_SELLER, WHATSAPP_URL_SELLER_EN, SELLERS_APP_URL } from "@/lib/site";
 
 /**
  * Contato — CTA direto no WhatsApp no topo e, abaixo, o formulario
@@ -79,7 +79,7 @@ export default function Contact() {
           <Reveal delay={200}>
             <div className="mf-contact__actions">
               <a
-                href={WHATSAPP_URL}
+                href={lang === "en" ? WHATSAPP_URL_EN : WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mf-contact__primary"
@@ -109,7 +109,7 @@ export default function Contact() {
               <p className="mf-label">{s.label}</p>
               <p className="mf-contact__sellersd">{s.lead}</p>
               <div className="mf-contact__sellerslinks">
-                <a href={WHATSAPP_URL_SELLER} target="_blank" rel="noopener noreferrer" data-cursor="link">
+                <a href={lang === "en" ? WHATSAPP_URL_SELLER_EN : WHATSAPP_URL_SELLER} target="_blank" rel="noopener noreferrer" data-cursor="link">
                   {s.wa} →
                 </a>
                 {SELLERS_APP_URL ? (
