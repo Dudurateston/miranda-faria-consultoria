@@ -105,6 +105,7 @@ export default function FrameTimeGraph() {
       ctx.fillStyle = "rgba(242,238,230,0.35)";
       ctx.fillText("now →", W - 46, H - 8);
       ctx.fillText("frame time (ms)", 12, H - 8);
+      if (sink < 0) samples[0] = sink; // guarda: sink depende do burn real
     };
 
     /* CARGA REAL (21/10, Eduardo: "quebre os 60fps" inoperante):
@@ -116,23 +117,25 @@ export default function FrameTimeGraph() {
        travar a pagina. A queima so acontece DURANTE a interacao (drag ou
        tecla segurada); ao soltar, a carga decai e o grafico mostra a
        recuperacao do aparelho. */
-    let itersPerMs = 9; // fallback conservador ate medir
-    const calibrate = () => {
-      const probe = 30000;
+    /* CARGA REAL v2 (21/10, revisão Codex): laço com DEADLINE de relógio.
+       A versão anterior convertia ms→iterações numa calibração de amostra
+       única; JIT pode distorir essa medida e o teto ficava teórico (BUDGET_MS
+       limitava iters, não tempo decorrido). Aqui o teto é o PRÓPRIO RELÓGIO:
+       performance.now() na condição do laço é leitura observável — não há
+       calibração a enganar nem contagem de iters a se fiar. Blocos pequenos
+       (2048 iters) checam o relógio; no máx. FRAME_BUDGET_MS reais por quadro,
+       e a queima só acontece durante interação. (Hipótese aberta, sem prova:
+       a versão com iters poderia estar sendo eliminada por dead-code.) */
+    const FRAME_BUDGET_MS = 22; // teto REAL de trabalho injetado por quadro
+    let sink = 0;
+    const burnUntil = (msBudget) => {
+      const deadline = performance.now() + Math.min(msBudget, FRAME_BUDGET_MS);
       let acc = 0;
-      const t0 = performance.now();
-      for (let i = 0; i < probe; i++) acc += Math.sqrt(i);
-      const dt = Math.max(0.1, performance.now() - t0);
-      itersPerMs = probe / dt;
-    };
-    calibrate();
-    const BUDGET_MS = 24; // teto de trabalho injetado por quadro
-    const burn = (ms) => {
-      const capped = Math.min(ms, BUDGET_MS);
-      const iters = Math.floor(capped * itersPerMs);
-      let acc = 0;
-      for (let i = 0; i < iters; i++) acc += Math.sqrt(i);
-      return acc;
+      let i = 0;
+      while (performance.now() < deadline) {
+        for (let k = 0; k < 2048; k++, i++) acc += Math.sqrt(i);
+      }
+      sink = (sink + acc) % 1e9; // consumido no draw — sobra de segurança
     };
 
     const frame = (now) => {
@@ -140,8 +143,8 @@ export default function FrameTimeGraph() {
       const t0 = performance.now();
       // ao soltar: a carga cai e o grafico mostra a recuperacao real
       if (!drag && !keyHeld) load *= 0.94;
-      // queima SOMENTE durante interacao — orcamento limitado por quadro
-      if (running && (drag || keyHeld) && load > 0.005) burn(load * 18);
+      // queima SOMENTE durante interacao — teto real por relógio
+      if (running && (drag || keyHeld) && load > 0.005) burnUntil(load * FRAME_BUDGET_MS);
       const dt = now - last;
       last = now;
       if (running && dt > 0 && dt < 400) {
@@ -183,12 +186,18 @@ export default function FrameTimeGraph() {
       (entries) => {
         running = entries[0]?.isIntersecting ?? false;
         last = performance.now();
+        if (!running) clearInteraction(); // fora da viewport: nada queima
       },
       { threshold: 0.1 }
     );
     io.observe(wrap);
 
     let keyHeld = false;
+    /* Limpeza completa: qualquer saída da interação (blur do canvas,
+       aba oculta, captura de ponteiro perdida, painel fora da viewport)
+       zera drag/keyHeld/load — nada de continuar queimando após Alt-Tab
+       ou soltura fora do alvo. */
+    const clearInteraction = () => { drag = null; keyHeld = false; load = 0; };
     const onDown = (e) => {
       canvas.setPointerCapture?.(e.pointerId);
       drag = { x0: e.clientX, load0: load };
@@ -203,18 +212,22 @@ export default function FrameTimeGraph() {
       const step = e.key === "ArrowUp" || e.key === "ArrowRight" ? 0.07
         : e.key === "ArrowDown" || e.key === "ArrowLeft" ? -0.07 : 0;
       if (step === 0) return;
+      if (reduced) return; // reduced-motion: estado estático, sem carga injetada
       e.preventDefault();
       keyHeld = true;
       load = Math.min(1, Math.max(0, load + step));
-      if (reduced) draw(); // reduced-motion: quadro estatico, atualiza o medidor
     };
     const onKeyUp = () => { keyHeld = false; };
+    const onVisibility = () => { if (document.hidden) clearInteraction(); };
     canvas.addEventListener("pointerdown", onDown);
     canvas.addEventListener("pointermove", onMove);
     canvas.addEventListener("pointerup", onUp);
     canvas.addEventListener("pointercancel", onUp);
     canvas.addEventListener("keydown", onKey);
     canvas.addEventListener("keyup", onKeyUp);
+    canvas.addEventListener("blur", clearInteraction);
+    canvas.addEventListener("lostpointercapture", clearInteraction);
+    document.addEventListener("visibilitychange", onVisibility);
     canvas.style.touchAction = "none"; // o drag e do painel, nao da pagina
 
     resize();
@@ -232,6 +245,9 @@ export default function FrameTimeGraph() {
       canvas.removeEventListener("pointercancel", onUp);
       canvas.removeEventListener("keydown", onKey);
       canvas.removeEventListener("keyup", onKeyUp);
+      canvas.removeEventListener("blur", clearInteraction);
+      canvas.removeEventListener("lostpointercapture", clearInteraction);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
