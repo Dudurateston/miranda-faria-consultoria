@@ -7,11 +7,14 @@ import { posterFor } from "@/lib/isMobile";
  * viewport (rootMargin 300px), entao nada de video pesado baixando fora
  * da tela. `aria-hidden` por padrao: e decoracao.
  */
-export default function AutoVideo({ src, className, label, poster, preloadOffset = "300px" }) {
+export default function AutoVideo({ src, className, label, poster, preloadOffset = "300px", eager = false }) {
   const ref = useRef(null);
-  const [live, setLive] = useState(false);
+  const [live, setLive] = useState(eager);
   const still = poster ?? posterFor(src);
   useEffect(() => {
+    /* eager: paineis do nav — o elemento so existe com o painel aberto;
+       comeca live: sem latencia de IO o poster pinta na hora da troca. */
+    if (eager) return;
     if (typeof IntersectionObserver === "undefined") { setLive(true); return; }
     const io = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setLive(true); io.disconnect(); } },

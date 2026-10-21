@@ -7,6 +7,7 @@ import MfRule from "@/components/MfRule";
 import { useScrollStagger } from "@/hooks/useScrollStagger";
 import { useLang } from "@/lib/i18n";
 import { copy, cases, PRACTICE_SLUGS, practices as practiceCopy } from "@/content/copy";
+import { APONTADOR, EIGHTYFIVE } from "@/content/produtos";
 import { usePageTitle } from "@/lib/usePageTitle";
 
 /* Filtro do índice de cases — setor e solução.
@@ -35,6 +36,12 @@ export default function Work() {
   const { lang, path } = useLang();
   const t = copy[lang].work;
   const all = cases[lang];
+  /* Produtos proprios: paginas monolíngues linkadas na versão real.
+     Apontador fala PT (indústrias BR), Eightyfive fala EN (Irlanda). */
+  const products = [
+    { slug: "apontador", name: "Apontador", to: "/pt/apontador", lead: APONTADOR.lead },
+    { slug: "eightyfive", name: "Eightyfive", to: "/en/eightyfive", lead: EIGHTYFIVE.lead },
+  ];
   const listRef = useRef(null);
   usePageTitle(t.label, "work");
 
@@ -134,6 +141,30 @@ export default function Work() {
             ))}
           </div>
         )}
+
+        <div className="mf-work__products mf-stage">
+          <p className="mf-work__products-label mf-label">{t.productsLabel}</p>
+          <div className="mf-work__plist">
+            {products.map((p, i) => (
+              <a
+                key={p.slug}
+                href={p.to}
+                className="mf-work__item mf-work__item--product"
+                data-cursor="link"
+              >
+                <span className="mf-work__num">P{String(i + 1).padStart(2, "0")}</span>
+                <div className="mf-work__body">
+                  <h2 className="mf-work__name">{p.name}</h2>
+                  <p className="mf-work__summary">{p.lead}</p>
+                </div>
+                <div className="mf-work__meta">
+                  <span className="mf-label">{t.productTag}</span>
+                  <span className="mf-label mf-work__year">{t.viewProduct} →</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
       </section>
 
       <style>{`
@@ -152,6 +183,10 @@ export default function Work() {
 .mf-work__chip:hover{color:var(--color-text-primary);border-color:var(--color-text-secondary)}
 .mf-work__chip.is-active{color:var(--color-bg);background:var(--color-text-primary);border-color:var(--color-text-primary)}
 .mf-work__list{max-width:var(--max-width-page);margin:0 auto;border-top:1px solid var(--color-divider)}
+.mf-work__products{max-width:var(--max-width-page);margin:2.6rem auto 0}
+.mf-work__products-label{margin-bottom:0.2rem}
+.mf-work__plist{border-top:1px solid var(--color-divider)}
+.mf-work__item--product .mf-work__name::after{content:"P";margin-left:0.5rem;font-family:var(--font-mono);font-size:var(--text-label);color:var(--color-text-ghost);vertical-align:super}
 .mf-work__empty{max-width:var(--max-width-page);margin:0 auto;padding:3rem 0;display:flex;flex-direction:column;gap:1.2rem;align-items:flex-start}
 .mf-work__empty-text{font-family:var(--font-body);font-size:var(--text-body-md);color:var(--color-text-secondary);margin:0;max-width:52ch}
 .mf-work__empty-clear{font-family:var(--font-mono);font-size:var(--text-label);letter-spacing:var(--tracking-label);color:var(--color-accent);background:none;border:none;border-bottom:1px solid currentColor;padding:0.2rem 0;cursor:pointer;min-height:24px}

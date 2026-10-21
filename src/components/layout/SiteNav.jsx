@@ -4,6 +4,7 @@ import { useLang } from "@/lib/i18n";
 import ThemeToggle from "@/components/layout/ThemeToggle";
 import { copy, getPractice, cases } from "@/content/copy";
 import { WHATSAPP_URL_BARE, M_LOGO, NAV_MEDIA } from "@/lib/site";
+import { APONTADOR, EIGHTYFIVE } from "@/content/produtos";
 import AutoVideo from "@/components/AutoVideo";
 
 /* 19/09 v3 (Eduardo: "os videos antigos AINDA aparecem brevemente"):
@@ -11,8 +12,8 @@ import AutoVideo from "@/components/AutoVideo";
    o painel aberto, o Chromium continuava pintando o frame do video
    anterior enquanto o novo carregava. Correcao definitiva, igual ao
    AutoVideo: remontagem por KEY — elemento novo nao guarda frame velho. */
-function NavDropVideo({ src }) {
-  return <video key={src ?? "off"} src={src} autoPlay muted loop playsInline preload="metadata" />;
+function NavDropVideo({ src, poster }) {
+  return <video key={src ?? "off"} src={src} poster={poster} autoPlay muted loop playsInline preload="metadata" />;
 }
 
 const SUB_MEDIA = [
@@ -47,6 +48,18 @@ export default function SiteNav({ revealAfterHero = false }) {
   // TODOS os cases ativos — o dropdown de Trabalhos mostra o portfólio
   // completo, na mesma ordem da página /work (14 cases, PT e EN).
   const projects = cases[lang];
+  /* Produtos proprios no drop do Trabalhos: Apontador (PT) e Eightyfive (EN) —
+     paginas monolíngues, link direto para a versão real, sem 404. */
+  const navProducts = lang === "pt"
+    ? [
+        { slug: "apontador", name: "Apontador", to: "/pt/apontador", tag: copy.pt.work.productTag, media: { img: M_LOGO } },
+        { slug: "eightyfive", name: "Eightyfive", to: "/en/eightyfive", tag: copy.pt.work.productTag, media: { img: M_LOGO } },
+      ]
+    : [
+        { slug: "apontador", name: "Apontador", to: "/pt/apontador", tag: copy.en.work.productTag, media: { img: M_LOGO } },
+        { slug: "eightyfive", name: "Eightyfive", to: "/en/eightyfive", tag: copy.en.work.productTag, media: { img: M_LOGO } },
+      ];
+  const dropItems = [...projects, ...navProducts];
   const location = useLocation();
 
   // o menu de tela cheia fecha sozinho ao navegar, no ESC e trava o
@@ -169,7 +182,7 @@ export default function SiteNav({ revealAfterHero = false }) {
           ))}
         </div>
         <div className="mf-nav__submedia" aria-hidden="true">
-          <AutoVideo src={xDrop === e.key ? e.media : undefined} />
+          <AutoVideo eager src={xDrop === e.key ? e.media : undefined} />
           <span className="mf-nav__subcap">{e.cap}</span>
         </div>
       </div>
@@ -228,7 +241,7 @@ export default function SiteNav({ revealAfterHero = false }) {
                 ))}
               </div>
               <div className="mf-nav__submedia" aria-hidden="true">
-                <AutoVideo src={drop ? (SUB_MEDIA[subIdx] ?? SUB_MEDIA[0]) : undefined} />
+                <AutoVideo eager src={drop ? (SUB_MEDIA[subIdx] ?? SUB_MEDIA[0]) : undefined} />
                 <span className="mf-nav__subcap">
                   {String(subIdx + 1).padStart(2, "0")} · {solutions[subIdx]?.label ?? ""}
                 </span>
@@ -264,21 +277,40 @@ export default function SiteNav({ revealAfterHero = false }) {
                     </span>
                   </NavLink>
                 ))}
+                {navProducts.map((p, i) => (
+                  <a
+                    key={p.slug}
+                    href={p.to}
+                    data-cursor="link"
+                    onMouseEnter={() => { setTDrop(true); setTIdx(projects.length + i); }}
+                    className="mf-nav__subitem"
+                    style={{ transitionDelay: `${tDrop ? 60 + (projects.length + i) * 55 : 0}ms` }}
+                  >
+                    <span className="mf-nav__subnum">P{String(i + 1).padStart(2, "0")}</span>
+                    <span className="mf-nav__subbody">
+                      <span className="mf-nav__subname">{p.name}</span>
+                      <span className="mf-nav__sublead">{p.tag}</span>
+                    </span>
+                  </a>
+                ))}
               </div>
               <div className="mf-nav__submedia" aria-hidden="true">
-                {(projects[tIdx] ?? projects[0])?.media?.video ? (
+                {(tDrop ? dropItems[tIdx] : null)?.media?.video ? (
                   <NavDropVideo
-                    src={tDrop ? `/work/${(projects[tIdx] ?? projects[0])?.media?.dir ?? (projects[tIdx] ?? projects[0])?.slug}/video.mp4` : undefined}
+                    src={`/work/${(tDrop ? dropItems[tIdx] : null)?.media?.dir ?? dropItems[tIdx]?.slug}/video.mp4`}
+                    poster={`/work/${(tDrop ? dropItems[tIdx] : null)?.media?.dir ?? dropItems[tIdx]?.slug}/01.webp`}
                   />
+                ) : (tDrop ? dropItems[tIdx] : null)?.media?.img ? (
+                  <img src={dropItems[tIdx].media.img} alt="" loading="lazy" />
                 ) : (
                   <img
-                    src={`/work/${(projects[tIdx] ?? projects[0])?.media?.dir ?? (projects[tIdx] ?? projects[0])?.slug}/01.webp`}
+                    src={`/work/${(tDrop ? dropItems[tIdx] : null)?.media?.dir ?? dropItems[tIdx]?.slug}/01.webp`}
                     alt=""
                     loading="lazy"
                   />
                 )}
                 <span className="mf-nav__subcap">
-                  {String(tIdx + 1).padStart(2, "0")} · {(projects[tIdx] ?? projects[0])?.name}
+                  {String(tIdx + 1).padStart(2, "0")} · {dropItems[tIdx]?.name ?? dropItems[0]?.name}
                 </span>
               </div>
             </div>

@@ -4,6 +4,7 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import { useLang } from "@/lib/i18n";
 import { copy, cases } from "@/content/copy";
+import { APONTADOR, EIGHTYFIVE } from "@/content/produtos";
 
 /**
  * Trabalho selecionado na Home — a lista de cases no padrão spence:
@@ -29,6 +30,10 @@ export default function HomeTrabalho() {
     .filter(Boolean)
     .slice(0, 6);
   const shown = list.length ? list : cases[lang].slice(0, 6);
+  const products = [
+    { slug: "apontador", name: "Apontador", to: "/pt/apontador", lead: APONTADOR.lead },
+    { slug: "eightyfive", name: "Eightyfive", to: "/en/eightyfive", lead: EIGHTYFIVE.lead },
+  ];
 
   return (
     <section className="mf-h">
@@ -57,6 +62,21 @@ export default function HomeTrabalho() {
                 </span>
                 <span className="mf-trow__go">{t.work.viewCase} →</span>
               </Link>
+            </Reveal>
+          ))}
+          {products.map((p, i) => (
+            <Reveal key={p.slug} delay={(6 + i) * 80}>
+              <a href={p.to} className="mf-trow mf-trow--product" data-cursor="link">
+                <span className="mf-trow__num">P{String(i + 1).padStart(2, "0")}</span>
+                <span className="mf-trow__body">
+                  <span className="mf-trow__name">{p.name}</span>
+                  <span className="mf-trow__desc">{p.lead}</span>
+                </span>
+                <span className="mf-trow__meta">
+                  <span className="mf-label">{t.work.productTag}</span>
+                </span>
+                <span className="mf-trow__go">{t.work.viewProduct} →</span>
+              </a>
             </Reveal>
           ))}
         </div>

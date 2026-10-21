@@ -107,9 +107,29 @@ export default function FrameTimeGraph() {
       ctx.fillText("frame time (ms)", 12, H - 8);
     };
 
+    /* CARGA REAL (21/10, Eduardo: "quebre os 60fps" inoperante):
+       o multiplicador fixo de 9000 iteracoes custava ~0,03ms por unidade —
+       arrastar a 100% somava menos de 1ms por quadro em qualquer aparelho
+       moderno e o grafico nunca saia de 60fps. Agora o aparelho e MEDIDO no
+       montar (uma amostra de sqrt, ~2-4ms, uma unica vez) e o burn injeta
+       milissegundos REAIS, com orcamento por quadro (BUDGET_MS) para nunca
+       travar a pagina. A queima so acontece DURANTE a interacao (drag ou
+       tecla segurada); ao soltar, a carga decai e o grafico mostra a
+       recuperacao do aparelho. */
+    let itersPerMs = 9; // fallback conservador ate medir
+    const calibrate = () => {
+      const probe = 30000;
+      let acc = 0;
+      const t0 = performance.now();
+      for (let i = 0; i < probe; i++) acc += Math.sqrt(i);
+      const dt = Math.max(0.1, performance.now() - t0);
+      itersPerMs = probe / dt;
+    };
+    calibrate();
+    const BUDGET_MS = 24; // teto de trabalho injetado por quadro
     const burn = (ms) => {
-      // ~1ms de trabalho por unidade: soma, multiplica e descarta
-      const iters = Math.floor(ms * 9000);
+      const capped = Math.min(ms, BUDGET_MS);
+      const iters = Math.floor(capped * itersPerMs);
       let acc = 0;
       for (let i = 0; i < iters; i++) acc += Math.sqrt(i);
       return acc;
@@ -118,9 +138,10 @@ export default function FrameTimeGraph() {
     const frame = (now) => {
       if (!alive) return;
       const t0 = performance.now();
-      // decai devagar quando nao esta sendo arrastado
-      if (!drag) load *= 0.985;
-      if (running && load > 0.005) burn(load * 18);
+      // ao soltar: a carga cai e o grafico mostra a recuperacao real
+      if (!drag && !keyHeld) load *= 0.94;
+      // queima SOMENTE durante interacao — orcamento limitado por quadro
+      if (running && (drag || keyHeld) && load > 0.005) burn(load * 18);
       const dt = now - last;
       last = now;
       if (running && dt > 0 && dt < 400) {
@@ -167,6 +188,7 @@ export default function FrameTimeGraph() {
     );
     io.observe(wrap);
 
+    let keyHeld = false;
     const onDown = (e) => {
       canvas.setPointerCapture?.(e.pointerId);
       drag = { x0: e.clientX, load0: load };
@@ -177,10 +199,22 @@ export default function FrameTimeGraph() {
       load = Math.min(1, Math.max(0, drag.load0 + dx));
     };
     const onUp = () => { drag = null; };
+    const onKey = (e) => {
+      const step = e.key === "ArrowUp" || e.key === "ArrowRight" ? 0.07
+        : e.key === "ArrowDown" || e.key === "ArrowLeft" ? -0.07 : 0;
+      if (step === 0) return;
+      e.preventDefault();
+      keyHeld = true;
+      load = Math.min(1, Math.max(0, load + step));
+      if (reduced) draw(); // reduced-motion: quadro estatico, atualiza o medidor
+    };
+    const onKeyUp = () => { keyHeld = false; };
     canvas.addEventListener("pointerdown", onDown);
     canvas.addEventListener("pointermove", onMove);
     canvas.addEventListener("pointerup", onUp);
     canvas.addEventListener("pointercancel", onUp);
+    canvas.addEventListener("keydown", onKey);
+    canvas.addEventListener("keyup", onKeyUp);
     canvas.style.touchAction = "none"; // o drag e do painel, nao da pagina
 
     resize();
@@ -196,12 +230,20 @@ export default function FrameTimeGraph() {
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerup", onUp);
       canvas.removeEventListener("pointercancel", onUp);
+      canvas.removeEventListener("keydown", onKey);
+      canvas.removeEventListener("keyup", onKeyUp);
     };
   }, []);
 
   return (
     <figure ref={wrapRef} className="mf-tf mf-tf--half" aria-label="Real frame time, live" style={{ cursor: "ew-resize" }}>
-      <canvas ref={canvasRef} />
+      <canvas
+        ref={canvasRef}
+        tabIndex={0}
+        role="img"
+        aria-label="Grafico do tempo de cada quadro. Pressione e arraste, ou use as setas do teclado, para injetar carga real e quebrar os 60fps."
+        className="mf-tf__canvas"
+      />
       <figcaption className="mf-tf__hud" aria-hidden="true">
         <span>{hud.ms > 0 ? `${hud.ms} ms/frame` : "—"}</span>
         <span>{hud.fps > 0 ? `${hud.fps} fps` : "measuring"}</span>
