@@ -131,6 +131,9 @@ export default function About() {
       </section>
 
       <style>{`
+/* Respiro do topo do SOBRE (Codex: seção colada no fim da navbar em 1280).
+   Grade, retrato, tipografia e textos preservados. */
+.mf-about{padding-top:clamp(3rem,6vw,5.5rem)}
 /* Trajetória: texto + arte generativa de marca lado a lado. */
 .mf-about__grid{display:grid;grid-template-columns:1fr;gap:3rem;align-items:start}
 @media(min-width:768px){
