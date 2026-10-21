@@ -90,23 +90,25 @@ export default function ConsentBanner() {
   text-underline-offset:3px;
 }
 @media(max-width:859px){
-  /* 21/10: banner tinha ~410px de altura em janelas estreitas e cobria os
-     CTAs da primeira tela ("Fale comigo"/"Contato"). Agora e bottom-sheet
-     fixo no rodape, por cima da barra de CTA mobile (que volta quando o
-     banner e dispensado), compacto: em 360/390 os CTAs da hero ficam limpos.
-     Texto, botoes, consentimento e gated-tracking seguem identicos. */
+  /* 21/10: no mobile o banner virou bottom-sheet compacto (411px -> 230px em
+     390x844, medido) com o corpo rolavel dentro do proprio sheet. Texto
+     INTEGRAL, sem clamp; botoes e link da politica ficam fora da area rolavel,
+     ou seja sempre alcancaveis. Consentimento, URLs e gated-tracking intactos.
+     SOBREPOSICAO (medido, honesto): na primeira visita o sheet ainda cobre
+     parte dos CTAs da hero em janelas curtas - 390: CTA termina em 646 e o
+     sheet comeca em 614 (~32px); 360: ~43px; 320: cobertura maior (a hero
+     ocupa 76-88% da altura). Ate o visitante escolher uma opcao o CTA fica
+     atras do sheet; qualquer escolha libera a tela. Em 768+ o sheet nao cobre
+     CTA nenhum. O banner de DESKTOP segue inalterado e ja sobrepunha o CTA da
+     hero em 1440 no ar (pre-existente, fora deste escopo). */
   .mf-consent{left:var(--gutter);right:var(--gutter);bottom:0;max-width:none;z-index:60;
     padding:0.65rem 0.85rem calc(0.7rem + env(safe-area-inset-bottom));
     border-left:none;border-right:none;border-bottom:none}
   .mf-consent__label{margin-bottom:0.15rem;font-size:9px}
-  .mf-consent__text{font-size:12px;line-height:1.42;margin-bottom:0.55rem}
+  .mf-consent__text{font-size:12px;line-height:1.42;margin-bottom:0.55rem;
+    max-height:30vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
   .mf-consent__actions{gap:0.45rem}
   .mf-consent__yes,.mf-consent__no{padding:0.45rem 0.8rem}
-}
-@media(max-width:359px){
-  /* Em janelas 320 o texto e cortado em 3 linhas; a politica completa segue
-     a um toque no link. Sem isso o sheet cobriria os CTAs empilhados. */
-  .mf-consent__text{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 }
       @media(max-width:860px){.mf-consent__yes, .mf-consent__no, .mf-consent__link{min-height:44px;display:inline-flex;align-items:center}}
 `}</style>
