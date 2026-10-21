@@ -16,20 +16,23 @@ function NavDropVideo({ src, poster }) {
   return <video key={src ?? "off"} src={src} poster={poster} autoPlay muted loop playsInline preload="metadata" />;
 }
 
-/* 21/10 — Mídia do painel SERVIÇOS (diagnóstico: fundo #141414 piscando e
-   salto poster→frame0 nas trocas). Camada estável em duas camadas: o poster
-   do PRIMEIRO FRAME REAL (_f0.webp, bit-idêntico ao frame 0 do vídeo) pinta
-   por baixo e NUNCA sai; o <video> por cima fica opacity 0 e só ganha
-   opacity 1 quando tem frame decodificado (readyState>=2 no loadeddata),
-   com verificação de que o elemento pronto ainda é a seleção atual —
-   troca rápida cancela a readiness da seleção anterior. Sem background
-   escuro: o vídeo é transparente sobre o poster. AutoVideo global e
-   painel Trabalhos intocados. */
+/* Poster do primeiro frame real de um vídeo do painel Serviços. */
+const subStill = (src) => (src ? src.replace(/\.mp4$/, "_f0.webp") : undefined);
+
+/* 21/10 v2 (Codex: o ready=true da seleção anterior era renderizado no
+   <video key=novo> por um commit antes do useEffect zerar — efeito pode
+   rodar depois da pintura). Agora a readiness NASCE FALSE por construção:
+   o pai remonta o SubMediaSlot por seleção (key no componente, não só no
+   vídeo), incluindo fechar→reabrir com o mesmo src — nova instância nunca
+   herda ready=true. Guarda de eventos antigos mantida (loadeddata de
+   elemento que já não é o atual não revela). Poster = primeiro frame
+   real do vídeo (fidelidade até a compressão WebP); os outros posters
+   são pré-carregados quando o painel abre para a varredura fria não
+   ter buraco. AutoVideo global e painel Trabalhos intocados. */
 function SubMediaSlot({ src }) {
   const [ready, setReady] = useState(false);
   const vidRef = useRef(null);
-  const still = src ? src.replace(/\.mp4$/, "_f0.webp") : undefined;
-  useEffect(() => { setReady(false); }, [src]);
+  const still = subStill(src);
   const onFrame = (e) => {
     /* só a seleção ATUAL revela: se o frame pronto chegou de um elemento
        antigo (varredura rápida), ignora. */
@@ -84,6 +87,11 @@ export default function SiteNav({ revealAfterHero = false }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [drop, setDrop] = useState(false);
   const [subIdx, setSubIdx] = useState(0);
+  // Painel Serviços aberto: pré-carrega os 4 posters f0 (40KB) para a
+  // varredura entre itens não abrir buraco no cache frio.
+  useEffect(() => {
+    if (drop) SUB_MEDIA.forEach((m) => { const i = new Image(); i.src = subStill(m); });
+  }, [drop]);
   const [tDrop, setTDrop] = useState(false);
   const [tIdx, setTIdx] = useState(0);
   const [xDrop, setXDrop] = useState(null);
@@ -276,7 +284,7 @@ export default function SiteNav({ revealAfterHero = false }) {
                 ))}
               </div>
               <div className="mf-nav__submedia" aria-hidden="true">
-                <SubMediaSlot src={drop ? (SUB_MEDIA[subIdx] ?? SUB_MEDIA[0]) : undefined} />
+                <SubMediaSlot key={drop ? (SUB_MEDIA[subIdx] ?? "off") : "off"} src={drop ? (SUB_MEDIA[subIdx] ?? SUB_MEDIA[0]) : undefined} />
                 <span className="mf-nav__subcap">
                   {String(subIdx + 1).padStart(2, "0")} · {solutions[subIdx]?.label ?? ""}
                 </span>
