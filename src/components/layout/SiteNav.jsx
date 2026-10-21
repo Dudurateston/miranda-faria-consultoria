@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLang } from "@/lib/i18n";
 import ThemeToggle from "@/components/layout/ThemeToggle";
@@ -14,6 +14,49 @@ import AutoVideo from "@/components/AutoVideo";
    AutoVideo: remontagem por KEY — elemento novo nao guarda frame velho. */
 function NavDropVideo({ src, poster }) {
   return <video key={src ?? "off"} src={src} poster={poster} autoPlay muted loop playsInline preload="metadata" />;
+}
+
+/* 21/10 — Mídia do painel SERVIÇOS (diagnóstico: fundo #141414 piscando e
+   salto poster→frame0 nas trocas). Camada estável em duas camadas: o poster
+   do PRIMEIRO FRAME REAL (_f0.webp, bit-idêntico ao frame 0 do vídeo) pinta
+   por baixo e NUNCA sai; o <video> por cima fica opacity 0 e só ganha
+   opacity 1 quando tem frame decodificado (readyState>=2 no loadeddata),
+   com verificação de que o elemento pronto ainda é a seleção atual —
+   troca rápida cancela a readiness da seleção anterior. Sem background
+   escuro: o vídeo é transparente sobre o poster. AutoVideo global e
+   painel Trabalhos intocados. */
+function SubMediaSlot({ src }) {
+  const [ready, setReady] = useState(false);
+  const vidRef = useRef(null);
+  const still = src ? src.replace(/\.mp4$/, "_f0.webp") : undefined;
+  useEffect(() => { setReady(false); }, [src]);
+  const onFrame = (e) => {
+    /* só a seleção ATUAL revela: se o frame pronto chegou de um elemento
+       antigo (varredura rápida), ignora. */
+    if (e.currentTarget === vidRef.current && e.currentTarget.readyState >= 2) {
+      setReady(true);
+    }
+  };
+  return (
+    <span className="mf-nav__substage">
+      {still && <img className="mf-nav__subposter" src={still} alt="" aria-hidden="true" />}
+      {src && (
+        <video
+          key={src}
+          ref={vidRef}
+          src={src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          onLoadedData={onFrame}
+          className="mf-nav__subvid"
+          data-ready={ready ? "true" : "false"}
+        />
+      )}
+    </span>
+  );
 }
 
 const SUB_MEDIA = [
@@ -233,7 +276,7 @@ export default function SiteNav({ revealAfterHero = false }) {
                 ))}
               </div>
               <div className="mf-nav__submedia" aria-hidden="true">
-                <AutoVideo eager src={drop ? (SUB_MEDIA[subIdx] ?? SUB_MEDIA[0]) : undefined} />
+                <SubMediaSlot src={drop ? (SUB_MEDIA[subIdx] ?? SUB_MEDIA[0]) : undefined} />
                 <span className="mf-nav__subcap">
                   {String(subIdx + 1).padStart(2, "0")} · {solutions[subIdx]?.label ?? ""}
                 </span>
@@ -668,6 +711,12 @@ html[data-skin="dark"] .mf-mnav__wm{filter:none;opacity:0.10}
 .mf-nav__sub--tall .mf-nav__subitems::-webkit-scrollbar-thumb:hover{background:rgba(26,26,24,0.55)}
 .mf-nav__sub--tall .mf-nav__subitem{padding:0.6rem 0.9rem}
 .mf-nav__submedia img{width:100%;height:100%;object-fit:cover;display:block}
+/* Estágio do painel Serviços: poster f0 estável por baixo, vídeo revela
+   só com frame pronto. Sem fundo escuro em nenhum estado. */
+.mf-nav__substage{position:relative;display:block;width:100%;aspect-ratio:16/9;border:1px solid var(--mf-rule);overflow:hidden;background:transparent}
+.mf-nav__substage img,.mf-nav__substage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.mf-nav__substage video{opacity:0;transition:opacity 0.12s ease;background:transparent}
+.mf-nav__substage video[data-ready="true"]{opacity:1}
 
 /* ===== Eduardo 18/09: nav nao pode sair da tela em desktop =====
    Tres faixas acima do menu mobile: (a) >=1600 nav completa; (b) 1440-1599
