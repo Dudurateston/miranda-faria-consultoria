@@ -1,30 +1,72 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import gsap from "gsap";
-import { M_LOGO_CURTAIN } from "@/lib/site";
+import { M_LOGO_BONE } from "@/lib/site";
 
 /**
- * Cortina de rota — o PONTO que abre e fecha (Eduardo, 17/09).
+ * Cortina de rota — rodízio determinístico de 2 variantes (Eduardo,
+ * 21/10, "elegante e breve"):
  *
- * Clique em link interno: um ponto de cobre nasce no centro, ABRE até
- * cobrir a tela; o M prata oficial assenta por cima; a rota troca por
- * baixo; o ponto FECHA encolhendo de volta e revela a página nova.
- * Back/forward não é interceptável: ganha só a revelação.
- * Reduced-motion: navegação seca, sem cortina.
+ *  A) COBRE: círculo de cobre abre do centro, M osso assenta por cima,
+ *     rota troca por baixo, círculo fecha e revela a página nova.
+ *  B) FILETE: dois painéis claros (papel) fecham sobre a tela com um
+ *     filete de cobre no centro; rota troca; os painéis abrem partindo
+ *     pelo filete (o último a sair).
+ *
+ * Alternância DETERMINÍSTICA: contador em nível de módulo — cobre,
+ * filete, cobre, filete… (nunca aleatório, sobrevive a remounts).
+ * Gesto completo ~750–900ms. Reduced-motion: navegação seca, sem cortina.
+ * ViewTransitions API: fora do TransitionLink também — esta cortina é
+ * o único sistema de transição do site (sem sobreposição).
+ *
+ * Arquitetura anti-overlay-preso:
+ *  - o efeito do clique tem deps [] (attache único): o teardown dele só
+ *    roda no UNMOUNT real — nunca na troca de rota — então a revelação
+ *    (efeito separado, keyed em loc.pathname) nunca é cancelada
+ *    emplacado (a rota /privacidade sai do casco de idioma e desmonta
+ *    a cortina no meio do gesto: o cleanup do unmount devolve o
+ *    overflow do html — o site antigo ficava rolável-para-sempre);
+ *  - clique novo durante o cover REDIRECIONA o destino pendente;
+ *  - popstate durante o cover cancela o navigate pendente (sem
+ *    navegação dupla) e a revelação corre para a rota do histórico;
+ *  - timer de segurança (2s) esconde a cortina se a rota lazy demorar;
+ *  - reduced-motion nunca abre a cortina.
  */
-const VARIANTS = ["copper"]; // sempre o ponto de cobre
+const VARIANTS = ["copper", "split"];
+let navN = 0; /* alternância determinística */
 
 export default function TransitionCurtain() {
   const loc = useLocation();
   const navigate = useNavigate();
   const curtain = useRef(null);
   const busy = useRef(false);
-  const navN = useRef(0);
-  const [mOn, setMOn] = useState(false);
+  const tlRef = useRef(null);
+  const pendingHref = useRef(null); /* href aceito mas ainda não navegado */
+  const clickPath = useRef(null); /* pathname no instante do clique */
+  const fallback = useRef(null);
+  const locRef = useRef(loc.pathname);
+  const navigateRef = useRef(navigate);
 
+  /* refs sempre frescas para o listener único */
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    locRef.current = loc.pathname;
+    navigateRef.current = navigate;
+  }, [loc.pathname, navigate]);
+
+  /* hard-reset total — chamado só no UNMOUNT da cortina */
+  const hardCleanup = (el) => {
+    if (tlRef.current) { tlRef.current.kill(); tlRef.current = null; }
+    if (fallback.current) { clearTimeout(fallback.current); fallback.current = null; }
+    el.style.display = "none";
+    document.documentElement.style.overflow = "";
+    busy.current = false;
+    pendingHref.current = null;
+  };
+
+  /* listener de captura — attache ÚNICO (deps []): teardown == unmount */
+  useEffect(() => {
     const el = curtain.current;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const isInternal = (a) =>
       a && !a.target && !a.hasAttribute("download") &&
@@ -36,46 +78,81 @@ export default function TransitionCurtain() {
       const a = e.target.closest && e.target.closest("a");
       if (!isInternal(a)) return;
       const href = a.getAttribute("href");
-      if (href === loc.pathname) return;
-      if (busy.current) { e.preventDefault(); return; }
-      if (mq.matches) return; // deixa o router agir sozinho
+      if (href === locRef.current) return;
+      if (mq.matches) return; /* reduced-motion: o router age sozinho */
+      /* preventDefault NÃO basta: o <Link> do react-router não checa
+         defaultPrevented e navega na hora, matando o cover no berço.
+         stopImmediatePropagation na FASE DE CAPTURA impede o handler do
+         Link (e qualquer outro) de rodar — a cortina assume o gesto e
+         navigate() só acontece com a tela coberta. */
       e.preventDefault();
-      busy.current = true;
-      const v = VARIANTS[navN.current++ % VARIANTS.length];
-      el.dataset.v = v;
-      setMOn(true);
-      document.documentElement.style.overflow = "hidden";
-      const circle = el.querySelector(".mf-curtain__circle");
-      const m = el.querySelector(".mf-curtain__m");
+      e.stopImmediatePropagation();
 
-      /* O ponto ABRE: do tamanho de um ponto até cobrir a tela. */
-      const cover = gsap.timeline({
-        onComplete: () => navigate(href),
-      });
-      cover.set(el, { display: "block" })
-        .set(circle, { scale: 0 })
-        .to(circle, { scale: 1, duration: 0.55, ease: "power3.inOut" }, 0)
-        .fromTo(m, { opacity: 0, scale: 0.86 },
-          { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }, 0.28)
-        .fromTo(el.querySelector(".mf-curtain__word"),
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 0.36);
+      /* clique rápido durante o cover: redireciona o destino pendente
+         em vez de engolir o clique. Na fase de revelação o usuário já
+         está clicando na página nova — o router cuida. */
+      if (busy.current && pendingHref.current) {
+        pendingHref.current = href;
+        return;
+      }
+      if (busy.current) return;
+
+      busy.current = true;
+      pendingHref.current = href;
+      clickPath.current = window.location.pathname;
+      el.dataset.v = VARIANTS[navN++ % VARIANTS.length];
+      el.style.display = "block";
+      document.documentElement.style.overflow = "hidden";
+
+      const goIfStillValid = () => {
+        /* popstate durante o cover trocou a rota por baixo: cancela o
+           navigate pendente (a revelação vai correr para o histórico) */
+        if (window.location.pathname !== clickPath.current) { pendingHref.current = null; return; }
+        const to = pendingHref.current;
+        pendingHref.current = null;
+        navigateRef.current(to);
+        /* segurança: rota lazy lenta não pode cobrir a tela p/ sempre */
+        fallback.current = setTimeout(() => { if (busy.current) hardCleanup(el); }, 2000);
+      };
+
+      const cover = gsap.timeline({ onComplete: goIfStillValid });
+      tlRef.current = cover;
+      if (el.dataset.v === "copper") {
+        const circle = el.querySelector(".mf-curtain__circle");
+        const m = el.querySelector(".mf-curtain__m");
+        cover.set(circle, { scale: 0 }).set(m, { opacity: 0, scale: 0.9 })
+          .to(circle, { scale: 1, duration: 0.4, ease: "power3.inOut" }, 0)
+          .to(m, { opacity: 1, scale: 1, duration: 0.18, ease: "power2.out" }, 0.2);
+      } else {
+        const pL = el.querySelector(".mf-curtain__panelL");
+        const pR = el.querySelector(".mf-curtain__panelR");
+        const seam = el.querySelector(".mf-curtain__seam");
+        cover.set(pL, { xPercent: -101 }).set(pR, { xPercent: 101 }).set(seam, { scaleY: 0, opacity: 1 })
+          .to(pL, { xPercent: 0, duration: 0.4, ease: "power3.inOut" }, 0)
+          .to(pR, { xPercent: 0, duration: 0.4, ease: "power3.inOut" }, 0)
+          .to(seam, { scaleY: 1, duration: 0.16, ease: "power2.out" }, 0.26);
+      }
     };
 
     document.addEventListener("click", onClick, true);
-    return () => document.removeEventListener("click", onClick, true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loc.pathname]);
+    return () => {
+      document.removeEventListener("click", onClick, true);
+      hardCleanup(el); /* só roda no unmount real */
+    };
+  }, []);
 
-  // rota trocou: o ponto FECHA e revela a página nova por baixo
+  /* rota trocou: a cortina ABRE e revela a página nova por baixo.
+     Back/forward entra aqui também (sem cover prévio, sem cortina
+     aberta = early return). */
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const el = curtain.current;
     if (mq.matches) { el.style.display = "none"; busy.current = false; return; }
     if (getComputedStyle(el).display === "none") return;
     busy.current = true;
-    const circle = el.querySelector(".mf-curtain__circle");
-    const m = el.querySelector(".mf-curtain__m");
+    if (fallback.current) { clearTimeout(fallback.current); fallback.current = null; }
+    if (tlRef.current) { tlRef.current.kill(); tlRef.current = null; }
+
     const t = gsap.timeline({
       onComplete: () => {
         el.style.display = "none";
@@ -83,22 +160,35 @@ export default function TransitionCurtain() {
         busy.current = false;
       },
     });
-    /* O M segura 150ms em opacity 1 antes de desvanecer — nunca
-       translúcido no meio da coreografia (regra da casa). */
-    const word = el.querySelector(".mf-curtain__word");
-    t.set(m, { opacity: 1 }, 0)
-      .set(word, { opacity: 1 }, 0)
-      .to(m, { opacity: 0, duration: 0.2, ease: "power2.in" }, 0.15)
-      .to(word, { opacity: 0, duration: 0.18, ease: "power2.in" }, 0.12)
-      .to(circle, { scale: 0, duration: 0.6, ease: "expo.inOut" }, 0.04);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    tlRef.current = t;
+    if (el.dataset.v === "copper") {
+      const circle = el.querySelector(".mf-curtain__circle");
+      const m = el.querySelector(".mf-curtain__m");
+      /* o M segura 150ms em opacity 1 — nunca translúcido no meio da
+         coreografia (regra da casa) */
+      t.to(m, { opacity: 0, duration: 0.14, ease: "power2.in" }, 0.15)
+        .to(circle, { scale: 0, duration: 0.42, ease: "expo.inOut" }, 0.04);
+    } else {
+      const pL = el.querySelector(".mf-curtain__panelL");
+      const pR = el.querySelector(".mf-curtain__panelR");
+      const seam = el.querySelector(".mf-curtain__seam");
+      /* os painéis partem horizontalmente; o filete de cobre é o
+         último a sair — a abertura acontece POR ele */
+      t.to(pL, { xPercent: -101, duration: 0.42, ease: "expo.inOut" }, 0)
+        .to(pR, { xPercent: 101, duration: 0.42, ease: "expo.inOut" }, 0)
+        .to(seam, { scaleY: 0, duration: 0.22, ease: "power2.in" }, 0.2);
+    }
   }, [loc.pathname]);
 
   return (
     <div ref={curtain} className="mf-curtain" data-theme="dark" data-v="copper" style={{ display: "none" }} aria-hidden="true">
+      {/* A — círculo de cobre + M osso */}
       <div className="mf-curtain__circle" />
-      <img className="mf-curtain__m" src={M_LOGO_CURTAIN} alt="" aria-hidden="true" style={{ opacity: mOn ? 1 : 0 }} />
-      <span className="mf-curtain__word" aria-hidden="true" style={{ opacity: mOn ? 1 : 0 }}>MIRANDA FARIA</span>
+      <img className="mf-curtain__m" src={M_LOGO_BONE} alt="" aria-hidden="true" />
+      {/* B — painéis de papel + filete de cobre */}
+      <div className="mf-curtain__panelL" />
+      <div className="mf-curtain__panelR" />
+      <div className="mf-curtain__seam" />
       <style>{`
 .mf-curtain{
   position:fixed;inset:0;z-index:150;
@@ -106,8 +196,8 @@ export default function TransitionCurtain() {
   display:flex;align-items:center;justify-content:center;
   pointer-events:all;
 }
-/* O ponto que abre/fecha: círculo de cobre centrado, grande o
-   bastante para cobrir qualquer viewport quando scale = 1. */
+/* A — o círculo que abre/fecha: cobre centrado, 200vmax cobre qualquer
+   viewport quando scale = 1. */
 .mf-curtain__circle{
   position:absolute;left:50%;top:50%;
   width:200vmax;height:200vmax;
@@ -118,21 +208,31 @@ export default function TransitionCurtain() {
   will-change:transform;
 }
 .mf-curtain__m{
-  /* 19/09 v2 (Eduardo: 'nao tenho certeza se e um M bonito que chame
-     atencao'): o M ocupava so 2,9% do centro da tela — engolido pelo
-     cobre. Agora o M manda no momento (~19vw) e o wordmark assenta
-     embaixo: virou momento de MARCA, nao flash de cor. */
-  width:clamp(120px,19vw,300px);opacity:1;position:absolute;z-index:1;
-  left:50%;top:50%;translate:-50% -54%;
-  /* sem drop-shadow: sombra escura sobre o cobre chapado virava mancha */
+  /* M OSSO oficial (25KB, alpha confirmado) sobre o cobre — sem
+     drop-shadow: sombra sobre o chapado virava mancha. */
+  width:clamp(110px,18vw,280px);opacity:1;position:absolute;z-index:1;
+  left:50%;top:50%;translate:-50% -52%;
   will-change:transform,opacity;
 }
-.mf-curtain__word{
-  position:absolute;z-index:1;
-  left:50%;top:50%;translate:-50% 9vw;
-  font-family:var(--font-mono);font-size:clamp(11px,1.1vw,15px);
-  letter-spacing:0.42em;text-indent:0.42em;text-transform:uppercase;
-  color:#F5F1EA;white-space:nowrap;
+/* cada variante renderiza SÓ as próprias camadas — o círculo nunca
+   nasce escondido atrás dos painéis nem vice-versa */
+.mf-curtain[data-v="copper"] .mf-curtain__panelL,
+.mf-curtain[data-v="copper"] .mf-curtain__panelR,
+.mf-curtain[data-v="copper"] .mf-curtain__seam{display:none}
+.mf-curtain[data-v="split"] .mf-curtain__circle,
+.mf-curtain[data-v="split"] .mf-curtain__m{display:none}
+/* B — dois painéis de osso (a paleta do site: tinta sobre osso) que
+   fecham/abrem partindo pelo filete. */
+.mf-curtain__panelL,.mf-curtain__panelR{
+  position:absolute;top:0;bottom:0;width:calc(50% + 2px);
+  background:var(--bone, #F5F1EA);
+  will-change:transform;
+}
+.mf-curtain__panelL{left:0}
+.mf-curtain__panelR{right:0}
+.mf-curtain__seam{
+  position:absolute;left:50%;top:0;bottom:0;width:3px;
+  translate:-50% 0;background:var(--copper, #B5502E);
   will-change:transform,opacity;
 }
 `}</style>
