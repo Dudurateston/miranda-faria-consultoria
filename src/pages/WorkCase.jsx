@@ -48,7 +48,6 @@ export default function WorkCase() {
             <Reveal delay={140}>
               <div className="mf-case__meta">
                 <span className="mf-label">{item.sector}</span>
-                <span className="mf-label">{item.year}</span>
                 {item.role && <span className="mf-label mf-case__role">{item.role}</span>}
               </div>
             </Reveal>
@@ -70,10 +69,6 @@ export default function WorkCase() {
               <li>
                 <span className="mf-case__factk">{t.factsSector}</span>
                 <span className="mf-case__factv">{item.sector}</span>
-              </li>
-              <li>
-                <span className="mf-case__factk">{t.factsYear}</span>
-                <span className="mf-case__factv">{item.year}</span>
               </li>
               <li>
                 <span className="mf-case__factk">{t.factsPractice}</span>
@@ -150,7 +145,7 @@ export default function WorkCase() {
   list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;
   margin:1.4rem 0 0;padding:1.2rem 0 0;border-top:1px solid var(--color-divider);
 }
-@media(min-width:860px){.mf-case__facts{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(min-width:860px){.mf-case__facts{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .mf-case__facts li{display:flex;flex-direction:column;gap:0.35rem}
 .mf-case__role{color:var(--color-text-ghost)}
 .mf-case__live{

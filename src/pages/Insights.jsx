@@ -42,7 +42,7 @@ const isNum = (v) => typeof v === "number" && Number.isFinite(v) && v >= 0;
 const nf = (lang, v) =>
   v == null ? "" : v.toLocaleString(lang === "pt" ? "pt-BR" : "en-US", { maximumFractionDigits: 2 });
 /* intervalo sem travessão: PT "12 a 52", EN "12 to 52" (preferência do Eduardo) */
-const jr = (lang, lo, hi) => (hi == null ? `${nf(lang, lo)}+` : `${nf(lang, lo)} ${lang === "pt" ? "a" : "to"} ${nf(lang, hi)}`);
+const jr = (lang, lo, hi) => (hi === lo ? nf(lang, lo) : hi == null ? `${nf(lang, lo)}+` : `${nf(lang, lo)} ${lang === "pt" ? "a" : "to"} ${nf(lang, hi)}`);
 
 export default function Insights() {
   const { lang } = useLang();

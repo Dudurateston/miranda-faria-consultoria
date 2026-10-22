@@ -131,7 +131,6 @@ export default function Work() {
                 </div>
                 <div className="mf-work__meta">
                   <span className="mf-label">{c.sector}</span>
-                  <span className="mf-label mf-work__year">{c.year}</span>
                 </div>
               </Link>
               </Reveal>
