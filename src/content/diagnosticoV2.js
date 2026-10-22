@@ -1,17 +1,22 @@
 /**
  * diagnosticoV2.js (conteúdo) — perguntas e textos do Diagnóstico v2, PT/EN.
  * Etapa 1: dados puros, sem UI. Identificadores estáveis; a UI localiza por id.
- * Desenho aprovado em 22/10 ("prioridades e plano inicial").
+ * Desenho aprovado em 22/10 ("prioridades e plano inicial"); revisão Codex 22/10.
  * Este módulo NÃO altera src/lib/diagnostico.js nem Insights.jsx.
  *
- * Regras de conteúdo (plano 2026-10-22):
- *  - 8 perguntas principais + no máximo 2 complementares por caminho.
- *  - "Não sei" é legítimo: null/unknown, nunca 0.
- *  - Faixas marcadas aproximadas; valor exato opcional.
- *  - Sem promessa de duração, sem benchmark individual, sem moeda convertida.
+ * Regras de conteúdo (plano 2026-10-22 + revisão):
+ *  - 8 perguntas principais + no máximo 2 complementares por caminho;
+ *  - "Não sei" é legítimo: null/unknown, nunca 0;
+ *  - faixas aproximadas com piso real (sem 0,5h inventado); valor exato opcional;
+ *  - dinheiro exige moeda explícita (BRL/EUR/GBP/USD); zero informado é válido;
+ *  - hints falam com o visitante, sem detalhes internos nem promessas de duração;
+ *  - PT sem CTA no texto? não: conversar PT cita WhatsApp; EN cita Calendly,
+ *    nunca WhatsApp; nenhum texto promete duração ou economia.
  */
 
 export const VERSION = 2;
+
+export const CURRENCIES = ["BRL", "EUR", "GBP", "USD"];
 
 /* Bandas de volume não-monetárias (aproximadas; lo/hi por período declarado). */
 export const VOLUME_BANDS = [
@@ -31,10 +36,10 @@ export const VOLUME_BANDS_CURRENCY = [
   { id: "acima50k", lo: 50001, hi: null },
 ];
 
-/* Bandas de horas por semana (estimativa direta do visitante). */
+/* Bandas de horas por semana (estimativa direta; piso 0 — nada inventado). */
 export const HOURS_BANDS = [
   { id: "zero", lo: 0, hi: 0 },
-  { id: "ate1h", lo: 0.5, hi: 1 },
+  { id: "ate1h", lo: 0, hi: 1 },
   { id: "1a3h", lo: 1, hi: 3 },
   { id: "3a8h", lo: 3, hi: 8 },
   { id: "acima8h", lo: 8, hi: null },
@@ -81,7 +86,7 @@ export const QUESTIONS_V2 = {
         { id: "outro", label: "Outra atividade" },
       ],
       title: "Qual é a atividade da empresa?",
-      hint: "Usada para exemplos e aplicabilidade; não presumimos margem pelo setor.",
+      hint: "Serve para adaptar os exemplos.",
     },
     {
       id: "goal",
@@ -97,7 +102,7 @@ export const QUESTIONS_V2 = {
         { id: "comissao_canal", label: "Comissão de canal ou marketplace" },
       ],
       title: "O que precisa melhorar primeiro?",
-      hint: "Isso define o ramo do diagnóstico e a recomendação.",
+      hint: "Escolha o que pesa mais hoje.",
     },
     {
       id: "currentTools",
@@ -111,7 +116,7 @@ export const QUESTIONS_V2 = {
         { id: "sistemas_integrados", label: "Sistemas integrados" },
       ],
       title: "Como essa rotina funciona hoje?",
-      hint: "A explicação da recomendação cita esta resposta.",
+      hint: "Como funciona na prática, hoje.",
     },
     {
       id: "volume",
@@ -119,7 +124,7 @@ export const QUESTIONS_V2 = {
       required: true,
       dependsOn: ["goal"],
       title: "Qual é o tamanho da rotina?",
-      hint: "Faixa aproximada; o valor exato é opcional.",
+      hint: "Uma faixa aproximada já ajuda; o valor exato é opcional.",
     },
     {
       id: "bottleneck",
@@ -134,7 +139,7 @@ export const QUESTIONS_V2 = {
         { id: "nenhum", label: "Nenhum desses" },
       ],
       title: "Onde o trabalho precisa ser refeito?",
-      hint: "A prioridade sugerida indica a ação específica desse gargalo.",
+      hint: "Se não houver nenhum, também é resposta.",
     },
     {
       id: "hoursPerWeek",
@@ -150,7 +155,7 @@ export const QUESTIONS_V2 = {
         { id: "nao_sei", label: "Não sei" },
       ],
       title: "Quanto tempo isso ocupa?",
-      hint: "Sua estimativa por semana. “Não sei” é uma resposta válida — não viramos zero.",
+      hint: "Sua estimativa por semana. “Não sei” também é resposta.",
     },
     {
       id: "dataAccess",
@@ -164,7 +169,7 @@ export const QUESTIONS_V2 = {
         { id: "nao_sei", label: "Não sei" },
       ],
       title: "Quão confiáveis e acessíveis são as informações?",
-      hint: "Isso orienta pré-requisitos e dependência humana.",
+      hint: "Como as informações da operação vivem hoje.",
     },
     {
       id: "urgency",
@@ -177,7 +182,7 @@ export const QUESTIONS_V2 = {
         { id: "explorando", label: "Explorando, sem pressa" },
       ],
       title: "Quando faz sentido começar?",
-      hint: "Ajusta o próximo passo; não muda nenhum valor.",
+      hint: "Sem prazo definido também é uma resposta.",
     },
     /* complementares (no máx. 2 por caminho) */
     {
@@ -188,7 +193,7 @@ export const QUESTIONS_V2 = {
       applyIf: { goal: ["tarefas_repetitivas"], hoursKnown: true },
       unit: "valor por hora",
       title: "Quanto custa a hora dessa rotina?",
-      hint: "Opcional. Sem custo informado, mostramos tempo, não dinheiro.",
+      hint: "Opcional. Se informar, indique também a moeda (BRL, EUR, GBP ou USD).",
     },
     {
       id: "commissionRate",
@@ -225,7 +230,7 @@ export const QUESTIONS_V2 = {
         { id: "outro", label: "Other" },
       ],
       title: "What does the company do?",
-      hint: "Used for examples and fit; we assume no margin by sector.",
+      hint: "Used to tailor the examples.",
     },
     {
       id: "goal",
@@ -241,7 +246,7 @@ export const QUESTIONS_V2 = {
         { id: "comissao_canal", label: "Marketplace or channel commission" },
       ],
       title: "What needs to improve first?",
-      hint: "This sets the diagnosis branch and the recommendation.",
+      hint: "Pick what weighs the most today.",
     },
     {
       id: "currentTools",
@@ -255,7 +260,7 @@ export const QUESTIONS_V2 = {
         { id: "sistemas_integrados", label: "Integrated systems" },
       ],
       title: "How does that routine work today?",
-      hint: "The recommendation cites this answer.",
+      hint: "How it actually works, today.",
     },
     {
       id: "volume",
@@ -263,7 +268,7 @@ export const QUESTIONS_V2 = {
       required: true,
       dependsOn: ["goal"],
       title: "How big is the routine?",
-      hint: "Approximate range; an exact figure is optional.",
+      hint: "An approximate range helps; an exact figure is optional.",
     },
     {
       id: "bottleneck",
@@ -278,7 +283,7 @@ export const QUESTIONS_V2 = {
         { id: "nenhum", label: "None of these" },
       ],
       title: "Where does work have to be redone?",
-      hint: "The suggested priority points at the specific action for that bottleneck.",
+      hint: "If there is none, that's an answer too.",
     },
     {
       id: "hoursPerWeek",
@@ -294,7 +299,7 @@ export const QUESTIONS_V2 = {
         { id: "nao_sei", label: "I don't know" },
       ],
       title: "How much time does it take?",
-      hint: "Your estimate per week. “I don't know” is a valid answer — it never becomes zero.",
+      hint: "Your estimate per week. “I don't know” is an answer too.",
     },
     {
       id: "dataAccess",
@@ -308,7 +313,7 @@ export const QUESTIONS_V2 = {
         { id: "nao_sei", label: "I don't know" },
       ],
       title: "How reliable and accessible is the information?",
-      hint: "This guides prerequisites and human dependency.",
+      hint: "How the operation's information lives today.",
     },
     {
       id: "urgency",
@@ -321,7 +326,7 @@ export const QUESTIONS_V2 = {
         { id: "explorando", label: "Just exploring" },
       ],
       title: "When does it make sense to start?",
-      hint: "It adjusts the next step; it changes no value.",
+      hint: "No set deadline is an answer too.",
     },
     {
       id: "hourlyCost",
@@ -331,7 +336,7 @@ export const QUESTIONS_V2 = {
       applyIf: { goal: ["tarefas_repetitivas"], hoursKnown: true },
       unit: "value per hour",
       title: "What does an hour of this routine cost?",
-      hint: "Optional. Without a cost, we show time, not money.",
+      hint: "Optional. If you provide it, also state the currency (BRL, EUR, GBP or USD).",
     },
     {
       id: "commissionRate",
@@ -359,6 +364,20 @@ export const QUESTIONS_V2 = {
 /* ─────────────────────────── textos do resultado ─────────────────────────── */
 
 export const PRIORITY_TEXTS = {
+  verificar_informacao: {
+    pt: {
+      title: "Verificar onde a informação vive",
+      action: "Conferir onde as informações da operação estão, quem acessa e se estão atualizadas — sem presumir desorganização.",
+      prerequisite: "Meia hora de olhar honesto sobre a operação.",
+      measure: "Uma resposta clara: onde está cada informação crítica.",
+    },
+    en: {
+      title: "Check where the information lives",
+      action: "Check where the operation's information is, who can access it and whether it's current — without assuming disorganization.",
+      prerequisite: "Half an hour of honest looking at the operation.",
+      measure: "A clear answer: where each critical piece of information is.",
+    },
+  },
   organizar_informacao: {
     pt: {
       title: "Organizar a informação antes de qualquer automação",
@@ -459,7 +478,8 @@ export const PRIORITY_TEXTS = {
   },
 };
 
-/* Ação específica por objetivo (3ª camada da recomendação). */
+/* Ação específica por objetivo — sempre presente nas prioridades (contexto do
+   objetivo dentro do limite de 3). */
 export const GOAL_ACTIONS = {
   pt: {
     pedidos_vendas: { action: "Organizar o fluxo de pedidos de ponta a ponta, com o pedido registrado uma única vez.", measure: "Pedidos tratados por semana sem redigitação." },
@@ -481,21 +501,25 @@ export const GOAL_ACTIONS = {
 
 export const NEXT_STEP_TEXTS = {
   pt: {
-    conversar: "Com o contexto acima, uma conversa de 30 minutos transforma essas prioridades num plano. O WhatsApp está aberto; o resultado é seu, com ou sem conversa.",
-    planejar: "Guarde o resumo. Quando o momento chegar, ele economiza a primeira hora de qualquer conversa.",
+    conversar: "Com o contexto acima, uma conversa transforma essas prioridades num plano. O WhatsApp está aberto; o resultado é seu, com ou sem conversa.",
+    planejar: "Guarde o resumo. Quando o momento chegar, ele já adianta o começo da conversa.",
     explorar: "Sem pressa: leve o resumo, meça o que está marcado como faltante e volte quando fizer sentido.",
     medir_horas: "Registrar, por uma semana, o tempo gasto na rotina.",
     informar_custo_hora: "Informar o custo da hora da rotina para transformar tempo em custo.",
+    informar_moeda: "Informar a moeda do valor (BRL, EUR, GBP ou USD).",
+    informar_receita: "Informar a receita mensal do canal.",
     informar_taxa: "Informar a taxa efetiva cobrada pelo canal.",
     informar_parcela: "Informar a parcela que considera viável migrar.",
     falta_dados: "Ainda faltam dados para estimar valor. O plano acima não depende disso — e o que medir está listado.",
   },
   en: {
-    conversar: "With the context above, a 30-minute conversation turns these priorities into a plan. WhatsApp is open; the result is yours either way.",
-    planejar: "Keep the summary. When the time comes, it saves the first hour of any conversation.",
-    exploring: "No rush: take the summary, measure what's marked missing and come back when it makes sense.",
+    conversar: "With the context above, a conversation turns these priorities into a plan. Calendly is open; the result is yours either way.",
+    planejar: "Keep the summary. When the time comes, it already moves the conversation forward.",
+    explorar: "No rush: take the summary, measure what's marked missing and come back when it makes sense.",
     medir_horas: "Log, for one week, the time spent on the routine.",
     informar_custo_hora: "Provide the hourly cost of the routine to turn time into cost.",
+    informar_moeda: "State the currency of the value (BRL, EUR, GBP or USD).",
+    informar_receita: "Provide the channel's monthly revenue.",
     informar_taxa: "Provide the effective rate the channel charges.",
     informar_parcela: "Provide the share you consider viable to move.",
     falta_dados: "There isn't enough data to estimate value yet. The plan above doesn't depend on it — what to measure is listed.",
