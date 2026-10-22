@@ -5,6 +5,8 @@ import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import MfRule from "@/components/MfRule";
 import CaseMedia from "@/components/CaseMedia";
+import CaseShowcase from "@/components/CaseShowcase";
+import { getCasePresentation } from "@/content/casePresentation";
 import { useLang } from "@/lib/i18n";
 import { copy, cases, getCase, getPractice } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
@@ -21,6 +23,7 @@ export default function WorkCase() {
 
   if (!item) return <Navigate to={path("work")} replace />;
 
+  const presentation = getCasePresentation(item.slug, lang);
   const list = cases[lang];
   const index = list.findIndex((c) => c.slug === slug);
   const next = list[(index + 1) % list.length];
@@ -60,10 +63,15 @@ export default function WorkCase() {
         {/* Capturas reais do sistema. Cases com dominio proprio
             (DECISIONS.md, regra revertida 16/09) ganham link ao vivo —
             aprovados no portao de qualidade 8.4. */}
+        {presentation && (
+          <div className="mf-case__showcase">
+            <CaseShowcase key={item.slug} presentation={presentation} item={item} labels={t.sections} lang={lang} />
+          </div>
+        )}
         <div className="mf-case__inner mf-case__mediawrap">
-          <Reveal delay={120}>
+          {!presentation && <Reveal delay={120}>
             <CaseMedia media={item.media} name={item.name} />
-          </Reveal>
+          </Reveal>}
           <Reveal delay={200}>
             <ul className="mf-case__facts">
               <li>
@@ -98,7 +106,7 @@ export default function WorkCase() {
 
         <MfRule />
 
-        <div className="mf-case__body" data-depth="0.28">
+        {!presentation && <div className="mf-case__body" data-depth="0.28">
           <div className="mf-case__inner">
             {blocks.map((b, i) => (
               <Reveal key={b.k} delay={i * 60}>
@@ -109,9 +117,9 @@ export default function WorkCase() {
               </Reveal>
             ))}
           </div>
-        </div>
+        </div>}
 
-        <MfRule />
+        {!presentation && <MfRule />}
 
         <nav className="mf-case__next" data-depth="0.88">
           <div className="mf-case__inner">
@@ -140,6 +148,7 @@ export default function WorkCase() {
   color:var(--color-text-secondary);max-width:var(--max-width-body);margin:2rem 0 0;
 }
 
+.mf-case__showcase{padding:0 var(--gutter);margin-bottom:clamp(3rem,6vw,5rem)}
 .mf-case__mediawrap{padding:0 var(--gutter);margin-bottom:clamp(2rem,5vh,3.5rem)}
 .mf-case__facts{
   list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;

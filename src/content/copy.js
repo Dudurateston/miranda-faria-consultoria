@@ -1034,15 +1034,15 @@ export const cases = {
       name: "Roda de Agronegócios: Identity",
       sector: "Agribusiness events",
       year: "2026",
-      summary: "Identity for the 22nd edition: seal, system and a promo kit every exhibitor applies.",
+      summary: "Identity for the 22nd edition, applied to the backdrop, invitation and exhibitor communications.",
       problem:
         "A regional fair in its 22nd edition with exhibitors promoting their presence in any which way: each one inventing their own art, none of it recognisably the same event.",
       process:
-        "Edition seal in gear, palette and type set, then the piece that carries it all: a promo kit in two ratios where the exhibitor drops their own logo into a reserved area. The brand governs the system; the exhibitor keeps their content.",
+        "The edition’s seal anchors the communication. The identity appears on the event backdrop, public invitation and reservation notice, with a recognisable visual language across the pieces.",
       decisions:
-        "The kit is a template, not a finished art: the dashed area says whose message it is, and everything around it stays the event's. Two ratios (post and story) cover the whole feed.",
+        "Each piece serves a different reading task. The backdrop identifies the event; the invitation brings together the programme and visitor information; the notice sets out reservation deadlines for exhibitors. The format follows the content, preserving the readability of each message.",
       impact:
-        "The edition's social campaign used this visual system. It recorded 79.6 thousand views and more than 200 new followers during the period, with a consistent visual language across exhibitors' posts.",
+        "The project also included management of the event’s Instagram profile. During the period tracked, the campaign recorded 79.6 thousand views and more than 200 new followers.",
       media: { dir: "roda-agro-marca", shots: 4, video: false },
     },
     {
@@ -1301,15 +1301,15 @@ export const cases = {
       name: "Roda de Agronegócios: Identidade",
       sector: "Eventos de agronegócio",
       year: "2026",
-      summary: "Identidade da 22ª edição: selo, sistema e um kit que cada expositor aplica.",
+      summary: "Identidade da 22ª edição aplicada ao painel, ao convite e à comunicação com expositores.",
       problem:
         "Uma feira regional na 22ª edição com expositores divulgando presença cada um por si: cada um inventando a própria arte, nada disso reconhecível como o mesmo evento.",
       process:
-        "Selo da edição em engrenagem, paleta e tipografia definidas, e a peça que carrega tudo: um kit de divulgação em duas proporções em que o expositor solta a própria logo numa área reservada. A marca governa o sistema; o conteúdo é do expositor.",
+        "A comunicação parte do selo da edição. A identidade aparece no painel da feira, no convite ao público e no comunicado de reservas, com linguagem visual reconhecível entre as peças.",
       decisions:
-        "O kit é template, não arte fechada: a área pontilhada diz de quem é a mensagem, e tudo ao redor permanece da feira. Duas proporções (post e story) cobrem o feed inteiro.",
+        "Cada peça atende a uma leitura. O painel identifica o evento; o convite reúne programação e informações para o visitante; o comunicado organiza os prazos de reserva para expositores. O formato acompanha o conteúdo, preservando a leitura de cada mensagem.",
       impact:
-        "A campanha social da edição usou esse sistema visual. No período, registrou 79,6 mil visualizações e mais de 200 novos seguidores, com uma linguagem consistente nos posts dos expositores.",
+        "O projeto também incluiu a gestão do Instagram do evento. No período acompanhado, a campanha registrou 79,6 mil visualizações e mais de 200 novos seguidores.",
       media: { dir: "roda-agro-marca", shots: 4, video: false },
     },
     {
