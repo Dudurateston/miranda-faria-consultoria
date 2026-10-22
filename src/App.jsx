@@ -128,8 +128,11 @@ const AuthenticatedApp = () => {
         <Route path="eightyfive" element={<Eightyfive />} />
       </Route>
 
-      {/* Paginas de infraestrutura Base44 — sem prefixo de idioma. */}
-      <Route path="/privacidade" element={<PrivacyPolicy />} />
+      {/* Paginas de infraestrutura Base44 — sem prefixo de idioma.
+          /privacidade legada era renderizada FORA do LanguageProvider
+          (useLang sem Provider = pagina em branco). Agora so redireciona
+          para a rota localizada; o conteudo continua na rota /:lang. */}
+      <Route path="/privacidade" element={<Navigate to={`/${detectLang()}/privacidade`} replace />} />
 
       {/* PAINEL OPERACIONAL (25/09): fora do casco de idioma, sem SEO,
           robots disallow. Leitura das entidades exige login admin. */}
