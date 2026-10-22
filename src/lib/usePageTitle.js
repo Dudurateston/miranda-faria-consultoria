@@ -52,7 +52,7 @@ const PAGE_KEYWORDS = {
   work: ["portfólio de projetos", "cases de tecnologia"],
   about: ["quem faz", "Eduardo Miranda"],
   "how-i-work": ["método de diagnóstico", "como trabalhar comigo"],
-  insights: ["diagnóstico gratuito", "calculadora de economia", "FAQ"],
+  insights: ["diagnóstico gratuito", "prioridades e plano inicial", "FAQ"],
   contact: ["contato", "orçamento", "WhatsApp"],
 };
 const PAGE_KEYWORDS_EN = {
@@ -64,7 +64,7 @@ const PAGE_KEYWORDS_EN = {
   work: ["project portfolio", "tech case studies"],
   about: ["who runs it", "Eduardo Miranda"],
   "how-i-work": ["diagnostic method", "how to work with me"],
-  insights: ["free diagnosis", "savings calculator", "FAQ"],
+  insights: ["free diagnosis", "priorities and initial plan", "FAQ"],
   contact: ["contact", "quote", "WhatsApp"],
 };
 

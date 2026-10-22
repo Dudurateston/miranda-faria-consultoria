@@ -1,263 +1,636 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import Reveal from "@/components/Reveal";
 import LineReveal from "@/components/LineReveal";
 import MfRule from "@/components/MfRule";
 import { useLang } from "@/lib/i18n";
-import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { trackDiagnosis } from "@/lib/siteAnalytics";
-import { WHATSAPP_URL_BARE } from "@/lib/site";
-import { base44 } from "@/api/base44Client";
-import { calcularDiagnostico, FONTES } from "@/lib/diagnostico";
+import { WHATSAPP_URL_BARE, EMAIL, CALENDLY_URL } from "@/lib/site";
+import {
+  QUESTIONS_V2,
+  PRIORITY_TEXTS,
+  GOAL_ACTIONS,
+  NEXT_STEP_TEXTS,
+  UI_TEXTS,
+  VOLUME_BAND_LABELS,
+  VOLUME_BANDS,
+  VOLUME_BANDS_CURRENCY,
+  CURRENCIES,
+} from "@/content/diagnosticoV2";
+import { getDiagnosisQuestions, pruneAnswers, evaluateDiagnosis } from "@/lib/diagnosticoV2";
 
 /**
- * Diagnóstico — o instrumento que substituiu a página de insights.
+ * Diagnóstico v2 — Etapa 2 (plano aprovado 22/10 + revisões Codex).
  *
- * Rebuild v3.27 (spec final 17/09): motor [piso, teto] com fontes
- * A/B/C por dor, pergunta de driver condicional, linha da conta
- * visível, recuperação específica por dor (a faixa genérica 35–60%
- * saiu) e gravação em DiagnosticoLead (mesma RLS do SiteEvent:
- * create aberto, leitura só admin). A manchete é SEMPRE o piso —
- * conservador por construção: se errar, erra para baixo.
+ * Um questionário ramificado: 8–10 perguntas conforme o caminho, uma por
+ * tela, com Continuar explícito, Voltar, revisão das respostas e reinício.
+ * O resultado PRINCIPAL são até três prioridades com o que fazer, por quê,
+ * pré-requisito e como medir; a estimativa é complemento — nunca a manchete.
  *
- * Fluxo: dor → driver (condicional) → porte/base (condicional) →
- * urgência → resultado. Tudo client-side, sem fricção: cada resposta
- * avança sozinha.
+ * LOCAL/PRÉVIA por definição desta etapa:
+ *  - SEM SDK, SEM gravação em DiagnosticoLead, SEM analytics de produção,
+ *    SEM backend/API paga: nada sai do navegador do visitante;
+ *  - diagnostico.js (legado) permanece no repositório, não importado;
+ *  - contato OPCIONAL pós-resultado: PT WhatsApp / EN Calendly + email
+ *    exato. São links — nada é enviado automaticamente.
+ *
+ * unknown ≠ 0: "Não sei"/campo vazio é desconhecido (null), nunca zero;
+ * zero informado é zero válido. Dinheiro exige moeda explícita.
  */
 
-/** Dor -> solução que resolve, e para onde ela aponta. */
-const SOLUTION = {
-  pt: {
-    marketplace: {
-      practice: "gestao",
-      t: "Casa própria digital",
-      d: "Catálogo e pedido direto, sem comissão no meio. O dinheiro cai na sua conta e o cliente fica no seu banco. A economia é a comissão sobre a fatia que migrar — não o total.",
-    },
-    excel: {
-      practice: "gestao",
-      t: "Painel que atualiza sozinho",
-      d: "A planilha manual vira sistema: o erro cai de ~6% para ~0,3% no que for automatizado. O que continuar manual continua errando — a solução não promete o que não entrega.",
-    },
-    curiosos: {
-      practice: "desenvolvimento",
-      t: "Sistema que filtra",
-      d: "FAQ, qualificação e orçamento automático: o lead chega pronto e o curioso se atende sozinho. A triagem resolve a pergunta repetida; a decisão humana continua humana.",
-    },
-    pessoa: {
-      practice: "gestao",
-      t: "Processo no nome da empresa",
-      d: "A rotina e o histórico do cliente passam a viver no sistema da empresa. Se a pessoa sair, o processo não sai junto — e a reposição, quando precisar, é mais curta.",
-    },
-    cego: {
-      practice: "gestao",
-      t: "Dashboards de decisão",
-      d: "Venda, margem e estoque numa tela só: o painel habilita o ganho de 3% a 8% de margem que a precificação granular traz. Habilita — não garante.",
-    },
-  },
-  en: {
-    marketplace: {
-      practice: "gestao",
-      t: "Your own digital storefront",
-      d: "Catalogue and ordering direct, no commission in the middle. The savings are the commission on the share that migrates — not the whole volume.",
-    },
-    excel: {
-      practice: "gestao",
-      t: "A panel that updates itself",
-      d: "The manual spreadsheet becomes a system: error drops from ~6% to ~0.3% on whatever gets automated. What stays manual keeps erring — the fix doesn't promise what it can't deliver.",
-    },
-    curiosos: {
-      practice: "desenvolvimento",
-      t: "A system that filters",
-      d: "FAQ, qualification and automatic quoting: the lead arrives ready and the tire-kicker self-serves. Triage kills the repeated question; human judgement stays human.",
-    },
-    pessoa: {
-      practice: "gestao",
-      t: "Process in the company's name",
-      d: "Routines and client history live in the company's system. If the person leaves, the process doesn't leave with them — and replacement, if needed, is shorter.",
-    },
-    cego: {
-      practice: "gestao",
-      t: "Decision dashboards",
-      d: "Sales, margin and stock on one screen: the panel enables the 3–8% margin gain that granular pricing brings. Enables — does not guarantee.",
-    },
-  },
-};
-
-const round100 = (n) => Math.round(n / 100) * 100;
-const fmt = (lang, n) =>
-  lang === "pt"
-    ? "R$ " + round100(n).toLocaleString("pt-BR")
-    : "$" + round100(n).toLocaleString("en-US");
-
-/** Contador que sobe do zero ate o alvo — o numero do vazamento. */
-function useCountUp(target, active, ms = 1100) {
-  const [v, setV] = useState(0);
-  const raf = useRef(0);
-  useEffect(() => {
-    if (!active) return;
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
-      setV(target);
-      return;
-    }
-    const t0 = performance.now();
-    const tick = (t) => {
-      const p = Math.min((t - t0) / ms, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setV(target * eased);
-      if (p < 1) raf.current = requestAnimationFrame(tick);
-    };
-    raf.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf.current);
-  }, [target, active, ms]);
-  return v;
-}
-
-/** Perguntas condicionais: driver + base numerica, por dor. */
-const num = (v) => Number(v);
+const isNum = (v) => typeof v === "number" && Number.isFinite(v) && v >= 0;
+const nf = (lang, v) =>
+  v == null ? "" : v.toLocaleString(lang === "pt" ? "pt-BR" : "en-US", { maximumFractionDigits: 2 });
 
 export default function Insights() {
-  const { lang, path } = useLang();
-  const t = copy[lang].diag;
-  usePageTitle(t.label, "insights");
+  const { lang } = useLang();
+  const ui = UI_TEXTS[lang];
+  usePageTitle(ui.label, "insights");
 
-  const [pain, setPain] = useState(null);
-  const [driver, setDriver] = useState(null);
-  const [base, setBase] = useState(null);
-  const [urgency, setUrgency] = useState(null);
-  const [phase, setPhase] = useState(0); // 0 dor · 1 driver · 2 base · 3 urgencia · 4 resultado
-  const trackedResult = useRef(false);
-  const savedLead = useRef(false);
-  const timer = useRef(0);
+  const [answers, setAnswers] = useState({});
+  const [flow, setFlow] = useState([]); // ids mostrados, na ordem
+  const [pos, setPos] = useState(0); // ponteiro dentro de flow
+  const [screen, setScreen] = useState("flow"); // flow | review | result
+  const [draft, setDraft] = useState({}); // rascunho de entrada corrente (não perde texto em erro)
+  const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [summary, setSummary] = useState("");
+  const qRef = useRef(null);
 
+  const qs = useMemo(() => getDiagnosisQuestions(answers, lang), [answers, lang]);
+  const qById = useMemo(() => {
+    const m = {};
+    (QUESTIONS_V2[lang] || []).forEach((q) => (m[q.id] = q));
+    return m;
+  }, [lang]);
+
+  /* próxima pergunta ainda não respondida: chave AUSENTE = não cometida;
+     chave com null = respondida "não sei" (unknown ≠ não respondida). */
+  const nextUnanswered = useMemo(() => qs.find((q) => answers[q.id] === undefined) || null, [qs, answers]);
+
+  const currentId = screen !== "flow" || pos < flow.length ? flow[pos] : nextUnanswered?.id;
+  const current = currentId ? qs.find((q) => q.id === currentId) || qById[currentId] : null;
+
+  /* rascunho da pergunta corrente: inicializado da resposta existente */
   useEffect(() => {
-    if (phase === 4 && !trackedResult.current) {
-      trackedResult.current = true;
-      // medicao propria (LGPD): so as escolhas, nada pessoal
-      trackDiagnosis(JSON.stringify({ pain, driver, base, urgency }));
+    setError("");
+    if (!current) return;
+    const a = answers[current.id];
+    if (current.type === "volume") {
+      setDraft((d) => ({
+        ...d,
+        [current.id]: {
+          band: a?.band ?? null,
+          value: a?.value != null ? String(a.value) : "",
+          currency: a?.currency ?? "",
+        },
+      }));
+    } else if (current.type === "hours") {
+      setDraft((d) => ({ ...d, [current.id]: { band: a?.band ?? null, value: a?.value != null ? String(a.value) : "" } }));
+    } else if (current.type === "currency") {
+      setDraft((d) => ({ ...d, [current.id]: { value: a?.value != null ? String(a.value) : "", currency: a?.currency ?? "" } }));
+    } else if (current.type === "percent") {
+      setDraft((d) => ({ ...d, [current.id]: { value: a != null ? String(a) : "" } }));
     }
-  }, [phase]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentId, screen]);
 
-  const pick = (setter, nextPhase) => (v) => {
-    setter(v);
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => setPhase(nextPhase), 260);
+  /* foco na pergunta nova (teclado/leitor de tela) */
+  useEffect(() => {
+    if (screen === "flow" && qRef.current) qRef.current.focus({ preventScroll: false });
+  }, [currentId, screen]);
+
+  const result = useMemo(() => (screen === "result" ? evaluateDiagnosis(answers, lang) : null), [screen, answers, lang]);
+
+  const answerLabel = (id) => {
+    const a = answers[id];
+    const q = qById[id];
+    if (a == null) return "—";
+    if (id === "volume") {
+      const bands = q?.currency || (qs.find((x) => x.id === "volume")?.currency) ? VOLUME_BAND_LABELS[lang].currency : VOLUME_BAND_LABELS[lang].count;
+      const bl = a.band ? bands[a.band] : null;
+      const unit = (qs.find((x) => x.id === "volume")?.unit) || "";
+      const per = (qs.find((x) => x.id === "volume")?.period) || "";
+      const v = a.value != null ? `${nf(lang, a.value)}${a.currency ? ` ${a.currency}` : ""}` : bl;
+      return `${v}${unit ? ` ${unit}` : ""}${per ? ` ${per}` : ""}`;
+    }
+    if (id === "hoursPerWeek") {
+      if (a.value != null) return `${nf(lang, a.value)} ${ui.horasSemana}`;
+      const bl = q?.options?.find((o) => o.id === a.band)?.label;
+      return bl || "—";
+    }
+    if (id === "hourlyCost") return a.value != null ? `${nf(lang, a.value)}${a.currency ? ` ${a.currency}` : ""}` : "—";
+    if (id === "commissionRate" || id === "migratableShare") return `${nf(lang, a)}%`;
+    return q?.options?.find((o) => o.id === a)?.label || String(a);
   };
 
-  const driverCfg = pain != null ? t.driverQ[pain] : null;
-  const baseCfg = pain != null ? t.baseQ[pain] : null;
+  /* ───────────────────────── validação e avanço ───────────────────────── */
 
-  /** Inputs do motor a partir das escolhas — valores ja em escala mensal. */
-  const inputs = useMemo(() => {
-    if (pain == null || driver == null || base == null) return null;
-    const d = num(driver);
-    const b = num(base);
-    switch (pain) {
-      case "marketplace":
-        return { receita: b, fatiaCanal: d };
-      case "excel":
-        return { lancamentosMes: Math.round(d * 4.33), custoErro: b };
-      case "curiosos":
-        return { conversasMes: Math.round(d * 4.33), minutosPorConversa: 15, custoHora: b };
-      case "pessoa":
-        return { salario: b, oQuePara: driver };
-      case "cego":
-        return { margemMes: Math.round(b * 0.2), frequencia: driver, isAverageMargin: true };
-      default:
-        return null;
+  const commit = () => {
+    if (!current) return;
+    const id = current.id;
+    const d = draft[id] || {};
+    const parsed = d.value === "" ? null : Number(d.value);
+
+    if (current.type === "choice") {
+      const picked = d.pick != null ? d.pick : answers[id];
+      if (current.required && picked == null) {
+        setError(ui.erroObrigatorio);
+        return;
+      }
+      advance(id, picked);
+      return;
     }
-  }, [pain, driver, base]);
+    if (current.type === "volume") {
+      const hasBand = d.band != null;
+      if (!hasBand && parsed == null) {
+        setError(current.required ? ui.erroObrigatorio : "");
+        if (current.required) return;
+        advance(id, null);
+        return;
+      }
+      if (parsed != null && !isNum(parsed)) {
+        setError(ui.erroNumero);
+        return;
+      }
+      const currencyField = current.currency;
+      if (currencyField && parsed != null && !d.currency) {
+        setError(ui.erroMoeda);
+        return;
+      }
+      const val = { ...(hasBand ? { band: d.band } : {}), ...(parsed != null ? { value: parsed } : {}), ...(currencyField && d.currency ? { currency: d.currency } : {}) };
+      advance(id, val);
+      return;
+    }
+    if (current.type === "hours") {
+      const band = d.band === "nao_sei" ? null : d.band; // 'nao_sei' = desconhecido, nunca zero
+      if (band == null && parsed == null) {
+        advance(id, null); // opcional: desconhecido, nunca zero
+        return;
+      }
+      if (parsed != null && !isNum(parsed)) {
+        setError(ui.erroNumero);
+        return;
+      }
+      advance(id, parsed != null ? { value: parsed } : { band });
+      return;
+    }
+    if (current.type === "currency") {
+      if (parsed == null && !d.currency) {
+        advance(id, null); // opcional
+        return;
+      }
+      if (parsed != null && !isNum(parsed)) {
+        setError(ui.erroNumero);
+        return;
+      }
+      if (parsed != null && !d.currency) {
+        setError(ui.erroMoeda);
+        return;
+      }
+      advance(id, parsed == null ? null : { value: parsed, currency: d.currency });
+      return;
+    }
+    if (current.type === "percent") {
+      if (parsed == null) {
+        advance(id, null); // opcional
+        return;
+      }
+      if (!isNum(parsed) || parsed > 100) {
+        setError(ui.erroPercent);
+        return;
+      }
+      advance(id, parsed);
+      return;
+    }
+  };
 
-  const diag = useMemo(
-    () => (phase === 4 && inputs ? calcularDiagnostico({ dor: pain, inputs, lang }) : null),
-    [phase, inputs, pain, lang]
-  );
-
-  const shown = useCountUp(diag?.piso || 0, phase === 4);
-  /* Caminho 'documentado' (dor pessoa-chave): a conta da zero de propósito.
-     Tratar como resposta válida, nao como numero quebrado (spec 17/09). */
-  const isZero = !!(diag && diag.piso <= 0);
-
-  /** ICP: classifica so para o banco — o visitante nao ve rotulo de "desqualificado". */
-  const icp = useMemo(() => {
-    if (!diag) return "";
-    const limQ = lang === "pt" ? 3000 : 600;
-    const limD = lang === "pt" ? 500 : 100;
-    if (diag.piso < limD) return "desqualificar";
-    if (urgency === "now" || diag.piso >= limQ) return "qualificado";
-    return "marginal";
-  }, [diag, urgency, lang]);
+  /** grava a resposta SÓ no Continuar; troca já dada invalida só os dependentes */
+  const advance = (id, value) => {
+    const wasEditing = pos < flow.length;
+    setAnswers((prev) => {
+      const changed = prev[id] != null && JSON.stringify(prev[id]) !== JSON.stringify(value);
+      const next = changed ? pruneAnswers(prev, id) : prev;
+      return { ...next, [id]: value };
+    });
+    setFlow((f) => (wasEditing ? f : [...f, id]));
+    setPos(wasEditing ? pos + 1 : flow.length + 1);
+  };
 
   useEffect(() => {
-    if (phase !== 4 || !diag || savedLead.current) return;
-    savedLead.current = true;
-    try {
-      const rec = {
-        dor: pain,
-        driver_valor: String(driver),
-        porte: String(base),
-        urgencia: { now: "alta", months: "media", later: "baixa" }[urgency] || "",
-        vazamento_piso: Math.round(diag.piso),
-        vazamento_teto: Math.round(diag.teto),
-        classificacao_icp: icp,
-        vertical_recomendada: SOLUTION[lang][pain]?.practice || "",
-        lang,
-        contato: "",
-        session_id: "",
-      };
-      base44.entities.DiagnosticoLead.create(rec).catch(() => {});
-    } catch {
-      /* gravacao nunca bloqueia o resultado */
-    }
-  }, [phase, diag]);
+    /* após gravar, decide a próxima tela */
+    if (screen !== "flow") return;
+    if (pos < flow.length) return;
+    if (nextUnanswered) return;
+    setScreen("review");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [answers, flow, pos]);
 
-  const rec = diag?.recuperacao?.[lang] || null;
-  const fonte = diag?.fonte || FONTES[pain] || null;
-  const sol = pain != null ? SOLUTION[lang][pain] : null;
-  const result = t.result;
-
-  const painLabel = pain != null ? t.pains.find((p) => p.id === pain)?.t : "";
-  const urgLabel = urgency != null ? t.urgencies.find((u) => u.id === urgency)?.t : "";
-  const driverLabel =
-    pain != null && driver != null
-      ? (driverCfg?.opts.find((o) => String(num(o[0])) === String(num(driver))) || [])[1] || ""
-      : "";
-  const baseLabel =
-    pain != null && base != null
-      ? (baseCfg?.opts.find((o) => String(num(o[0])) === String(num(base))) || [])[1] || ""
-      : "";
-
-  const waText = encodeURIComponent(
-    lang === "pt"
-      ? `Olá Eduardo. Fiz o diagnóstico no site:\n• Dor: ${painLabel}\n• Driver: ${driverLabel}\n• Porte: ${baseLabel}\n• Urgência: ${urgLabel}\n• Vazamento estimado: ${fmt("pt", diag?.piso || 0)} a ${fmt("pt", diag?.teto || 0)}/mês (piso conservador)\nQuero conversar sobre a solução — ${sol?.t}.`
-      : `Hi Eduardo. I ran the diagnosis on your site:\n• Pain: ${painLabel}\n• Driver: ${driverLabel}\n• Size: ${baseLabel}\n• Urgency: ${urgLabel}\n• Estimated leak: ${fmt("en", diag?.piso || 0)} to ${fmt("en", diag?.teto || 0)}/mo (conservative floor)\nI'd like to talk about the fix — ${sol?.t}.`
-  );
-
-  const stepNames = [t.steps.pain, t.steps.driver, t.steps.base, t.steps.urgency];
-  const [copied, setCopied] = useState(false);
-
-  const copyResult = async () => {
-    const plain =
-      lang === "pt"
-        ? `Diagnóstico — Miranda Faria\n• Dor: ${painLabel}\n• Driver: ${driverLabel}\n• Porte: ${baseLabel}\n• Urgência: ${urgLabel}\n• Vazamento estimado: ${fmt("pt", diag?.piso || 0)} a ${fmt("pt", diag?.teto || 0)}/mês (piso conservador)\n• A conta: ${diag?.linhaConta || ""}\n• Fonte: ${fonte?.origem?.pt || ""}\n• Solução apontada: ${sol?.t}`
-        : `Diagnosis — Miranda Faria\n• Pain: ${painLabel}\n• Driver: ${driverLabel}\n• Size: ${baseLabel}\n• Urgency: ${urgLabel}\n• Estimated leak: ${fmt("en", diag?.piso || 0)} to ${fmt("en", diag?.teto || 0)}/mo (conservative floor)\n• The math: ${diag?.linhaConta || ""}\n• Source: ${fonte?.origem?.en || ""}\n• Suggested fix: ${sol?.t}`;
-    try {
-      await navigator.clipboard.writeText(plain);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2200);
-    } catch {
-      /* clipboard indisponivel: o botao simplesmente nao marca */
-    }
+  const back = () => {
+    setError("");
+    if (pos > 0) setPos(pos - 1);
+    else if (screen === "review") setScreen("flow");
   };
 
   const restart = () => {
-    setPain(null);
-    setDriver(null);
-    setBase(null);
-    setUrgency(null);
-    trackedResult.current = false;
-    savedLead.current = false;
-    setPhase(0);
+    setAnswers({});
+    setFlow([]);
+    setPos(0);
+    setDraft({});
+    setError("");
+    setCopied(false);
+    setSummary("");
+    setScreen("flow");
+  };
+
+  const editAt = (idx) => {
+    setPos(idx);
+    setScreen("flow");
+  };
+
+  /* ───────────────────────── resultado ───────────────────────── */
+
+  useEffect(() => {
+    if (screen !== "result") return;
+    const L = UI_TEXTS[lang];
+    const lines = [`${L.label} — Miranda Faria`];
+    flow.forEach((id) => {
+      const q = qById[id];
+      const v = answers[id];
+      if (q && v != null) lines.push(`• ${q.title}: ${answerLabel(id)}`);
+    });
+    if (result) {
+      lines.push(`• ${L.prioridades}:`);
+      result.priorities.forEach((p, i) => {
+        const tx = p.id === "acao_do_objetivo" ? GOAL_ACTIONS[lang][p.goal] : PRIORITY_TEXTS[p.id]?.[lang];
+        lines.push(`  ${i + 1}. ${p.id === "acao_do_objetivo" ? (qById.goal?.options?.find((o) => o.id === p.goal)?.label || "") + " — " : ""}${tx?.action || p.id}`);
+      });
+      const e = result.estimate;
+      if (e?.kind === "tempo") {
+        const h = e.hoursPerMonth;
+        lines.push(`• ${L.estimativa}: ${nf(lang, h.lo)}${h.hi != null ? `–${nf(lang, h.hi)}` : "+"} ${L.horasMes} (${L.semanas})`);
+        if (e.costPerMonth) lines.push(`  ${L.custoTempo}: ${nf(lang, e.costPerMonth.lo)}${e.costPerMonth.hi != null ? `–${nf(lang, e.costPerMonth.hi)}` : "+"} ${e.costPerMonth.currency}/mês`);
+      } else if (e?.kind === "comissao_bruta") {
+        const g = e.grossPerMonth;
+        lines.push(`• ${L.estimativa}: comissão bruta evitável ${nf(lang, g.lo)}${g.hi != null ? `–${nf(lang, g.hi)}` : "+"} ${g.currency}/mês (bruta — não é economia líquida)`);
+      }
+    }
+    setSummary(lines.join("\n"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen]);
+
+  const copySummary = async () => {
+    try {
+      await navigator.clipboard.writeText(summary);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    } catch {
+      /* clipboard indisponível: sem marcação */
+    }
+  };
+
+  const waHref = `${WHATSAPP_URL_BARE}?text=${encodeURIComponent(lang === "pt" ? "Olá Eduardo. Fiz o diagnóstico no site e quero conversar sobre o plano." : "Hi Eduardo. I ran the diagnosis on the site and would like to talk about the plan.")}`;
+
+  /* ───────────────────────── render ───────────────────────── */
+
+  const total = qs.length;
+  const stepNum = Math.min(pos + 1, flow.length + 1);
+
+  const renderQuestion = () => {
+    if (!current) return null;
+    const d = draft[current.id] || {};
+    const opts = current.options || [];
+    const volBands = current.currency ? VOLUME_BAND_LABELS[lang].currency : VOLUME_BAND_LABELS[lang].count;
+    const bandSource = current.currency ? VOLUME_BANDS_CURRENCY : VOLUME_BANDS;
+
+    return (
+      <div className="mf-dg__panel" key={current.id}>
+        <div className="mf-dg__qq" ref={qRef} tabIndex={-1}>
+          <p className="mf-dg__q">{current.title}</p>
+          {current.hint && <p className="mf-dg__hint">{current.hint}</p>}
+        </div>
+
+        {(current.type === "choice" || current.type === "hours") && (
+          <div className="mf-dg__opts" role="radiogroup" aria-label={current.title}>
+            {opts.map((o) => (
+              <button
+                key={o.id}
+                type="button"
+                role="radio"
+                aria-checked={current.type === "hours" ? d.band === o.id : d.pick === o.id}
+                className="mf-dg__opt"
+                data-on={current.type === "hours" ? d.band === o.id : d.pick === o.id}
+                onClick={() => {
+                  setError("");
+                  if (current.type === "hours") setDraft((x) => ({ ...x, [current.id]: { ...d, band: o.id, value: "" } }));
+                  else setDraft((x) => ({ ...x, [current.id]: { pick: o.id } }));
+                }}
+              >
+                <span className="mf-dg__optt">{o.label}</span>
+              </button>
+            ))}
+            {current.type === "hours" && (
+              <label className="mf-dg__field">
+                <span className="mf-dg__flabel">{ui.valorExato}</span>
+                <input
+                  className="mf-dg__input"
+                  type="number"
+                  min="0"
+                  step="0.5"
+                  inputMode="decimal"
+                  value={d.value || ""}
+                  onChange={(e) => {
+                    setError("");
+                    setDraft((x) => ({ ...x, [current.id]: { ...d, value: e.target.value, band: null } }));
+                  }}
+                />
+              </label>
+            )}
+          </div>
+        )}
+
+        {current.type === "volume" && (
+          <div className="mf-dg__opts" role="radiogroup" aria-label={current.title}>
+            {bandSource.map((b) => (
+              <button
+                key={b.id}
+                type="button"
+                role="radio"
+                aria-checked={d.band === b.id}
+                className="mf-dg__opt"
+                data-on={d.band === b.id}
+                onClick={() => {
+                  setError("");
+                  setDraft((x) => ({ ...x, [current.id]: { ...d, band: b.id } }));
+                }}
+              >
+                <span className="mf-dg__optt">{volBands[b.id]}</span>
+                <span className="mf-dg__optd">{`${current.unit || ""} ${current.period || ""}`.trim()}</span>
+              </button>
+            ))}
+            <label className="mf-dg__field">
+              <span className="mf-dg__flabel">{ui.valorExato}</span>
+              <input
+                className="mf-dg__input"
+                type="number"
+                min="0"
+                inputMode="decimal"
+                value={d.value || ""}
+                onChange={(e) => {
+                  setError("");
+                  setDraft((x) => ({ ...x, [current.id]: { ...d, value: e.target.value } }));
+                }}
+              />
+            </label>
+            {current.currency && (
+              <label className="mf-dg__field mf-dg__field--cur">
+                <span className="mf-dg__flabel">{ui.moeda}</span>
+                <select
+                  className="mf-dg__input mf-dg__select"
+                  value={d.currency || ""}
+                  onChange={(e) => {
+                    setError("");
+                    setDraft((x) => ({ ...x, [current.id]: { ...d, currency: e.target.value } }));
+                  }}
+                >
+                  <option value="">—</option>
+                  {CURRENCIES.map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </label>
+            )}
+          </div>
+        )}
+
+        {current.type === "currency" && (
+          <div className="mf-dg__opts mf-dg__opts--field">
+            <label className="mf-dg__field">
+              <span className="mf-dg__flabel">{current.title}</span>
+              <input
+                className="mf-dg__input"
+                type="number"
+                min="0"
+                step="0.5"
+                inputMode="decimal"
+                value={d.value || ""}
+                onChange={(e) => {
+                  setError("");
+                  setDraft((x) => ({ ...x, [current.id]: { ...d, value: e.target.value } }));
+                }}
+              />
+            </label>
+            <label className="mf-dg__field mf-dg__field--cur">
+              <span className="mf-dg__flabel">{ui.moeda}</span>
+              <select
+                className="mf-dg__input mf-dg__select"
+                value={d.currency || ""}
+                onChange={(e) => {
+                  setError("");
+                  setDraft((x) => ({ ...x, [current.id]: { ...d, currency: e.target.value } }));
+                }}
+              >
+                <option value="">—</option>
+                {CURRENCIES.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            </label>
+          </div>
+        )}
+
+        {current.type === "percent" && (
+          <div className="mf-dg__opts mf-dg__opts--field">
+            <label className="mf-dg__field">
+              <span className="mf-dg__flabel">{current.title} ({current.unit})</span>
+              <input
+                className="mf-dg__input"
+                type="number"
+                min="0"
+                max="100"
+                step="0.5"
+                inputMode="decimal"
+                value={d.value || ""}
+                onChange={(e) => {
+                  setError("");
+                  setDraft((x) => ({ ...x, [current.id]: { value: e.target.value } }));
+                }}
+              />
+            </label>
+          </div>
+        )}
+
+        {error && (
+          <p className="mf-dg__error" role="alert">
+            {error}
+          </p>
+        )}
+
+        <div className="mf-dg__nav">
+          <button type="button" className="mf-dg__back" onClick={back} disabled={pos === 0 && screen === "flow"}>
+            {ui.voltar}
+          </button>
+          <button type="button" className="mf-dg__go" onClick={commit}>
+            {ui.continuar}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderReview = () => (
+    <div className="mf-dg__panel">
+      <p className="mf-dg__q">{ui.revisar}</p>
+      <p className="mf-dg__hint">{ui.revisaoHint}</p>
+      <ul className="mf-dg__rev">
+        {flow.map((id, i) => {
+          const q = qById[id];
+          if (!q) return null;
+          return (
+            <li key={id} className="mf-dg__revrow">
+              <span className="mf-dg__revq">{q.title}</span>
+              <span className="mf-dg__reva">{answerLabel(id)}</span>
+              <button type="button" className="mf-dg__revedit" onClick={() => editAt(i)}>
+                {ui.editar}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+      <div className="mf-dg__nav">
+        <button type="button" className="mf-dg__back" onClick={() => { if (flow.length) setPos(flow.length - 1); setScreen("flow"); }}>
+          {ui.voltar}
+        </button>
+        <button type="button" className="mf-dg__go" onClick={() => setScreen("result")}>
+          {ui.verResultado}
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderResult = () => {
+    if (!result) return null;
+    const e = result.estimate;
+    return (
+      <div className="mf-dg__panel mf-dg__panel--result">
+        <p className="mf-label">{ui.prioridades}</p>
+        <ol className="mf-dg__prios">
+          {result.priorities.map((p, i) => {
+            const tx = p.id === "acao_do_objetivo" ? null : PRIORITY_TEXTS[p.id]?.[lang];
+            const goalTx = p.id === "acao_do_objetivo" ? GOAL_ACTIONS[lang]?.[p.goal] : null;
+            const title =
+              p.id === "acao_do_objetivo"
+                ? qById.goal?.options?.find((o) => o.id === p.goal)?.label || ""
+                : tx?.title || "";
+            const action = goalTx?.action || tx?.action || "";
+            const prerequisite = p.id === "acao_do_objetivo" ? ui.acaoPrereq : tx?.prerequisite || "";
+            const measure = goalTx?.measure || tx?.measure || "";
+            return (
+              <li key={p.id} className="mf-dg__prio">
+                <span className="mf-dg__prion">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3 className="mf-dg__priot">{title}</h3>
+                  <p className="mf-dg__priolabel">{ui.prioridadeOque}</p>
+                  <p className="mf-dg__priobody">{action}</p>
+                  <p className="mf-dg__priolabel">{ui.prioridadePorque}</p>
+                  <ul className="mf-dg__whys">
+                    {p.reasonAnswerIds.filter((rid) => answers[rid] != null).map((rid) => (
+                      <li key={rid}>
+                        <span className="mf-dg__whyq">{qById[rid]?.title}</span>
+                        <span className="mf-dg__whya">{answerLabel(rid)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mf-dg__priolabel">{ui.prioridadePrereq}</p>
+                  <p className="mf-dg__priobody">{prerequisite}</p>
+                  <p className="mf-dg__priolabel">{ui.prioridadeMedida}</p>
+                  <p className="mf-dg__priobody">{measure}</p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+
+        <div className="mf-dg__est">
+          <p className="mf-label">{ui.estimativa}</p>
+          {e?.kind === "tempo" && (
+            <>
+              <p className="mf-dg__estnum">
+                {nf(lang, e.hoursPerMonth.lo)}
+                {e.hoursPerMonth.hi != null ? ` – ${nf(lang, e.hoursPerMonth.hi)}` : "+"} <span className="mf-dg__teto">{ui.horasMes}</span>
+              </p>
+              <p className="mf-dg__per">{ui.semanas}{e.hoursPerWeek?.band || e.hoursPerWeek?.value != null ? "" : ""}</p>
+              {e.costPerMonth && (
+                <p className="mf-dg__estnum">
+                  {nf(lang, e.costPerMonth.lo)}
+                  {e.costPerMonth.hi != null ? ` – ${nf(lang, e.costPerMonth.hi)}` : "+"} <span className="mf-dg__teto">{e.costPerMonth.currency}/mês</span>
+                </p>
+              )}
+              <p className="mf-dg__per">{e.costPerMonth ? ui.custoTempo : ""}</p>
+              <p className="mf-dg__limit">{ui.avisoTempo}</p>
+            </>
+          )}
+          {e?.kind === "comissao_bruta" && (
+            <>
+              <p className="mf-dg__estnum">
+                {nf(lang, e.grossPerMonth.lo)}
+                {e.grossPerMonth.hi != null ? ` – ${nf(lang, e.grossPerMonth.hi)}` : "+"} <span className="mf-dg__teto">{e.grossPerMonth.currency}/mês</span>
+              </p>
+              <p className="mf-dg__per">comissão potencialmente evitável — BRUTA</p>
+              <p className="mf-dg__limit">{lang === "pt" ? "Custos novos do canal próprio não são conhecidos: não é economia líquida." : "New own-channel costs aren't known: this is not net savings."}</p>
+            </>
+          )}
+          {e == null && (
+            <>
+              <p className="mf-dg__estnum mf-dg__estnum--muted">{ui.faltamDados}</p>
+              <ul className="mf-dg__whys mf-dg__whys--miss">
+                {result.missingData.map((m) => (
+                  <li key={m.id}>
+                    <span className="mf-dg__whya">— {NEXT_STEP_TEXTS[lang][m.id]}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mf-dg__limit">{ui.faltamHint}</p>
+            </>
+          )}
+        </div>
+
+        <div className="mf-dg__next">
+          <p className="mf-label">{ui.proximoPasso}</p>
+          <p className="mf-dg__nextbody">{NEXT_STEP_TEXTS[lang][result.nextStep.textId]}</p>
+        </div>
+
+        <div className="mf-dg__sum">
+          <p className="mf-label">{ui.resumo}</p>
+          <p className="mf-dg__hint">{ui.resumoHint}</p>
+          <textarea className="mf-dg__ta" value={summary} onChange={(ev) => setSummary(ev.target.value)} rows={Math.min(14, Math.max(6, summary.split("\n").length))} />
+          <button type="button" className="mf-dg__copy" onClick={copySummary}>
+            {copied ? ui.copiado : ui.copiar}
+          </button>
+        </div>
+
+        <div className="mf-dg__contact">
+          <p className="mf-label">{ui.contato}</p>
+          <p className="mf-dg__hint">{ui.contatoHint}</p>
+          <div className="mf-dg__ctas">
+            {lang === "pt" ? (
+              <a className="mf-dg__wa" href={waHref} target="_blank" rel="noreferrer">
+                {ui.whatsapp}
+              </a>
+            ) : (
+              <a className="mf-dg__wa" href={CALENDLY_URL} target="_blank" rel="noreferrer">
+                {ui.calendly}
+              </a>
+            )}
+            <a className="mf-dg__mailto" href={`mailto:${EMAIL}`}>
+              {ui.email}
+            </a>
+            <button type="button" className="mf-dg__again" onClick={restart}>
+              {ui.reiniciar}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -267,223 +640,33 @@ export default function Insights() {
           <div className="mf-dg__head">
             <div>
               <Reveal>
-                <p className="mf-label">{t.label}</p>
+                <p className="mf-label">{ui.label}</p>
               </Reveal>
-              <LineReveal as="h1" className="mf-dg__lead">{t.lead}</LineReveal>
+              <LineReveal as="h1" className="mf-dg__lead">{ui.lead}</LineReveal>
               <Reveal delay={140}>
-                <p className="mf-dg__intro">{t.intro}</p>
-              </Reveal>
-              <Reveal delay={220}>
-                <p className="mf-dg__evidence">{t.evidence}</p>
+                <p className="mf-dg__intro">{ui.intro}</p>
               </Reveal>
             </div>
           </div>
 
           <div className="mf-dg__stage">
-            {/* indicador de passos */}
-            <div className="mf-dg__steps" role="group" aria-label="steps">
-              {stepNames.map((s, i) => (
-                <React.Fragment key={s}>
-                  <button
-                    type="button"
-                    className="mf-dg__step"
-                    data-state={phase === i ? "now" : phase > i ? "done" : "todo"}
-                    onClick={() => phase > i && setPhase(i)}
-                    disabled={phase < i}
-                  >
-                    <span className="mf-dg__stepn">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="mf-dg__stepl">{s}</span>
-                  </button>
-                  {i < 3 && <span className="mf-dg__steprule" aria-hidden="true" />}
-                </React.Fragment>
-              ))}
-            </div>
-
-            {/* PASSO 0 — a dor */}
-            {phase === 0 && (
-              <div className="mf-dg__panel" key="p0">
-                <h2 className="mf-dg__q">{t.painQ}</h2>
-                <p className="mf-dg__hint">{t.painHint}</p>
-                <div className="mf-dg__opts mf-dg__opts--pain">
-                  {t.pains.map((p) => (
-                    <button
-                      key={p.id}
-                      type="button"
-                      className="mf-dg__opt"
-                      data-on={pain === p.id ? "true" : "false"}
-                      onClick={() => pick(setPain, 1)(p.id)}
-                    >
-                      <span className="mf-dg__optt">{p.t}</span>
-                      <span className="mf-dg__optd">{p.d}</span>
-                    </button>
-                  ))}
-                </div>
+            {screen === "flow" && (
+              <div className="mf-dg__prog" aria-live="polite">
+                <span className="mf-dg__proglabel">
+                  {ui.progress} {stepNum} {ui.de} {total}
+                </span>
+                <span className="mf-dg__progbar">
+                  <span className="mf-dg__progfill" style={{ width: `${Math.min(100, (flow.length / Math.max(total, 1)) * 100)}%` }} />
+                </span>
               </div>
             )}
-
-            {/* PASSO 1 — o driver da dor (condicional) */}
-            {phase === 1 && driverCfg && (
-              <div className="mf-dg__panel" key="p1">
-                <button type="button" className="mf-dg__back" onClick={() => setPhase(0)}>
-                  ← {result.back}
-                </button>
-                <h2 className="mf-dg__q">{driverCfg.q}</h2>
-                <div className="mf-dg__opts mf-dg__opts--driver">
-                  {driverCfg.opts.map((o) => (
-                    <button
-                      key={o[0]}
-                      type="button"
-                      className="mf-dg__opt mf-dg__opt--drv"
-                      data-on={String(num(driver)) === String(num(o[0])) ? "true" : "false"}
-                      onClick={() => pick(setDriver, 2)(o[0])}
-                    >
-                      <span className="mf-dg__optt">{o[1]}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* PASSO 2 — a base numerica (condicional) */}
-            {phase === 2 && baseCfg && (
-              <div className="mf-dg__panel" key="p2">
-                <button type="button" className="mf-dg__back" onClick={() => setPhase(1)}>
-                  ← {result.back}
-                </button>
-                <h2 className="mf-dg__q">{baseCfg.q}</h2>
-                {baseCfg.hint && <p className="mf-dg__hint">{baseCfg.hint}</p>}
-                <div className="mf-dg__opts mf-dg__opts--base">
-                  {baseCfg.opts.map((o) => (
-                    <button
-                      key={o[0]}
-                      type="button"
-                      className="mf-dg__opt mf-dg__opt--base"
-                      data-on={String(num(base)) === String(num(o[0])) ? "true" : "false"}
-                      onClick={() => pick(setBase, 3)(o[0])}
-                    >
-                      <span className="mf-dg__optt">{o[1]}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* PASSO 3 — a urgencia */}
-            {phase === 3 && (
-              <div className="mf-dg__panel" key="p3">
-                <button type="button" className="mf-dg__back" onClick={() => setPhase(2)}>
-                  ← {result.back}
-                </button>
-                <h2 className="mf-dg__q">{t.urgencyQ}</h2>
-                <div className="mf-dg__opts mf-dg__opts--urg">
-                  {t.urgencies.map((u) => (
-                    <button
-                      key={u.id}
-                      type="button"
-                      className="mf-dg__opt mf-dg__opt--urg"
-                      data-on={urgency === u.id ? "true" : "false"}
-                      onClick={() => pick(setUrgency, 4)(u.id)}
-                    >
-                      <span className="mf-dg__optt">{u.t}</span>
-                      <span className="mf-dg__optd">{u.d}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* RESULTADO */}
-            {phase === 4 && diag && sol && (
-              <div className="mf-dg__panel mf-dg__panel--result" key="p4">
-                <p className="mf-label">{result.label}</p>
-                <p className="mf-dg__num">
-                  {fmt(lang, shown)}
-                  {!isZero && (
-                    <span className="mf-dg__teto">
-                      {" "}{result.to} {fmt(lang, diag.teto)}
-                    </span>
-                  )}
-                </p>
-                <p className="mf-dg__per">
-                  {result.perMonth} · {result.range}
-                  <span className="mf-dg__sep">·</span>
-                  {fmt(lang, (diag.piso || 0) * 12)} {result.perYear}
-                </p>
-
-                <p className="mf-dg__nature">{result.natureLabel}</p>
-
-                <div className="mf-dg__account">
-                  <p className="mf-label">{result.accountLabel}</p>
-                  <p className="mf-dg__linha">{diag.linhaConta}</p>
-                  <p className="mf-dg__fonte">
-                    {result.sourceLabel}: {fonte?.origem?.[lang]} · {lang === "pt" ? "Nível de evidência" : "Evidence level"} {fonte?.nivel}
-                  </p>
-                </div>
-
-                <p className="mf-dg__reading">{isZero ? result.zeroReading : result.reading}</p>
-                {urgency === "now" && !isZero && (
-                  <p className="mf-dg__delay">
-                    {result.delayCost} <strong>{fmt(lang, diag.piso)}</strong>.
-                  </p>
-                )}
-
-                {rec && !isZero && (
-                  <div className="mf-dg__recovery">
-                    <p className="mf-label">{result.recoveryLabel}</p>
-                    <p className="mf-dg__solt2">{rec.titulo}</p>
-                    <p className="mf-dg__recnote">{rec.descricao}</p>
-                  </div>
-                )}
-
-                <p className="mf-dg__limit">{result.limitNote}</p>
-
-                <div className="mf-dg__sol">
-                  <p className="mf-label">{result.solutionLabel}</p>
-                  <h3 className="mf-dg__solt">{sol.t}</h3>
-                  <p className="mf-dg__sold">{sol.d}</p>
-                  <Link to={path(sol.practice)} className="mf-dg__sollink" data-cursor="link">
-                    {result.solutionSee} →
-                  </Link>
-                </div>
-
-                <div className="mf-dg__ctas">
-                  <a
-                    className="mf-dg__wa"
-                    href={`${WHATSAPP_URL_BARE}?text=${waText}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    data-cursor="link"
-                  >
-                    {result.cta} →
-                  </a>
-                  <button type="button" className="mf-dg__again" onClick={copyResult}>
-                    {copied ? result.copied : result.copyCta}
-                  </button>
-                  <button
-                    type="button"
-                    className="mf-dg__again"
-                    onClick={() => {
-                      setDriver(null);
-                      setBase(null);
-                      setUrgency(null);
-                      trackedResult.current = false;
-                      savedLead.current = false;
-                      setPhase(1);
-                    }}
-                  >
-                    {result.restart2}
-                  </button>
-                  <button type="button" className="mf-dg__again" onClick={restart}>
-                    {result.restart}
-                  </button>
-                </div>
-              </div>
-            )}
+            {screen === "flow" && (current ? renderQuestion() : nextUnanswered == null ? renderReview() : null)}
+            {screen === "review" && renderReview()}
+            {screen === "result" && renderResult()}
           </div>
         </div>
+        <MfRule />
       </section>
-
-      <MfRule />
 
       <style>{`
 .mf-dg{padding:var(--section-gap) var(--gutter)}
@@ -499,48 +682,35 @@ export default function Insights() {
   font-size:var(--text-body-lg);line-height:var(--leading-body);
   color:var(--color-text-secondary);max-width:56ch;margin:2rem 0 0;
 }
-
-.mf-dg__stage{
-  margin-top:3.5rem;border-top:1px solid var(--color-divider);
-  padding-top:2rem;
-}
-/* indicador de passos */
-.mf-dg__steps{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
-.mf-dg__step{
-  display:inline-flex;align-items:center;gap:0.6rem;
-  background:none;border:0;padding:0.25rem 0;cursor:default;
+.mf-dg__stage{margin-top:3.5rem;border-top:1px solid var(--color-divider);padding-top:2rem}
+.mf-dg__prog{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.mf-dg__proglabel{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-ghost);
 }
-.mf-dg__step[data-state="now"]{color:var(--color-text-primary)}
-.mf-dg__step[data-state="done"]{color:var(--mf-terracotta);cursor:pointer}
-.mf-dg__step:disabled{cursor:default}
-.mf-dg__stepn{opacity:1}
-.mf-dg__steprule{width:clamp(1.2rem,4vw,3rem);height:1px;background:var(--color-divider)}
-
-/* paineis */
+.mf-dg__progbar{flex:1;min-width:120px;height:1px;background:var(--color-divider);display:block;position:relative}
+.mf-dg__progfill{position:absolute;left:0;top:0;height:1px;background:var(--mf-terracotta);display:block;transition:width .4s var(--ease-out-expo)}
+@media(prefers-reduced-motion:reduce){.mf-dg__progfill{transition:none}}
 .mf-dg__panel{margin-top:2.25rem;animation:mf-dg-in 0.5s var(--ease-out-expo) both}
 @keyframes mf-dg-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.mf-dg__panel{animation:none}}
+.mf-dg__qq{outline:none}
+.mf-dg__qq:focus-visible{outline:2px solid var(--mf-terracotta);outline-offset:4px}
 .mf-dg__q{
   font-family:var(--font-display);font-weight:400;
   font-size:var(--text-display-md);line-height:1.16;
-  color:var(--color-text-primary);margin:0;max-width:24ch;text-wrap:balance;
+  color:var(--color-text-primary);margin:0;max-width:26ch;text-wrap:balance;
 }
 .mf-dg__hint{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-ghost);margin:0.6rem 0 0;
+  color:var(--color-text-ghost);margin:0.6rem 0 0;max-width:60ch;
 }
-
-/* opcoes */
 .mf-dg__opts{display:grid;grid-template-columns:1fr;gap:0.8rem;margin-top:1.75rem}
 @media(min-width:860px){
-  .mf-dg__opts--pain{grid-template-columns:1fr 1fr}
-  .mf-dg__opts--driver{grid-template-columns:repeat(4,1fr)}
-  .mf-dg__opts--base{grid-template-columns:repeat(4,1fr)}
-  .mf-dg__opts--urg{grid-template-columns:repeat(3,1fr)}
+  .mf-dg__opts{grid-template-columns:1fr 1fr}
+  .mf-dg__opts--field{grid-template-columns:1fr 1fr;max-width:640px}
 }
 .mf-dg__opt{min-height:44px;
   display:flex;flex-direction:column;gap:0.5rem;text-align:left;
@@ -551,10 +721,7 @@ export default function Insights() {
              transform var(--duration-fast) var(--ease-in-out);
 }
 .mf-dg__opt:hover{border-color:rgba(242,238,230,0.4);transform:translateY(-2px)}
-.mf-dg__opt[data-on="true"]{
-  border-color:var(--mf-terracotta);
-  background:rgba(179,122,96,0.08);
-}
+.mf-dg__opt[data-on="true"]{border-color:var(--mf-terracotta);background:rgba(179,122,96,0.08)}
 .mf-dg__optt{
   font-family:var(--font-display);font-weight:400;
   font-size:var(--text-body-lg);line-height:1.25;color:var(--color-text-primary);
@@ -564,125 +731,165 @@ export default function Insights() {
   font-size:var(--text-body-md);line-height:var(--leading-body);
   color:var(--color-text-secondary);
 }
-
-/* resultado */
-.mf-dg__panel--result{max-width:var(--max-width-body)}
-.mf-dg__num{
-  font-family:var(--font-display);font-weight:400;
-  font-size:clamp(3rem,8vw,5.5rem);line-height:1;letter-spacing:-0.01em;
-  color:var(--color-text-primary);margin:0.9rem 0 0;
-  font-variant-numeric:tabular-nums;
-}
-.mf-dg__teto{
-  font-size:clamp(1.1rem,2.2vw,1.6rem);color:var(--color-text-secondary);
-}
-.mf-dg__per{
+.mf-dg__field{display:flex;flex-direction:column;gap:0.5rem;padding:0.25rem 0}
+.mf-dg__flabel{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-secondary);margin:0.9rem 0 0;
+  color:var(--color-text-secondary);
 }
-.mf-dg__sep{margin:0 0.6rem;opacity:0.5}
-.mf-dg__nature{
+.mf-dg__input{
+  background:transparent;border:1px solid var(--color-divider);
+  color:var(--color-text-primary);
+  font-family:var(--font-body);font-size:var(--text-body-lg);
+  padding:0.85rem 1rem;min-height:44px;width:100%;max-width:320px;
+}
+.mf-dg__input:focus-visible{outline:2px solid var(--mf-terracotta);outline-offset:2px}
+.mf-dg__select{max-width:160px}
+.mf-dg__error{
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-secondary);margin:1.1rem 0 0;
+  color:var(--mf-terracotta-deep);margin:1.2rem 0 0;
 }
-.mf-dg__account{
-  margin-top:1.5rem;padding:1.25rem 1.4rem;
-  border:1px solid var(--color-divider);
-}
-.mf-dg__account .mf-label{margin:0}
-.mf-dg__linha{
-  font-family:var(--font-mono);font-size:13px;line-height:1.7;
-  color:var(--color-text-primary);margin:0.8rem 0 0;
-}
-.mf-dg__fonte{
-  font-family:var(--font-mono);font-size:12px;line-height:1.7;
-  color:var(--color-text-secondary);margin:0.6rem 0 0;
-}
-.mf-dg__delay{
-  font-family:var(--font-body);font-weight:300;
-  font-size:var(--text-body-lg);color:var(--color-text-secondary);
-  margin:1.4rem 0 0;
-}
-.mf-dg__delay strong{color:var(--mf-terracotta);font-weight:400}
-.mf-dg__reading{
-  font-family:var(--font-display);font-weight:400;font-style:italic;
-  font-size:var(--text-body-lg);line-height:var(--leading-body);
-  color:var(--color-text-secondary);margin:1.1rem 0 0;max-width:46ch;
-}
-.mf-dg__recovery{
-  margin-top:2rem;padding:1.25rem 1.4rem;
-  border:1px solid var(--color-divider);
-}
-.mf-dg__recovery .mf-label{margin:0}
-.mf-dg__solt2{
-  font-family:var(--font-display);font-weight:400;
-  font-size:var(--text-body-lg);line-height:1.3;
-  color:var(--color-text-primary);margin:0.8rem 0 0;
-}
-.mf-dg__evidence{font-family:var(--font-mono);font-size:12px;line-height:1.7;color:var(--color-text-secondary);max-width:62ch;margin-top:1.1rem;border-left:2px solid var(--color-accent);padding-left:1rem}
-.mf-dg__limit{
-  font-family:var(--font-body);font-weight:300;
-  font-size:var(--text-body-md);line-height:var(--leading-body);
-  color:var(--color-text-secondary);margin:1.5rem 0 0;max-width:58ch;
-}
-.mf-dg__recnote{
-  font-family:var(--font-body);font-weight:300;
-  font-size:var(--text-body-md);line-height:var(--leading-body);
-  color:var(--color-text-secondary);margin:0.6rem 0 0;max-width:52ch;
-}
+.mf-dg__nav{display:flex;align-items:center;gap:1.5rem;margin-top:2rem;flex-wrap:wrap}
 .mf-dg__back{
-  background:none;border:0;cursor:pointer;padding:0;margin-bottom:0.9rem;
+  background:none;border:0;cursor:pointer;padding:0;min-height:44px;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--color-text-ghost);
 }
-.mf-dg__back:hover{color:var(--color-text-primary)}
-
-.mf-dg__sol{
-  margin-top:2.5rem;padding:1.6rem 0 0;border-top:1px solid var(--color-divider);
+.mf-dg__back:hover:not(:disabled){color:var(--color-text-primary)}
+.mf-dg__back:disabled{cursor:default;opacity:0.35}
+.mf-dg__go{
+  background:var(--mf-terracotta);color:var(--on-accent);border:0;cursor:pointer;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  padding:1rem 1.75rem;min-height:44px;
+  transition:opacity var(--duration-fast) var(--ease-in-out);
 }
-.mf-dg__solt{
+.mf-dg__go:hover{opacity:0.82}
+.mf-dg__rev{list-style:none;margin:1.5rem 0 0;padding:0}
+.mf-dg__revrow{
+  display:grid;grid-template-columns:1fr;gap:0.35rem;
+  padding:0.9rem 0;border-top:1px solid var(--color-divider);
+}
+@media(min-width:860px){.mf-dg__revrow{grid-template-columns:1.2fr 1fr auto;align-items:center;gap:1rem}}
+.mf-dg__revq{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);
+}
+.mf-dg__reva{
+  font-family:var(--font-body);font-size:var(--text-body-md);
+  color:var(--color-text-primary);
+}
+.mf-dg__revedit{
+  background:none;border:0;cursor:pointer;padding:0;justify-self:start;min-height:44px;
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--mf-terracotta);
+}
+.mf-dg__revedit:hover{opacity:0.7}
+.mf-dg__panel--result{max-width:var(--max-width-body)}
+.mf-dg__prios{list-style:none;margin:1.5rem 0 0;padding:0}
+.mf-dg__prio{
+  display:grid;grid-template-columns:1fr;gap:0.35rem;
+  padding:1.6rem 0;border-top:1px solid var(--color-divider);
+}
+@media(min-width:860px){.mf-dg__prio{grid-template-columns:auto 1fr;gap:2rem}.mf-dg__prio{padding:1.8rem 0}}
+.mf-dg__prion{
+  font-family:var(--font-display);font-size:var(--text-display-md);
+  color:var(--mf-terracotta);line-height:1;
+}
+.mf-dg__priot{
   font-family:var(--font-display);font-weight:400;
-  font-size:var(--text-display-md);line-height:1.16;
-  color:var(--color-text-primary);margin:0.9rem 0 0;max-width:24ch;text-wrap:balance;
+  font-size:var(--text-display-sm);line-height:1.2;
+  color:var(--color-text-primary);margin:0;max-width:26ch;text-wrap:balance;
 }
-.mf-dg__sold{
+.mf-dg__priolabel{
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);margin:1rem 0 0;
+}
+.mf-dg__priobody{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-lg);line-height:var(--leading-body);
+  color:var(--color-text-secondary);margin:0.35rem 0 0;max-width:58ch;
+}
+.mf-dg__whys{list-style:none;margin:0.35rem 0 0;padding:0;display:flex;flex-direction:column;gap:0.3rem}
+.mf-dg__whys li{display:flex;flex-wrap:wrap;gap:0.5rem}
+.mf-dg__whyq{
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-ghost);
+}
+.mf-dg__whya{font-family:var(--font-body);font-size:var(--text-body-md);color:var(--color-text-primary)}
+.mf-dg__est{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--color-divider)}
+.mf-dg__estnum{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(2rem,5vw,3.2rem);line-height:1;letter-spacing:-0.01em;
+  color:var(--color-text-primary);margin:0.9rem 0 0;
+  font-variant-numeric:tabular-nums;
+}
+.mf-dg__estnum--muted{font-size:clamp(1.3rem,3vw,1.8rem);color:var(--color-text-secondary);max-width:40ch;text-wrap:balance}
+.mf-dg__teto{font-size:clamp(1rem,2vw,1.4rem);color:var(--color-text-secondary)}
+.mf-dg__per{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--color-text-secondary);margin:0.7rem 0 0;
+}
+.mf-dg__limit{
+  font-family:var(--font-body);font-weight:300;
+  font-size:var(--text-body-md);line-height:var(--leading-body);
+  color:var(--color-text-secondary);margin:1rem 0 0;max-width:56ch;
+}
+.mf-dg__next{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--color-divider)}
+.mf-dg__nextbody{
   font-family:var(--font-body);font-weight:300;
   font-size:var(--text-body-lg);line-height:var(--leading-body);
   color:var(--color-text-secondary);margin:0.8rem 0 0;max-width:56ch;
 }
-.mf-dg__sollink{
-  display:inline-block;margin-top:1.1rem;
+.mf-dg__sum{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--color-divider)}
+.mf-dg__ta{
+  width:100%;margin-top:1rem;background:transparent;
+  border:1px solid var(--color-divider);color:var(--color-text-primary);
+  font-family:var(--font-body);font-weight:300;font-size:var(--text-body-md);
+  line-height:1.7;padding:1rem;resize:vertical;
+}
+.mf-dg__ta:focus-visible{outline:2px solid var(--mf-terracotta);outline-offset:2px}
+.mf-dg__copy{
+  background:none;border:1px solid var(--color-divider);cursor:pointer;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--mf-terracotta);text-decoration:none;
+  color:var(--color-text-primary);padding:0.9rem 1.4rem;margin-top:0.9rem;min-height:44px;
 }
-.mf-dg__sollink:hover{opacity:0.65}
-
-.mf-dg__ctas{display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem;margin-top:2.5rem}
+.mf-dg__copy:hover{border-color:var(--mf-terracotta)}
+.mf-dg__contact{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--color-divider)}
+.mf-dg__ctas{display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem;margin-top:1.5rem}
 .mf-dg__wa{
   display:inline-block;
   background:var(--mf-terracotta);color:var(--on-accent);
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  padding:1rem 1.5rem;text-decoration:none;
+  padding:1rem 1.5rem;text-decoration:none;min-height:44px;
   transition:opacity var(--duration-fast) var(--ease-in-out);
 }
 .mf-dg__wa:hover{opacity:0.82}
+.mf-dg__mailto{
+  font-family:var(--font-mono);font-size:var(--text-label);
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--mf-terracotta);text-decoration:none;
+}
+.mf-dg__mailto:hover{opacity:0.65}
 .mf-dg__again{
   background:none;border:0;cursor:pointer;padding:0;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
-  color:var(--color-text-ghost);
+  color:var(--color-text-ghost);min-height:44px;
 }
 .mf-dg__again:hover{color:var(--color-text-primary)}
-
-.mf-dg__meta{
-  font-family:var(--font-body);font-weight:300;
-  font-size:var(--text-body-md);color:var(--color-text-ghost);
-  margin:2rem 0 0;
+@media(max-width:420px){
+  .mf-dg__go,.mf-dg__wa{width:100%;text-align:center}
+  .mf-dg__nav{gap:0.9rem}
 }
       `}</style>
     </>

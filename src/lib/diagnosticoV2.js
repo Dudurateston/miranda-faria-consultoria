@@ -217,8 +217,10 @@ function buildPriorities(a, est) {
   const search = a.bottleneck === "procurar_conferir";
   const waiting = a.bottleneck === "esperar_alguem";
 
-  /* saudável: só com dado confiável explícito; 'nao_sei'/ausente não é saudável */
-  if (a.dataAccess === "atualizadas_compartilhadas" && a.currentTools === "sistemas_integrados" && a.bottleneck === "nenhum" && (!hrs || hrs.lo === 0)) {
+  /* saudável: só com dado confiável explícito; 'nao_sei'/ausente não é saudável.
+     Exceção NÃO apaga objetivo de comissão: escolher canal com taxa é um objetivo
+     legítimo mesmo com rotina integrada e sem retrabalho (revisão Codex). */
+  if (a.dataAccess === "atualizadas_compartilhadas" && a.currentTools === "sistemas_integrados" && a.bottleneck === "nenhum" && (!hrs || hrs.lo === 0) && a.goal !== "comissao_canal") {
     return [P("acompanhar_validar", ["currentTools", "dataAccess", "bottleneck"])];
   }
 
@@ -337,11 +339,15 @@ export function evaluateDiagnosis(answers = {}, lang = "pt") {
   const missingData = [];
   const hrs = hoursRange(a);
   const hasRework = ["redigitar", "corrigir_erro"].includes(a.bottleneck) || a.goal === "tarefas_repetitivas";
-  if (hasRework && !hrs) missingData.push({ id: "medir_horas", why: "hoursPerWeek" });
-  if (hasRework && hrs) {
-    const { value: cost, currency } = costOf(a);
-    if (cost == null) missingData.push({ id: "informar_custo_hora", why: "hourlyCost" });
-    else if (!currency) missingData.push({ id: "informar_moeda", why: "hourlyCost" });
+  /* faltantes de TEMPO só fora do ramo de comissão: o cálculo do ramo é a
+     comissão; não misturamos custo/hora do ramo de tarefas (revisão Codex). */
+  if (a.goal !== "comissao_canal") {
+    if (hasRework && !hrs) missingData.push({ id: "medir_horas", why: "hoursPerWeek" });
+    if (hasRework && hrs) {
+      const { value: cost, currency } = costOf(a);
+      if (cost == null) missingData.push({ id: "informar_custo_hora", why: "hourlyCost" });
+      else if (!currency) missingData.push({ id: "informar_moeda", why: "hourlyCost" });
+    }
   }
   if (a.goal === "comissao_canal") {
     const vol = volumeRange(a, lang);

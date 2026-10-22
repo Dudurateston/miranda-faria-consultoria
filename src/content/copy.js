@@ -43,7 +43,7 @@ export const copy = {
         servicos: "Four solutions, one operating principle: systems, websites, design and automation.",
         about: "Design engineer working across brand, product and data — technology applied to a business that actually exists.",
         how: "How a project runs here: diagnosis first, demo in the first week, delivery in the owner's hands.",
-        insights: "Four questions and a defensible estimate of what the problem costs — before any talk of price or technology.",
+        insights: "A branching questionnaire that returns priorities and an initial plan — before any talk of price or technology.",
         contact: "Bring the problem, not a spec. Same-day response, straight from who builds it.",
         practice: "Management systems, websites, automation and identity — one hand from diagnosis to delivery.",
         eightyfive: "Attendance register for ILEP and TrustEd Ireland schools: 15-minute rule, 85% forecasts, six-week alerts and an exportable record.",
@@ -125,7 +125,7 @@ export const copy = {
         label: "Diagnosis",
         lead: "Where does your operation lose time?",
         intro:
-          "Answer the questions about your day-to-day work and see an initial estimate.",
+          "Answer about your day-to-day work and get priorities with an initial plan.",
         cta: "Run the diagnosis",
       },
       finalCta: { label: "Next step", lead: "Tell us what needs to work better.", cta: "Message on WhatsApp" },
@@ -361,7 +361,7 @@ export const copy = {
       label: "Diagnosis",
       lead: "How much leaks out every month?",
       intro:
-        "Four questions and a defensible estimate of what the problem costs — before any talk of price or technology. Size the pain first, prescribe second.",
+        "A branching questionnaire about your real routine that returns priorities and an initial plan — before any talk of price or technology. Understand the routine first, prescribe second.",
       evidence:
         "One number worth keeping: the average company takes 42 hours to answer a lead — Harvard Business Review. A system exists to keep you on the right side of that number.",
       steps: { pain: "The pain", driver: "The driver", base: "The size", urgency: "The urgency" },
@@ -453,7 +453,7 @@ export const copy = {
         servicos: "Quatro soluções, um princípio de operação: sistemas, sites, design e automação.",
         about: "Design engineer entre marca, produto e dados — tecnologia aplicada a negócio que existe de verdade.",
         how: "Como um projeto corre por aqui: diagnóstico primeiro, demo na primeira semana, entrega na mão do dono.",
-        insights: "Quatro perguntas e uma estimativa defensável do custo do seu problema — antes de falar de preço ou tecnologia.",
+        insights: "Um questionário ramificado que devolve prioridades e um plano inicial — antes de falar de preço ou tecnologia.",
         contact: "Traga o problema, não a especificação. Resposta no mesmo dia, direto com quem executa.",
         practice: "Sistemas de gestão, sites, automação e identidade — uma mão só do diagnóstico à entrega.",
         apontador: "Lê o AFD do relógio de ponto (Portaria 671) e mostra faltas, horas extras e absenteísmo por setor. Peça um diagnóstico grátis do seu AFD.",
@@ -535,7 +535,7 @@ export const copy = {
         label: "Diagnóstico",
         lead: "Onde sua operação perde tempo?",
         intro:
-          "Responda às perguntas sobre sua rotina e veja uma estimativa inicial.",
+          "Responda sobre sua rotina e receba prioridades com um plano inicial.",
         cta: "Fazer o diagnóstico",
       },
       finalCta: { label: "Próximo passo", lead: "Conte o que precisa funcionar melhor.", cta: "Chamar no WhatsApp" },
@@ -771,7 +771,7 @@ export const copy = {
       label: "Diagnóstico",
       lead: "Quanto está vazando por mês?",
       intro:
-        "Quatro perguntas e uma estimativa defensável do custo do seu problema — antes de falar de preço ou de tecnologia. Primeiro o tamanho da dor, depois a solução.",
+        "Um questionário ramificado sobre a sua rotina real, que devolve prioridades e um plano inicial — antes de falar de preço ou de tecnologia. Primeiro a rotina, depois a solução.",
       evidence:
         "Um número para guardar: a média das empresas demora 42 horas para responder um lead — Harvard Business Review. Um sistema existe pra você ficar do lado certo desse número.",
       steps: { pain: "A dor", driver: "O driver", base: "O porte", urgency: "A urgência" },
@@ -986,7 +986,7 @@ export const cases = {
       process:
         "Brand first — palette, type, the geological strata motif — then a token system, then the code. The hero is a hand-written WebGL shader: a liquid metal M with no video, no image sequence, no library — raw GLSL computed per frame. The homepage went through a long sequence of failed approaches (a 65-frame scroll sequence, manual vectorisation) before the direction settled on procedural motion with no external asset.",
       decisions:
-        "The diagnosis engine — three questions that quantify the visitor's leak before any talk of price — is real arithmetic running in the page, not a form. The technology section carries a 60fps flow-field in raw Canvas 2D with zero animation dependencies, and an FPS counter measured in your browser rather than promised on a slide. Documented every abandoned path in the repository. Real /en and /pt routes over a hash toggle. No contact form: a direct link converts better than a field.",
+        "The diagnosis engine — a branching questionnaire that returns priorities and an initial plan before any talk of price — is real logic running in the page, not a form. The technology section carries a 60fps flow-field in raw Canvas 2D with zero animation dependencies, and an FPS counter measured in your browser rather than promised on a slide. Documented every abandoned path in the repository. Real /en and /pt routes over a hash toggle. No contact form: a direct link converts better than a field.",
       impact:
         "The site is the case. Shader, canvas, motion system, two languages, the diagnostic engine and every line of CSS — designed, built and deployed by one person, in weeks, not quarters.",
       media: { dir: "miranda-faria", shots: 5, video: true },
@@ -1253,7 +1253,7 @@ export const cases = {
       process:
         "Marca primeiro — paleta, tipografia, o motivo de estratos geológicos — depois o sistema de tokens, depois o código. A hero é um shader WebGL escrito à mão: um M de metal líquido sem vídeo, sem sequência de imagens, sem biblioteca — GLSL puro, calculado quadro a quadro. A home passou por uma sequência longa de caminhos que falharam (sequência de 65 quadros, vetorização manual) antes da direção assentar em movimento procedural, sem asset externo.",
       decisions:
-        "O motor de diagnóstico — três perguntas que quantificam o vazamento do visitante antes de qualquer conversa sobre preço — é aritmética real rodando na página, não formulário. A aba Tecnologia carrega um campo de fluxo a 60fps em Canvas 2D puro, zero dependências de animação, com contador de FPS medido no seu navegador em vez de prometido no slide. Cada caminho abandonado está documentado no repositório. Rotas reais /en e /pt em vez de toggle por hash. Sem formulário de contato: link direto converte mais que campo para preencher.",
+        "O motor de diagnóstico — um questionário ramificado que devolve prioridades e um plano inicial antes de qualquer conversa sobre preço — é lógica real rodando na página, não formulário. A aba Tecnologia carrega um campo de fluxo a 60fps em Canvas 2D puro, zero dependências de animação, com contador de FPS medido no seu navegador em vez de prometido no slide. Cada caminho abandonado está documentado no repositório. Rotas reais /en e /pt em vez de toggle por hash. Sem formulário de contato: link direto converte mais que campo para preencher.",
       impact:
         "O site é o case. Shader, canvas, sistema de movimento, dois idiomas, o motor de diagnóstico e cada linha de CSS — desenhado, construído e publicado por uma pessoa, em semanas, não em trimestres.",
       media: { dir: "miranda-faria", shots: 5, video: true },

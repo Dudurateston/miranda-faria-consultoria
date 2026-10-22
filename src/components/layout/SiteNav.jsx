@@ -181,7 +181,7 @@ export default function SiteNav({ revealAfterHero = false }) {
       to: path("insights"),
       label: t.insights,
       media: NAV_MEDIA.diag,
-      cap: lang === "pt" ? "Diagnóstico · 40 segundos" : "Diagnosis · forty seconds",
+      cap: lang === "pt" ? "Diagnóstico · prioridades e plano" : "Diagnosis · priorities and a plan",
       rows: lang === "pt"
         ? [
             { name: "Diagnóstico em 40s", lead: "Três perguntas e uma estimativa do que o problema drena por mês — antes de falar de preço." },

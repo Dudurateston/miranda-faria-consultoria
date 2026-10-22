@@ -304,6 +304,24 @@ t("unidades de volume existem para os 6 objetivos em PT e EN", () => {
   for (const lang of ["pt", "en"]) assert.equal(Object.keys(VOLUME_UNITS[lang]).length, 6);
 });
 
+
+console.log("== arestas da revisão final: comissão vs saudável / faltantes de tempo ==");
+t("aresta1: comissão+integrado+confiável+nenhum+horas0 com 3 entradas NÃO colapsa em acompanhar_validar", () => {
+  const r = evaluateDiagnosis({ sector: "comercio", goal: "comissao_canal", currentTools: "sistemas_integrados", volume: { value: 10000, currency: "BRL" }, bottleneck: "nenhum", hoursPerWeek: { band: "zero" }, dataAccess: "atualizadas_compartilhadas", urgency: "agora", commissionRate: 20, migratableShare: 30 });
+  assert.equal(r.estimate.kind, "comissao_bruta");
+  assert.equal(r.estimate.grossPerMonth.lo, 600);
+  assert.ok(!r.priorities.some((p) => p.id === "acompanhar_validar"), "não deve virar só validação");
+  assert.ok(r.priorities.some((p) => p.id === "avaliar_migracao_canal"));
+  assert.ok(r.priorities.some((p) => p.id === "acao_do_objetivo"));
+});
+t("aresta2: comissão+redigitar+horas 1h NÃO pede custo/hora (faltante de tempo fora do ramo)", () => {
+  const r = evaluateDiagnosis({ sector: "comercio", goal: "comissao_canal", currentTools: "planilha", volume: { value: 10000, currency: "BRL" }, bottleneck: "redigitar", hoursPerWeek: { value: 1 }, dataAccess: "atualizadas_compartilhadas", urgency: "agora", commissionRate: 20, migratableShare: 30 });
+  assert.ok(!r.missingData.some((m) => m.id === "informar_custo_hora"), "custo/hora não se aplica ao ramo");
+  assert.ok(!r.missingData.some((m) => m.id === "medir_horas"));
+  assert.ok(!r.missingData.some((m) => m.id === "informar_moeda"));
+  assert.equal(r.estimate.kind, "comissao_bruta");
+});
+
 console.log("== nenhum NaN/negativo vaza ==");
 t("varredura de NaN/Infinity em todos os resultados dos cenários", () => {
   const scen = [A8, TAREFAS, CANAL, { ...TAREFAS, hourlyCost: { value: 60, currency: "USD" } }, { sector: "industria", goal: "estoque_informacao", currentTools: "conversa_papel", volume: { band: "zero" }, bottleneck: "nenhum", hoursPerWeek: { band: "nao_sei" }, dataAccess: "nao_sei", urgency: "explorando" }];
