@@ -22,12 +22,16 @@ export default function HomeSobre() {
           <Reveal>
             <p className="mf-label"><span className="mf-label__n">01</span>{t.home.sobrePreview.label}</p>
           </Reveal>
-          <LineReveal className="mf-h__lead" dot>{t.about.lead}</LineReveal>
+          <LineReveal className="mf-h__lead" dot>{t.home.sobrePreview.lead}</LineReveal>
           <Reveal delay={140}>
-            <p className="mf-sobre__body">{t.about.body[0]}</p>
+            <div className="mf-sobre__body">
+              {t.home.sobrePreview.body.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
           </Reveal>
           <Reveal delay={200}>
-            <Link to={path("about")} className="mf-h__cta" data-cursor="link">
+            <Link to={path("servicos")} className="mf-h__cta" data-cursor="link">
               {t.home.sobrePreview.cta} →
             </Link>
           </Reveal>
@@ -47,6 +51,7 @@ export default function HomeSobre() {
   font-size:var(--text-body-lg);line-height:var(--leading-body);
   color:var(--color-text-secondary);max-width:var(--max-width-body);margin:2rem 0 0;
 }
+.mf-sobre__body p + p{margin-top:1rem}
       `}</style>
     </section>
   );
