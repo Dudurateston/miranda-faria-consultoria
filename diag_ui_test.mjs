@@ -46,32 +46,39 @@ const ovX = (p) => p.evaluate(() => document.documentElement.scrollWidth - inner
 
 /* helpers de wizard */
 const radio = (p, label) => p.getByRole('radio', { name: label });
-/* clique robusto em .mf-dg__go (Continuar / Ver o resultado): o painel
-   remonta na animacao e Lenis/parallax movem o alvo — cada tentativa pega um
-   localizador NOVO, rola via evaluate, espera assentar e clica em coordenada. */
+/* clique robusto em .mf-dg__go (Continuar / Ver o resultado): scroll INSTANTÂNEO
+   (sem animação de Lenis/parallax — o elemento nunca fica "estável" para o
+   locator.click), box recalculado após o salto e conferido dentro do viewport. */
 const goClick = async (p) => {
   let lastErr = '';
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 14; i++) {
     try {
       const btn = p.getByRole('button', { name: /Continuar|Continue|Ver o resultado|See the result/ }).first();
-      await btn.waitFor({ state: 'attached', timeout: 3000 });
+      await btn.waitFor({ state: 'attached', timeout: 2500 });
       await p.evaluate(() => {
         const el = [...document.querySelectorAll('button')].find((b) => String(b.className).includes('mf-dg__go'));
-        if (el) el.scrollIntoView({ block: 'center' });
+        if (el) el.scrollIntoView({ block: 'center', behavior: 'instant' });
       });
-      await p.waitForTimeout(750);
+      await p.waitForTimeout(350);
       const box = await btn.boundingBox();
       if (box) {
-        await p.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
-        return;
-      }
-      lastErr = 'sem boundingBox';
+        const vp = p.viewportSize();
+        if (box.y >= 0 && box.y + box.height <= vp.height && box.x >= 0) {
+          await p.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+          return;
+        }
+        lastErr = 'box fora do viewport ' + JSON.stringify({ y: box.y, h: vp.height });
+      } else lastErr = 'sem boundingBox';
+      await p.waitForTimeout(250);
     } catch (e) {
       lastErr = String(e.message).split('\n')[0];
+      await p.waitForTimeout(300);
     }
   }
-  throw new Error('goClick falhou apos 12 tentativas: ' + lastErr);
+  throw new Error('goClick falhou apos 14 tentativas: ' + lastErr);
 };
+
+
 const has = async (p, txt) => (await p.getByText(txt, { exact: false }).count()) > 0;
 
 async function flow(p, lang, { goalLabel, opts = {} }) {
@@ -212,7 +219,8 @@ const b = await chromium.launch();
   await goClick(p);
   await radio(p, 'Redigitar a mesma informação').click(); await goClick(p);
   await radio(p, 'Não sei').click(); // desconhecido, nunca zero
-  t("'Não sei' seleciona visualmente", await radio(p, 'Não sei').getAttribute('aria-checked') === 'true');
+  /* radios nativos: checked do input + estado visual (data-on) do card */
+  t("'Não sei' seleciona visualmente", (await radio(p, 'Não sei').isChecked()) && (await radio(p, 'Não sei').evaluate((el) => el.closest('label')?.dataset.on === 'true')));
   await goClick(p);
   await radio(p, 'Não sei').click(); await goClick(p); // dataAccess não sei
   await radio(p, 'Explorando, sem pressa').click(); await goClick(p);

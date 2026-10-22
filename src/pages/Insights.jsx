@@ -28,7 +28,8 @@ import { getDiagnosisQuestions, pruneAnswers, evaluateDiagnosis } from "@/lib/di
  *
  * LOCAL/PRÉVIA por definição desta etapa:
  *  - SEM SDK, SEM gravação em DiagnosticoLead, SEM analytics de produção,
- *    SEM backend/API paga: nada sai do navegador do visitante;
+ *    SEM backend/API paga: ESTE componente não faz nenhum write próprio
+ *    (o shell do app mantém o analytics/consentimento usual dele);
  *  - diagnostico.js (legado) permanece no repositório, não importado;
  *  - contato OPCIONAL pós-resultado: PT WhatsApp / EN Calendly + email
  *    exato. São links — nada é enviado automaticamente.
@@ -54,6 +55,8 @@ export default function Insights() {
   const [copied, setCopied] = useState(false);
   const [summary, setSummary] = useState("");
   const qRef = useRef(null);
+  const revTitleRef = useRef(null);
+  const resTitleRef = useRef(null);
 
   const qs = useMemo(() => getDiagnosisQuestions(answers, lang), [answers, lang]);
   const qById = useMemo(() => {
@@ -101,9 +104,12 @@ export default function Insights() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentId, screen]);
 
-  /* foco na pergunta nova (teclado/leitor de tela) */
+  /* foco na pergunta nova; entrada em revisão e resultado também anuncia
+     o título (leitor de tela sabe que a tela mudou) */
   useEffect(() => {
     if (screen === "flow" && qRef.current) qRef.current.focus({ preventScroll: false });
+    if (screen === "review" && revTitleRef.current) revTitleRef.current.focus({ preventScroll: false });
+    if (screen === "result" && resTitleRef.current) resTitleRef.current.focus({ preventScroll: false });
   }, [currentId, screen]);
 
   const result = useMemo(() => (screen === "result" ? evaluateDiagnosis(answers, lang) : null), [screen, answers, lang]);
@@ -279,10 +285,11 @@ export default function Insights() {
     if (screen !== "result") return;
     const L = UI_TEXTS[lang];
     const lines = [`${L.label} — Miranda Faria`];
+    /* TODAS as respondidas da lista ativa entram — inclusive "Não sei"
+       (desconhecido é contexto, não buraco) */
     answeredIds.forEach((id) => {
       const q = qById[id];
-      const v = answers[id];
-      if (q && v != null) lines.push(`• ${q.title}: ${answerLabel(id)}`);
+      if (q) lines.push(`• ${q.title}: ${answerLabel(id)}`);
     });
     if (result) {
       lines.push(`• ${L.prioridades}:`);
@@ -294,15 +301,15 @@ export default function Insights() {
       if (e?.kind === "tempo") {
         const h = e.hoursPerMonth;
         lines.push(`• ${L.estimativa}: ${nf(lang, h.lo)}${h.hi != null ? `–${nf(lang, h.hi)}` : "+"} ${L.horasMes} (${L.semanas})`);
-        if (e.costPerMonth) lines.push(`  ${L.custoTempo}: ${nf(lang, e.costPerMonth.lo)}${e.costPerMonth.hi != null ? `–${nf(lang, e.costPerMonth.hi)}` : "+"} ${e.costPerMonth.currency}/mês`);
+        if (e.costPerMonth) lines.push(`  ${L.custoTempo}: ${nf(lang, e.costPerMonth.lo)}${e.costPerMonth.hi != null ? `–${nf(lang, e.costPerMonth.hi)}` : "+"} ${e.costPerMonth.currency}${L.porMes}`);
       } else if (e?.kind === "comissao_bruta") {
         const g = e.grossPerMonth;
-        lines.push(`• ${L.estimativa}: comissão bruta evitável ${nf(lang, g.lo)}${g.hi != null ? `–${nf(lang, g.hi)}` : "+"} ${g.currency}/mês (bruta — não é economia líquida)`);
+        lines.push(`• ${L.estimativa}: ${L.brutaResumo} ${nf(lang, g.lo)}${g.hi != null ? `–${nf(lang, g.hi)}` : "+"} ${g.currency}${L.porMes} (${L.brutaNaoLiquida})`);
       }
     }
     setSummary(lines.join("\n"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [screen]);
+  }, [screen, lang, answers]);
 
   const copySummary = async () => {
     try {
@@ -339,23 +346,26 @@ export default function Insights() {
 
         {(current.type === "choice" || current.type === "hours") && (
           <div className="mf-dg__opts" role="radiogroup" aria-label={current.title}>
-            {opts.map((o) => (
-              <button
-                key={o.id}
-                type="button"
-                role="radio"
-                aria-checked={current.type === "hours" ? d.band === o.id : d.pick === o.id}
-                className="mf-dg__opt"
-                data-on={current.type === "hours" ? d.band === o.id : d.pick === o.id}
-                onClick={() => {
-                  setError("");
-                  if (current.type === "hours") setDraft((x) => ({ ...x, [current.id]: { ...d, band: o.id, value: "" } }));
-                  else setDraft((x) => ({ ...x, [current.id]: { pick: o.id } }));
-                }}
-              >
-                <span className="mf-dg__optt">{o.label}</span>
-              </button>
-            ))}
+            {opts.map((o) => {
+              const on = current.type === "hours" ? d.band === o.id : d.pick === o.id;
+              return (
+                <label key={o.id} className="mf-dg__opt" data-on={on}>
+                  <input
+                    type="radio"
+                    name={`dg-${current.id}`}
+                    className="mf-dg__radio"
+                    checked={on}
+                    value={o.id}
+                    onChange={() => {
+                      setError("");
+                      if (current.type === "hours") setDraft((x) => ({ ...x, [current.id]: { ...d, band: o.id, value: "" } }));
+                      else setDraft((x) => ({ ...x, [current.id]: { pick: o.id } }));
+                    }}
+                  />
+                  <span className="mf-dg__optt">{o.label}</span>
+                </label>
+              );
+            })}
             {current.type === "hours" && (
               <label className="mf-dg__field">
                 <span className="mf-dg__flabel">{ui.valorExato}</span>
@@ -379,35 +389,36 @@ export default function Insights() {
         {current.type === "volume" && (
           <div className="mf-dg__opts" role="radiogroup" aria-label={current.title}>
             {bandSource.map((b) => (
-              <button
-                key={b.id}
-                type="button"
-                role="radio"
-                aria-checked={d.band === b.id}
-                className="mf-dg__opt"
-                data-on={d.band === b.id}
-                onClick={() => {
-                  setError("");
-                  setDraft((x) => ({ ...x, [current.id]: { ...d, band: b.id, value: "", unknown: false } }));
-                }}
-              >
+              <label key={b.id} className="mf-dg__opt" data-on={d.band === b.id}>
+                <input
+                  type="radio"
+                  name={`dg-${current.id}`}
+                  className="mf-dg__radio"
+                  checked={d.band === b.id}
+                  value={b.id}
+                  onChange={() => {
+                    setError("");
+                    setDraft((x) => ({ ...x, [current.id]: { ...d, band: b.id, value: "", unknown: false } }));
+                  }}
+                />
                 <span className="mf-dg__optt">{volBands[b.id]}</span>
                 <span className="mf-dg__optd">{`${current.unit || ""} ${current.period || ""}`.trim()}</span>
-              </button>
+              </label>
             ))}
-            <button
-              type="button"
-              role="radio"
-              aria-checked={d.unknown === true}
-              className="mf-dg__opt"
-              data-on={d.unknown === true}
-              onClick={() => {
-                setError("");
-                setDraft((x) => ({ ...x, [current.id]: { ...d, unknown: true, band: null, value: "" } }));
-              }}
-            >
+            <label className="mf-dg__opt" data-on={d.unknown === true}>
+              <input
+                type="radio"
+                name={`dg-${current.id}`}
+                className="mf-dg__radio"
+                checked={d.unknown === true}
+                value="nao_sei_vol"
+                onChange={() => {
+                  setError("");
+                  setDraft((x) => ({ ...x, [current.id]: { ...d, unknown: true, band: null, value: "" } }));
+                }}
+              />
               <span className="mf-dg__optt">{ui.naoSeiVol}</span>
-            </button>
+            </label>
             <label className="mf-dg__field">
               <span className="mf-dg__flabel">{ui.valorExato}</span>
               <input
@@ -520,7 +531,7 @@ export default function Insights() {
 
   const renderReview = () => (
     <div className="mf-dg__panel">
-      <p className="mf-dg__q">{ui.revisar}</p>
+      <p className="mf-dg__q" ref={revTitleRef} tabIndex={-1}>{ui.revisar}</p>
       <p className="mf-dg__hint">{ui.revisaoHint}</p>
       <ul className="mf-dg__rev">
         {answeredIds.map((id, i) => {
@@ -553,7 +564,8 @@ export default function Insights() {
     const e = result.estimate;
     return (
       <div className="mf-dg__panel mf-dg__panel--result">
-        <p className="mf-label">{ui.prioridades}</p>
+        <h2 className="mf-dg__q" ref={resTitleRef} tabIndex={-1}>{ui.planoInicial}</h2>
+        <p className="mf-dg__hint">{ui.planoIntro}</p>
         <ol className="mf-dg__prios">
           {result.priorities.map((p, i) => {
             const tx = p.id === "acao_do_objetivo" ? null : PRIORITY_TEXTS[p.id]?.[lang];
@@ -591,6 +603,7 @@ export default function Insights() {
           })}
         </ol>
 
+        {(e != null || (result.missingData || []).length > 0) && (
         <div className="mf-dg__est">
           <p className="mf-label">{ui.estimativa}</p>
           {e?.kind === "tempo" && (
@@ -603,7 +616,7 @@ export default function Insights() {
               {e.costPerMonth && (
                 <p className="mf-dg__estnum">
                   {nf(lang, e.costPerMonth.lo)}
-                  {e.costPerMonth.hi != null ? ` – ${nf(lang, e.costPerMonth.hi)}` : "+"} <span className="mf-dg__teto">{e.costPerMonth.currency}/mês</span>
+                  {e.costPerMonth.hi != null ? ` – ${nf(lang, e.costPerMonth.hi)}` : "+"} <span className="mf-dg__teto">{e.costPerMonth.currency}{ui.porMes}</span>
                 </p>
               )}
               <p className="mf-dg__per">{e.costPerMonth ? ui.custoTempo : ""}</p>
@@ -614,10 +627,10 @@ export default function Insights() {
             <>
               <p className="mf-dg__estnum">
                 {nf(lang, e.grossPerMonth.lo)}
-                {e.grossPerMonth.hi != null ? ` – ${nf(lang, e.grossPerMonth.hi)}` : "+"} <span className="mf-dg__teto">{e.grossPerMonth.currency}/mês</span>
+                {e.grossPerMonth.hi != null ? ` – ${nf(lang, e.grossPerMonth.hi)}` : "+"} <span className="mf-dg__teto">{e.grossPerMonth.currency}{ui.porMes}</span>
               </p>
-              <p className="mf-dg__per">comissão potencialmente evitável — BRUTA</p>
-              <p className="mf-dg__limit">{lang === "pt" ? "Custos novos do canal próprio não são conhecidos: não é economia líquida." : "New own-channel costs aren't known: this is not net savings."}</p>
+              <p className="mf-dg__per">{ui.brutaHint}</p>
+              <p className="mf-dg__limit">{ui.brutaLimit}</p>
             </>
           )}
           {e == null && (
@@ -634,6 +647,7 @@ export default function Insights() {
             </>
           )}
         </div>
+        )}
 
         <div className="mf-dg__next">
           <p className="mf-label">{ui.proximoPasso}</p>
@@ -665,6 +679,9 @@ export default function Insights() {
             <a className="mf-dg__mailto" href={`mailto:${EMAIL}`}>
               {ui.email}
             </a>
+            <button type="button" className="mf-dg__again" onClick={() => setScreen("review")}>
+              {ui.rever}
+            </button>
             <button type="button" className="mf-dg__again" onClick={restart}>
               {ui.reiniciar}
             </button>
@@ -753,7 +770,7 @@ export default function Insights() {
   .mf-dg__opts{grid-template-columns:1fr 1fr}
   .mf-dg__opts--field{grid-template-columns:1fr 1fr;max-width:640px}
 }
-.mf-dg__opt{min-height:44px;
+.mf-dg__opt{position:relative;min-height:44px;
   display:flex;flex-direction:column;gap:0.5rem;text-align:left;
   background:transparent;border:1px solid var(--color-divider);
   padding:1.15rem 1.25rem;cursor:pointer;
@@ -761,6 +778,8 @@ export default function Insights() {
              background-color var(--duration-fast) var(--ease-in-out),
              transform var(--duration-fast) var(--ease-in-out);
 }
+.mf-dg__radio{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.mf-dg__opt:focus-within{outline:2px solid var(--mf-ink,#1f1a15);outline-offset:2px}
 .mf-dg__opt:hover{border-color:rgba(242,238,230,0.4);transform:translateY(-2px)}
 .mf-dg__opt[data-on="true"]{border-color:var(--mf-terracotta);background:rgba(179,122,96,0.08)}
 .mf-dg__optt{

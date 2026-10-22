@@ -20,25 +20,39 @@ const noConsent = async (p) => {
   catch { /* já decidido */ }
 };
 
-/* clique robusto em .mf-dg__go (painel remonta + Lenis/parallax movem o alvo) */
+/* clique robusto em .mf-dg__go (Continuar / Ver o resultado): scroll INSTANTÂNEO
+   (sem animação de Lenis/parallax — o elemento nunca fica "estável" para o
+   locator.click), box recalculado após o salto e conferido dentro do viewport. */
 const goClick = async (p) => {
   let lastErr = '';
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 14; i++) {
     try {
-      const btn = p.getByRole('button', { name: /Continuar|Continue|Ver o resultado/ }).first();
-      await btn.waitFor({ state: 'attached', timeout: 3000 });
+      const btn = p.getByRole('button', { name: /Continuar|Continue|Ver o resultado|See the result/ }).first();
+      await btn.waitFor({ state: 'attached', timeout: 2500 });
       await p.evaluate(() => {
         const el = [...document.querySelectorAll('button')].find((b) => String(b.className).includes('mf-dg__go'));
-        if (el) el.scrollIntoView({ block: 'center' });
+        if (el) el.scrollIntoView({ block: 'center', behavior: 'instant' });
       });
-      await p.waitForTimeout(750);
+      await p.waitForTimeout(350);
       const box = await btn.boundingBox();
-      if (box) { await p.mouse.click(box.x + box.width / 2, box.y + box.height / 2); return; }
-      lastErr = 'sem box';
-    } catch (e) { lastErr = String(e.message).split('\n')[0]; }
+      if (box) {
+        const vp = p.viewportSize();
+        if (box.y >= 0 && box.y + box.height <= vp.height && box.x >= 0) {
+          await p.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+          return;
+        }
+        lastErr = 'box fora do viewport ' + JSON.stringify({ y: box.y, h: vp.height });
+      } else lastErr = 'sem boundingBox';
+      await p.waitForTimeout(250);
+    } catch (e) {
+      lastErr = String(e.message).split('\n')[0];
+      await p.waitForTimeout(300);
+    }
   }
-  throw new Error('goClick falhou: ' + lastErr);
+  throw new Error('goClick falhou apos 14 tentativas: ' + lastErr);
 };
+
+
 
 const radio = (p, label) => p.getByRole('radio', { name: label });
 const qTitle = (p) => p.locator('.mf-dg__q').first().textContent().catch(() => '');
