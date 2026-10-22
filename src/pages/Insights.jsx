@@ -41,6 +41,8 @@ import { getDiagnosisQuestions, pruneAnswers, evaluateDiagnosis } from "@/lib/di
 const isNum = (v) => typeof v === "number" && Number.isFinite(v) && v >= 0;
 const nf = (lang, v) =>
   v == null ? "" : v.toLocaleString(lang === "pt" ? "pt-BR" : "en-US", { maximumFractionDigits: 2 });
+/* intervalo sem travessão: PT "12 a 52", EN "12 to 52" (preferência do Eduardo) */
+const jr = (lang, lo, hi) => (hi == null ? `${nf(lang, lo)}+` : `${nf(lang, lo)} ${lang === "pt" ? "a" : "to"} ${nf(lang, hi)}`);
 
 export default function Insights() {
   const { lang } = useLang();
@@ -114,10 +116,23 @@ export default function Insights() {
 
   const result = useMemo(() => (screen === "result" ? evaluateDiagnosis(answers, lang) : null), [screen, answers, lang]);
 
+  /* serviço relacionado SÓ quando há gargalo declarado (cenário saudável
+     não empurra compra). Rotas reais: gestao, desenvolvimento, automacao. */
+  const GARGALOS = ["redigitar", "procurar_conferir", "corrigir_erro", "esperar_alguem"];
+  const SVC_BY_GOAL = {
+    pedidos_vendas: "gestao",
+    estoque_informacao: "gestao",
+    continuidade_operacao: "gestao",
+    comissao_canal: "gestao",
+    atendimento_presenca: "desenvolvimento",
+    tarefas_repetitivas: "automacao",
+  };
+  const svcSlug = GARGALOS.includes(answers.bottleneck) ? SVC_BY_GOAL[answers.goal] || null : null;
+
   const answerLabel = (id) => {
     const a = answers[id];
     const q = qById[id];
-    if (a == null) return a === null ? ui.naoSeiVol : "—";
+    if (a == null) return a === null ? ui.naoSeiVol : "";
     if (id === "volume") {
       const bands = q?.currency || (qs.find((x) => x.id === "volume")?.currency) ? VOLUME_BAND_LABELS[lang].currency : VOLUME_BAND_LABELS[lang].count;
       const bl = a.band ? bands[a.band] : null;
@@ -129,9 +144,9 @@ export default function Insights() {
     if (id === "hoursPerWeek") {
       if (a.value != null) return `${nf(lang, a.value)} ${ui.horasSemana}`;
       const bl = q?.options?.find((o) => o.id === a.band)?.label;
-      return bl || "—";
+      return bl || "";
     }
-    if (id === "hourlyCost") return a.value != null ? `${nf(lang, a.value)}${a.currency ? ` ${a.currency}` : ""}` : "—";
+    if (id === "hourlyCost") return a.value != null ? `${nf(lang, a.value)}${a.currency ? ` ${a.currency}` : ""}` : "";
     if (id === "commissionRate" || id === "migratableShare") return `${nf(lang, a)}%`;
     return q?.options?.find((o) => o.id === a)?.label || String(a);
   };
@@ -284,7 +299,7 @@ export default function Insights() {
   useEffect(() => {
     if (screen !== "result") return;
     const L = UI_TEXTS[lang];
-    const lines = [`${L.label} — Miranda Faria`];
+    const lines = [`${L.label} · Miranda Faria`];
     /* TODAS as respondidas da lista ativa entram — inclusive "Não sei"
        (desconhecido é contexto, não buraco) */
     answeredIds.forEach((id) => {
@@ -295,16 +310,16 @@ export default function Insights() {
       lines.push(`• ${L.prioridades}:`);
       result.priorities.forEach((p, i) => {
         const tx = p.id === "acao_do_objetivo" ? GOAL_ACTIONS[lang][p.goal] : PRIORITY_TEXTS[p.id]?.[lang];
-        lines.push(`  ${i + 1}. ${p.id === "acao_do_objetivo" ? (qById.goal?.options?.find((o) => o.id === p.goal)?.label || "") + " — " : ""}${tx?.action || p.id}`);
+        lines.push(`  ${i + 1}. ${p.id === "acao_do_objetivo" ? (qById.goal?.options?.find((o) => o.id === p.goal)?.label || "") + ": " : ""}${tx?.action || p.id}`);
       });
       const e = result.estimate;
       if (e?.kind === "tempo") {
         const h = e.hoursPerMonth;
-        lines.push(`• ${L.estimativa}: ${nf(lang, h.lo)}${h.hi != null ? `–${nf(lang, h.hi)}` : "+"} ${L.horasMes} (${L.semanas})`);
-        if (e.costPerMonth) lines.push(`  ${L.custoTempo}: ${nf(lang, e.costPerMonth.lo)}${e.costPerMonth.hi != null ? `–${nf(lang, e.costPerMonth.hi)}` : "+"} ${e.costPerMonth.currency}${L.porMes}`);
+        lines.push(`• ${L.estimativa}: ${jr(lang, h.lo, h.hi)} ${L.horasMes} (${L.semanas})`);
+        if (e.costPerMonth) lines.push(`  ${L.custoTempo}: ${jr(lang, e.costPerMonth.lo, e.costPerMonth.hi)} ${e.costPerMonth.currency}${L.porMes}`);
       } else if (e?.kind === "comissao_bruta") {
         const g = e.grossPerMonth;
-        lines.push(`• ${L.estimativa}: ${L.brutaResumo} ${nf(lang, g.lo)}${g.hi != null ? `–${nf(lang, g.hi)}` : "+"} ${g.currency}${L.porMes} (${L.brutaNaoLiquida})`);
+        lines.push(`• ${L.estimativa}: ${L.brutaResumo} ${jr(lang, g.lo, g.hi)} ${g.currency}${L.porMes} (${L.brutaNaoLiquida})`);
       }
     }
     setSummary(lines.join("\n"));
@@ -609,15 +624,22 @@ export default function Insights() {
           {e?.kind === "tempo" && (
             <>
               <p className="mf-dg__estnum">
-                {nf(lang, e.hoursPerMonth.lo)}
-                {e.hoursPerMonth.hi != null ? ` – ${nf(lang, e.hoursPerMonth.hi)}` : "+"} <span className="mf-dg__teto">{ui.horasMes}</span>
+                {jr(lang, e.hoursPerMonth.lo, e.hoursPerMonth.hi)} <span className="mf-dg__teto">{ui.horasMes}</span>
               </p>
               <p className="mf-dg__per">{ui.semanas}{e.hoursPerWeek?.band || e.hoursPerWeek?.value != null ? "" : ""}</p>
+              <p className="mf-dg__formula">
+                <span className="mf-label">{ui.fFormula}</span>
+                {`${jr(lang, e.hoursPerWeek.lo, e.hoursPerWeek.hi)} ${ui.fHorasSem} × ${nf(lang, e.weeksPerMonth)} ${ui.fSemanas} = ${jr(lang, e.hoursPerMonth.lo, e.hoursPerMonth.hi)} ${ui.horasMes}`}
+              </p>
               {e.costPerMonth && (
-                <p className="mf-dg__estnum">
-                  {nf(lang, e.costPerMonth.lo)}
-                  {e.costPerMonth.hi != null ? ` – ${nf(lang, e.costPerMonth.hi)}` : "+"} <span className="mf-dg__teto">{e.costPerMonth.currency}{ui.porMes}</span>
-                </p>
+                <>
+                  <p className="mf-dg__estnum">
+                    {jr(lang, e.costPerMonth.lo, e.costPerMonth.hi)} <span className="mf-dg__teto">{e.costPerMonth.currency}{ui.porMes}</span>
+                  </p>
+                  <p className="mf-dg__formula">
+                    {`${jr(lang, e.hoursPerMonth.lo, e.hoursPerMonth.hi)} ${ui.horasMes} × ${nf(lang, e.inputs?.find((x) => x.id === "hourlyCost")?.value)} ${e.costPerMonth.currency} ${ui.fCustoHora} = ${jr(lang, e.costPerMonth.lo, e.costPerMonth.hi)} ${e.costPerMonth.currency}${ui.porMes}`}
+                  </p>
+                </>
               )}
               <p className="mf-dg__per">{e.costPerMonth ? ui.custoTempo : ""}</p>
               <p className="mf-dg__limit">{ui.avisoTempo}</p>
@@ -626,8 +648,11 @@ export default function Insights() {
           {e?.kind === "comissao_bruta" && (
             <>
               <p className="mf-dg__estnum">
-                {nf(lang, e.grossPerMonth.lo)}
-                {e.grossPerMonth.hi != null ? ` – ${nf(lang, e.grossPerMonth.hi)}` : "+"} <span className="mf-dg__teto">{e.grossPerMonth.currency}{ui.porMes}</span>
+                {jr(lang, e.grossPerMonth.lo, e.grossPerMonth.hi)} <span className="mf-dg__teto">{e.grossPerMonth.currency}{ui.porMes}</span>
+              </p>
+              <p className="mf-dg__formula">
+                <span className="mf-label">{ui.fFormula}</span>
+                {`${ui.fFaturamento} ${jr(lang, e.inputs?.[0]?.value?.lo, e.inputs?.[0]?.value?.hi)} ${e.grossPerMonth.currency} × ${ui.fTaxa} ${nf(lang, e.inputs?.[1]?.value)}% × ${ui.fParcela} ${nf(lang, e.inputs?.[2]?.value)}%`}
               </p>
               <p className="mf-dg__per">{ui.brutaHint}</p>
               <p className="mf-dg__limit">{ui.brutaLimit}</p>
@@ -652,6 +677,13 @@ export default function Insights() {
         <div className="mf-dg__next">
           <p className="mf-label">{ui.proximoPasso}</p>
           <p className="mf-dg__nextbody">{NEXT_STEP_TEXTS[lang][result.nextStep.textId]}</p>
+          {svcSlug && (
+            /* nova aba de propósito: visitar a solução NÃO pode perder o plano
+               (estado do wizard vive em memória; sem storage extra) */
+            <a className="mf-dg__svc" href={`/${lang}/${svcSlug}`} target="_blank" rel="noopener noreferrer">
+              {`${ui.svcLabel}: ${ui.svc[svcSlug]} ${ui.svcNewTab}`}
+            </a>
+          )}
         </div>
 
         <div className="mf-dg__sum">
@@ -779,6 +811,9 @@ export default function Insights() {
              transform var(--duration-fast) var(--ease-in-out);
 }
 .mf-dg__radio{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.mf-dg__formula{margin:.4rem 0 0;font-size:.8rem;color:var(--mf-ink,#1f1a15);opacity:.8;letter-spacing:.02em}
+.mf-dg__formula .mf-label{display:block;margin-bottom:.15rem}
+.mf-dg__svc{display:inline-block;margin-top:.7rem;font-size:.85rem;text-decoration:underline;text-underline-offset:3px;padding:.35rem .15rem}
 .mf-dg__opt:focus-within{outline:2px solid var(--mf-ink,#1f1a15);outline-offset:2px}
 .mf-dg__opt:hover{border-color:rgba(242,238,230,0.4);transform:translateY(-2px)}
 .mf-dg__opt[data-on="true"]{border-color:var(--mf-terracotta);background:rgba(179,122,96,0.08)}
@@ -935,6 +970,7 @@ export default function Insights() {
 }
 .mf-dg__wa:hover{opacity:0.82}
 .mf-dg__mailto{
+  display:inline-flex;align-items:center;min-height:44px;
   font-family:var(--font-mono);font-size:var(--text-label);
   letter-spacing:var(--tracking-label);text-transform:uppercase;
   color:var(--mf-terracotta);text-decoration:none;

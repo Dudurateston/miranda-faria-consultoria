@@ -88,8 +88,15 @@ export default function SiteLayout() {
         </Suspense>
       </main>
       <Footer />
-      {lang === "pt" ? <MobileWhatsAppBar /> : <MobileCalendlyBar />}
-      <div className="h-20 md:hidden" />
+      {/* Diagnóstico: a barra global de CTA cobria a pergunta no mobile e o
+          resultado já tem contato próprio (WA/Calendly/email). Fora do fluxo,
+          a barra continua igual. */}
+      {!location.pathname.endsWith("/insights") && (
+        <>
+          {lang === "pt" ? <MobileWhatsAppBar /> : <MobileCalendlyBar />}
+          <div className="h-20 md:hidden" />
+        </>
+      )}
 
       <style>{`
 .mf-progress{
