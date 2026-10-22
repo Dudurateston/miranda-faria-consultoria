@@ -184,11 +184,11 @@ export default function SiteNav({ revealAfterHero = false }) {
       cap: lang === "pt" ? "Diagnóstico · prioridades e plano" : "Diagnosis · priorities and a plan",
       rows: lang === "pt"
         ? [
-            { name: "Diagnóstico em 40s", lead: "Três perguntas e uma estimativa do que o problema drena por mês — antes de falar de preço." },
+            { name: "Diagnóstico", lead: "Um questionário sobre a sua rotina que devolve prioridades e um plano inicial — antes de falar de preço." },
             { name: "Para quem", lead: "Dono de operação que já sente o gargalo mas ainda não colocou em números." },
           ]
         : [
-            { name: "Forty-second diagnosis", lead: "Three questions and an estimate of what the problem drains per month — before any talk of price." },
+            { name: "Diagnosis", lead: "A questionnaire about your routine that returns priorities and an initial plan — before any talk of price." },
             { name: "For whom", lead: "Owners who already feel the bottleneck but haven't put it in numbers yet." },
           ],
     },

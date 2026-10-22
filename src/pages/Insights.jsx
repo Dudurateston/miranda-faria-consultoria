@@ -47,8 +47,7 @@ export default function Insights() {
   usePageTitle(ui.label, "insights");
 
   const [answers, setAnswers] = useState({});
-  const [flow, setFlow] = useState([]); // ids mostrados, na ordem
-  const [pos, setPos] = useState(0); // ponteiro dentro de flow
+  const [editIdx, setEditIdx] = useState(null); // índice em answeredIds ao editar/voltar
   const [screen, setScreen] = useState("flow"); // flow | review | result
   const [draft, setDraft] = useState({}); // rascunho de entrada corrente (não perde texto em erro)
   const [error, setError] = useState("");
@@ -67,8 +66,11 @@ export default function Insights() {
      chave com null = respondida "não sei" (unknown ≠ não respondida). */
   const nextUnanswered = useMemo(() => qs.find((q) => answers[q.id] === undefined) || null, [qs, answers]);
 
-  const currentId = screen !== "flow" || pos < flow.length ? flow[pos] : nextUnanswered?.id;
-  const current = currentId ? qs.find((q) => q.id === currentId) || qById[currentId] : null;
+  /* perguntas respondidas da LISTA ATIVA, na ordem do qs — fonte única de
+     navegação, revisão, resumo e progresso. Sem ids duplicados/inativos. */
+  const answeredIds = useMemo(() => qs.filter((q) => answers[q.id] !== undefined).map((q) => q.id), [qs, answers]);
+  const currentId = screen === "flow" ? (editIdx != null ? answeredIds[editIdx] : nextUnanswered?.id) : null;
+  const current = currentId ? qs.find((q) => q.id === currentId) || null : null;
 
   /* rascunho da pergunta corrente: inicializado da resposta existente */
   useEffect(() => {
@@ -82,10 +84,15 @@ export default function Insights() {
           band: a?.band ?? null,
           value: a?.value != null ? String(a.value) : "",
           currency: a?.currency ?? "",
+          unknown: a === null,
         },
       }));
     } else if (current.type === "hours") {
-      setDraft((d) => ({ ...d, [current.id]: { band: a?.band ?? null, value: a?.value != null ? String(a.value) : "" } }));
+      setDraft((d) => ({ ...d, [current.id]: { band: a?.band ?? (a === null ? "nao_sei" : null), value: a?.value != null ? String(a.value) : "" } }));
+    } else if (current.type === "choice") {
+      /* rascunho SEMPRE inicializa da resposta válida: pick antigo não sobrevive
+         a Voltar/Editar após prune */
+      setDraft((d) => ({ ...d, [current.id]: { pick: a != null ? a : null } }));
     } else if (current.type === "currency") {
       setDraft((d) => ({ ...d, [current.id]: { value: a?.value != null ? String(a.value) : "", currency: a?.currency ?? "" } }));
     } else if (current.type === "percent") {
@@ -104,13 +111,13 @@ export default function Insights() {
   const answerLabel = (id) => {
     const a = answers[id];
     const q = qById[id];
-    if (a == null) return "—";
+    if (a == null) return a === null ? ui.naoSeiVol : "—";
     if (id === "volume") {
       const bands = q?.currency || (qs.find((x) => x.id === "volume")?.currency) ? VOLUME_BAND_LABELS[lang].currency : VOLUME_BAND_LABELS[lang].count;
       const bl = a.band ? bands[a.band] : null;
       const unit = (qs.find((x) => x.id === "volume")?.unit) || "";
       const per = (qs.find((x) => x.id === "volume")?.period) || "";
-      const v = a.value != null ? `${nf(lang, a.value)}${a.currency ? ` ${a.currency}` : ""}` : bl;
+      const v = a.value != null ? `${nf(lang, a.value)}${a.currency ? ` ${a.currency}` : ""}` : bl != null ? `${bl}${a.currency ? ` ${a.currency}` : ""}` : ui.naoSeiVol;
       return `${v}${unit ? ` ${unit}` : ""}${per ? ` ${per}` : ""}`;
     }
     if (id === "hoursPerWeek") {
@@ -141,6 +148,10 @@ export default function Insights() {
       return;
     }
     if (current.type === "volume") {
+      if (d.unknown) {
+        advance(id, null); // desconhecido explícito, nunca zero
+        return;
+      }
       const hasBand = d.band != null;
       if (!hasBand && parsed == null) {
         setError(current.required ? ui.erroObrigatorio : "");
@@ -204,37 +215,52 @@ export default function Insights() {
     }
   };
 
-  /** grava a resposta SÓ no Continuar; troca já dada invalida só os dependentes */
+  /** grava a resposta SÓ no Continuar; troca já dada invalida só os dependentes.
+      Não há histórico paralelo: navegado, revisão, resumo e progresso derivam
+      da lista ativa (qs × answers) — nunca de ids já podados. */
   const advance = (id, value) => {
-    const wasEditing = pos < flow.length;
-    setAnswers((prev) => {
-      const changed = prev[id] != null && JSON.stringify(prev[id]) !== JSON.stringify(value);
-      const next = changed ? pruneAnswers(prev, id) : prev;
-      return { ...next, [id]: value };
-    });
-    setFlow((f) => (wasEditing ? f : [...f, id]));
-    setPos(wasEditing ? pos + 1 : flow.length + 1);
+    const changed = answers[id] != null && JSON.stringify(answers[id]) !== JSON.stringify(value);
+    const pruned = changed ? pruneAnswers(answers, id) : answers;
+    const newAnswers = { ...pruned, [id]: value };
+    /* rascunhos dos dependentes podados saem junto com a resposta */
+    const prunedIds = Object.keys(answers).filter((k) => !(k in pruned) && k !== id);
+    setAnswers(newAnswers);
+    if (prunedIds.length > 0) {
+      setDraft((dr) => {
+        const c = { ...dr };
+        prunedIds.forEach((k) => delete c[k]);
+        return c;
+      });
+    }
+    setEditIdx(null); // segue para a próxima pergunta em aberto (ou revisão)
   };
 
   useEffect(() => {
     /* após gravar, decide a próxima tela */
     if (screen !== "flow") return;
-    if (pos < flow.length) return;
+    if (editIdx != null) return;
     if (nextUnanswered) return;
     setScreen("review");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [answers, flow, pos]);
+  }, [answers, editIdx, nextUnanswered]);
 
   const back = () => {
     setError("");
-    if (pos > 0) setPos(pos - 1);
-    else if (screen === "review") setScreen("flow");
+    if (screen === "review") {
+      setScreen("flow");
+      setEditIdx(answeredIds.length > 0 ? answeredIds.length - 1 : null);
+      return;
+    }
+    if (editIdx != null) {
+      if (editIdx > 0) setEditIdx(editIdx - 1);
+      return;
+    }
+    if (answeredIds.length > 0) setEditIdx(answeredIds.length - 1);
   };
 
   const restart = () => {
     setAnswers({});
-    setFlow([]);
-    setPos(0);
+    setEditIdx(null);
     setDraft({});
     setError("");
     setCopied(false);
@@ -243,7 +269,7 @@ export default function Insights() {
   };
 
   const editAt = (idx) => {
-    setPos(idx);
+    setEditIdx(idx);
     setScreen("flow");
   };
 
@@ -253,7 +279,7 @@ export default function Insights() {
     if (screen !== "result") return;
     const L = UI_TEXTS[lang];
     const lines = [`${L.label} — Miranda Faria`];
-    flow.forEach((id) => {
+    answeredIds.forEach((id) => {
       const q = qById[id];
       const v = answers[id];
       if (q && v != null) lines.push(`• ${q.title}: ${answerLabel(id)}`);
@@ -293,7 +319,9 @@ export default function Insights() {
   /* ───────────────────────── render ───────────────────────── */
 
   const total = qs.length;
-  const stepNum = Math.min(pos + 1, flow.length + 1);
+  /* progresso honesto: posição da pergunta corrente NA LISTA ATIVA — nunca
+     um número maior que o total por causa de histórico antigo */
+  const stepNum = current ? Math.max(1, qs.findIndex((q) => q.id === current.id) + 1) : total;
 
   const renderQuestion = () => {
     if (!current) return null;
@@ -360,13 +388,26 @@ export default function Insights() {
                 data-on={d.band === b.id}
                 onClick={() => {
                   setError("");
-                  setDraft((x) => ({ ...x, [current.id]: { ...d, band: b.id } }));
+                  setDraft((x) => ({ ...x, [current.id]: { ...d, band: b.id, value: "", unknown: false } }));
                 }}
               >
                 <span className="mf-dg__optt">{volBands[b.id]}</span>
                 <span className="mf-dg__optd">{`${current.unit || ""} ${current.period || ""}`.trim()}</span>
               </button>
             ))}
+            <button
+              type="button"
+              role="radio"
+              aria-checked={d.unknown === true}
+              className="mf-dg__opt"
+              data-on={d.unknown === true}
+              onClick={() => {
+                setError("");
+                setDraft((x) => ({ ...x, [current.id]: { ...d, unknown: true, band: null, value: "" } }));
+              }}
+            >
+              <span className="mf-dg__optt">{ui.naoSeiVol}</span>
+            </button>
             <label className="mf-dg__field">
               <span className="mf-dg__flabel">{ui.valorExato}</span>
               <input
@@ -377,7 +418,7 @@ export default function Insights() {
                 value={d.value || ""}
                 onChange={(e) => {
                   setError("");
-                  setDraft((x) => ({ ...x, [current.id]: { ...d, value: e.target.value } }));
+                  setDraft((x) => ({ ...x, [current.id]: { ...d, value: e.target.value, band: null, unknown: false } }));
                 }}
               />
             </label>
@@ -466,7 +507,7 @@ export default function Insights() {
         )}
 
         <div className="mf-dg__nav">
-          <button type="button" className="mf-dg__back" onClick={back} disabled={pos === 0 && screen === "flow"}>
+          <button type="button" className="mf-dg__back" onClick={back} disabled={screen === "flow" && editIdx == null && answeredIds.length === 0}>
             {ui.voltar}
           </button>
           <button type="button" className="mf-dg__go" onClick={commit}>
@@ -482,7 +523,7 @@ export default function Insights() {
       <p className="mf-dg__q">{ui.revisar}</p>
       <p className="mf-dg__hint">{ui.revisaoHint}</p>
       <ul className="mf-dg__rev">
-        {flow.map((id, i) => {
+        {answeredIds.map((id, i) => {
           const q = qById[id];
           if (!q) return null;
           return (
@@ -497,7 +538,7 @@ export default function Insights() {
         })}
       </ul>
       <div className="mf-dg__nav">
-        <button type="button" className="mf-dg__back" onClick={() => { if (flow.length) setPos(flow.length - 1); setScreen("flow"); }}>
+        <button type="button" className="mf-dg__back" onClick={back}>
           {ui.voltar}
         </button>
         <button type="button" className="mf-dg__go" onClick={() => setScreen("result")}>
@@ -656,7 +697,7 @@ export default function Insights() {
                   {ui.progress} {stepNum} {ui.de} {total}
                 </span>
                 <span className="mf-dg__progbar">
-                  <span className="mf-dg__progfill" style={{ width: `${Math.min(100, (flow.length / Math.max(total, 1)) * 100)}%` }} />
+                  <span className="mf-dg__progfill" style={{ width: `${Math.min(100, (answeredIds.length / Math.max(total, 1)) * 100)}%` }} />
                 </span>
               </div>
             )}
