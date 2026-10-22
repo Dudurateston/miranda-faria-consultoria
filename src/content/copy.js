@@ -967,7 +967,7 @@ export const cases = {
       process:
         "The fleet guides the site's structure. Each machine is presented with its capacity and reach, and each page leads to a WhatsApp enquiry with the equipment already named in the message.",
       decisions:
-        "Availability and price stay off the page on purpose. Rental is a conversation about weight, height and date: a stale 'available now' would lie more than it sells. The page routes the enquiry; the conversation closes it.",
+        "Choosing equipment depends on weight, height and date. The catalogue presents the technical information and routes the enquiry to a quote conversation, where the business confirms terms and availability.",
       impact:
         "The enquiry identifies the machine and the job, giving the business a useful starting point for the conversation.",
       media: { dir: "rota-forte", shots: 3, video: true },
@@ -1234,7 +1234,7 @@ export const cases = {
       process:
         "A frota orienta a estrutura do site. Cada máquina apresenta capacidade e alcance, e cada página encaminha um pedido de orçamento pelo WhatsApp com o equipamento já identificado na mensagem.",
       decisions:
-        "Disponibilidade e preço ficam fora da página de propósito. Locação é uma conversa sobre peso, altura e data: um 'disponível agora' velho mentiria mais do que venderia. A página encaminha o pedido; a conversa fecha.",
+        "A escolha do equipamento depende de peso, altura e data. O catálogo apresenta as informações técnicas e encaminha o pedido para a conversa de orçamento, onde a empresa confirma condições e disponibilidade.",
       impact:
         "O pedido identifica a máquina e o serviço, dando à empresa um ponto de partida claro para a conversa.",
       media: { dir: "rota-forte", shots: 3, video: true },

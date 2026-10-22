@@ -14,10 +14,10 @@ const presentations = {
       shot('rota-catalogue', '/work/rota-forte/02.webp', 1440, 900,
         'Catálogo com capacidades e solicitação de orçamento.', 'Equipment catalogue with specifications and a quote enquiry.'),
       { id: 'rota-video', type: 'video', src: '/work/rota-forte/video.mp4',
-        poster: '/work/rota-forte/poster.webp', width: 1440, height: 900,
+        poster: '/work/rota-forte/video-poster.webp', width: 1080, height: 608,
         text: {
-          pt: { alt: 'Navegação pelo site Rota Forte.', caption: 'Percurso pelas páginas do site.' },
-          en: { alt: 'Browsing the Rota Forte website.', caption: 'A walkthrough of the website.' },
+          pt: { alt: 'Gravação de uma revisão do site Rota Forte.', caption: 'Navegação em uma das revisões do projeto.' },
+          en: { alt: 'A recording of one revision of the Rota Forte website.', caption: 'A walkthrough of one revision of the project.' },
         } },
       shot('rota-operations', '/work/rota-forte/03.webp', 1440, 900,
         'Apresentação de operações e informações técnicas.', 'Operations and technical information presented on the website.'),

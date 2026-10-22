@@ -52,7 +52,7 @@ function CaseVideo({ item, lang, blocked }) {
   useEffect(() => { if (blocked) videoRef.current?.pause(); }, [blocked]);
 
   return (
-    <figure className="mf-cs__figure mf-cs__video" data-media-id={item.id}>
+    <figure className="mf-cs__figure mf-cs__video" data-media-id={item.id} style={{ '--shot-width': `${item.width}px` }}>
       {failed ? (
         <div>
           <img src={item.poster} width={item.width} height={item.height} alt={item.alt} loading="lazy" />
@@ -60,6 +60,7 @@ function CaseVideo({ item, lang, blocked }) {
         </div>
       ) : (
         <video ref={videoRef} src={item.src} poster={item.poster} width={item.width} height={item.height}
+          style={{ aspectRatio: `${item.width} / ${item.height}` }}
           controls muted playsInline preload="none" aria-label={item.alt}
           onError={() => setFailed(true)}
           onPlay={() => { if (blocked || document.hidden || !visibleRef.current) videoRef.current?.pause(); }}>

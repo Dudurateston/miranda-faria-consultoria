@@ -40,6 +40,14 @@ test('portrait artworks keep true dimensions and restrained display width', () =
   assert.ok(p.chapters.some(c=>c.layout === 'portraits'));
 });
 
+test('Rota video reserves its real aspect ratio and caps display to native width',()=>{
+  const video=config.getCasePresentation('rota-forte','pt').media.find(m=>m.type==='video');
+  assert.deepEqual([video.width,video.height],[1080,608]);
+  const s=readFileSync(new URL('../src/components/CaseShowcase.jsx',import.meta.url),'utf8');
+  assert.match(s,/mf-cs__video.*data-media-id=\{item.id\}.*shot-width/);
+  assert.match(s,/aspectRatio/);
+});
+
 test('LCO original filenames and dimensions remain unchanged', () => {
   const p = config.getCasePresentation?.('advogados-lco','en');
   assert.ok(p, 'LCO presentation available');
@@ -104,6 +112,12 @@ test('Roda case links the exact profile supplied by Eduardo with project managem
 test('image modal opts out of site smooth scrolling',()=>{
   const s=readFileSync(new URL('../src/components/CaseMediaViewer.jsx',import.meta.url),'utf8');
   assert.match(s,/data-lenis-prevent/);
+});
+
+test('original-size image can receive keyboard focus for native panning',()=>{
+  const s=readFileSync(new URL('../src/components/CaseMediaViewer.jsx',import.meta.url),'utf8');
+  assert.match(s,/tabIndex=\{zoomed \? 0 : -1\}/);
+  assert.match(s,/if \(zoomed\) viewportRef.current\?\.focus/);
 });
 
 test('Roda narrative describes the actual pieces, not an unsupported exhibitor template',()=>{

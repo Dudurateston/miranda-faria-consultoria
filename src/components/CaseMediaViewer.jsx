@@ -38,6 +38,10 @@ export default function CaseMediaViewer({ items, activeId, onChange, onClose, op
     viewportRef.current?.scrollTo(0, 0);
   }, [activeId]);
 
+  useEffect(() => {
+    if (zoomed) viewportRef.current?.focus({ preventScroll: true });
+  }, [zoomed]);
+
   if (!item) return null;
 
   const step = direction => onChange(adjacentImageId(items, activeId, direction));
@@ -63,7 +67,8 @@ export default function CaseMediaViewer({ items, activeId, onChange, onClose, op
           <h2 id={titleId}>{en ? 'Project images' : 'Imagens do projeto'}</h2>
           <button ref={closeRef} type="button" onClick={onClose}>{en ? 'Close' : 'Fechar'} <span aria-hidden="true">×</span></button>
         </header>
-        <div className={`mf-viewer__viewport${zoomed ? ' is-original' : ''}`} ref={viewportRef}>
+        <div className={`mf-viewer__viewport${zoomed ? ' is-original' : ''}`} ref={viewportRef}
+          tabIndex={zoomed ? 0 : -1} role="region" aria-label={en ? 'Image area' : 'Área da imagem'}>
           {failed ? (
             <p role="alert">{en ? 'The image could not load. Try opening the original file.' : 'Não foi possível carregar a imagem. Tente abrir o arquivo original.'}</p>
           ) : (
@@ -109,6 +114,7 @@ const viewerCss = `
 .mf-viewer__viewport{flex:1;min-height:0;min-width:0;overflow:auto;padding:clamp(.5rem,2vw,1.5rem);display:flex;align-items:center;justify-content:center;overscroll-behavior:contain}
 .mf-viewer__viewport img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;flex-shrink:0}
 .mf-viewer__viewport.is-original{display:block}
+.mf-viewer__viewport:focus-visible{outline:2px solid var(--copper);outline-offset:-3px}
 .mf-viewer__viewport.is-original img{max-width:none;max-height:none;margin:0 auto}
 .mf-viewer__footer{padding:.65rem clamp(1rem,3vw,2.5rem) calc(.75rem + env(safe-area-inset-bottom));border-top:1px solid var(--hairline);flex-shrink:0}
 .mf-viewer__caption{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;font-size:.875rem;line-height:1.5}

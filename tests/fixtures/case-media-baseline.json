@@ -50,5 +50,16 @@
     "work/rota-forte/poster.webp": "dc1a04eec9613cde350740f3ff73c3c775dcce4f",
     "work/rota-forte/poster@800.webp": "4707a028fa4471a36014154ef7cd7f5f0295e44d",
     "work/rota-forte/video.mp4": "55390c78580fe6ee86427f62220295aa65092a0d"
+  },
+  "derived": {
+    "work/rota-forte/video-poster.webp": {
+      "sha": "7061ca70140b764d4f0454a208d9aeecdd858047",
+      "source": "work/rota-forte/video.mp4",
+      "sourceSha": "55390c78580fe6ee86427f62220295aa65092a0d",
+      "seconds": 2.5,
+      "width": 1080,
+      "height": 608,
+      "method": "ffmpeg -ss 2.5 -i public/work/rota-forte/video.mp4 -frames:v 1 -c:v libwebp -quality 90 public/work/rota-forte/video-poster.webp"
+    }
   }
 }
