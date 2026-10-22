@@ -66,6 +66,12 @@ ACHADO PRÉ-EXISTENTE (não mexi, reportado): /privacidade renderiza em BRANCO c
 
 DIFF: git diff 2aca08e..feat/transicoes (368 linhas; TransitionCurtain.jsx + TransitionLink.jsx). Próximos passos da rodada: revisão Codex → deploy só com ordem; depois portfólio.
 
+## DEPLOY COPY HOME+SOBRE 22/10 ~06h25 — PUBLICADO (hash b83627182a857ff4c8110f5aee4db8c5f382fa1e no oficial 6a74f6e6fbaa381e21a2415b, mirandafaria.com.br)
+
+Autorização persistente do Eduardo (GitHub: diff revisado e aprovado). Diff c3e70f9..b836271 = SÓ HomeSobre.jsx + copy.js + WIP_STATE documental, conferido antes do build. Tag rollback/2026-10-22-c3e70f9 criada no c3e70f9 e enviada ao GitHub antes do deploy (primeira coisa feita). Sitemap lastmod sujo revertido antes do build (árvore 100% no hash). ROLLBACK: git checkout rollback/2026-10-22-c3e70f9 && rm -rf dist && VITE_BASE44_APP_ID=6a74f6e6fbaa381e21a2415b npm run build && BASE44_APP_ID=6a74f6e6fbaa381e21a2415b base44 site deploy --no-build -y.
+
+No ar: bundle index-B-Wb7Kvh.js (confirmado no HTML do domínio e por curl, 390KB). VERIFICACAO AO VIVO (sem tocar no Diagnostico — cria lead): PT hero "Estruturamos a base que sustenta o seu negócio." com CTA WhatsApp; EN hero "We build the foundations your business runs on." com CTA Calendly; secao 2 com 2 paragrafos nos dois idiomas; CTA secao 2 por CLIQUE VISIVEL -> /pt/servicos e /en/servicos; /about lead "Tecnologia aplicada a negócios reais."/"Technology applied to real businesses." com body[1] terminando em "gestão."/"management."; mobile 390 PT/EN overflowX 0; 0 erros JS em tudo. Etapa encerrada aqui — nenhuma outra mudança misturada. Proxima do arco: aprofundamento do diagnostico (desenho separado) / portfólio, à ordem.
+
 ## COPY HOME+SOBRE 22/10 ~06h55 (hash b83627182a857ff4c8110f5aee4db8c5f382fa1e NOVO HEAD da copy/home-sobre, base c3e70f9 PÚBLICA — NÃO publicado, revisão do Eduardo em andamento)
 
 Revisão do 6299d47 pelo Eduardo: layout aprovado, role EN "Consulting & Technology" confirmado. AJUSTES APLICADOS no commit b836271 (4 textos): about.body[1] PT termina em "gestão." e EN em "management." (trechos de voz removidos); teaser diagnóstico encurtado p/ "Responda às perguntas sobre sua rotina e veja uma estimativa inicial." / "Answer the questions about your day-to-day work and see an initial estimate." Valido no build (0 erros). APHUNDIMENTO DO DIAGNÓSTICO: Eduardo pediu; fica como desenho separado, fluxo atual intocado nesta etapa. Estado do 6299d47: primeiro commit da rodada copy (rascunho aplicado); b836271 = estado final da etapa. Deploy só sob ordem.
