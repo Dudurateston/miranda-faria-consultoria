@@ -970,7 +970,7 @@ export const cases = {
         "Availability and price stay off the page on purpose. Rental is a conversation about weight, height and date — a stale 'available now' would lie more than it sells. The page routes the enquiry; the conversation closes it.",
       impact:
         "The enquiry arrives already informed — which machine, which job — and the answer is one message instead of phone tag.",
-      media: { dir: "rota-forte", shots: 3, video: true },
+      media: { dir: "rota-forte", shots: 3, video: true , natural: true },
     },
     {
       slug: "miranda-faria",
@@ -1043,7 +1043,7 @@ export const cases = {
         "The kit is a template, not a finished art: the dashed area says whose message it is, and everything around it stays the event's. Two ratios — post and story — cover the whole feed.",
       impact:
         "The edition's social campaign ran on this system: 79.6 thousand views in the period, over 200 new followers — one visual language across every exhibitor's post.",
-      media: { dir: "roda-agro-marca", shots: 4, video: false },
+      media: { dir: "roda-agro-marca", shots: 4, video: false , natural: true },
     },
     {
       slug: "uaiso-travel",
@@ -1071,7 +1071,7 @@ export const cases = {
       name: "LCO Advogados",
       sector: "Corporate law boutique",
       year: "2026",
-      media: { dir: "advogados-lco", shots: 3, video: false },
+      media: { dir: "advogados-lco", shots: 3, video: false , natural: true },
       link: "https://advogadoslco.com.br",
       summary:
         "A corporate-law boutique — corporate, tax and wealth structuring — in a site that builds trust before the first conversation.",
@@ -1237,7 +1237,7 @@ export const cases = {
         "Disponibilidade e preço ficam fora da página de propósito. Locação é uma conversa sobre peso, altura e data — um 'disponível agora' velho mentiria mais do que venderia. A página encaminha o pedido; a conversa fecha.",
       impact:
         "O pedido chega já informado — qual máquina, qual serviço — e a resposta é uma mensagem em vez de pingue-pongue de telefone.",
-      media: { dir: "rota-forte", shots: 3, video: true },
+      media: { dir: "rota-forte", shots: 3, video: true , natural: true },
     },
     {
       slug: "miranda-faria",
@@ -1310,7 +1310,7 @@ export const cases = {
         "O kit é template, não arte fechada: a área pontilhada diz de quem é a mensagem, e tudo ao redor permanece da feira. Duas proporções — post e story — cobrem o feed inteiro.",
       impact:
         "A campanha social da edição rodou nesse sistema: 79,6 mil visualizações no período e mais de 200 novos seguidores — uma linguagem visual única em cada post de expositor.",
-      media: { dir: "roda-agro-marca", shots: 4, video: false },
+      media: { dir: "roda-agro-marca", shots: 4, video: false , natural: true },
     },
     {
       slug: "uaiso-travel",
@@ -1338,7 +1338,7 @@ export const cases = {
       name: "LCO Advogados",
       sector: "Advocacia empresarial",
       year: "2026",
-      media: { dir: "advogados-lco", shots: 3, video: false },
+      media: { dir: "advogados-lco", shots: 3, video: false , natural: true },
       link: "https://advogadoslco.com.br",
       summary:
         "Boutique jurídica de advocacia empresarial — societário, tributário e patrimonial — em um site que constrói confiança antes da primeira conversa.",

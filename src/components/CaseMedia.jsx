@@ -66,7 +66,17 @@ export default function CaseMedia({ media, name }) {
     );
   }
 
-  const { dir, shots = 0, video = false } = media;
+  const { dir, shots = 0, video = false, natural = false } = media;
+  /* Piloto (3 cases): shots em proporcao intrinseca por ARQUIVO, sem cover 16:9.
+     Verticais/quadradas ficam completas via contain, teto editorial 85vh, fundo osso.
+     Roda 03 (512x917, original do Drive) renderiza no maximo na largura da fonte:
+     sem upscale, sem detalhe inventado. Demais cases: comportamento 16:9 inalterado. */
+  const SHOTS_DIMS = {
+    "rota-forte/01": [1440, 900], "rota-forte/02": [1440, 900], "rota-forte/03": [1440, 900],
+    "roda-agro-marca/01": [1600, 893], "roda-agro-marca/02": [892, 1600],
+    "roda-agro-marca/03": [512, 917], "roda-agro-marca/04": [1600, 1600],
+    "advogados-lco/01": [1440, 800], "advogados-lco/02": [1440, 800], "advogados-lco/03": [1600, 900],
+  };
   const poster = `/work/${dir}/poster.webp`;
 
   return (
@@ -99,13 +109,18 @@ export default function CaseMedia({ media, name }) {
 
         {Array.from({ length: shots }, (_, i) => {
           const n = String(i + 1).padStart(2, "0");
+          const dims = natural ? SHOTS_DIMS[`${dir}/${n}`] : null;
+          const cap512 = natural && dir === "roda-agro-marca" && n === "03";
           return (
-            <figure className="mf-cm" key={n}>
+            <figure className={`mf-cm${natural ? " mf-cm--natural" : ""}`} key={n}>
               <img
-                className="mf-cm__img"
+                className={`mf-cm__img${cap512 ? " mf-cm__img--cap512" : ""}`}
+                {...(dims ? { width: dims[0], height: dims[1], style: { aspectRatio: `${dims[0]} / ${dims[1]}` } } : {})}
                 src={`/work/${dir}/${n}.webp`}
-                srcSet={`/work/${dir}/${n}@800.webp 800w, /work/${dir}/${n}.webp 1600w`}
-                sizes="(max-width: 900px) 100vw, 1180px"
+                {...(natural ? {} : {
+                  srcSet: `/work/${dir}/${n}@800.webp 800w, /work/${dir}/${n}.webp 1600w`,
+                  sizes: "(max-width: 900px) 100vw, 1180px",
+                })}
                 alt={`${name} — tela ${i + 1}`}
                 loading="lazy"
                 decoding="async"
@@ -136,4 +151,14 @@ const mediaCss = `
   -webkit-mask-image:linear-gradient(180deg,transparent 0%,black 9%,black 91%,transparent 100%);
   mask-image:linear-gradient(180deg,transparent 0%,black 9%,black 91%,transparent 100%);
 }
+/* Piloto natural: sem cover, o arquivo manda na proporcao. Contain + teto 85vh
+   mantem verticais/quadradas completas sobre fundo osso. O quadro (borda fina
+   do divisor) e preservado igual. */
+.mf-cm--natural{background:var(--bone)}
+.mf-cm--natural .mf-cm__img{
+  object-fit:contain;
+  width:100%;height:auto;
+  max-height:85vh;
+}
+.mf-cm--natural .mf-cm__img--cap512{max-width:512px;margin-inline:auto}
 `;
