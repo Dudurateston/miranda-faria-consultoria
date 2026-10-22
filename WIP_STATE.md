@@ -66,7 +66,11 @@ ACHADO PRÉ-EXISTENTE (não mexi, reportado): /privacidade renderiza em BRANCO c
 
 DIFF: git diff 2aca08e..feat/transicoes (368 linhas; TransitionCurtain.jsx + TransitionLink.jsx). Próximos passos da rodada: revisão Codex → deploy só com ordem; depois portfólio.
 
-## COPY HOME+SOBRE 22/10 ~06h40 (hash 6299d471eb6c1613e59c7b5032d2ce3ff165926f na branch copy/home-sobre, base c3e70f9 PÚBLICA — NÃO publicado, aguarda revisão do Eduardo)
+## COPY HOME+SOBRE 22/10 ~06h55 (hash 2611f12 NOVO HEAD da copy/home-sobre, base c3e70f9 PÚBLICA — NÃO publicado, revisão do Eduardo em andamento)
+
+Revisão do 6299d47 pelo Eduardo: layout aprovado, role EN "Consulting & Technology" confirmado. AJUSTES APLICADOS no commit 2611f12 (4 textos): about.body[1] PT termina em "gestão." e EN em "management." (trechos de voz removidos); teaser diagnóstico encurtado p/ "Responda às perguntas sobre sua rotina e veja uma estimativa inicial." / "Answer the questions about your day-to-day work and see an initial estimate." Valido no build (0 erros). APHUNDIMENTO DO DIAGNÓSTICO: Eduardo pediu; fica como desenho separado, fluxo atual intocado nesta etapa. Estado do 6299d47: primeiro commit da rodada copy (rascunho aplicado); 2611f12 = estado final da etapa. Deploy só sob ordem.
+
+HISTORICO: primeiro commit da etapa foi o 6299d471eb6c1613e59c7b5032d2ce3ff165926f
 
 Escopo da etapa: SÓ copy Home+Sobre PT/EN, aplicando o rascunho docs/editorial/2026-10-21-copy-fase2.md (doc167154cf, origin/codex/editorial-refino-fase2). Voz de companhia preservando hero visual/ordem do Claude; Eduardo = fundador responsável; SEM equipe/números/locais inventados.
 
