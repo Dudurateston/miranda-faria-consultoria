@@ -152,11 +152,11 @@ export default function SiteNav({ revealAfterHero = false }) {
       cap: lang === "pt" ? "Sobre · Miranda Faria" : "About · Miranda Faria",
       rows: lang === "pt"
         ? [
-            { name: "Quem faz", lead: "Eduardo Miranda — Piumhi/MG, escritório em Belo Horizonte. Uma só mão do diagnóstico à entrega." },
+            { name: "A Miranda Faria", lead: "Consultoria, design e tecnologia para conectar a presença digital à rotina da empresa." },
             { name: "Trajetória", lead: "Engenharia, design e gestão aplicadas a negócios que existem de verdade." },
           ]
         : [
-            { name: "Who runs it", lead: "Eduardo Miranda — Minas Gerais, office in Belo Horizonte. One hand from diagnosis to delivery." },
+            { name: "Miranda Faria", lead: "Consulting, design and technology connecting a business’s digital presence with its daily operations." },
             { name: "Trajectory", lead: "Engineering, design and management applied to businesses that actually exist." },
           ],
     },
@@ -169,11 +169,11 @@ export default function SiteNav({ revealAfterHero = false }) {
       rows: lang === "pt"
         ? [
             { name: "O método", lead: "Diagnóstico primeiro, demo na primeira semana, entrega nas mãos do dono." },
-            { name: "MotionCurves", lead: "Easing artesanal, zero bibliotecas — motion como identidade, não enfeite." },
+            { name: "MotionCurves", lead: "Curvas de animação desenhadas no código e integradas à identidade do site." },
           ]
         : [
             { name: "The method", lead: "Diagnosis first, a demo in the first week, delivery in the owner's hands." },
-            { name: "MotionCurves", lead: "Hand-tuned easing, zero libraries — motion as identity, not decoration." },
+            { name: "MotionCurves", lead: "Animation curves drawn in code and integrated into the site’s identity." },
           ],
     },
     {
@@ -184,11 +184,11 @@ export default function SiteNav({ revealAfterHero = false }) {
       cap: lang === "pt" ? "Diagnóstico · prioridades e plano" : "Diagnosis · priorities and a plan",
       rows: lang === "pt"
         ? [
-            { name: "Diagnóstico", lead: "Um questionário sobre a sua rotina que devolve prioridades e um plano inicial — antes de falar de preço." },
+            { name: "Diagnóstico", lead: "Responda sobre a rotina da empresa e receba prioridades com um plano inicial." },
             { name: "Para quem", lead: "Dono de operação que já sente o gargalo mas ainda não colocou em números." },
           ]
         : [
-            { name: "Diagnosis", lead: "A questionnaire about your routine that returns priorities and an initial plan — before any talk of price." },
+            { name: "Diagnosis", lead: "Answer questions about your business’s routine and receive priorities with an initial plan." },
             { name: "For whom", lead: "Owners who already feel the bottleneck but haven't put it in numbers yet." },
           ],
     },

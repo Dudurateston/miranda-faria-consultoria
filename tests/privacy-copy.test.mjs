@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
+import test from 'node:test';
+const source=readFileSync(new URL('../src/pages/PrivacyPolicy.jsx',import.meta.url),'utf8');
+const sections=name=>runInNewContext(source.match(new RegExp('const '+name+' = (\\[[\\s\\S]*?\\n\\]);'))[1]);
+const pt=JSON.stringify(sections('SECTIONS')),en=JSON.stringify(sections('SECTIONS_EN'));
+test('privacy text covers actual contact form data',()=>{assert.match(pt,/formulário de contato/);assert.match(en,/contact form/);});
+test('new diagnostic does not claim automatic lead collection',()=>{assert.match(pt,/não cria um registro automático de lead/);assert.match(en,/does not create an automatic lead record/);});
+test('revocation is not described as server-side deletion',()=>{assert.equal(pt.includes('exclusão é total'),false);assert.match(pt,/não apaga automaticamente/);});
+test('privacy prose has no dashes or blanket never-collects-name claim',()=>{assert.equal(/[—–]|O que nunca registramos|What we never record/.test(pt+en),false);});

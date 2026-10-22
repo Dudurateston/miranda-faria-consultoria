@@ -6,84 +6,119 @@ import { EMAIL } from "@/lib/site";
 
 /**
  * Política de Privacidade — a página é o contrato do site com quem
- * visita: medição própria, sem terceiros, sem dados pessoais. No
+ * visita: medição própria, formulário e serviços externos. No
  * mesmo idiagem visual do resto, com revogação de consentimento em
  * um toque (LGPD).
  */
 
 const SECTIONS = [
   {
-    t: "Em uma frase",
-    p: [
-      "Este site usa medição própria anônima — eventos que dizem quais páginas ajudam e quais atrapalham — e, também, o Google Analytics para medir visitas e comportamento. Não vendemos e não compartilhamos dados com ninguém além do processamento do próprio Google Analytics, que usa cookies sob a política de privacidade do Google.",
-    ],
+    "t": "Em uma frase",
+    "p": [
+      "O site usa registros de navegação para entender o uso das páginas e recebe os dados que você envia pelo formulário de contato. O Google Analytics e os serviços externos de contato têm políticas próprias. Não vendemos dados pessoais."
+    ]
   },
   {
-    t: "Quem trata os dados",
-    p: [
-      "Eduardo Miranda Faria, consultoria e tecnologia, Brasil. Para qualquer dúvida sobre privacidade, escreva para o e-mail no fim desta página — respondemos em até 15 dias.",
-    ],
+    "t": "Quem trata os dados",
+    "p": [
+      "Eduardo Miranda Faria, consultoria e tecnologia, Brasil. Dúvidas e solicitações sobre privacidade podem ser enviadas ao e-mail indicado no fim desta página."
+    ]
   },
   {
-    t: "O que é registrado",
-    p: [
-      "Com o seu aceite no aviso de privacidade, registramos: as páginas visitadas, a origem da visita (de onde você veio e parâmetros de campanha), a categoria do aparelho (celular, tablet ou computador), o idioma da visita, cliques nos botões de WhatsApp e a conclusão do diagnóstico — apenas as respostas escolhidas, nada que identifique você.",
-      "O que nunca registramos: nome, e-mail, telefone, IP armazenado, ou qualquer dado que permita identify você. A sessão é um número aleatório guardado apenas no seu navegador, que expira após 30 minutos de inatividade.",
-      "Além dessa medição própria, o Google Analytics registra visitas e navegação por meio de cookies do Google, nos termos da política de privacidade deles. Nenhuma informação sua que apareça aqui no site é enviada a ele.",
-    ],
+    "t": "O que é registrado",
+    "p": [
+      "A medição própria registra eventos de navegação após o aceite, como páginas visitadas, origem da visita, parâmetros de campanha, categoria do aparelho, idioma e interações. A decisão do aviso de privacidade também é registrada.",
+      "Quando você envia o formulário de contato, são registrados nome, e-mail, empresa quando informada, tipo de projeto, mensagem, preferência de contato por WhatsApp e idioma. Esses dados apoiam a análise e a resposta ao pedido. O formulário é processado pela plataforma Base44.",
+      "A sessão da medição própria usa um identificador aleatório no navegador, renovado após 30 minutos de inatividade. O Google Analytics também mede visitas e navegação por seus próprios recursos."
+    ]
   },
   {
-    t: "Consentimento e revogação",
-    p: [
-      "A medição própria nada grava antes do seu aceite. O Google Analytics, por decisão de quem publica o site, carrega desde o primeiro acesso; para não ser medido por ele, bloqueie ou limpe os cookies do navegador. Para a medição própria, revogue abaixo — a revogação é imediata.",
-    ],
+    "t": "Diagnóstico",
+    "p": [
+      "O cálculo do Diagnóstico acontece no navegador. O novo fluxo não cria um registro automático de lead ao apresentar o resultado. Você pode editar e copiar o resumo e escolher se deseja compartilhá-lo pelos links de contato. Isso não substitui os recursos de navegação, hospedagem e medição descritos nesta página."
+    ]
   },
   {
-    t: "Sobre o WhatsApp",
-    p: [
-      "Quando você chama no WhatsApp, a conversa passa a existir na plataforma da Meta, sob a política de privacidade deles. O clique de saída é contado aqui; o conteúdo da conversa, nunca.",
-    ],
+    "t": "Consentimento e revogação",
+    "p": [
+      "As preferências abaixo controlam os eventos de navegação da medição própria. A revogação interrompe esses eventos neste navegador e remove o identificador local da sessão. Ela não apaga automaticamente registros já armazenados no servidor. Para solicitar informações ou exclusão, use o e-mail de contato.",
+      "Na configuração atual, o Google Analytics carrega desde o primeiro acesso. O controle da medição própria abaixo não desativa esse serviço; seus recursos e cookies seguem a política do Google."
+    ]
   },
   {
-    t: "Seus direitos",
-    p: [
-      "Nos termos da Lei Geral de Proteção de Dados (Lei 13.709/2018, art. 18), você pode confirmar a existência de tratamento, acessar, corrigir, solicitar exclusão e portabilidade dos seus dados, além de revogar consentimentos. Como os registros são anônimos, na prática a exclusão é total: basta revogar ou pedir por e-mail.",
-    ],
+    "t": "Serviços externos",
+    "p": [
+      "A Base44 fornece a plataforma de execução e processamento do formulário. Ao abrir WhatsApp ou Calendly, você passa a usar o serviço escolhido, sujeito à política de privacidade dele. O conteúdo de uma conversa nesses serviços não é registrado pelo componente do Diagnóstico."
+    ]
   },
   {
-    t: "Retenção",
-    p: [
-      "Eventos anônimos são mantidos apenas enquanto servem à melhoria do site e podem ser excluídos a qualquer momento, no todo ou em parte, a seu pedido.",
-    ],
+    "t": "Seus direitos",
+    "p": [
+      "Nos termos da LGPD, você pode solicitar confirmação de tratamento, acesso, correção, informação sobre compartilhamento, portabilidade, eliminação quando aplicável e revogação de consentimento. Envie a solicitação ao e-mail abaixo para análise conforme a legislação."
+    ]
   },
+  {
+    "t": "Retenção",
+    "p": [
+      "A retenção considera a finalidade do atendimento, da medição e as obrigações aplicáveis. Você pode solicitar informações sobre os registros e sua exclusão pelo e-mail de contato. Revogar a medição no navegador é uma ação diferente de solicitar a eliminação dos dados já registrados."
+    ]
+  }
 ];
 
 
 /* EN — espelho juridico das secoes PT (route /en/privacidade) */
 const SECTIONS_EN = [
-  { t: "In one sentence", p: [
-    "This site uses its own anonymous measurement — events that tell which pages help and which get in the way — and also Google Analytics to measure visits and behavior. We do not sell or share data with anyone beyond Google Analytics's own processing, which uses cookies under Google's privacy policy.",
-  ]},
-  { t: "Who processes the data", p: [
-    "Eduardo Miranda Faria, consulting and technology, Brazil. For any privacy question, write to the email at the end of this page — we reply within 15 days.",
-  ]},
-  { t: "What is recorded", p: [
-    "With your consent in the privacy notice, we record: the pages visited, the origin of the visit (where you came from and campaign parameters), the device category (phone, tablet or computer), the visit language, clicks on WhatsApp buttons and completion of the diagnostic — only the chosen answers, nothing that identifies you.",
-    "What we never record: name, email, phone, stored IP, or any data that could identify you. The session is a random number kept only in your browser, expiring after 30 minutes of inactivity.",
-    "Beyond our own measurement, Google Analytics records visits and navigation through Google cookies, under their privacy policy. None of your information shown on this site is sent to it.",
-  ]},
-  { t: "Consent and revocation", p: [
-    "Our own measurement records nothing before your consent. Google Analytics, by the publisher's decision, loads from the first visit; to avoid being measured by it, block or clear your browser cookies. For our own measurement, revoke below — revocation is immediate.",
-  ]},
-  { t: "About WhatsApp", p: [
-    "When you call on WhatsApp, the conversation lives on Meta's platform, under their privacy policy. The exit click is counted here; the conversation content, never.",
-  ]},
-  { t: "Your rights", p: [
-    "Under Brazil's General Data Protection Law (Law 13.709/2018, art. 18), you can confirm the existence of processing, access, correct, request deletion and portability of your data, and revoke consents. Since records are anonymous, deletion is in practice total: just revoke here or request by email.",
-  ]},
-  { t: "Retention", p: [
-    "Anonymous events are kept only while they help improve the site and can be deleted at any time, fully or partially, at your request.",
-  ]},
+  {
+    "t": "In one sentence",
+    "p": [
+      "The site uses navigation records to understand how its pages are used and receives the details you submit through the contact form. Google Analytics and external contact services have their own policies. We do not sell personal data."
+    ]
+  },
+  {
+    "t": "Who processes the data",
+    "p": [
+      "Eduardo Miranda Faria, consulting and technology, Brazil. Privacy questions and requests can be sent to the email listed at the end of this page."
+    ]
+  },
+  {
+    "t": "What is recorded",
+    "p": [
+      "After consent, our own measurement records navigation events such as pages visited, visit origin, campaign parameters, device category, language and interactions. The choice made in the privacy notice is also recorded.",
+      "When you submit the contact form, it records your name, email, company if provided, project type, message, WhatsApp contact preference and language. These details support the review of and response to your request. The form is processed through the Base44 platform.",
+      "Our own measurement session uses a random browser identifier, renewed after 30 minutes of inactivity. Google Analytics also measures visits and navigation through its own resources."
+    ]
+  },
+  {
+    "t": "Business diagnostic",
+    "p": [
+      "The diagnostic calculation runs in the browser. The new flow does not create an automatic lead record when displaying the result. You can edit and copy the summary and decide whether to share it through the contact links. This is separate from the navigation, hosting and measurement resources described on this page."
+    ]
+  },
+  {
+    "t": "Consent and revocation",
+    "p": [
+      "The preferences below control navigation events in our own measurement. Revoking consent stops those events in this browser and removes the local session identifier. It does not automatically delete records already stored on the server. Use the contact email to request information or deletion.",
+      "In the current configuration, Google Analytics loads from the first visit. The own-measurement control below does not disable that service; its resources and cookies follow Google’s policy."
+    ]
+  },
+  {
+    "t": "External services",
+    "p": [
+      "Base44 provides the platform used to run the site and process its contact form. Opening WhatsApp or Calendly takes you to the chosen service, under its privacy policy. The diagnostic component does not record conversations held in those services."
+    ]
+  },
+  {
+    "t": "Your rights",
+    "p": [
+      "Under Brazil’s LGPD, you can request confirmation of processing, access, correction, sharing information, portability, deletion where applicable and withdrawal of consent. Send your request to the email below for review under the law."
+    ]
+  },
+  {
+    "t": "Retention",
+    "p": [
+      "Retention considers the purposes of enquiries and measurement and applicable obligations. You can use the contact email to request information about records and their deletion. Revoking browser measurement is different from requesting deletion of data already recorded."
+    ]
+  }
 ];
 
 export default function PrivacyPolicy() {
@@ -114,7 +149,7 @@ export default function PrivacyPolicy() {
         </Link>
         <p className="mf-label">Legal · LGPD</p>
         <h1 className="mf-priv__title">{en ? "Privacy Policy" : "Política de Privacidade"}</h1>
-        <p className="mf-priv__updated">{en ? "Last updated: September 2026" : "Última atualização: setembro de 2026"}</p>
+        <p className="mf-priv__updated">{en ? "Last updated: 22 October 2026" : "Última atualização: 22 de outubro de 2026"}</p>
 
         <div className="mf-priv__sections">
           {S.map((s) => (
@@ -139,9 +174,9 @@ export default function PrivacyPolicy() {
             <p className="mf-priv__rlabel">{en ? "Your measurement consent" : "Seu consentimento de medição"}</p>
             <p className="mf-priv__rstate">
               {consent === "granted"
-                ? en ? "Granted — anonymous events are being recorded." : "Concedido — eventos anônimos estão sendo registrados."
+                ? en ? "Own navigation measurement is enabled." : "Medição própria de navegação ativada."
                 : consent === "denied"
-                ? en ? "Denied — nothing beyond the essential is recorded." : "Recusado — nada além do essencial é registrado."
+                ? en ? "Own navigation measurement is disabled in this browser." : "Medição própria de navegação desativada neste navegador."
                 : en ? "Not yet decided in the privacy notice." : "Ainda não decidido no aviso de privacidade."}
             </p>
             {consent === "granted" ? (

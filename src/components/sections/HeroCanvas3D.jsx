@@ -571,7 +571,7 @@ function Network3D({ lang, path }) {
     <div ref={mount} className="mf-hero__net3d">
       {hint && (
         <span className="mf-hero__hint" aria-hidden="true">
-          {lang === "en" ? "drag to spin · click the nodes — they're the services" : "arraste para girar · clique nos nós — são os serviços"}
+          {lang === "en" ? "Drag to rotate. Select a node to explore the services." : "Arraste para girar. Clique nos nós para conhecer os serviços."}
         </span>
       )}
       {label && (
@@ -588,3 +588,4 @@ function Network3D({ lang, path }) {
 }
 
 export default Network3D;
+

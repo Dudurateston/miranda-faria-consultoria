@@ -73,7 +73,7 @@ export function usePageTitle(pageTitle, pageKey) {
 
   useEffect(() => {
     const m = copy[lang].meta;
-    document.title = pageTitle ? `${pageTitle} — ${copy[lang].home.wordmark}` : m.title;
+    document.title = pageTitle ? `${pageTitle} · ${copy[lang].home.wordmark}` : m.title;
 
     const desc = (pageKey && m.pages[pageKey]) || m.description;
     const url = `${window.location.origin}${window.location.pathname}`;
@@ -100,3 +100,4 @@ export function usePageTitle(pageTitle, pageKey) {
        tratadas la. */
   }, [lang, pageTitle, pageKey]);
 }
+

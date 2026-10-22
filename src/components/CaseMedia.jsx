@@ -77,7 +77,7 @@ export default function CaseMedia({ media, name }) {
             {/* Sem preferencia de movimento reduzida o video toca; com
                 ela, fica so o quadro de poster. */}
             {reduced ? (
-              <img className="mf-cm__img" src={poster} alt={`${name} — interface`} loading="lazy" />
+              <img className="mf-cm__img" src={poster} alt={`${name}: interface`} loading="lazy" />
             ) : (
               <video
                 key={dir}
@@ -89,7 +89,7 @@ export default function CaseMedia({ media, name }) {
                 loop
                 playsInline
                 preload="none"
-                aria-label={`${name} — gravação da interface`}
+                aria-label={`${name}: gravação da interface`}
               >
                 <source src={`/work/${dir}/video.mp4`} type="video/mp4" />
               </video>
@@ -106,7 +106,7 @@ export default function CaseMedia({ media, name }) {
                 src={`/work/${dir}/${n}.webp`}
                 srcSet={`/work/${dir}/${n}@800.webp 800w, /work/${dir}/${n}.webp 1600w`}
                 sizes="(max-width: 900px) 100vw, 1180px"
-                alt={`${name} — tela ${i + 1}`}
+                alt={`${name}: tela ${i + 1}`}
                 loading="lazy"
                 decoding="async"
               />

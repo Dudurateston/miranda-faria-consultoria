@@ -110,7 +110,7 @@ const jsErrs = [];
   const body = await p.textContent('body');
   const est = await p.locator('.mf-dg__estnum').first().textContent();
   t('EN: comissão em /month (sem "/mês", sem "comissão")', /\/month/.test(est) && !/\/mês/.test(body) && !/comissão/.test(body), est);
-  t('EN: bruta "potentially avoidable commission — gross"', /potentially avoidable commission — gross/.test(body));
+  t('EN: bruta "potentially avoidable commission, gross"', /potentially avoidable commission, gross/.test(body));
   const ta = await p.locator('textarea.mf-dg__ta').inputValue();
   t('resumo EN: gross avoidable commission + BRL/month (sem PT)', /gross avoidable commission/.test(ta) && /BRL\/month/.test(ta) && !/\/mês|comissão/.test(ta), ta);
   t('resumo EN: desconhecido de horas incluído ("I don\'t know")', /I don't know/.test(ta), ta);
@@ -176,3 +176,4 @@ const jsErrs = [];
 await b.close();
 console.log(`\n${pass} ok, ${fail} falha(s)`);
 process.exit(fail ? 1 : 0);
+

@@ -43,7 +43,7 @@ export default function LogoEasterEgg() {
       aria-label="Miranda Faria"
       onClick={() => setOpen(false)}
     >
-      <img className="mf-egg__anim" src={LOGO_ANIM_GIF} alt="Miranda Faria — assinatura animada" />
+      <img className="mf-egg__anim" src={LOGO_ANIM_GIF} alt="Assinatura animada da Miranda Faria" />
       <span className="mf-egg__hint">clique para fechar · esc</span>
       <style>{`
 .mf-egg{
@@ -67,3 +67,4 @@ export default function LogoEasterEgg() {
     </div>
   );
 }
+

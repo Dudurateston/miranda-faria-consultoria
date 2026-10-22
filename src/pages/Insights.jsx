@@ -459,7 +459,7 @@ export default function Insights() {
                     setDraft((x) => ({ ...x, [current.id]: { ...d, currency: e.target.value } }));
                   }}
                 >
-                  <option value="">—</option>
+                  <option value="">{lang === "pt" ? "Selecione" : "Choose"}</option>
                   {CURRENCIES.map((c) => (
                     <option key={c} value={c}>{c}</option>
                   ))}
@@ -496,7 +496,7 @@ export default function Insights() {
                   setDraft((x) => ({ ...x, [current.id]: { ...d, currency: e.target.value } }));
                 }}
               >
-                <option value="">—</option>
+                <option value="">{lang === "pt" ? "Selecione" : "Choose"}</option>
                 {CURRENCIES.map((c) => (
                   <option key={c} value={c}>{c}</option>
                 ))}
@@ -664,7 +664,7 @@ export default function Insights() {
               <ul className="mf-dg__whys mf-dg__whys--miss">
                 {result.missingData.map((m) => (
                   <li key={m.id}>
-                    <span className="mf-dg__whya">— {NEXT_STEP_TEXTS[lang][m.id]}</span>
+                    <span className="mf-dg__whya">{NEXT_STEP_TEXTS[lang][m.id]}</span>
                   </li>
                 ))}
               </ul>
@@ -991,3 +991,4 @@ export default function Insights() {
     </>
   );
 }
+

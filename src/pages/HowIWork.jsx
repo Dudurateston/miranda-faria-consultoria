@@ -33,6 +33,9 @@ export default function HowIWork() {
       {t.science && (
         <div className="mf-hw__sciencewrap">
           <p className="mf-hw__science">{t.science}</p>
+          <a className="mf-hw__source" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1819486" target="_blank" rel="noopener noreferrer">
+            {lang === "en" ? "Read the study" : "Leia a pesquisa"}
+          </a>
         </div>
       )}
       <MfRule />
@@ -274,7 +277,10 @@ export default function HowIWork() {
         .mf-hw__sciencewrap .mf-hw__science{max-width:min(62ch,var(--max-width-page));margin-left:auto;margin-right:auto}
         @media (min-width:900px){.mf-hw__sciencewrap{max-width:var(--max-width-page);margin:0 auto;box-sizing:content-box}.mf-hw__sciencewrap .mf-hw__science{margin-left:0}}
         .mf-hw__science{font-family:var(--font-mono);font-size:12px;line-height:1.7;color:var(--color-text-secondary);max-width:62ch;margin-top:1.1rem;border-left:2px solid var(--color-accent);padding-left:1rem}
+        .mf-hw__source{display:block;width:fit-content;max-width:62ch;margin:0 auto;padding:.5rem 0;font-family:var(--font-body);font-size:.85rem;color:var(--color-accent);text-underline-offset:.2em}
+        @media(min-width:900px){.mf-hw__source{margin-left:1rem}}
       `}</style>
     </>
   );
 }
+

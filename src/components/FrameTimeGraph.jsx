@@ -164,7 +164,7 @@ export default function FrameTimeGraph() {
           const verdict =
             fps >= 55 ? "✓ seu aparelho segura 60fps"
             : fps >= 40 ? "seu aparelho segura bem"
-            : "seu aparelho sofre — solte o drag";
+            : "A carga aumentou. Solte o arrasto.";
           setHud({ ms: Math.min(99, Math.round(avg * 10) / 10), fps, verdict });
           statAcc = 0;
           statFrames = 0;
@@ -284,10 +284,11 @@ export default function FrameTimeGraph() {
         className="mf-tf__load-input"
       />
       <figcaption className="mf-tf__hud" aria-hidden="true">
-        <span>{hud.ms > 0 ? `${hud.ms} ms/frame` : "—"}</span>
+        <span>{hud.ms > 0 ? `${hud.ms} ms/frame` : "…"}</span>
         <span>{hud.fps > 0 ? `${hud.fps} fps` : "measuring"}</span>
         <span>{hud.verdict || "drag → load"}</span>
       </figcaption>
     </figure>
   );
 }
+

@@ -1,0 +1,346 @@
+{
+  "CASE_SLUGS": [
+    "queijos-serra",
+    "roda-agro",
+    "paulo-henrique",
+    "motormoura",
+    "1000-pecas",
+    "rota-forte",
+    "miranda-faria",
+    "motormoura-marca",
+    "1000-pecas-marca",
+    "roda-agro-marca",
+    "uaiso-travel",
+    "advogados-lco",
+    "sevalho-controladoria",
+    "vaf-global"
+  ],
+  "PRACTICE_SLUGS": [
+    "gestao",
+    "desenvolvimento",
+    "design",
+    "automacao"
+  ],
+  "records": {
+    "en": [
+      {
+        "slug": "queijos-serra",
+        "practice": "gestao",
+        "year": "2024",
+        "role": "Direction, design & development",
+        "media": {
+          "dir": "queijos-serra",
+          "shots": 3,
+          "video": true
+        }
+      },
+      {
+        "slug": "roda-agro",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Direction, design & development",
+        "media": {
+          "dir": "roda-agro",
+          "shots": 3,
+          "video": false
+        }
+      },
+      {
+        "slug": "paulo-henrique",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Direction, design & development",
+        "media": {
+          "dir": "paulo-henrique",
+          "shots": 3,
+          "video": true
+        }
+      },
+      {
+        "slug": "motormoura",
+        "practice": "gestao",
+        "year": "2026",
+        "role": "Direction, design & development",
+        "media": {
+          "dir": "motormoura",
+          "shots": 3,
+          "video": false
+        },
+        "link": "https://motormouraequipamentos.com.br"
+      },
+      {
+        "slug": "1000-pecas",
+        "practice": "gestao",
+        "year": "2026",
+        "role": "Direction, design & development",
+        "media": {
+          "dir": "1000-pecas",
+          "shots": 3,
+          "video": true
+        }
+      },
+      {
+        "slug": "rota-forte",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Direction, design & development",
+        "media": {
+          "dir": "rota-forte",
+          "shots": 3,
+          "video": true
+        }
+      },
+      {
+        "slug": "miranda-faria",
+        "practice": "design",
+        "year": "2026",
+        "role": "Direction, design & development",
+        "media": {
+          "dir": "miranda-faria",
+          "shots": 5,
+          "video": true
+        }
+      },
+      {
+        "slug": "motormoura-marca",
+        "practice": "design",
+        "year": "2026",
+        "role": "Direction, design & development",
+        "media": {
+          "dir": "motormoura-marca",
+          "shots": 3,
+          "video": false
+        }
+      },
+      {
+        "slug": "1000-pecas-marca",
+        "practice": "design",
+        "year": "2026",
+        "role": "Direction, design & development",
+        "media": {
+          "dir": "1000-pecas-marca",
+          "shots": 1,
+          "video": false
+        }
+      },
+      {
+        "slug": "roda-agro-marca",
+        "practice": "design",
+        "year": "2026",
+        "role": "Direction, design & development",
+        "media": {
+          "dir": "roda-agro-marca",
+          "shots": 4,
+          "video": false
+        }
+      },
+      {
+        "slug": "uaiso-travel",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Studio project · with Thales Machado Souza",
+        "media": {
+          "dir": "uaiso-travel",
+          "shots": 3,
+          "video": false
+        }
+      },
+      {
+        "slug": "advogados-lco",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Studio project · with Thales Machado Souza",
+        "media": {
+          "dir": "advogados-lco",
+          "shots": 3,
+          "video": false
+        },
+        "link": "https://advogadoslco.com.br"
+      },
+      {
+        "slug": "sevalho-controladoria",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Studio project · with Thales Machado Souza",
+        "media": {
+          "dir": "sevalho-controladoria",
+          "shots": 3,
+          "video": false
+        },
+        "link": "https://sevalhocontroladoria.com.br"
+      },
+      {
+        "slug": "vaf-global",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Studio project · with Thales Machado Souza",
+        "media": {
+          "dir": "vaf-global",
+          "shots": 3,
+          "video": false
+        },
+        "link": "https://vafglobal.com.br"
+      }
+    ],
+    "pt": [
+      {
+        "slug": "queijos-serra",
+        "practice": "gestao",
+        "year": "2024",
+        "role": "Direção, design e desenvolvimento",
+        "media": {
+          "dir": "queijos-serra",
+          "shots": 3,
+          "video": true
+        }
+      },
+      {
+        "slug": "roda-agro",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Direção, design e desenvolvimento",
+        "media": {
+          "dir": "roda-agro",
+          "shots": 3,
+          "video": false
+        }
+      },
+      {
+        "slug": "paulo-henrique",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Direção, design e desenvolvimento",
+        "media": {
+          "dir": "paulo-henrique",
+          "shots": 3,
+          "video": true
+        }
+      },
+      {
+        "slug": "motormoura",
+        "practice": "gestao",
+        "year": "2026",
+        "role": "Direção, design e desenvolvimento",
+        "media": {
+          "dir": "motormoura",
+          "shots": 3,
+          "video": false
+        },
+        "link": "https://motormouraequipamentos.com.br"
+      },
+      {
+        "slug": "1000-pecas",
+        "practice": "gestao",
+        "year": "2026",
+        "role": "Direção, design e desenvolvimento",
+        "media": {
+          "dir": "1000-pecas",
+          "shots": 3,
+          "video": true
+        }
+      },
+      {
+        "slug": "rota-forte",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Direção, design e desenvolvimento",
+        "media": {
+          "dir": "rota-forte",
+          "shots": 3,
+          "video": true
+        }
+      },
+      {
+        "slug": "miranda-faria",
+        "practice": "design",
+        "year": "2026",
+        "role": "Direção, design e desenvolvimento",
+        "media": {
+          "dir": "miranda-faria",
+          "shots": 5,
+          "video": true
+        }
+      },
+      {
+        "slug": "motormoura-marca",
+        "practice": "design",
+        "year": "2026",
+        "role": "Direção, design e desenvolvimento",
+        "media": {
+          "dir": "motormoura-marca",
+          "shots": 3,
+          "video": false
+        }
+      },
+      {
+        "slug": "1000-pecas-marca",
+        "practice": "design",
+        "year": "2026",
+        "role": "Direção, design e desenvolvimento",
+        "media": {
+          "dir": "1000-pecas-marca",
+          "shots": 1,
+          "video": false
+        }
+      },
+      {
+        "slug": "roda-agro-marca",
+        "practice": "design",
+        "year": "2026",
+        "role": "Direção, design e desenvolvimento",
+        "media": {
+          "dir": "roda-agro-marca",
+          "shots": 4,
+          "video": false
+        }
+      },
+      {
+        "slug": "uaiso-travel",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Projeto do escritório · com Thales Machado Souza",
+        "media": {
+          "dir": "uaiso-travel",
+          "shots": 3,
+          "video": false
+        }
+      },
+      {
+        "slug": "advogados-lco",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Projeto do escritório · com Thales Machado Souza",
+        "media": {
+          "dir": "advogados-lco",
+          "shots": 3,
+          "video": false
+        },
+        "link": "https://advogadoslco.com.br"
+      },
+      {
+        "slug": "sevalho-controladoria",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Projeto do escritório · com Thales Machado Souza",
+        "media": {
+          "dir": "sevalho-controladoria",
+          "shots": 3,
+          "video": false
+        },
+        "link": "https://sevalhocontroladoria.com.br"
+      },
+      {
+        "slug": "vaf-global",
+        "practice": "desenvolvimento",
+        "year": "2026",
+        "role": "Projeto do escritório · com Thales Machado Souza",
+        "media": {
+          "dir": "vaf-global",
+          "shots": 3,
+          "video": false
+        },
+        "link": "https://vafglobal.com.br"
+      }
+    ]
+  }
+}

@@ -127,7 +127,7 @@ export default function AutomationFlow({ label, hint, alt }) {
       pulses = pulses.filter((p) => !p.done);
       if (pulses.length === 0) {
         ctx.fillStyle = INK + "0.35)"; ctx.textAlign = "left";
-        ctx.fillText("23:04 — cliente pergunta preço", 12, 24);
+        ctx.fillText("23:04 · cliente pergunta preço", 12, 24);
       }
     };
 
@@ -170,3 +170,4 @@ export default function AutomationFlow({ label, hint, alt }) {
     </figure>
   );
 }
+
