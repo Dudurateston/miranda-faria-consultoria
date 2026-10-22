@@ -125,7 +125,7 @@ export const copy = {
         label: "Diagnosis",
         lead: "Where does your operation lose time?",
         intro:
-          "Answer the questions about your routine and see an initial estimate of what the problem drains per month.",
+          "Answer the questions about your day-to-day work and see an initial estimate.",
         cta: "Run the diagnosis",
       },
       finalCta: { label: "Next step", lead: "Tell us what needs to work better.", cta: "Message on WhatsApp" },
@@ -243,7 +243,7 @@ export const copy = {
       name: "Eduardo Miranda Faria",
       body: [
         "Miranda Faria develops websites, systems and automations for businesses that need to organise their operations and present their offer clearly. Every project starts with the routine: who uses it, what needs to happen and which information supports the work — that understanding shapes the interface, the data and the rollout.",
-        "Founder Eduardo Miranda Faria leads projects from the initial assessment through delivery, across design, development and management — whoever you talk to is the person who builds.",
+        "Founder Eduardo Miranda Faria leads projects from the initial assessment through delivery, across design, development and management.",
         "We use AI in development and in visual work, with human review of decisions and deliveries.",
       ],
       location: "Piumhi, Minas Gerais — office in Belo Horizonte · working with clients across Brazil.",
@@ -535,7 +535,7 @@ export const copy = {
         label: "Diagnóstico",
         lead: "Onde sua operação perde tempo?",
         intro:
-          "Responda às perguntas sobre sua rotina e veja uma estimativa inicial do que o problema drena por mês.",
+          "Responda às perguntas sobre sua rotina e veja uma estimativa inicial.",
         cta: "Fazer o diagnóstico",
       },
       finalCta: { label: "Próximo passo", lead: "Conte o que precisa funcionar melhor.", cta: "Chamar no WhatsApp" },
@@ -653,7 +653,7 @@ export const copy = {
       name: "Eduardo Miranda Faria",
       body: [
         "A Miranda Faria desenvolve sites, sistemas e automações para empresas que precisam organizar a operação e apresentar melhor a sua oferta. Cada projeto começa pela rotina: quem usa, o que precisa acontecer e quais informações sustentam o trabalho — esse entendimento orienta a interface, os dados e a implantação.",
-        "Eduardo Miranda Faria fundou a empresa e conduz os projetos, do diagnóstico à entrega. Sua atuação reúne design, desenvolvimento e gestão — quem conversa com você fala com quem constrói.",
+        "Eduardo Miranda Faria fundou a empresa e conduz os projetos, do diagnóstico à entrega. Sua atuação reúne design, desenvolvimento e gestão.",
         "Usamos IA no desenvolvimento e na criação visual, com revisão humana das decisões e das entregas.",
       ],
       location: "Piumhi, Minas Gerais — escritório em Belo Horizonte · atendimento para todo o Brasil.",
