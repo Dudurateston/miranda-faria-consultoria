@@ -1455,17 +1455,17 @@ export const practices = {
     design: {
       slug: "design",
       label: "Design",
-      lead: "Brand and interface, made fast without looking fast.",
+      lead: "A recognisable brand, from first impression to the smallest detail.",
       intro:
-        "Identity, design system and applied materials. AI supports the initial studies, while design direction and review shape the final work.",
+        "Visual identity, interfaces and materials that keep a brand consistent. We connect how the company presents itself with what people need to understand and do.",
       artAlt: "Translucent planes composing, some still finding position",
       gen: {
-        label: "GENERATIVE ART: AI",
-        title: "Anyone can generate. Choosing is the work.",
+        label: "VISUAL DIRECTION",
+        title: "An identity that holds together in every application.",
         desc:
-          "AI supports the exploration of visual directions. Design decisions connect those studies to the identity, its applications and the movement of the site. Generative images are identified in their captions.",
+          "Logo, typography, colour and composition need to work together. We assess those choices where the brand will be used: on a screen, in print and in the details people notice.",
         capA: "Copper particles: identity in motion",
-        capB: "Office entrance: generative study",
+        capB: "Office entrance: AI-generated visual study",
         capLayers: "Disorder finding order: the method, in one shot",
         capSeam: "The copper seam: what runs under every project",
       },
@@ -1480,8 +1480,8 @@ export const practices = {
           d: "Design tokens, a fluid type scale, spacing and motion rules become the variables used by the interface's code.",
         },
         {
-          t: "AI-assisted exploration",
-          d: "Generative studies help explore possible directions. Design review and selection turn those options into a coherent identity.",
+          t: "Brand applications",
+          d: "Digital and print materials follow the same visual direction. Templates and usage guidance help the team create new pieces without starting the identity again.",
         },
         {
           t: "Design that ships",
@@ -1493,7 +1493,7 @@ export const practices = {
         "MotorMoura's identity includes its logo, manual, business cards, seals and print materials.",
         "1000 Peças: brand, signage, uniform and social, from one identity system.",
         "Identity for the 22nd Roda de Agronegócios, including the central seal, invitation and promotional materials.",
-        "This site: identity, motion and code by the same hand you would hire.",
+        "This website brings identity, motion and development together in one experience.",
       ],
       casesLabel: "Built this way",
       closingLine: "Every company has a brand. Few have one that carries its price.",
@@ -1677,17 +1677,17 @@ export const practices = {
     design: {
       slug: "design",
       label: "Design",
-      lead: "Marca e interface, rápido sem parecer apressado.",
+      lead: "Uma marca reconhecível, do primeiro contato aos detalhes.",
       intro:
-        "Identidade, design system e peças de aplicação. A IA apoia os estudos iniciais, e a direção e a revisão de design orientam o trabalho final.",
+        "Identidade visual, interfaces e materiais que mantêm a marca consistente. Conectamos a apresentação da empresa ao que as pessoas precisam entender e fazer.",
       artAlt: "Planos translúcidos se compondo, alguns ainda assentando",
       gen: {
-        label: "ARTE GENERATIVA: IA",
-        title: "Qualquer um gera. Escolher é o trabalho.",
+        label: "DIREÇÃO VISUAL",
+        title: "Uma identidade que se sustenta em cada aplicação.",
         desc:
-          "A IA apoia a exploração de direções visuais. As decisões de design conectam esses estudos à identidade, às aplicações e ao movimento do site. As imagens generativas são identificadas nas legendas.",
+          "Logotipo, tipografia, cor e composição precisam funcionar juntos. Avaliamos essas escolhas onde a marca será usada: na tela, nos materiais impressos e nos detalhes que as pessoas percebem.",
         capA: "Partículas de cobre: identidade em movimento",
-        capB: "Entrada do escritório: estudo generativo",
+        capB: "Entrada de escritório: estudo visual gerado com IA",
         capLayers: "Desordem encontrando ordem: o método em um plano",
         capSeam: "O veio de cobre: o que corre por baixo de cada projeto",
       },
@@ -1702,8 +1702,8 @@ export const practices = {
           d: "Tokens de design, escala tipográfica fluida, espaçamento e regras de movimento se tornam as variáveis usadas pelo código da interface.",
         },
         {
-          t: "Exploração com IA",
-          d: "Estudos generativos ajudam a explorar direções possíveis. A revisão e a seleção de design transformam essas opções em uma identidade coerente.",
+          t: "Aplicações da marca",
+          d: "Materiais digitais e impressos seguem a mesma direção visual. Modelos e orientações de uso ajudam a equipe a criar novas peças sem redesenhar a identidade a cada vez.",
         },
         {
           t: "Design que vira código",
@@ -1715,7 +1715,7 @@ export const practices = {
         "A identidade da MotorMoura reúne logo, manual, cartões, selos e materiais de impressão.",
         "1000 Peças: marca, fachada, uniforme e social, de um sistema de identidade só.",
         "Identidade da 22ª Roda de Agronegócios, com selo central, convite e peças de divulgação.",
-        "Este site: identidade, movimento e código pela mesma mão que você contrataria.",
+        "Este site reúne identidade, movimento e desenvolvimento em uma única experiência.",
       ],
       casesLabel: "Feitos assim",
       closingLine: "Toda empresa tem uma marca. Poucas têm uma que sustenta o preço.",
