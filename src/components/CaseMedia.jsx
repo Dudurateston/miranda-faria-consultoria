@@ -117,10 +117,21 @@ export default function CaseMedia({ media, name }) {
                 className={`mf-cm__img${cap512 ? " mf-cm__img--cap512" : ""}`}
                 {...(dims ? { width: dims[0], height: dims[1], style: { aspectRatio: `${dims[0]} / ${dims[1]}` } } : {})}
                 src={`/work/${dir}/${n}.webp`}
-                {...(natural ? {} : {
-                  srcSet: `/work/${dir}/${n}@800.webp 800w, /work/${dir}/${n}.webp 1600w`,
-                  sizes: "(max-width: 900px) 100vw, 1180px",
-                })}
+                {...(natural
+                  ? {
+                      /* Descritores = largura real do arquivo (o srcset legado declarava
+                         1600w para tudo, de 512 a 1600). @800 so entra se for
+                         efetivamente menor que o original (roda03: 512px, nao ha). */
+                      srcSet:
+                        dims[0] > 800
+                          ? `/work/${dir}/${n}@800.webp 800w, /work/${dir}/${n}.webp ${dims[0]}w`
+                          : `/work/${dir}/${n}.webp ${dims[0]}w`,
+                      sizes: cap512 ? "512px" : "(max-width: 900px) 100vw, 1180px",
+                    }
+                  : {
+                      srcSet: `/work/${dir}/${n}@800.webp 800w, /work/${dir}/${n}.webp 1600w`,
+                      sizes: "(max-width: 900px) 100vw, 1180px",
+                    })}
                 alt={`${name} — tela ${i + 1}`}
                 loading="lazy"
                 decoding="async"
