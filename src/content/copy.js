@@ -1067,7 +1067,7 @@ export const cases = {
     {
       slug: "advogados-lco",
       practice: "desenvolvimento",
-      role: "Studio project · with Thales Machado Souza",
+      role: "Project by Thales Machado Souza",
       name: "LCO Advogados",
       sector: "Corporate law boutique",
       year: "2026",
@@ -1334,7 +1334,7 @@ export const cases = {
     {
       slug: "advogados-lco",
       practice: "desenvolvimento",
-      role: "Projeto do escritório · com Thales Machado Souza",
+      role: "Projeto de Thales Machado Souza",
       name: "LCO Advogados",
       sector: "Advocacia empresarial",
       year: "2026",
