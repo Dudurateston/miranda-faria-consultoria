@@ -72,10 +72,10 @@ function CaseVideo({ item, lang, blocked }) {
   );
 }
 
-function StorySection({ section, item, labels }) {
+function StorySection({ section, item, labels, editorial }) {
   return (
     <section className="mf-cs__story">
-      <h2 className="mf-label">{labels[section]}</h2>
+      <h2 className={editorial ? 'mf-cs__story-title' : 'mf-label'}>{labels[section]}</h2>
       <p>{item[section]}</p>
     </section>
   );
@@ -84,6 +84,7 @@ function StorySection({ section, item, labels }) {
 export default function CaseShowcase({ presentation, item, labels, lang }) {
   const [activeId, setActiveId] = useState(null);
   const openerRef = useRef(null);
+  const storyLabels = presentation.headings || labels;
   const closeViewer = useCallback(() => setActiveId(null), []);
   const mediaById = new Map(presentation.media.map(media => [media.id, media]));
   const openViewer = (id, opener) => { openerRef.current = opener; setActiveId(id); };
@@ -96,16 +97,17 @@ export default function CaseShowcase({ presentation, item, labels, lang }) {
   };
 
   return (
-    <div className={`mf-cs mf-cs--${presentation.leadMode}`}>
+    <div className={`mf-cs mf-cs--${presentation.leadMode}${presentation.editorial ? ' mf-cs--editorial' : ''}`}>
       <div className="mf-cs__lead" data-depth="0.08">
         {renderMedia(presentation.leadMedia, true)}
-        <StorySection section="problem" item={item} labels={labels} />
+        <StorySection section="problem" item={item} labels={storyLabels} editorial={presentation.editorial} />
       </div>
       <p className="mf-cs__language">{lang === 'en' ? 'Project media is in Portuguese.' : 'Interfaces e peças em português.'}</p>
       {presentation.chapters.map(chapter => (
         <div className={`mf-cs__chapter mf-cs__chapter--${chapter.layout}`} key={chapter.id} data-depth="0.28">
+          {chapter.title && <h2 className="mf-cs__chapter-title">{chapter.title}</h2>}
           {chapter.sections.length > 0 && <div className="mf-cs__stories">
-            {chapter.sections.map(section => <StorySection key={section} section={section} item={item} labels={labels} />)}
+            {chapter.sections.map(section => <StorySection key={section} section={section} item={item} labels={storyLabels} editorial={presentation.editorial} />)}
           </div>}
           {chapter.media.length > 0 && <div className="mf-cs__media-group">{chapter.media.map(id => renderMedia(id))}</div>}
         </div>
@@ -134,6 +136,10 @@ const showcaseCss = `
 .mf-cs__video figcaption{display:flex;justify-content:space-between;gap:.5rem 2rem;max-width:none;flex-wrap:wrap;margin-top:1rem}
 .mf-cs__story{min-width:0}
 .mf-cs__story h2{margin:0 0 1.15rem;font-weight:400}
+.mf-cs__story-title,.mf-cs__chapter-title{font:400 clamp(1.8rem,3.5vw,3.25rem)/1.12 var(--font-display);letter-spacing:var(--tracking-display);color:var(--color-text-primary)}
+.mf-cs__chapter-title{margin:0 0 clamp(1.5rem,4vw,3rem)}
+.mf-cs--editorial .mf-cs__lead>.mf-cs__story{margin-top:clamp(3rem,7vw,6rem)}
+.mf-cs__chapter--mobile .mf-cs__figure,.mf-cs__chapter--mobile-left .mf-cs__figure{max-width:min(100%,390px)}
 .mf-cs__story p{margin:0;max-width:56ch;font:300 var(--text-body-lg)/var(--leading-body) var(--font-body);color:var(--color-text-primary);overflow-wrap:anywhere}
 .mf-cs__lead>.mf-cs__story{margin:clamp(2rem,6vw,5rem) 0 0 auto;max-width:56ch}
 .mf-cs__language{font:400 .8125rem/1.6 var(--font-body);color:var(--color-text-secondary);margin:1.5rem 0 0}
@@ -149,6 +155,10 @@ const showcaseCss = `
 .mf-cs__social a:focus-visible{outline:2px solid var(--color-accent);outline-offset:4px}
 .mf-cs__social a span{font-size:.8125rem}
 @media(min-width:900px){
+  .mf-cs__chapter--mobile,.mf-cs__chapter--mobile-left{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(3rem,8vw,8rem)}
+  .mf-cs__chapter--mobile .mf-cs__stories,.mf-cs__chapter--mobile-left .mf-cs__stories{margin:0;gap:clamp(2.5rem,5vw,5rem)}
+  .mf-cs__chapter--mobile-left .mf-cs__media-group{grid-column:1;grid-row:1}
+  .mf-cs__chapter--mobile-left .mf-cs__stories{grid-column:2;grid-row:1}
   .mf-cs--identity .mf-cs__lead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:center;gap:clamp(2.5rem,6vw,6rem)}
   .mf-cs--identity .mf-cs__lead>.mf-cs__figure{grid-column:2;grid-row:1}
   .mf-cs--identity .mf-cs__lead>.mf-cs__story{grid-column:1;grid-row:1;margin:0}

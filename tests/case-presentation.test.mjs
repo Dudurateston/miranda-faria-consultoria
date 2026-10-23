@@ -7,9 +7,9 @@ const configUrl = new URL('../src/content/casePresentation.js', import.meta.url)
 const modelUrl = new URL('../src/lib/caseMediaViewer.js', import.meta.url);
 const config = existsSync(configUrl) ? await import(configUrl) : {};
 const model = existsSync(modelUrl) ? await import(modelUrl) : {};
-const pilots = ['rota-forte', 'roda-agro-marca', 'advogados-lco'];
+const pilots = ['rota-forte', 'motormoura', '1000-pecas', 'roda-agro-marca', 'advogados-lco'];
 
-test('three pilots have complete, localized presentation without changing other cases', () => {
+test('five pilots have complete, localized presentation without changing other cases', () => {
   for (const slug of pilots) for (const lang of ['pt','en']) {
     const p = config.getCasePresentation?.(slug, lang);
     assert.ok(p, `${slug}/${lang} has presentation`);
@@ -42,7 +42,7 @@ test('portrait artworks keep true dimensions and restrained display width', () =
 
 test('Rota video reserves its real aspect ratio and caps display to native width',()=>{
   const video=config.getCasePresentation('rota-forte','pt').media.find(m=>m.type==='video');
-  assert.deepEqual([video.width,video.height],[1080,608]);
+  assert.deepEqual([video.width,video.height],[1440,900]);
   const s=readFileSync(new URL('../src/components/CaseShowcase.jsx',import.meta.url),'utf8');
   assert.match(s,/mf-cs__video.*data-media-id=\{item.id\}.*shot-width/);
   assert.match(s,/aspectRatio/);

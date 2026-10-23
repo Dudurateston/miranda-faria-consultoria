@@ -924,15 +924,15 @@ export const cases = {
       sector: "Auto parts distribution",
       year: "2026",
       summary:
-        "A B2B catalogue with a database and an admin panel managed by the business owner.",
+        "A distinct digital presence for a technical distributor, from the introduction to the catalogue.",
       problem:
-        "A parts distributor whose entire catalogue lived in the owner's head and in loose spreadsheets. Every price request went through one person, and that person became the bottleneck for the whole operation.",
+        "A parts distributor needs to explain what it supplies and give buyers a clear route to an enquiry. The website brings its brands, product ranges and contact channels together.",
       process:
-        "The catalogue models products, categories, brands and images as related records. The admin panel came first, allowing the client to add real data while the storefront was being designed.",
+        "The public pages introduce the distributor and organise the search by product range. The catalogue structure includes categories, brands and applications for technical parts.",
       decisions:
-        "The owner manages products, categories and images through the admin panel. Products can carry several brands and applications, including batteries, generators and stationary engines. The structure follows the way the parts business works.",
+        "The distributor’s identity carries through the opening, brand section and product ranges. On mobile, the hierarchy keeps the introduction and contact options easy to find.",
       impact:
-        "The catalogue left the owner's head and became something the team can query. Registration no longer routes through one person.",
+        "A company website with a catalogue structure and routes to the sales team. The public catalogue is still being populated; the project is presented in its current state.",
       media: { dir: "motormoura", shots: 3, video: false },
       link: "https://motormouraequipamentos.com.br",
     },
@@ -943,15 +943,15 @@ export const cases = {
       name: "1000 Peças Truck Center",
       sector: "Heavy vehicle parts",
       year: "2026",
-      summary: "Digital presence and catalogue structure for a heavy parts operation.",
+      summary: "From the business introduction to finding a heavy vehicle part.",
       problem:
-        "A truck parts operation with no digital surface at all: customers found it by phone and word of mouth, and the inventory had no queryable form.",
+        "Finding a heavy vehicle part requires clear information about its application, brand and condition. The website connects the business introduction with a public catalogue and a route to an enquiry.",
       process:
-        "Built the public presence and the catalogue structure together, so the storefront and the data model were designed against each other rather than one being retrofitted onto the other.",
+        "The presentation and catalogue share a visual language. The public catalogue separates new and used parts and provides brand and category filters alongside model and condition information.",
       decisions:
-        "Kept the first release deliberately narrow: presence and catalogue structure, no checkout, and no prices on the page. Heavy parts sell through a quote conversation, and forcing a cart or exposing a price would have fought the actual sales process.",
+        "Prices remain part of a quote conversation. Typography, colour and hierarchy keep the introduction, catalogue and mobile journey connected, with contact access available throughout.",
       impact:
-        "The operation has a public surface and a catalogue that can grow without a rebuild.",
+        "A company website, a public parts catalogue and a route to request a quote. The catalogue uses the institutional images currently supplied by the business.",
       media: { dir: "1000-pecas", shots: 3, video: true },
     },
     {
@@ -961,15 +961,15 @@ export const cases = {
       name: "Rota Forte",
       sector: "Munck and crane rental",
       year: "2026",
-      summary: "Institutional website with an equipment catalogue. Quote enquiries start on WhatsApp.",
+      summary: "Presenting the fleet before the first conversation.",
       problem:
-        "A munck and crane rental living on the phone and word of mouth. Availability and price were answered from memory, and every enquiry reached the owner unprepared.",
+        "Before requesting a quote, a visitor needs to understand which equipment fits the job. The website brings the fleet, technical information and contact routes into the same journey.",
       process:
-        "The fleet guides the site's structure. Each machine is presented with its capacity and reach, and each page leads to a WhatsApp enquiry with the equipment already named in the message.",
+        "The fleet guides the website’s structure. Each machine is presented with its specifications, while the operations section organises information about the types of work described by the business.",
       decisions:
-        "Choosing equipment depends on weight, height and date. The catalogue presents the technical information and routes the enquiry to a quote conversation, where the business confirms terms and availability.",
+        "Capacity, reach and equipment type help prepare an enquiry. The catalogue leads to a WhatsApp message identifying the selected machine; the business confirms availability and terms.",
       impact:
-        "The enquiry identifies the machine and the job, giving the business a useful starting point for the conversation.",
+        "A company website with an equipment catalogue and a route to quote enquiries. The delivery gives visitors a clear way to explore the fleet before contacting the team.",
       media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
@@ -1191,15 +1191,15 @@ export const cases = {
       sector: "Distribuidora de autopeças",
       year: "2026",
       summary:
-        "Catálogo B2B com banco de dados de verdade e painel que o dono opera sozinho.",
+        "Uma presença própria para a distribuidora, da apresentação ao catálogo.",
       problem:
-        "Distribuidora de peças com o catálogo inteiro na cabeça do dono e em planilhas soltas. Todo pedido de preço passava por uma pessoa só, e essa pessoa virou o gargalo da operação inteira.",
+        "Uma distribuidora de peças precisa explicar o que fornece e orientar quem procura atendimento. O site reúne marcas, linhas de produto e canais de contato em uma mesma experiência.",
       process:
-        "O catálogo organiza produtos, categorias, marcas e imagens como registros relacionados. O painel administrativo veio primeiro, permitindo ao cliente cadastrar dados reais enquanto a vitrine era desenhada.",
+        "As páginas públicas apresentam a distribuidora e organizam a procura por linha de produto. A estrutura do catálogo reúne categorias, marcas e aplicações das peças técnicas.",
       decisions:
-        "O dono cadastra produtos, categorias e imagens pelo painel administrativo. Cada produto pode ter várias marcas e aplicações, como baterias, geradores e motores estacionários. A estrutura acompanha a forma como o negócio de peças funciona.",
+        "A identidade da distribuidora acompanha a abertura, as marcas e as linhas de produto. No celular, a hierarquia mantém a apresentação e os canais de atendimento fáceis de encontrar.",
       impact:
-        "O catálogo saiu da cabeça do dono e virou algo que a equipe consulta. O cadastro não passa mais por uma pessoa só.",
+        "Site institucional, estrutura de catálogo e caminhos para a equipe comercial. O catálogo público segue em atualização; as telas mostram o estado atual do projeto.",
       media: { dir: "motormoura", shots: 3, video: false },
       link: "https://motormouraequipamentos.com.br",
     },
@@ -1210,15 +1210,15 @@ export const cases = {
       name: "1000 Peças Truck Center",
       sector: "Peças para caminhão",
       year: "2026",
-      summary: "Presença digital e estrutura de catálogo para operação de peças pesadas.",
+      summary: "Da apresentação da empresa à procura por uma peça para veículo pesado.",
       problem:
-        "Operação de peças de caminhão sem nenhuma superfície digital: o cliente achava por telefone e indicação, e o estoque não tinha forma consultável.",
+        "Encontrar uma peça para veículo pesado pede informações claras sobre aplicação, marca e condição. O site conecta a apresentação da empresa ao catálogo público e ao pedido de orçamento.",
       process:
-        "Construí a presença pública e a estrutura de catálogo juntas, para a vitrine e o modelo de dados serem desenhados um contra o outro, em vez de um ser encaixado no outro depois.",
+        "A apresentação e o catálogo compartilham a mesma linguagem visual. O catálogo público separa peças novas e usadas e oferece filtros de marca e categoria, com identificação de modelo e condição.",
       decisions:
-        "A primeira entrega concentrou presença digital e estrutura de catálogo. Peças pesadas são negociadas por orçamento, por isso a página encaminha a conversa sem apresentar preços ou carrinho de compras.",
+        "Os preços seguem para uma conversa de orçamento. Tipografia, cores e hierarquia conectam apresentação, catálogo e navegação no celular, com acesso ao atendimento ao longo do caminho.",
       impact:
-        "A operação tem superfície pública e um catálogo que cresce sem precisar refazer.",
+        "Site institucional, catálogo público de peças e caminho para solicitar orçamento. O catálogo usa as imagens institucionais disponíveis atualmente na operação.",
       media: { dir: "1000-pecas", shots: 3, video: true },
     },
     {
@@ -1228,15 +1228,15 @@ export const cases = {
       name: "Rota Forte",
       sector: "Locação de munck e guindaste",
       year: "2026",
-      summary: "Site institucional com catálogo de equipamentos. O orçamento começa no WhatsApp.",
+      summary: "Apresentar a frota antes do primeiro contato.",
       problem:
-        "Locadora de munck e guindaste vivendo de telefone e indicação. Disponibilidade e preço eram respondidos de memória, e cada pedido chegava pro dono sem contexto.",
+        "Antes de pedir um orçamento, o visitante precisa entender qual equipamento se aproxima da sua operação. O site reúne frota, informações técnicas e caminhos de contato em uma mesma navegação.",
       process:
-        "A frota orienta a estrutura do site. Cada máquina apresenta capacidade e alcance, e cada página encaminha um pedido de orçamento pelo WhatsApp com o equipamento já identificado na mensagem.",
+        "A frota orienta a estrutura do site. Cada máquina é apresentada com suas especificações, enquanto a seção de operações organiza informações sobre os tipos de trabalho descritos pela empresa.",
       decisions:
-        "A escolha do equipamento depende de peso, altura e data. O catálogo apresenta as informações técnicas e encaminha o pedido para a conversa de orçamento, onde a empresa confirma condições e disponibilidade.",
+        "Capacidade, alcance e tipo de equipamento ajudam a preparar a consulta. O catálogo encaminha ao WhatsApp com a máquina selecionada na mensagem; a empresa confirma disponibilidade e condições.",
       impact:
-        "O pedido identifica a máquina e o serviço, dando à empresa um ponto de partida claro para a conversa.",
+        "Site institucional, catálogo de equipamentos e caminho para solicitar orçamento. A entrega permite conhecer a frota antes de conversar com a equipe.",
       media: { dir: "rota-forte", shots: 3, video: true },
     },
     {
