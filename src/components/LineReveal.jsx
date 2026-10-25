@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { revealText } from "@/lib/revealText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,9 +18,13 @@ export default function LineReveal({
   duration = 0.8,
   delay = 0,
   start = "top 75%",
+  style,
+  ...rest
 }) {
   const ref = useRef(null);
-  const text = typeof children === "string" ? children : String(children ?? "");
+  const content = revealText(children, dot);
+  const text = content.text;
+  const showDot = content.dot;
 
   useEffect(() => {
     const el = ref.current;
@@ -36,7 +41,8 @@ export default function LineReveal({
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mq.matches) {
       gsap.set(el, { opacity: 1 });
-      if (dot && !el.querySelector(".lr__dot")) el.appendChild(mkDot());
+      el.textContent = text;
+      if (showDot) el.appendChild(mkDot());
       return;
     }
 
@@ -97,7 +103,7 @@ export default function LineReveal({
         inners.push(inner);
       });
       // ponto em cobre cola na ultima palavra (sem espaco antes)
-      if (dot && inners.length) inners[inners.length - 1].appendChild(mkDot());
+      if (showDot && inners.length) inners[inners.length - 1].appendChild(mkDot());
       // 3. animar. Ao terminar, o clip deixa de ser necessario — se a
       // quebra mudar depois (fonte/resize), o texto nunca fica cortado.
       gsap.set(el, { opacity: 1 });
@@ -161,10 +167,10 @@ export default function LineReveal({
       window.removeEventListener("resize", onResize);
       killTween();
     };
-  }, [text, stagger, duration, delay, start]);
+  }, [text, dot, showDot, stagger, duration, delay, start]);
 
   return (
-    <Tag ref={ref} className={`${className} lr`} style={{ opacity: 0 }}>
+    <Tag {...rest} ref={ref} className={`${className} lr`} style={{ opacity: 0, ...style }}>
       {text}
     </Tag>
   );

@@ -165,6 +165,8 @@ const showcaseCss = `
   .mf-cs__chapter--split{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.65fr);gap:clamp(2rem,4vw,4rem);align-items:center}
   .mf-cs__chapter--split .mf-cs__stories{margin:0}
   .mf-cs__chapter--wide .mf-cs__stories:has(>.mf-cs__story:nth-child(2)){grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(2rem,6vw,6rem)}
+  .mf-cs__chapter--pair .mf-cs__media-group{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+  .mf-cs__chapter--pair .mf-cs__figure:nth-child(even){margin-top:3rem}
   .mf-cs__chapter--portraits .mf-cs__media-group{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start;max-width:900px;margin:0 auto}
   .mf-cs__chapter--portraits .mf-cs__figure:nth-child(2){margin-top:clamp(3rem,8vw,7rem)}
 }

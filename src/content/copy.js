@@ -42,7 +42,7 @@ export const copy = {
         work: "Management systems, websites and identity delivered end to end: parts, logistics, agribusiness, retail and the arts.",
         servicos: "Four solutions, one operating principle: systems, websites, design and automation.",
         about: "Meet Miranda Faria and the approach behind its websites, business systems and automations.",
-        how: "How a project runs here: diagnosis first, demo in the first week, delivery in the owner's hands.",
+        how: "From diagnosis to deployment: an agreed scope, a working preview and guidance for everyday use.",
         insights: "A guided questionnaire about your business, with priorities and an initial plan based on your answers.",
         contact: "Bring the problem, not a spec. Same-day response, straight from who builds it.",
         practice: "Business systems, websites, automation and identity, from understanding the routine to delivery.",
@@ -74,20 +74,20 @@ export const copy = {
         body: "Miranda Faria develops websites, management systems and automations around the work your business needs to do.",
       },
       pitch: {
-        label: "Why solo works",
-        lead: "One mind across the whole stack.",
+        label: "How we work",
+        lead: "Decisions connected from design to delivery.",
         items: [
           {
-            t: "No handoff loss",
-            d: "The person who designs the interface is the person who writes it and the person who models the data behind it. Intent survives all the way to production.",
+            t: "Design connected to development",
+            d: "Interface design, code and data are developed around the same operational needs. Each decision is checked against what the business needs to use.",
           },
             {
-            t: "AI as leverage, not shortcut",
+            t: "Tools followed by review",
             d: "AI supports the repetitive parts of research, design and development. Architecture, hierarchy and the final delivery remain subject to review and direction.",
           },
           {
-            t: "Full working-day overlap",
-            d: "Based in Brazil (UTC−3): a complete overlap with US hours and a partial one with Europe. Same-day iteration, not next-day.",
+            t: "Working arrangements",
+            d: "Based in Brazil (UTC−3), we agree contact times and review stages for each project.",
           },
         ],
       },
@@ -166,9 +166,9 @@ export const copy = {
     },
     howIWork: {
       label: "Technology",
-      lead: "Four layers, one person.",
+      lead: "Four layers behind every delivery.",
       intro:
-        "Every project moves through the same four layers. They are the reason a single person can carry a whole system without it falling apart in the middle.",
+        "We connect identity, interface, data and deployment around the work your business needs to do. Decisions in each layer shape the next, from the first design to everyday use.",
       science:
         "A study of 179 large publicly traded companies associated greater use of data in decisions with productivity 5 to 6% above expectations based on other investments (Brynjolfsson, Hitt and Kim, 2011). Our approach follows a practical principle: define criteria, follow the data and test what improves the operation.",
       layers: [
@@ -232,8 +232,8 @@ export const copy = {
       },
       ai: {
         label: "On AI",
-        lead: "Leverage, directed by judgment.",
-        body: "AI writes a lot of the mechanical code and generates a lot of the first-draft visual material. It does not decide the architecture, the hierarchy, or what gets cut. Treating it as a shortcut is how you ship something generic; treating it as leverage is how one person ships what used to take a team.",
+        lead: "Tools with review and accountability.",
+        body: "We use AI to support research, programming and visual studies. Architecture, content and interfaces are reviewed before delivery. Generated visual studies are identified as such.",
       },
     },
     about: {
@@ -246,7 +246,7 @@ export const copy = {
         "Founder Eduardo Miranda Faria leads projects from the initial assessment through delivery, across design, development and management.",
         "We use AI in development and in visual work, with human review of decisions and deliveries.",
       ],
-      location: "Piumhi, Minas Gerais: office in Belo Horizonte · working with clients across Brazil.",
+      location: "Piumhi, Minas Gerais · working with clients across Brazil.",
       facadeCaption: "Generative brand art: AI",
       trajectoryLabel: "Trajectory",
       trajectory: "The portfolio brings together fourteen projects across parts distribution, logistics, agribusiness, retail and the arts. It includes websites, inventory systems, a sales hub and the identity for the 22nd Roda de Agronegócios, connecting design and technology to each business's routine.",
@@ -320,9 +320,9 @@ export const copy = {
         "Systems, design, business intelligence and automation: each shippable alone, designed to work as one.",
       metricsLabel: "Delivery in practice",
       metrics: [
-        { n: "18", d: "Systems live in production, each on a real database: catalogue, orders, payment. Not slides: running software." },
-        { n: "7 days", d: "A working demo in week one: your problem solved and visible, before paying for the whole project." },
-        { n: "100%", d: "Delivery in your name: you run it, the data and access are yours. No lock-in, no strings: upkeep and evolution only if you want them." },
+        { n: "Scope", d: "The proposal sets out the delivery, stages and criteria for reviewing the project." },
+        { n: "Preview", d: "You review the solution during development, before the final delivery." },
+        { n: "Access", d: "Delivery includes the access, materials and usage guidance agreed for the project." },
       ],
       bandLayers: ["Surface", "System", "Data", "Foundation"],
       bandStat:
@@ -344,14 +344,14 @@ export const copy = {
         },
         {
           q: "How long until it's ready, and after delivery?",
-          a: "A system: weeks, not months. A site: even less. The first navigable demo ships in the first week: you watch your problem being solved before paying for the whole project. After that, the system is yours, in your name. If you want, maintenance and evolution stay with Miranda Faria: no lock-in, no strings.",
+          a: "Timing depends on the scope, integrations and available material. The proposal sets out the stages and when you can review a working preview. Delivery includes the agreed access and usage guidance. Maintenance and further development are agreed separately.",
         },
       ],
       faqLabel: "What they ask before closing",
       seeVertical: "See the solution",
       cards: {
         gestao: "Orders organised in a system the business owns and operates.",
-        design: "Brand and interface that justify the premium.",
+        design: "A recognisable brand, clear at every point of contact.",
         desenvolvimento: "A website that presents the offer clearly and gives enquiries a direct path to your business.",
         automacao: "Automated routines connecting triggers, messaging and business systems.",
       },
@@ -452,9 +452,9 @@ export const copy = {
         work: "Sistemas de gestão, sites e identidade entregues de ponta a ponta: peças, logística, agronegócio, comércio e arte.",
         servicos: "Quatro soluções, um princípio de operação: sistemas, sites, design e automação.",
         about: "Conheça a Miranda Faria e a abordagem por trás dos seus sites, sistemas e automações.",
-        how: "Como um projeto corre por aqui: diagnóstico primeiro, demo na primeira semana, entrega na mão do dono.",
+        how: "Do diagnóstico à implantação: escopo definido, prévia para avaliar e orientação para usar a solução.",
         insights: "Um questionário sobre a rotina da empresa, com prioridades e um plano inicial baseado nas respostas.",
-        contact: "Traga o problema, não a especificação. Resposta no mesmo dia, direto com quem executa.",
+        contact: "Conte o que precisa mudar na sua empresa. Vamos entender a rotina e definir o próximo passo.",
         practice: "Sistemas de gestão, sites, automação e identidade, do entendimento da rotina à entrega.",
         apontador: "Lê o AFD do relógio de ponto (Portaria 671) e mostra faltas, horas extras e absenteísmo por setor. Peça um diagnóstico grátis do seu AFD.",
       },
@@ -576,9 +576,9 @@ export const copy = {
     },
     howIWork: {
       label: "Como funciona",
-      lead: "Quatro camadas, uma pessoa.",
+      lead: "Quatro camadas por trás de cada entrega.",
       intro:
-        "Todo projeto passa pelas mesmas quatro camadas. É por isso que uma pessoa só consegue carregar o sistema inteiro sem ele desmontar no meio.",
+        "Conectamos identidade, interface, dados e implantação ao trabalho que a empresa precisa realizar. As decisões de cada camada orientam a seguinte, do primeiro desenho ao uso no dia a dia.",
       science:
         "Em um estudo com 179 grandes empresas de capital aberto, o uso de dados nas decisões foi associado a produtividade 5 a 6% acima do esperado para os demais investimentos (Brynjolfsson, Hitt e Kim, 2011). Na Miranda Faria, isso orienta uma prática: definir critérios, acompanhar os dados e testar o que melhora a operação.",
       layers: [
@@ -642,8 +642,8 @@ export const copy = {
       },
       ai: {
         label: "Sobre IA",
-        lead: "Alavanca dirigida por julgamento.",
-        body: "A IA escreve boa parte do código mecânico e gera boa parte do primeiro rascunho visual. Ela não decide arquitetura, hierarquia, nem o que sai fora. Tratar como atalho é o caminho para entregar algo genérico; tratar como alavanca é como uma pessoa entrega o que antes exigia um time.",
+        lead: "Ferramentas com revisão e responsabilidade.",
+        body: "Usamos IA para apoiar pesquisa, programação e estudos visuais. Arquitetura, conteúdo e interface passam por revisão antes da entrega. Quando uma imagem é um estudo gerado, sua origem é identificada.",
       },
     },
     about: {
@@ -656,7 +656,7 @@ export const copy = {
         "Eduardo Miranda Faria fundou a empresa e conduz os projetos, do diagnóstico à entrega. Sua atuação reúne design, desenvolvimento e gestão.",
         "Usamos IA no desenvolvimento e na criação visual, com revisão humana das decisões e das entregas.",
       ],
-      location: "Piumhi, Minas Gerais: escritório em Belo Horizonte · atendimento para todo o Brasil.",
+      location: "Piumhi, Minas Gerais · atendimento para todo o Brasil.",
       facadeCaption: "Arte generativa de marca: IA",
       trajectoryLabel: "Trajetória",
       trajectory: "O portfólio reúne quatorze projetos entre distribuição de peças, logística, agronegócio, comércio e arte. São sites, sistemas de estoque, uma central de vendas e a identidade da 22ª Roda de Agronegócios, conectando design e tecnologia à rotina de cada negócio.",
@@ -679,7 +679,7 @@ export const copy = {
     contact: {
       signCaption: "A marca na rua: estudo generativo (IA)",
       label: "Conversar",
-      lead: "Me conta onde está travando.",
+      lead: "Conte o que precisa funcionar melhor.",
       body: "Conte o que precisa mudar e como o negócio funciona hoje. Esse contexto ajuda a definir o próximo passo em conjunto.",
       primary: "Chamar no WhatsApp",
       secondary: "Mandar e-mail",
@@ -730,9 +730,9 @@ export const copy = {
         "Sistemas, design, gestão e automação: cada um entrega sozinho, todos desenhados para funcionar como um só.",
       metricsLabel: "Entregas na prática",
       metrics: [
-        { n: "18", d: "Sistemas em operação, cada um com banco de dados real: catálogo, pedido, pagamento. Não é slide: é software rodando." },
-        { n: "7 dias", d: "Demo funcional na primeira semana: o seu problema resolvido pra ver, antes de pagar o projeto inteiro." },
-        { n: "100%", d: "Entrega no seu nome: você opera, os dados e o acesso são seus. Sem fidelidade, sem amarração: evolução e manutenção só se você quiser." },
+        { n: "Escopo", d: "A proposta define o que será entregue, as etapas e os critérios para conferir o projeto." },
+        { n: "Prévia", d: "Você avalia a solução durante o desenvolvimento, antes da entrega final." },
+        { n: "Acesso", d: "A entrega inclui os acessos, os materiais e a orientação previstos no projeto." },
       ],
       bandLayers: ["Superfície", "Sistema", "Dados", "Fundação"],
       bandStat:
@@ -754,14 +754,14 @@ export const copy = {
         },
         {
           q: "Em quanto tempo fica pronto, e depois da entrega?",
-          a: "Sistema: semanas, não meses. Site: menos ainda. A primeira demo navegável sai na primeira semana: você vê o seu problema sendo resolvido antes de pagar o projeto inteiro. Depois, o sistema é seu, no seu nome. Se quiser, manutenção e evolução seguem com a Miranda Faria: sem fidelidade, sem amarração.",
+          a: "O prazo depende do escopo, das integrações e do material disponível. A proposta define as etapas e quando você poderá avaliar uma prévia. A entrega inclui os acessos e a orientação previstos no projeto. Manutenção e evolução são combinadas separadamente.",
         },
       ],
       faqLabel: "O que perguntam antes de fechar",
       seeVertical: "Ver a solução",
       cards: {
         gestao: "Pedidos organizados em um sistema que a empresa opera e controla.",
-        design: "Marca e interface que sustentam o preço premium.",
+        design: "Uma marca reconhecível, com clareza em cada contato.",
         desenvolvimento: "Um site que apresenta a oferta com clareza e abre um caminho direto para o contato.",
         automacao: "Rotinas automatizadas que conectam gatilhos, mensagens e sistemas da empresa.",
       },
@@ -1006,7 +1006,7 @@ export const cases = {
       decisions:
         "The kit was organised by use: identity, sales deck, go-to-market visuals, print kit, and complementary material. A distributor does not need art; it needs rules that survive any printer.",
       impact:
-        "The team produces material inside the brand without a designer on call.",
+        "A visual identity and application kit to guide the distributor’s communications.",
       media: { dir: "motormoura-marca", shots: 3, video: false },
     },
     {
@@ -1024,7 +1024,7 @@ export const cases = {
       decisions:
         "Made certification the axis of the identity: in a market full of scrap, the paper that proves it is a design asset.",
       impact:
-        "The yard transmits trust before the first conversation.",
+        "A visual identity applied to the facade, uniform and communication materials presented in the project.",
       media: { dir: "1000-pecas-marca", shots: 1, video: false }, // 02/03 têm telefone provisório e "ROTAFORTE" — fora até o dono decidir
     },
     {
@@ -1082,7 +1082,7 @@ export const cases = {
       decisions:
         "A restrained layout, clear practice areas and direct copy guide visitors to a conversation with the responsible lawyer.",
       impact:
-        "Qualified contact started arriving: whoever reaches out already knows the practice area they need and who they will talk to.",
+        "A company website with practice areas, information about the firm and ways to contact the responsible lawyer.",
     },
     {
       slug: "sevalho-controladoria",
@@ -1102,7 +1102,7 @@ export const cases = {
       decisions:
         "One page, one offer, one step. No service menu: the invitation is the diagnosis, and the relationship starts there.",
       impact:
-        "Sales conversations began arriving pre-qualified: whoever enters through the diagnosis has already qualified themselves.",
+        "A company website with controllership services and a diagnostic entry point for a business conversation.",
     },
     {
       slug: "vaf-global",
@@ -1122,7 +1122,7 @@ export const cases = {
       decisions:
         "The register of an international firm, not a startup landing: content hierarchy, proof of network, and a clear invitation to counterparties.",
       impact:
-        "The site does the pre-commercial work: it filters, explains and routes whoever fits before the first meeting.",
+        "A company website presenting the international business and directing visitors to a contact channel.",
     }
   ],
   pt: [
@@ -1158,7 +1158,7 @@ export const cases = {
       problem:
         "Feira regional de agronegócio na 22ª edição vendendo espaço por telefone e planilha. Cada consulta exigia alguém conferir na mão quais estandes ainda estavam livres, e dois vendedores podiam prometer o mesmo ponto.",
       process:
-        "Construí a planta como dado, não como imagem: cada estande é um registro com cota, posição e status. O mapa público lê esse estado, então a disponibilidade é resposta do sistema e não memória de pessoa.",
+        "Estruturamos a planta com um registro para cada estande: cota, posição e status. O mapa público usa esses dados para mostrar a disponibilidade.",
       decisions:
         "Cinco faixas de cota em vez de preço único, cada uma amarrada a uma zona física com características próprias: área externa em grama, externa asfaltada, interna sob estrutura, interna premium. É assim que a feira vende de fato: a posição é o produto. Condições de pagamento e divulgação incluída ficam na página, porque nesse mercado a negociação chega nelas de qualquer jeito.",
       impact:
@@ -1273,7 +1273,7 @@ export const cases = {
       decisions:
         "O kit foi organizado por uso: identidade, sales deck, kit visual de go-to-market, impressão e materiais complementares. Distribuidora não precisa de arte; precisa de regras que sobrevivam a qualquer gráfica.",
       impact:
-        "O time produz material dentro da marca sem designer de plantão.",
+        "Identidade visual e materiais de aplicação reunidos em um kit para orientar a comunicação da distribuidora.",
       media: { dir: "motormoura-marca", shots: 3, video: false },
     },
     {
@@ -1291,7 +1291,7 @@ export const cases = {
       decisions:
         "A certificação virou o eixo da identidade: num mercado cheio de sucata, o papel que prova é ativo de design.",
       impact:
-        "O pátio transmite confiança antes da primeira conversa.",
+        "Identidade visual aplicada à fachada, ao uniforme e aos materiais de comunicação apresentados no projeto.",
       media: { dir: "1000-pecas-marca", shots: 1, video: false }, // 02/03 têm telefone provisório e "ROTAFORTE" — fora até o dono decidir
     },
     {
@@ -1349,7 +1349,7 @@ export const cases = {
       decisions:
         "Uma composição sóbria, áreas de atuação claras e texto direto conduzem o visitante à conversa com o advogado responsável.",
       impact:
-        "O escritório passou a receber contato qualificado: quem chega já sabe a área que precisa e com quem vai falar.",
+        "Site institucional com áreas de atuação, apresentação do escritório e caminhos para contato com o advogado responsável.",
     },
     {
       slug: "sevalho-controladoria",
@@ -1369,7 +1369,7 @@ export const cases = {
       decisions:
         "Uma página, uma oferta, um passo. Sem menu de serviços: o convite é o diagnóstico, e a relação começa nele.",
       impact:
-        "A conversa de vendas passou a chegar pronta: quem entra pelo diagnóstico já se qualificou sozinho.",
+        "Site institucional com serviços de controladoria e diagnóstico como ponto de entrada para a conversa comercial.",
     },
     {
       slug: "vaf-global",
@@ -1389,7 +1389,7 @@ export const cases = {
       decisions:
         "Registro de empresa internacional em vez de landing de startup: hierarquia de conteúdo, prova de rede e um convite claro a contrapartes.",
       impact:
-        "O site faz o trabalho pré-comercial: filtra, explica e encaminha quem tem fit antes da primeira reunião.",
+        "Site institucional que apresenta a atuação internacional e direciona o visitante para o canal de contato.",
     }
   ],
 };

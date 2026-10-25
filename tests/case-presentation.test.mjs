@@ -9,7 +9,7 @@ const config = existsSync(configUrl) ? await import(configUrl) : {};
 const model = existsSync(modelUrl) ? await import(modelUrl) : {};
 const pilots = ['rota-forte', 'motormoura', '1000-pecas', 'roda-agro-marca', 'advogados-lco'];
 
-test('five pilots have complete, localized presentation without changing other cases', () => {
+test('five established presentations remain complete and localized', () => {
   for (const slug of pilots) for (const lang of ['pt','en']) {
     const p = config.getCasePresentation?.(slug, lang);
     assert.ok(p, `${slug}/${lang} has presentation`);
@@ -27,7 +27,7 @@ test('five pilots have complete, localized presentation without changing other c
     const displayed = [p.leadMedia, ...p.chapters.flatMap(c=>c.media || [])];
     assert.deepEqual(displayed.slice().sort(), [...ids].sort());
   }
-  assert.equal(config.getCasePresentation?.('uaiso-travel','pt'), null);
+  assert.ok(config.getCasePresentation?.('uaiso-travel','pt'));
   assert.equal(config.getCasePresentation?.('missing','en'), null);
 });
 

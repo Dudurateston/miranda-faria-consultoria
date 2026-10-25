@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { trackPageView, trackWhatsApp, track } from "@/lib/siteAnalytics";
-import { initGA, gaPageView } from "@/lib/ga";
+import { initGA } from "@/lib/ga";
 import { initClarity } from "@/lib/clarity";
 import { getConsent } from "@/lib/siteAnalytics";
 
@@ -56,15 +56,15 @@ export default function SiteAnalytics() {
     if (getConsent() === "granted") {
       initGA();
       initClarity();
-      gaPageView(location.pathname);
     }
-    const onConsent = () => { if (getConsent() === "granted") { initGA(); initClarity(); gaPageView(pathRef.current); } };
+    // trackPageView mirrors to GA; a separate GA call would count twice.
+    const onConsent = () => { if (getConsent() === "granted") { initGA(); initClarity(); trackPageView(pathRef.current); } };
     window.addEventListener("mf-consent-changed", onConsent);
-    return () => window.removeEventListener("mf-consent-changed", onConsent);
     trackPageView(location.pathname);
     if (page404()) track("404_view", { page: location.pathname });
     // rotas lazy: o chunk renderiza depois do mount — observa depois
     scheduleSectionsRef.current && scheduleSectionsRef.current();
+    return () => window.removeEventListener("mf-consent-changed", onConsent);
   }, [location.pathname]);
 
   const scheduleSectionsRef = useRef(null);

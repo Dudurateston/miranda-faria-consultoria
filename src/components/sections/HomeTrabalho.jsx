@@ -55,7 +55,6 @@ export default function HomeTrabalho() {
                 </span>
                 <span className="mf-trow__meta">
                   <span className="mf-label">{c.sector}</span>
-                  <span className="mf-label mf-trow__year">{c.year}</span>
                 </span>
                 <span className="mf-trow__go">{t.work.viewCase} →</span>
               </Link>

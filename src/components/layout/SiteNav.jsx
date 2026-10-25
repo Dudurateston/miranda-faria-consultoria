@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useLang } from "@/lib/i18n";
 import ThemeToggle from "@/components/layout/ThemeToggle";
@@ -6,6 +6,8 @@ import { copy, getPractice, cases } from "@/content/copy";
 import { WHATSAPP_URL_BARE, M_LOGO, NAV_MEDIA } from "@/lib/site";
 import { getPortfolioProducts } from "@/content/produtos";
 import AutoVideo from "@/components/AutoVideo";
+import NavServicePreview from "@/components/layout/NavServicePreview";
+import { getCasePreviewMedia } from "@/content/casePresentation";
 
 /* 19/09 v3 (Eduardo: "os videos antigos AINDA aparecem brevemente"):
    o aborto anterior so rodava ao FECHAR o painel — na TROCA de item com
@@ -14,52 +16,6 @@ import AutoVideo from "@/components/AutoVideo";
    AutoVideo: remontagem por KEY — elemento novo nao guarda frame velho. */
 function NavDropVideo({ src, poster }) {
   return <video key={src ?? "off"} src={src} poster={poster} autoPlay muted loop playsInline preload="metadata" />;
-}
-
-/* Poster do primeiro frame real de um vídeo do painel Serviços. */
-const subStill = (src) => (src ? src.replace(/\.mp4$/, "_f0.webp") : undefined);
-
-/* 21/10 v2 (Codex: o ready=true da seleção anterior era renderizado no
-   <video key=novo> por um commit antes do useEffect zerar — efeito pode
-   rodar depois da pintura). Agora a readiness NASCE FALSE por construção:
-   o pai remonta o SubMediaSlot por seleção (key no componente, não só no
-   vídeo), incluindo fechar→reabrir com o mesmo src — nova instância nunca
-   herda ready=true. Guarda de eventos antigos mantida (loadeddata de
-   elemento que já não é o atual não revela). Poster = primeiro frame
-   real do vídeo (fidelidade até a compressão WebP); os outros posters
-   são pré-carregados quando o painel abre para a varredura fria não
-   ter buraco. AutoVideo global e painel Trabalhos intocados. */
-function SubMediaSlot({ src }) {
-  const [ready, setReady] = useState(false);
-  const vidRef = useRef(null);
-  const still = subStill(src);
-  const onFrame = (e) => {
-    /* só a seleção ATUAL revela: se o frame pronto chegou de um elemento
-       antigo (varredura rápida), ignora. */
-    if (e.currentTarget === vidRef.current && e.currentTarget.readyState >= 2) {
-      setReady(true);
-    }
-  };
-  return (
-    <span className="mf-nav__substage">
-      {still && <img className="mf-nav__subposter" src={still} alt="" aria-hidden="true" />}
-      {src && (
-        <video
-          key={src}
-          ref={vidRef}
-          src={src}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          onLoadedData={onFrame}
-          className="mf-nav__subvid"
-          data-ready={ready ? "true" : "false"}
-        />
-      )}
-    </span>
-  );
 }
 
 const SUB_MEDIA = [
@@ -87,11 +43,6 @@ export default function SiteNav({ revealAfterHero = false }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [drop, setDrop] = useState(false);
   const [subIdx, setSubIdx] = useState(0);
-  // Painel Serviços aberto: pré-carrega os 4 posters f0 (40KB) para a
-  // varredura entre itens não abrir buraco no cache frio.
-  useEffect(() => {
-    if (drop) SUB_MEDIA.forEach((m) => { const i = new Image(); i.src = subStill(m); });
-  }, [drop]);
   const [tDrop, setTDrop] = useState(false);
   const [tIdx, setTIdx] = useState(0);
   const [xDrop, setXDrop] = useState(null);
@@ -168,11 +119,11 @@ export default function SiteNav({ revealAfterHero = false }) {
       cap: lang === "pt" ? "Como funciona" : "How a project runs",
       rows: lang === "pt"
         ? [
-            { name: "O método", lead: "Diagnóstico primeiro, demo na primeira semana, entrega nas mãos do dono." },
+            { name: "O método", lead: "Diagnóstico, prévia para avaliar e entrega com orientação para uso." },
             { name: "MotionCurves", lead: "Curvas de animação desenhadas no código e integradas à identidade do site." },
           ]
         : [
-            { name: "The method", lead: "Diagnosis first, a demo in the first week, delivery in the owner's hands." },
+            { name: "The method", lead: "Diagnosis, a working preview and guidance at delivery." },
             { name: "MotionCurves", lead: "Animation curves drawn in code and integrated into the site’s identity." },
           ],
     },
@@ -257,11 +208,12 @@ export default function SiteNav({ revealAfterHero = false }) {
 
         <nav className="mf-nav__links" aria-label={t.home}>
           {renderExtra(extras[0], false)}
-          <div className="mf-nav__drop" onMouseLeave={() => setDrop(false)}>
+          <div className="mf-nav__drop" onMouseLeave={() => setDrop(false)} onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setDrop(false); }}>
             <NavLink
               to={path("servicos")}
               data-cursor="link"
               onMouseEnter={() => setDrop(true)}
+              onFocus={() => setDrop(true)}
               onClick={() => setDrop(false)}
               className={({ isActive }) => `mf-nav__link${isActive ? " is-active" : ""}`}
             >
@@ -275,6 +227,7 @@ export default function SiteNav({ revealAfterHero = false }) {
                     to={path(p.slug)}
                     data-cursor="link"
                     onMouseEnter={() => { setDrop(true); setSubIdx(i); }}
+                    onFocus={() => { setDrop(true); setSubIdx(i); }}
                     onClick={() => setDrop(false)}
                     className={({ isActive }) => `mf-nav__subitem${isActive ? " is-active" : ""}`}
                     style={{ transitionDelay: `${drop ? 60 + i * 55 : 0}ms` }}
@@ -288,10 +241,7 @@ export default function SiteNav({ revealAfterHero = false }) {
                 ))}
               </div>
               <div className="mf-nav__submedia" aria-hidden="true">
-                <SubMediaSlot key={drop ? (SUB_MEDIA[subIdx] ?? "off") : "off"} src={drop ? (SUB_MEDIA[subIdx] ?? SUB_MEDIA[0]) : undefined} />
-                <span className="mf-nav__subcap">
-                  {String(subIdx + 1).padStart(2, "0")} · {solutions[subIdx]?.label ?? ""}
-                </span>
+                <NavServicePreview src={drop ? (SUB_MEDIA[subIdx] ?? SUB_MEDIA[0]) : undefined} sources={SUB_MEDIA} labels={solutions.map(s => s.label)} />
               </div>
             </div>
           </div>
@@ -320,7 +270,7 @@ export default function SiteNav({ revealAfterHero = false }) {
                     <span className="mf-nav__subnum">{String(i + 1).padStart(2, "0")}</span>
                     <span className="mf-nav__subbody">
                       <span className="mf-nav__subname">{c.name}</span>
-                      <span className="mf-nav__sublead">{c.sector} · {c.year}</span>
+                      <span className="mf-nav__sublead">{c.sector}</span>
                     </span>
                   </NavLink>
                 ))}
@@ -347,17 +297,18 @@ export default function SiteNav({ revealAfterHero = false }) {
                      hover em produto, o fallback /work/<produto>/01.webp
                      nao existe e dava 404. */
                   const item = dropItems[tIdx] ?? dropItems[0];
-                  if (item.media?.video) {
+                  const preview = getCasePreviewMedia(item.slug);
+                  if (preview?.type === 'video') {
                     return (
                       <NavDropVideo
-                        src={`/work/${item.media?.dir ?? item.slug}/video.mp4`}
-                        poster={`/work/${item.media?.dir ?? item.slug}/01.webp`}
+                        src={preview.src}
+                        poster={preview.poster}
                       />
                     );
                   }
                   return (
                     <img
-                      src={item.media?.img ?? `/work/${item.media?.dir ?? item.slug}/01.webp`}
+                      src={preview?.src ?? item.media?.img ?? `/work/${item.media?.dir ?? item.slug}/01.webp`}
                       alt=""
                       loading="lazy"
                     />
@@ -725,10 +676,12 @@ html[data-skin="dark"] .mf-mnav__wm{filter:none;opacity:0.10}
 .mf-nav__submedia img{width:100%;height:100%;object-fit:cover;display:block}
 /* Estágio do painel Serviços: poster f0 estável por baixo, vídeo revela
    só com frame pronto. Sem fundo escuro em nenhum estado. */
+.mf-nav__preview-mark{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--font-display);font-size:clamp(48px,6vw,80px);color:var(--color-accent)}
+.mf-nav__substage .mf-nav__preview-mark img{position:static;width:72px;height:72px;object-fit:contain}
 .mf-nav__substage{position:relative;display:block;width:100%;aspect-ratio:16/9;border:1px solid var(--mf-rule);overflow:hidden;background:transparent}
 .mf-nav__substage img,.mf-nav__substage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.mf-nav__substage video{opacity:0;transition:opacity 0.12s ease;background:transparent}
-.mf-nav__substage video[data-ready="true"]{opacity:1}
+.mf-nav__substage video{opacity:0;transition:none;background:transparent}
+.mf-nav__substage video[data-ready="true"]{opacity:1;transition:opacity 0.12s ease}
 
 /* ===== Eduardo 18/09: nav nao pode sair da tela em desktop =====
    Tres faixas acima do menu mobile: (a) >=1600 nav completa; (b) 1440-1599

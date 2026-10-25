@@ -236,7 +236,7 @@ export default function Servicos() {
   gap:2rem 3rem;margin-top:3.5rem;padding-top:2rem;
   border-top:1px solid var(--color-divider);
 }
-@media(min-width:860px){.mf-srv__metrics{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:860px){.mf-srv__metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .mf-srv__metric{display:flex;flex-direction:column;gap:0.5rem}
 .mf-srv__num{
   font-family:var(--font-mono);font-size:12px;

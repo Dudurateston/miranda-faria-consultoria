@@ -1,3 +1,4 @@
+import { remainingPresentations } from './remainingCasePresentation.js';
 // Presentation metadata. New captures use distinct filenames; original media is retained.
 const shot = (id, src, width, height, pt, en, displayWidth) => ({
   id, type: 'image', src, width, height, displayWidth,
@@ -117,7 +118,7 @@ const presentations = {
 };
 
 export function getCasePresentation(slug, lang = 'pt') {
-  const p = presentations[slug];
+  const p = presentations[slug] || remainingPresentations[slug];
   if (!p) return null;
   const locale = lang === 'en' ? 'en' : 'pt';
   return {
@@ -128,4 +129,11 @@ export function getCasePresentation(slug, lang = 'pt') {
     media: p.media.map(({ text, ...m }) => ({ ...m, ...text[locale] })),
     social: p.social ? { href: p.social.href, ...p.social[locale] } : null,
   };
+}
+
+// The menu previews the same assets as the case, including current captures.
+export function getCasePreviewMedia(slug) {
+  const p = getCasePresentation(slug);
+  if (!p) return null;
+  return p.media.find(m => m.type === 'video') || p.media.find(m => m.id === p.leadMedia) || null;
 }
