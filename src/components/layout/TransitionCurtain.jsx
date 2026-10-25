@@ -44,6 +44,7 @@ export default function TransitionCurtain() {
   const pendingHref = useRef(null); /* href aceito mas ainda não navegado */
   const clickPath = useRef(null); /* pathname no instante do clique */
   const fallback = useRef(null);
+  const revealSeq = useRef(0); /* cancela a espera de conteúdo se a rota mudar de novo */
   const locRef = useRef(loc.pathname);
   const navigateRef = useRef(navigate);
 
@@ -159,34 +160,57 @@ export default function TransitionCurtain() {
     if (mq.matches) { hardCleanup(el); return; }
     if (getComputedStyle(el).display === "none") return;
     busy.current = true;
-    if (fallback.current) { clearTimeout(fallback.current); fallback.current = null; }
     if (tlRef.current) { tlRef.current.kill(); tlRef.current = null; }
 
-    const t = gsap.timeline({
-      onComplete: () => {
-        el.style.display = "none";
-        document.documentElement.style.overflow = "";
-        busy.current = false;
-      },
+    /* SINCRONIA COM A ENTRADA DA PÁGINA (Eduardo, 25/10: "ela está um
+       pouco fora do tempo"): a saída da marca só começa quando o
+       conteúdo da rota nova está COMMITADO — sem suspense na tela e
+       sem marca demorando a sair sobre a página já visível. Espera
+       curta e CANCELÁVEL: se a rota mudar de novo (popstate/redirect)
+       ou a cortina for desmontada, a espera aborta sem revelar; teto
+       de 400ms para nunca segurar a tela coberta à espera de nada —
+       o fallback de 2s continua vivo como segurança última. */
+    const seq = ++revealSeq.current;
+    const waitReady = new Promise((resolve) => {
+      const t0 = performance.now();
+      const tick = () => {
+        if (revealSeq.current !== seq || !busy.current) return resolve(false);
+        const susp = document.querySelector(".mf-route-load");
+        if (!susp || performance.now() - t0 > 400) return resolve(true);
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
     });
-    tlRef.current = t;
-    if (el.dataset.v === "copper") {
-      const circle = el.querySelector(".mf-curtain__circle");
-      const m = el.querySelector(".mf-curtain__m");
-      /* o M segura 150ms em opacity 1 — nunca translúcido no meio da
-         coreografia (regra da casa) */
-      t.to(m, { opacity: 0, duration: 0.14, ease: "power2.in" }, 0.15)
-        .to(circle, { scale: 0, duration: 0.42, ease: "expo.inOut" }, 0.04);
-    } else {
-      const pL = el.querySelector(".mf-curtain__panelL");
-      const pR = el.querySelector(".mf-curtain__panelR");
-      const seam = el.querySelector(".mf-curtain__seam");
-      /* os painéis partem horizontalmente; o filete de cobre é o
-         último a sair — a abertura acontece POR ele */
-      t.to(pL, { xPercent: -101, duration: 0.42, ease: "expo.inOut" }, 0)
-        .to(pR, { xPercent: 101, duration: 0.42, ease: "expo.inOut" }, 0)
-        .to(seam, { scaleY: 0, duration: 0.22, ease: "power2.in" }, 0.2);
-    }
+    waitReady.then((go) => {
+      if (!go) return;
+      if (fallback.current) { clearTimeout(fallback.current); fallback.current = null; }
+      const t = gsap.timeline({
+        onComplete: () => {
+          el.style.display = "none";
+          document.documentElement.style.overflow = "";
+          busy.current = false;
+        },
+      });
+      tlRef.current = t;
+      if (el.dataset.v === "copper") {
+        const circle = el.querySelector(".mf-curtain__circle");
+        const m = el.querySelector(".mf-curtain__m");
+        /* o M sai JUNTO com a cobertura, num único gesto de entrega
+           (Eduardo, 25/10): a marca não segura sozinha nem fica
+           sobrando sobre o conteúdo que já entrou por baixo. */
+        t.to(m, { opacity: 0, scale: 0.94, duration: 0.24, ease: "power2.in" }, 0)
+          .to(circle, { scale: 0, duration: 0.3, ease: "power3.inOut" }, 0);
+      } else {
+        const pL = el.querySelector(".mf-curtain__panelL");
+        const pR = el.querySelector(".mf-curtain__panelR");
+        const seam = el.querySelector(".mf-curtain__seam");
+        /* os painéis partem horizontalmente; o filete de cobre fecha a
+           abertura — todos concluem juntos, sem sobra do filete */
+        t.to(pL, { xPercent: -101, duration: 0.3, ease: "power3.inOut" }, 0)
+          .to(pR, { xPercent: 101, duration: 0.3, ease: "power3.inOut" }, 0)
+          .to(seam, { scaleY: 0, duration: 0.18, ease: "power2.in" }, 0.12);
+      }
+    });
   }, [loc.pathname]);
 
   return (
