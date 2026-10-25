@@ -8,7 +8,7 @@ const sha256 = (p) => createHash('sha256').update(readFileSync(p)).digest('hex')
 
 const EXPECTED = {
   '/work/miranda-faria/current-home.webp': { w: 1440, h: 900, sha: 'effb1d94409db444d2f977e105b043c7741408fe9fc150bea283dab45291322f' },
-  '/work/miranda-faria/current-services.webp': { w: 1440, h: 1452, sha: 'a02aa1317bfd359371583257fc66fd668b03b61b6357157f1edb2e91e2c8f080' },
+  '/work/miranda-faria/current-services.webp': { w: 1440, h: 1600, sha: '3f1ff79f015d862a0b059d5e7be7a551c8305ff2f216e93f13d19bae10b90d92' },
   '/work/miranda-faria/current-mobile.webp': { w: 780, h: 1688, sha: '7b235a79f2216d435f7a1888be44c7aaf953060d6cb62f49bfdf23b43dfb34ab' },
 };
 const LEGACY = ['01.webp', '02.webp', '03.webp', '04.webp', '05.webp', 'video.mp4', 'poster.webp'];

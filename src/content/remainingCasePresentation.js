@@ -429,7 +429,7 @@ export const remainingPresentations = {
         "type": "image",
         "src": "/work/miranda-faria/current-services.webp",
         "width": 1440,
-        "height": 1452,
+        "height": 1600,
         "text": {
           "pt": {
             "alt": "Faixa de serviços da home de Este site com as quatro soluções.",
@@ -442,9 +442,9 @@ export const remainingPresentations = {
         },
         "capture": {
           "url": "http://localhost:4180/pt/",
-          "viewport": "1440x900@1x (seção completa, 1440x1452)",
-          "source": "Playwright, preview local do candidato (rodada 2: secao localizada pelo heading Quatro soluções, um princípio de operação., quatro solucoes completas)",
-          "sha256": "a02aa1317bfd359371583257fc66fd668b03b61b6357157f1edb2e91e2c8f080"
+          "viewport": "1440x1800@1x, foto de viewport fullPage:false (rodada 3: scroll normal com topo da secao abaixo da navbar, heading e quatro solucoes assentados)",
+          "source": "Playwright, preview local do candidato (rodada 3: metodo de captura corrigido, sem element.screenshot)",
+          "sha256": "3f1ff79f015d862a0b059d5e7be7a551c8305ff2f216e93f13d19bae10b90d92"
         }
       },
       {
