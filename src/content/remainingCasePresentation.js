@@ -4,6 +4,10 @@ export const remainingPresentations = {
     "leadMedia": "queijos-serra-1",
     "leadMode": "wide",
     "editorial": true,
+    "delivery": {
+      "pt": "Site institucional bilíngue",
+      "en": "Bilingual company website"
+    },
     "headings": {
       "pt": {
         "problem": "O projeto",
@@ -136,6 +140,10 @@ export const remainingPresentations = {
     "leadMedia": "roda-agro-1",
     "leadMode": "wide",
     "editorial": true,
+    "delivery": {
+      "pt": "Site institucional bilíngue",
+      "en": "Bilingual company website"
+    },
     "headings": {
       "pt": {
         "problem": "O projeto",
@@ -238,6 +246,10 @@ export const remainingPresentations = {
     "leadMedia": "paulo-henrique-1",
     "leadMode": "wide",
     "editorial": true,
+    "delivery": {
+      "pt": "Site institucional bilíngue",
+      "en": "Bilingual company website"
+    },
     "headings": {
       "pt": {
         "problem": "O projeto",
@@ -367,9 +379,13 @@ export const remainingPresentations = {
     ]
   },
   "miranda-faria": {
-    "leadMedia": "miranda-faria-1",
+    "leadMedia": "miranda-faria-current-home",
     "leadMode": "wide",
     "editorial": true,
+    "delivery": {
+      "pt": "Site institucional bilíngue",
+      "en": "Bilingual company website"
+    },
     "headings": {
       "pt": {
         "problem": "O projeto",
@@ -386,143 +402,104 @@ export const remainingPresentations = {
     },
     "media": [
       {
-        "id": "miranda-faria-1",
+        "id": "miranda-faria-current-home",
         "type": "image",
-        "src": "/work/miranda-faria/01.webp",
-        "width": 1600,
+        "src": "/work/miranda-faria/current-home.webp",
+        "width": 1440,
         "height": 900,
         "text": {
           "pt": {
-            "alt": "Visão geral do projeto Este site.",
-            "caption": "Visão geral do projeto Este site."
+            "alt": "Primeira tela da home de Este site em português, no desktop.",
+            "caption": "Abertura da home em português no desktop, com a identidade aplicada."
           },
           "en": {
-            "alt": "Overview of the Este site project.",
-            "caption": "Overview of the Este site project."
+            "alt": "First screen of this site in Portuguese, on desktop.",
+            "caption": "The home opening in Portuguese on desktop, with the identity applied."
           }
+        },
+        "capture": {
+          "url": "http://localhost:4180/pt/",
+          "viewport": "1440x900@1x",
+          "source": "Playwright, preview local do candidato (rodada 2: banner LGPD dispensado com o botao real, ausencia confirmada antes da captura)",
+          "sha256": "effb1d94409db444d2f977e105b043c7741408fe9fc150bea283dab45291322f"
         }
       },
       {
-        "id": "miranda-faria-2",
+        "id": "miranda-faria-current-services",
         "type": "image",
-        "src": "/work/miranda-faria/02.webp",
-        "width": 1600,
-        "height": 900,
+        "src": "/work/miranda-faria/current-services.webp",
+        "width": 1440,
+        "height": 1452,
         "text": {
           "pt": {
-            "alt": "Este site: aplicação da identidade 1.",
-            "caption": "Este site: aplicação da identidade 1."
+            "alt": "Faixa de serviços da home de Este site com as quatro soluções.",
+            "caption": "Faixa de serviços da home, com as quatro soluções apresentadas."
           },
           "en": {
-            "alt": "Este site: identity application 1.",
-            "caption": "Este site: identity application 1."
+            "alt": "The services section of this site with the four solutions.",
+            "caption": "The home services section, presenting the four solutions."
           }
+        },
+        "capture": {
+          "url": "http://localhost:4180/pt/",
+          "viewport": "1440x900@1x (seção completa, 1440x1452)",
+          "source": "Playwright, preview local do candidato (rodada 2: secao localizada pelo heading Quatro soluções, um princípio de operação., quatro solucoes completas)",
+          "sha256": "a02aa1317bfd359371583257fc66fd668b03b61b6357157f1edb2e91e2c8f080"
         }
       },
       {
-        "id": "miranda-faria-3",
+        "id": "miranda-faria-current-mobile",
         "type": "image",
-        "src": "/work/miranda-faria/03.webp",
-        "width": 1600,
-        "height": 900,
+        "src": "/work/miranda-faria/current-mobile.webp",
+        "width": 780,
+        "height": 1688,
+        "displayWidth": 390,
         "text": {
           "pt": {
-            "alt": "Este site: aplicação da identidade 2.",
-            "caption": "Este site: aplicação da identidade 2."
+            "alt": "Abertura da home de Este site no celular.",
+            "caption": "Abertura da home no celular, com o convite principal visível."
           },
           "en": {
-            "alt": "Este site: identity application 2.",
-            "caption": "Este site: identity application 2."
+            "alt": "The home opening of this site on mobile.",
+            "caption": "The home opening on mobile, with the primary invitation visible."
           }
-        }
-      },
-      {
-        "id": "miranda-faria-4",
-        "type": "image",
-        "src": "/work/miranda-faria/04.webp",
-        "width": 1600,
-        "height": 900,
-        "text": {
-          "pt": {
-            "alt": "Este site: aplicação da identidade 3.",
-            "caption": "Este site: aplicação da identidade 3."
-          },
-          "en": {
-            "alt": "Este site: identity application 3.",
-            "caption": "Este site: identity application 3."
-          }
-        }
-      },
-      {
-        "id": "miranda-faria-5",
-        "type": "image",
-        "src": "/work/miranda-faria/05.webp",
-        "width": 1600,
-        "height": 900,
-        "text": {
-          "pt": {
-            "alt": "Este site: aplicação da identidade 4.",
-            "caption": "Este site: aplicação da identidade 4."
-          },
-          "en": {
-            "alt": "Este site: identity application 4.",
-            "caption": "Este site: identity application 4."
-          }
-        }
-      },
-      {
-        "id": "miranda-faria-video",
-        "type": "video",
-        "src": "/work/miranda-faria/video.mp4",
-        "poster": "/work/miranda-faria/poster.webp",
-        "width": 1080,
-        "height": 608,
-        "text": {
-          "pt": {
-            "alt": "Gravação da interface de Este site.",
-            "caption": "Navegação registrada no projeto."
-          },
-          "en": {
-            "alt": "Recorded interface of Este site.",
-            "caption": "Recorded navigation through the project."
-          }
+        },
+        "capture": {
+          "url": "http://localhost:4180/pt/",
+          "viewport": "390x844@2x (780x1688)",
+          "source": "Playwright, preview local do candidato codex/refino-auditoria-2026-10-25",
+          "sha256": "7b235a79f2216d435f7a1888be44c7aaf953060d6cb62f49bfdf23b43dfb34ab"
         }
       }
     ],
     "chapters": [
       {
-        "id": "approach",
+        "id": "services",
+        "title": {
+          "pt": "Serviços na home",
+          "en": "Services on the home"
+        },
         "sections": [
           "process"
         ],
         "media": [
-          "miranda-faria-2"
+          "miranda-faria-current-services"
         ],
         "layout": "wide"
       },
       {
-        "id": "decisions",
+        "id": "mobile",
+        "title": {
+          "pt": "No celular",
+          "en": "On mobile"
+        },
         "sections": [
           "decisions"
         ],
         "media": [
-          "miranda-faria-3",
-          "miranda-faria-4",
-          "miranda-faria-5"
+          "miranda-faria-current-mobile"
         ],
-        "layout": "pair"
-      },
-      {
-        "id": "walkthrough",
-        "title": {
-          "pt": "O projeto em uso",
-          "en": "The project in use"
-        },
-        "sections": [],
-        "media": [
-          "miranda-faria-video"
-        ],
-        "layout": "wide"
+        "layout": "mobile"
       },
       {
         "id": "delivery",
@@ -538,6 +515,10 @@ export const remainingPresentations = {
     "leadMedia": "motormoura-marca-1",
     "leadMode": "wide",
     "editorial": true,
+    "delivery": {
+      "pt": "Site institucional bilíngue",
+      "en": "Bilingual company website"
+    },
     "headings": {
       "pt": {
         "problem": "O projeto",
@@ -640,6 +621,10 @@ export const remainingPresentations = {
     "leadMedia": "1000-pecas-marca-1",
     "leadMode": "wide",
     "editorial": true,
+    "delivery": {
+      "pt": "Site institucional bilíngue",
+      "en": "Bilingual company website"
+    },
     "headings": {
       "pt": {
         "problem": "O projeto",
@@ -704,6 +689,10 @@ export const remainingPresentations = {
     "leadMedia": "uaiso-travel-1",
     "leadMode": "wide",
     "editorial": true,
+    "delivery": {
+      "pt": "Site institucional bilíngue",
+      "en": "Bilingual company website"
+    },
     "headings": {
       "pt": {
         "problem": "O projeto",
@@ -806,6 +795,10 @@ export const remainingPresentations = {
     "leadMedia": "sevalho-controladoria-1",
     "leadMode": "wide",
     "editorial": true,
+    "delivery": {
+      "pt": "Site institucional bilíngue",
+      "en": "Bilingual company website"
+    },
     "headings": {
       "pt": {
         "problem": "O projeto",
@@ -908,6 +901,10 @@ export const remainingPresentations = {
     "leadMedia": "vaf-global-1",
     "leadMode": "wide",
     "editorial": true,
+    "delivery": {
+      "pt": "Site institucional bilíngue",
+      "en": "Bilingual company website"
+    },
     "headings": {
       "pt": {
         "problem": "O projeto",

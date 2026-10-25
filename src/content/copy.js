@@ -44,7 +44,7 @@ export const copy = {
         about: "Meet Miranda Faria and the approach behind its websites, business systems and automations.",
         how: "From diagnosis to deployment: an agreed scope, a working preview and guidance for everyday use.",
         insights: "A guided questionnaire about your business, with priorities and an initial plan based on your answers.",
-        contact: "Bring the problem, not a spec. Same-day response, straight from who builds it.",
+        contact: "Tell us what needs to change in your business. We will review the context and agree the next step.",
         practice: "Business systems, websites, automation and identity, from understanding the routine to delivery.",
         eightyfive: "Attendance register for ILEP and TrustEd Ireland schools: 15-minute rule, 85% forecasts, six-week alerts and an exportable record.",
       },
@@ -1506,7 +1506,7 @@ export const practices = {
       label: "Development",
       lead: "Sites that work the lead, not just present it.",
       intro:
-        "Institutional site, landing page or WhatsApp-first storefront: the front door of the business, built for the shortest path to conversation. Every section closes on a next step; the visitor leaves the page straight into the chat, with the message already addressed. A change requested in the morning ships the same day. Days of project, not quarters.",
+        "Company websites, landing pages and online catalogues organised around your offer. We make it clear what the business provides, help visitors find relevant information and give them a direct way to get in touch. The proposal defines the stages and delivery dates.",
       artAlt: "Dots wandering the page, turning to copper and leaving through the conversation",
       artLabel: "DEVELOPMENT: THE CONVERSATION",
       artHint: "Each dot is a visitor; copper is the one who converts. Lead them with your cursor.",
@@ -1728,7 +1728,7 @@ export const practices = {
       label: "Desenvolvimento",
       lead: "Site que trabalha o lead, não só apresenta.",
       intro:
-        "Site institucional, landing page ou vitrine WhatsApp-first: a porta de entrada do negócio, construída pro caminho mais curto até a conversa. Cada seção fecha num próximo passo; o visitante sai da página direto no chat, com a mensagem já endereçada. A mudança pedida de manhã sobe no mesmo dia. Dias de projeto, não trimestres.",
+        "Sites institucionais, landing pages e catálogos organizados em torno da sua oferta. Apresentamos o que a empresa faz, ajudamos o visitante a encontrar a informação certa e criamos um caminho direto para o contato. As etapas e os prazos são definidos na proposta.",
       artAlt: "Pontos que vagam pela página, convertem em cobre e saem pela conversa",
       artLabel: "DESENVOLVIMENTO: A CONVERSA",
       artHint: "Cada ponto é um visitante; o cobre é quem converte. Conduza-os com o cursor.",
