@@ -166,17 +166,16 @@ export default function TransitionCurtain() {
        pouco fora do tempo"): a saída da marca só começa quando o
        conteúdo da rota nova está COMMITADO — sem suspense na tela e
        sem marca demorando a sair sobre a página já visível. Espera
-       curta e CANCELÁVEL: se a rota mudar de novo (popstate/redirect)
-       ou a cortina for desmontada, a espera aborta sem revelar; teto
-       de 400ms para nunca segurar a tela coberta à espera de nada —
-       o fallback de 2s continua vivo como segurança última. */
+       CANCELÁVEL SEM TETO CEGO: revela quando o conteúdo chega; se a
+       rota mudar de novo (popstate/redirect) ou a cortina for
+       desmontada, aborta sem revelar; se a rota lazy engolir tudo, o
+       fallback de 2s faz o hardReset sozinho — nunca libera a tela
+       com suspense na frente. */
     const seq = ++revealSeq.current;
     const waitReady = new Promise((resolve) => {
-      const t0 = performance.now();
       const tick = () => {
         if (revealSeq.current !== seq || !busy.current) return resolve(false);
-        const susp = document.querySelector(".mf-route-load");
-        if (!susp || performance.now() - t0 > 400) return resolve(true);
+        if (!document.querySelector(".mf-route-load")) return resolve(true);
         requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
@@ -195,10 +194,12 @@ export default function TransitionCurtain() {
       if (el.dataset.v === "copper") {
         const circle = el.querySelector(".mf-curtain__circle");
         const m = el.querySelector(".mf-curtain__m");
-        /* o M sai JUNTO com a cobertura, num único gesto de entrega
-           (Eduardo, 25/10): a marca não segura sozinha nem fica
-           sobrando sobre o conteúdo que já entrou por baixo. */
-        t.to(m, { opacity: 0, scale: 0.94, duration: 0.24, ease: "power2.in" }, 0)
+        /* o M TERMINA DE SAIR antes da cobertura perder os cantos
+           (Eduardo/Codex, 25/10): fade de 100ms conclui em ~100ms; o
+           círculo só descobre os cantos a ~155-160ms (power3.inOut
+           300ms, 1440x900 e 390x844) — a marca nunca fica sobrando
+           sobre o conteúdo que entra por baixo. */
+        t.to(m, { opacity: 0, scale: 0.94, duration: 0.1, ease: "power2.in" }, 0)
           .to(circle, { scale: 0, duration: 0.3, ease: "power3.inOut" }, 0);
       } else {
         const pL = el.querySelector(".mf-curtain__panelL");
