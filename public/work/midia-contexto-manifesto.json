@@ -15,12 +15,13 @@
   "sha256": {
    "mp4": "eb728f921e0a16d21956ea23520e159a8908985d355bdeda309558ddc09a77da",
    "poster": "01399546d022032a48a0aa7402ece7fdc5d34e8d83446a1e64e94de36a08fef8",
-   "print": "72b23622fb893c08425afe6dbce9a8b2cae1f465fcda1871ebb5f2c2c9fafb17"
+   "print": "9f5dddfe759fec56b721652c127eab64bffe55869a69a39c862d3c0c485178f5"
   },
   "caption": {
    "pt": "Site Rota Forte: seção de equipamentos — frota de munck e carretas para qualquer operação.",
    "en": "Rota Forte site: the equipment section — munck fleet and trailers for any operation."
-  }
+  },
+  "printNote": "Print substituído em 25/10 (rodada 2): o anterior mostrava a seção de Localização/mapa por divergência de captura (heading sem espaço no DOM: \"Equipamentos paraqualquer operação\"). Novo print verificado no DOM: título da seção de equipamentos visível abaixo da navbar, conteúdo de equipamentos (Guindauto articulado), sem mapa."
  },
  {
   "file": "public/work/rota-forte/context-atendimento.mp4",
@@ -133,8 +134,34 @@
    "print": "73e379827d5839dde40ea677015b4c901e625e973617924d5911c2b2cc8e3cd2"
   },
   "caption": {
-   "pt": "Site 1000 Peças: \"Encontre a peça certa\" — navegação dos cards de peças.",
-   "en": "1000 Peças site: \"Find the right part\" — browsing the parts cards."
-  }
+   "pt": "Site 1000 Peças: chamada final para orçamento e rodapé da página (CTA/footer).",
+   "en": "1000 Peças site: final quote call and page footer (CTA/footer)."
+  },
+  "printNote": "Legenda corrigida 25/10: o print mostra CTA/rodapé, não os cards de peças (o clipe mostra os cards)."
+ },
+ {
+  "file": null,
+  "poster": null,
+  "print": "public/work/motormoura/context-catalogo.webp",
+  "source": "https://motormouraequipamentos.com.br/Catalogo",
+  "action": "Página /Catalogo rolagem ~1 tela para a grade de produtos; produtos reais carregados (Motobombas, Motores Estacionários Honda/Toyama/Tekna), sem login e sem captura de leads",
+  "width": 1440,
+  "height": 900,
+  "durationS": null,
+  "fps": null,
+  "frames": null,
+  "bitrate": null,
+  "faststart": null,
+  "sha256": {
+   "mp4": null,
+   "poster": null,
+   "print": "420813b7897d854c55c5ea5b69516d8da8bfefbcd1e10916502d2acdf1be590e"
+  },
+  "caption": {
+   "pt": "Catálogo da MotorMoura com produtos reais: peças para motobombas e motores estacionários.",
+   "en": "MotorMoura catalog with real products: water pump and stationary engine parts."
+  },
+  "printNote": "Print novo 25/10 (sem clipe). Nota factual: o print context-categorias.webp (home) mostra o aviso \"Catálogo em atualização\" e não deve ser usado como prova de catálogo pronto; este print do /Catalogo mostra os produtos reais.",
+  "data": "25/10/2026"
  }
 ]

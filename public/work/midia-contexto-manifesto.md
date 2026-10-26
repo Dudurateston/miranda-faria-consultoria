@@ -63,3 +63,9 @@ Branch codex/cases-contexto-midia-2026-10-25 (base 7548cadb). Captura em browser
 - Rota Forte: o raster congela após o primeiro screenshot na mesma sessão (site com motion pesado); cada print saiu de uma sessão própria, clips a ~57-58fps reais.
 - Congelamentos: maior sequência de quadros idênticos em qualquer clipe = 0.18s (hover curto); sem spinner/paradas longas.
 - Vídeos originais/current/poster existentes e materiais do Thales: intocados. Nenhum arquivo alterado — apenas adição de context-* novos.
+## Correções e acréscimos (rodada 2, 25/10/2026)
+
+- `public/work/rota-forte/context-frota.webp` — SUBSTITUÍDO. O print anterior mostrava a seção de Localização/mapa (divergência de captura: heading sem espaço no DOM). Novo print verificado no DOM antes de salvar: título "Equipamentos paraqualquer operação" visível abaixo da navbar, conteúdo de equipamentos (Guindauto articulado), sem mapa. SHA256: 9f5dddfe759fec56b721652c127eab64bffe55869a69a39c862d3c0c485178f5. 1440x900, WebP q90.
+- `public/work/motormoura/context-catalogo.webp` — NOVO (print, sem clipe). Página https://motormouraequipamentos.com.br/Catalogo com produtos reais carregados (Motobombas; Motores Estacionários Honda/Toyama/Tekna), sem login e sem leads. SHA256: 420813b7897d854c55c5ea5b69516d8da8bfefbcd1e10916502d2acdf1be590e. 1440x900, WebP q90. Nota factual: o print da home (context-categorias.webp) mostra o aviso "Catálogo em atualização" e não serve como prova de catálogo pronto.
+- Legenda do print `public/work/1000-pecas/context-pecas.webp` corrigida no manifesto para CTA/rodapé (o conteúdo de cards está no clipe).
+- Clipes inalterados; transição não tocada.
