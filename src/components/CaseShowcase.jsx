@@ -36,14 +36,24 @@ function CaseVideo({ item, lang, blocked }) {
     const video = videoRef.current;
     if (!video) return;
     const observer = new IntersectionObserver(([entry]) => {
-      visibleRef.current = entry.isIntersecting && entry.intersectionRatio >= .15;
+      visibleRef.current = entry.isIntersecting;
       if (!visibleRef.current) video.pause();
-    }, { threshold: [0, .15] });
+    }, { threshold: 0 });
+    // Prepare a short clip before a deliberate play, without starting playback.
+    // Never reload a playing/partly loaded player as it crosses the viewport.
+    const prepare = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      video.preload = navigator.connection?.saveData ? 'metadata' : 'auto';
+      if (video.paused && video.readyState === 0) video.load();
+      prepare.disconnect();
+    }, { rootMargin: '400px' });
     const onVisibility = () => { if (document.hidden) video.pause(); };
     observer.observe(video);
+    prepare.observe(video);
     document.addEventListener('visibilitychange', onVisibility);
     return () => {
       observer.disconnect();
+      prepare.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
       video.pause();
     };
@@ -59,11 +69,17 @@ function CaseVideo({ item, lang, blocked }) {
           <p className="mf-cs__error" role="status">{en ? 'The video could not load. The still image is shown above.' : 'Não foi possível carregar o vídeo. O quadro de apresentação aparece acima.'}</p>
         </div>
       ) : (
-        <video ref={videoRef} src={item.src} poster={item.poster} width={item.width} height={item.height}
+        <video data-case-player ref={videoRef} src={item.src} poster={item.poster} width={item.width} height={item.height}
           style={{ aspectRatio: `${item.width} / ${item.height}` }}
           controls muted playsInline preload="none" aria-label={item.alt}
           onError={() => setFailed(true)}
-          onPlay={() => { if (blocked || document.hidden || !visibleRef.current) videoRef.current?.pause(); }}>
+          onPlay={() => {
+            const current = videoRef.current;
+            if (blocked || document.hidden || !visibleRef.current) { current?.pause(); return; }
+            current.closest('.mf-cs')?.querySelectorAll('video[data-case-player]').forEach(other => {
+              if (other !== current) other.pause();
+            });
+          }}>
           {en ? 'Your browser cannot play this video.' : 'Seu navegador não reproduz este vídeo.'}
         </video>
       )}
@@ -97,14 +113,16 @@ export default function CaseShowcase({ presentation, item, labels, lang }) {
   };
 
   return (
-    <div className={`mf-cs mf-cs--${presentation.leadMode}${presentation.editorial ? ' mf-cs--editorial' : ''}`}>
+    <div className={`mf-cs mf-cs--${presentation.leadMode}${presentation.editorial ? ' mf-cs--editorial' : ''}${presentation.media.length === 1 ? ' mf-cs--single' : ''}`}>
       <div className="mf-cs__lead" data-depth="0.08">
         {renderMedia(presentation.leadMedia, true)}
-        <StorySection section="problem" item={item} labels={storyLabels} editorial={presentation.editorial} />
+        {presentation.leadSections?.length > 0 && <div className="mf-cs__lead-stories">
+          {presentation.leadSections.map(section => <StorySection key={section} section={section} item={item} labels={storyLabels} editorial={presentation.editorial} />)}
+        </div>}
       </div>
       <p className="mf-cs__language">{lang === 'en' ? 'Project media is in Portuguese.' : 'Interfaces e peças em português.'}</p>
       {presentation.chapters.map(chapter => (
-        <div className={`mf-cs__chapter mf-cs__chapter--${chapter.layout}`} key={chapter.id} data-depth="0.28">
+        <div className={`mf-cs__chapter mf-cs__chapter--${chapter.layout}${chapter.contextual ? ' mf-cs__chapter--context' : ''}`} key={chapter.id}>
           {chapter.title && <h2 className="mf-cs__chapter-title">{chapter.title}</h2>}
           {chapter.sections.length > 0 && <div className="mf-cs__stories">
             {chapter.sections.map(section => <StorySection key={section} section={section} item={item} labels={storyLabels} editorial={presentation.editorial} />)}
@@ -135,6 +153,7 @@ const showcaseCss = `
 .mf-cs figcaption{font:400 .875rem/1.65 var(--font-body);color:var(--color-text-secondary);max-width:75ch;margin-top:.25rem}
 .mf-cs__video figcaption{display:flex;justify-content:space-between;gap:.5rem 2rem;max-width:none;flex-wrap:wrap;margin-top:1rem}
 .mf-cs__story{min-width:0}
+.mf-cs__lead-stories{display:grid;gap:2.5rem;min-width:0}
 .mf-cs__story h2{margin:0 0 1.15rem;font-weight:400}
 .mf-cs__story-title,.mf-cs__chapter-title{font:400 clamp(1.8rem,3.5vw,3.25rem)/1.12 var(--font-display);letter-spacing:var(--tracking-display);color:var(--color-text-primary)}
 .mf-cs__chapter-title{margin:0 0 clamp(1.5rem,4vw,3rem)}
@@ -155,6 +174,9 @@ const showcaseCss = `
 .mf-cs__social a:focus-visible{outline:2px solid var(--color-accent);outline-offset:4px}
 .mf-cs__social a span{font-size:.8125rem}
 @media(min-width:900px){
+  .mf-cs--identity .mf-cs__lead>.mf-cs__lead-stories{grid-column:1;grid-row:1}
+  .mf-cs--single .mf-cs__lead{align-items:start}
+  .mf-cs--single .mf-cs__lead>.mf-cs__figure{position:sticky;top:calc(var(--nav-height) + 1.5rem);align-self:start}
   .mf-cs__chapter--mobile,.mf-cs__chapter--mobile-left{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(3rem,8vw,8rem)}
   .mf-cs__chapter--mobile .mf-cs__stories,.mf-cs__chapter--mobile-left .mf-cs__stories{margin:0;gap:clamp(2.5rem,5vw,5rem)}
   .mf-cs__chapter--mobile-left .mf-cs__media-group{grid-column:1;grid-row:1}
@@ -164,11 +186,15 @@ const showcaseCss = `
   .mf-cs--identity .mf-cs__lead>.mf-cs__story{grid-column:1;grid-row:1;margin:0}
   .mf-cs__chapter--split{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.65fr);gap:clamp(2rem,4vw,4rem);align-items:center}
   .mf-cs__chapter--split .mf-cs__stories{margin:0}
-  .mf-cs__chapter--wide .mf-cs__stories:has(>.mf-cs__story:nth-child(2)){grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(2rem,6vw,6rem)}
+  .mf-cs__chapter--wide:not(.mf-cs__chapter--context) .mf-cs__stories:has(>.mf-cs__story:nth-child(2)){grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(2rem,6vw,6rem)}
   .mf-cs__chapter--pair .mf-cs__media-group{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
   .mf-cs__chapter--pair .mf-cs__figure:nth-child(even){margin-top:3rem}
   .mf-cs__chapter--portraits .mf-cs__media-group{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start;max-width:900px;margin:0 auto}
   .mf-cs__chapter--portraits .mf-cs__figure:nth-child(2){margin-top:clamp(3rem,8vw,7rem)}
+  .mf-cs__chapter.mf-cs__chapter--context{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.1fr);align-items:start;gap:clamp(2rem,5vw,5rem)}
+  .mf-cs__chapter--context .mf-cs__stories{display:grid;grid-template-columns:minmax(0,1fr);grid-column:1;grid-row:1;margin:0;gap:2.5rem}
+  .mf-cs__chapter--context .mf-cs__media-group{grid-column:2;grid-row:1;position:sticky;top:calc(var(--nav-height) + 1.5rem);align-self:start;margin:0;width:100%}
+  .mf-cs__chapter--context .mf-cs__story p{max-width:48ch}
 }
 @media(max-width:899px){
   .mf-cs--identity .mf-cs__lead>.mf-cs__figure{max-width:min(100%,560px);margin:0 auto}

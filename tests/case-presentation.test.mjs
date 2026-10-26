@@ -23,7 +23,7 @@ test('five established presentations remain complete and localized', () => {
       assert.ok(m.alt && m.caption);
       assert.ok(!/[—–]/.test(m.alt + m.caption));
     }
-    assert.deepEqual(['problem', ...p.chapters.flatMap(c=>c.sections || [])].sort(), ['decisions','impact','problem','process']);
+    assert.deepEqual([...p.leadSections, ...p.chapters.flatMap(c=>c.sections || [])].sort(), ['decisions','impact','problem','process']);
     const displayed = [p.leadMedia, ...p.chapters.flatMap(c=>c.media || [])];
     assert.deepEqual(displayed.slice().sort(), [...ids].sort());
   }

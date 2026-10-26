@@ -29,6 +29,30 @@ export default function AutoVideo({ src, className, label, poster, preloadOffset
      ultimo frame do video velho durante a carga fica impossivel por
      construcao, em vez de mitigado por aborto. */
   const finalSrc = live ? src : undefined;
+  useEffect(() => {
+    const video = ref.current;
+    if (!video || !finalSrc) return;
+    let visible = false;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => {
+      if (!visible || document.hidden || motion.matches) video.pause();
+      else video.play().catch(() => {});
+    };
+    const observer = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      sync();
+    }, { threshold: 0 });
+    if (observer) observer.observe(video);
+    else { visible = true; sync(); }
+    document.addEventListener('visibilitychange', sync);
+    motion.addEventListener('change', sync);
+    return () => {
+      observer?.disconnect();
+      document.removeEventListener('visibilitychange', sync);
+      motion.removeEventListener('change', sync);
+      video.pause();
+    };
+  }, [finalSrc]);
   return (
     <video
       key={finalSrc ?? "off"}
@@ -36,7 +60,6 @@ export default function AutoVideo({ src, className, label, poster, preloadOffset
       className={className}
       src={finalSrc}
       poster={live ? still : undefined}
-      autoPlay={live}
       muted
       loop
       playsInline
