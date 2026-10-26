@@ -226,7 +226,7 @@ export default function TransitionCurtain() {
       <div className="mf-curtain__seam" />
       <style>{`
 .mf-curtain{
-  position:fixed;inset:0;z-index:150;
+  position:fixed;inset:0;z-index:10000;
   background:transparent;
   display:flex;align-items:center;justify-content:center;
   pointer-events:all;

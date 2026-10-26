@@ -25,3 +25,10 @@ test('logo and theme adjustments preserve the approved timing and safeguards', (
   assert.match(s, /prefers-reduced-motion/);
   assert.match(s, /}, 2000\)/);
 });
+
+test('route curtain covers the decorative cursor so it cannot look like a second logo dot', () => {
+  const cursor = readFileSync(new URL('../src/components/CopperCursor.jsx', import.meta.url), 'utf8');
+  const cursorZ = Number(cursor.match(/zIndex:\s*(\d+)/)[1]);
+  const curtainZ = Number(s.match(/\.mf-curtain\{[^}]*z-index:(\d+)/s)[1]);
+  assert.ok(curtainZ > cursorZ);
+});
