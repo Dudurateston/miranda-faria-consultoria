@@ -38,9 +38,9 @@ export const copy = {
         "Miranda Faria develops websites, systems and automations that connect a business's identity, offer and daily operations.",
       skip: "Skip to content",
       pages: {
-        home: "Complete web systems (brand, product and data as one) built end-to-end, shipped fast.",
+        home: "Websites, business systems and automation shaped around your customers and daily operations.",
         work: "Management systems, websites and identity delivered end to end: parts, logistics, agribusiness, retail and the arts.",
-        servicos: "Four solutions, one operating principle: systems, websites, design and automation.",
+        servicos: "Websites, business systems, design and automation for the way your business works.",
         about: "Meet Miranda Faria and the approach behind its websites, business systems and automations.",
         how: "From diagnosis to deployment: an agreed scope, a working preview and guidance for everyday use.",
         insights: "A guided questionnaire about your business, with priorities and an initial plan based on your answers.",
@@ -71,6 +71,7 @@ export const copy = {
       thesis: {
         label: "What we do",
         lead: "We build the foundations your business runs on.",
+        offer: "Websites · Business systems · Automation",
         body: "Miranda Faria develops websites, management systems and automations around the work your business needs to do.",
       },
       pitch: {
@@ -93,7 +94,7 @@ export const copy = {
       },
       workTeaser: {
         label: "Selected work",
-        lead: "Systems in the field.",
+        lead: "Selected work.",
         cta: "See all work",
       },
       contactTeaser: {
@@ -107,15 +108,15 @@ export const copy = {
         label: "Miranda Faria",
         lead: "Technology shaped around the way you work.",
         body: [
-          "A catalogue shared through WhatsApp, stock figures that are hard to verify, a report rebuilt every month. These are the tasks we start with when defining a project.",
-          "We design your digital presence and build the systems that support your operations. The initial assessment sets priorities, and you follow the solution as it takes shape.",
+          "Customers struggle to find the right information. Your team checks the same details more than once. We start by understanding where the work gets held up.",
+          "We create websites that explain your offer, systems that organise daily work and automation for recurring tasks. The proposal sets the priorities, and working previews let you review progress along the way.",
         ],
         cta: "See our solutions",
       },
       techPreview: {
         label: "Technology",
-        lead: "A lean stack, driven by method.",
-        stack: ["React", "Vite", "Tailwind CSS", "Node.js", "Python", "Figma", "AI / LLMs", "Automation"],
+        lead: "Technology that supports the way you work.",
+        stack: ["Websites and interfaces", "Business systems", "Reports and dashboards", "Connections between systems"],
         cta: "Learn more",
       },
       trabalhoPreview: {
@@ -125,14 +126,14 @@ export const copy = {
         label: "Diagnosis",
         lead: "Where does your operation lose time?",
         intro:
-          "Answer about your day-to-day work and get priorities with an initial plan.",
-        cta: "Run the diagnosis",
+          "Answer a few questions about your business to get clear priorities and practical next steps.",
+        cta: "Find your priorities",
       },
       finalCta: { label: "Next step", lead: "Tell us what needs to work better.", cta: "Message on WhatsApp" },
     },
     work: {
       label: "Work",
-      lead: "Systems in the field.",
+      lead: "Selected work.",
       intro:
         "Projects shipped end to end: brand, interface, data model and deployment, across more than ten sectors. Those with their own domain are linked live: go see for yourself. The client-confidential ones stay on screens and recordings.",
       viewCase: "Read the case",
@@ -174,7 +175,7 @@ export const copy = {
       layers: [
         {
           t: "Surface",
-          d: "Brand, typography, motion, the thing a visitor actually feels. Decided first, because it constrains everything below it.",
+          d: "Brand, typography and motion give the experience its character and help visitors find their way.",
         },
         {
           t: "System",
@@ -182,7 +183,7 @@ export const copy = {
         },
         {
           t: "Data",
-          d: "The model underneath: entities, relationships, what is derived and what is stored. Where most projects quietly break.",
+          d: "How information is stored, connected and calculated, so the team can work from consistent records.",
         },
         {
           t: "Foundation",
@@ -190,43 +191,43 @@ export const copy = {
         },
       ],
       stack: {
-        label: "Stack",
-        lead: "Lean tools, directed by method.",
+        label: "Tools",
+        lead: "The tools behind the work.",
         items: [
           "React / Vite: interface and application",
-          "Tailwind CSS: design tokens the code reads",
+          "Tailwind CSS: a consistent visual system",
           "Node.js / Python: automation and integrations",
           "Figma: identity and interface design",
-          "AI / LLMs: leverage across the mechanical parts",
-          "REST APIs: systems that talk to systems",
+          "Reviewed tools for research and development",
+          "REST APIs: connections between business systems",
         ],
       },
       demo: {
         label: "Live, right now",
-        lead: "Three proofs running on this page.",
+        lead: "Explore how the interface responds.",
         body:
-          "Nothing below is video, GIF or slide: three panels computing right now, in your browser, with zero animation libraries. If it holds 60 frames per second, it's because the math holds.",
+          "These interactive examples run in your browser. Explore how movement responds to input and how additional work affects the time needed to draw each frame.",
         items: [
           {
             tag: "01",
             name: "Vector field",
             hint: "Move your cursor over the field.",
             caption:
-              "Hundreds of particles in a flow field that reacts to your cursor. Raw Canvas 2D, zero dependencies, drawn in real time.",
+              "Particles respond to your cursor in real time. The example shows how an interface can acknowledge an action through movement.",
           },
           {
             tag: "02",
             name: "Motion curves",
             hint: "Drag across it to scrub time.",
             caption:
-              "Linear, exponential-out and elastic: the easing choreography that governs this site's motion, drawn as hand-written math. Hover to freeze time under your cursor and read each curve's value; leave, and they dance on their own.",
+              "Compare three ways for a movement to start and finish. Move across the panel to inspect the curves and see how timing changes the feel of an interaction.",
           },
           {
             tag: "03",
             name: "Frame time",
-            hint: "Press and drag: break the 60fps.",
+            hint: "Press and drag to compare the response under load.",
             caption:
-              "The real time of every frame of this page, measured live. Press and drag across the panel to inject load and watch the line climb over the 16.7ms budget: then release and see it recover. Performance is measured, not promised.",
+              "This panel tracks the time between frames in your browser. Press and drag to add work, then release to see the response recover. Results depend on your device and the other work it is running.",
           },
         ],
       },
@@ -315,9 +316,9 @@ export const copy = {
     },
     servicos: {
       label: "Services",
-      lead: "Four solutions, one operating principle.",
+      lead: "What does your business need next?",
       intro:
-        "Systems, design, business intelligence and automation: each shippable alone, designed to work as one.",
+        "A clearer website, a recognisable brand or better control of daily work. We define what you need and build the right solution around it.",
       metricsLabel: "Delivery in practice",
       metrics: [
         { n: "Scope", d: "The proposal sets out the delivery, stages and criteria for reviewing the project." },
@@ -448,9 +449,9 @@ export const copy = {
         "Sistemas sob medida, BI, automação e identidade visual para negócios que já não cabem mais na planilha.",
       skip: "Pular para o conteúdo",
       pages: {
-        home: "Sistemas completos (marca, produto e dados como um só) construídos sob medida, entregues rápido.",
+        home: "Sites, sistemas de gestão e automações pensados para seus clientes e para a rotina da sua empresa.",
         work: "Sistemas de gestão, sites e identidade entregues de ponta a ponta: peças, logística, agronegócio, comércio e arte.",
-        servicos: "Quatro soluções, um princípio de operação: sistemas, sites, design e automação.",
+        servicos: "Sites, sistemas, design e automação para a rotina da sua empresa.",
         about: "Conheça a Miranda Faria e a abordagem por trás dos seus sites, sistemas e automações.",
         how: "Do diagnóstico à implantação: escopo definido, prévia para avaliar e orientação para usar a solução.",
         insights: "Um questionário sobre a rotina da empresa, com prioridades e um plano inicial baseado nas respostas.",
@@ -481,6 +482,7 @@ export const copy = {
       thesis: {
         label: "O que fazemos",
         lead: "Estruturamos a base que sustenta o seu negócio.",
+        offer: "Sites · Sistemas de gestão · Automação",
         body: "A Miranda Faria desenvolve sites, sistemas de gestão e automações a partir do trabalho que a sua empresa precisa fazer.",
       },
       pitch: {
@@ -517,15 +519,15 @@ export const copy = {
         label: "Miranda Faria",
         lead: "A tecnologia começa na rotina da sua empresa.",
         body: [
-          "Um catálogo que vive no WhatsApp, um estoque difícil de conferir, um relatório refeito todo mês. É desse trabalho que partimos para definir o projeto.",
-          "Desenhamos a presença digital e construímos os sistemas que apoiam a operação. O diagnóstico orienta o que entra primeiro, e você acompanha a solução tomando forma.",
+          "Quando o cliente não encontra o que procura ou a equipe precisa conferir a mesma informação várias vezes, existe um trabalho a melhorar. Começamos por entender essa rotina.",
+          "Criamos sites para apresentar sua oferta, sistemas para organizar a operação e automações para as tarefas recorrentes. A proposta define as prioridades, e você acompanha o projeto em prévias durante o desenvolvimento.",
         ],
         cta: "Conheça nossas soluções",
       },
       techPreview: {
         label: "Tecnologia",
-        lead: "Stack enxuto, dirigido por método.",
-        stack: ["React", "Vite", "Tailwind CSS", "Node.js", "Python", "Figma", "IA / LLMs", "Automações"],
+        lead: "Tecnologia que acompanha a sua operação.",
+        stack: ["Sites e interfaces", "Sistemas de gestão", "Relatórios e indicadores", "Integração entre sistemas"],
         cta: "Saiba mais",
       },
       trabalhoPreview: {
@@ -584,7 +586,7 @@ export const copy = {
       layers: [
         {
           t: "Superfície",
-          d: "Marca, tipografia, movimento: o que o visitante sente. Decidido primeiro, porque limita tudo que vem abaixo.",
+          d: "Marca, tipografia e movimento dão personalidade à experiência e ajudam o visitante a se orientar.",
         },
         {
           t: "Sistema",
@@ -592,7 +594,7 @@ export const copy = {
         },
         {
           t: "Dados",
-          d: "O modelo por baixo: entidades, relações, o que é calculado e o que é guardado. Onde a maioria dos projetos quebra em silêncio.",
+          d: "Como as informações são guardadas, relacionadas e calculadas para que a equipe trabalhe a partir dos mesmos registros.",
         },
         {
           t: "Fundação",
@@ -600,43 +602,43 @@ export const copy = {
         },
       ],
       stack: {
-        label: "Stack",
-        lead: "Ferramentas enxutas, dirigidas por método.",
+        label: "Ferramentas",
+        lead: "As ferramentas por trás do projeto.",
         items: [
           "React / Vite: interface e aplicação",
-          "Tailwind CSS: tokens de design que o código lê",
+          "Tailwind CSS: consistência visual entre as telas",
           "Node.js / Python: automação e integrações",
           "Figma: design de identidade e interface",
-          "IA / LLMs: alavanca nas partes mecânicas",
-          "APIs REST: sistemas que conversam com sistemas",
+          "Ferramentas de pesquisa e desenvolvimento com revisão",
+          "APIs REST: integração entre os sistemas da empresa",
         ],
       },
       demo: {
         label: "Ao vivo, agora",
-        lead: "Três provas rodando nesta página.",
+        lead: "Explore como a interface responde.",
         body:
-          "Nada abaixo é vídeo, GIF ou slide: são três painéis calculando neste instante, no seu navegador, sem nenhuma biblioteca de animação. Se está segurando 60 quadros por segundo, é porque a matemática aguenta.",
+          "Os exemplos abaixo funcionam no seu navegador. Explore como o movimento responde à interação e como uma carga maior afeta o tempo entre os quadros.",
         items: [
           {
             tag: "01",
             name: "Campo vetorial",
             hint: "Passe o cursor sobre o campo.",
             caption:
-              "Centenas de partículas num campo de fluxo que reage ao seu cursor. Canvas 2D puro, zero dependências, desenhado em tempo real.",
+              "Partículas respondem ao movimento do cursor em tempo real. O exemplo mostra como uma interface pode reconhecer uma ação por meio do movimento.",
           },
           {
             tag: "02",
             name: "Curvas de movimento",
             hint: "Arraste por cima pra ler o tempo.",
             caption:
-              "Linear, exponencial de saída e elástica: a coreografia de easing que rege o movimento deste site, desenhada como matemática escrita à mão. Passe o cursor pra congelar o instante e ler o valor de cada curva; tire, e elas seguem dançando sozinhas.",
+              "Compare três maneiras de começar e terminar um movimento. Passe pelo painel para observar as curvas e perceber como o tempo muda a sensação de uma interação.",
           },
           {
             tag: "03",
             name: "Tempo de quadro",
-            hint: "Pressione e arraste: quebre os 60fps.",
+            hint: "Pressione e arraste para comparar a resposta sob carga.",
             caption:
-              "O tempo real de cada quadro desta página, medido ao vivo. Pressione e arraste pelo painel pra injetar carga e ver a linha subir acima da meta de 16,7ms: solte e veja ela se recuperar. Performance se mede, não se promete.",
+              "O painel acompanha o intervalo entre quadros no seu navegador. Pressione e arraste para adicionar trabalho; solte para observar a recuperação. O resultado varia conforme o aparelho e as outras tarefas em execução.",
           },
         ],
       },
@@ -725,9 +727,9 @@ export const copy = {
     },
     servicos: {
       label: "Serviços",
-      lead: "Quatro soluções, um princípio de operação.",
+      lead: "Do que sua empresa precisa agora?",
       intro:
-        "Sistemas, design, gestão e automação: cada um entrega sozinho, todos desenhados para funcionar como um só.",
+        "Um site que explica melhor sua oferta, uma marca reconhecível ou mais controle da operação. Entendemos a necessidade e definimos o que o projeto deve entregar.",
       metricsLabel: "Entregas na prática",
       metrics: [
         { n: "Escopo", d: "A proposta define o que será entregue, as etapas e os critérios para conferir o projeto." },
@@ -1089,12 +1091,12 @@ export const cases = {
       practice: "desenvolvimento",
       role: "Studio project · with Thales Machado Souza",
       name: "Sevalho Controladoria",
-      sector: "Financial controllership",
+      sector: "Financial management",
       year: "2026",
       media: { dir: "sevalho-controladoria", shots: 3, video: false },
       link: "https://sevalhocontroladoria.com.br",
       summary:
-        "Financial controllership consulting: a free diagnosis as the front door for SMBs trying to leave the financial chaos behind.",
+        "A financial management consultancy, with services and an initial assessment clearly presented to business owners.",
       problem:
         "An SMB owner who does not know the company's real result does not hire consulting from a service description: he hires when someone names his pain.",
       process:
@@ -1102,7 +1104,7 @@ export const cases = {
       decisions:
         "One page, one offer, one step. No service menu: the invitation is the diagnosis, and the relationship starts there.",
       impact:
-        "A company website with controllership services and a diagnostic entry point for a business conversation.",
+        "A company website presenting financial management services, with an initial assessment to guide the first conversation.",
     },
     {
       slug: "vaf-global",
@@ -1114,7 +1116,7 @@ export const cases = {
       media: { dir: "vaf-global", shots: 3, video: false },
       link: "https://vafglobal.com.br",
       summary:
-        "An international deal desk: business intermediation between Brazil, Portugal and the UAE, written in corporate-grade Portuguese.",
+        "A website presenting business advisory services across Brazil, Portugal and the UAE.",
       problem:
         "International deals die of distance: counterparty, capital and decision scattered, with no channel that translated the operation for the decision-maker.",
       process:
@@ -1361,7 +1363,7 @@ export const cases = {
       media: { dir: "sevalho-controladoria", shots: 3, video: false },
       link: "https://sevalhocontroladoria.com.br",
       summary:
-        "Consultoria de controladoria com o diagnóstico gratuito como porta de entrada para PMEs que querem sair do caos financeiro.",
+        "Serviços de controladoria e diagnóstico financeiro apresentados com clareza para quem administra uma empresa.",
       problem:
         "O dono de PME que não sabe o resultado real do próprio negócio não contrata consultoria por descrição de serviço: contrata quando alguém nomeia a dor dele.",
       process:
@@ -1504,7 +1506,7 @@ export const practices = {
     desenvolvimento: {
       slug: "desenvolvimento",
       label: "Development",
-      lead: "Sites that work the lead, not just present it.",
+      lead: "A website that helps customers take the next step.",
       intro:
         "Company websites, landing pages and online catalogues organised around your offer. We make it clear what the business provides, help visitors find relevant information and give them a direct way to get in touch. The proposal defines the stages and delivery dates.",
       artAlt: "Dots wandering the page, turning to copper and leaving through the conversation",
@@ -1547,7 +1549,7 @@ export const practices = {
     automacao: {
       slug: "automacao",
       label: "Automation",
-      lead: "The repetitive work leaves human hands.",
+      lead: "Put recurring tasks on a reliable schedule.",
       intro:
         "A client asks for a price, an order arrives through another channel and the same details have to be typed again. We connect messaging, spreadsheets and systems to reduce that repeated work. Automation handles the defined steps while people follow up exceptions and decisions. The same approach can support business systems, websites and operational routines.",
       artAlt: "A stream where loose information enters and structured data comes out",
@@ -1592,7 +1594,7 @@ export const practices = {
     automacao: {
       slug: "automacao",
       label: "Automação",
-      lead: "O trabalho repetitivo sai da mão humana.",
+      lead: "Rotinas que seguem o fluxo combinado.",
       intro:
         "O cliente pergunta um preço, o pedido chega por outro canal e a mesma informação precisa ser digitada de novo. Conectamos atendimento, planilhas e sistemas para reduzir esse trabalho repetido. A automação cuida das etapas definidas, e as pessoas acompanham exceções e decisões. Essa abordagem pode apoiar o sistema de gestão, o site e as rotinas da empresa.",
       artAlt: "Uma mensagem chega e o gatilho a transforma sozinho em resposta, cadastro e rotina",
@@ -1726,7 +1728,7 @@ export const practices = {
     desenvolvimento: {
       slug: "desenvolvimento",
       label: "Desenvolvimento",
-      lead: "Site que trabalha o lead, não só apresenta.",
+      lead: "Um site que ajuda o cliente a dar o próximo passo.",
       intro:
         "Sites institucionais, landing pages e catálogos organizados em torno da sua oferta. Apresentamos o que a empresa faz, ajudamos o visitante a encontrar a informação certa e criamos um caminho direto para o contato. As etapas e os prazos são definidos na proposta.",
       artAlt: "Pontos que vagam pela página, convertem em cobre e saem pela conversa",

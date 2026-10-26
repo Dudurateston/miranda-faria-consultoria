@@ -302,6 +302,7 @@ export default function HeroStage() {
             <i className="mf-hero__linepulse" />
           </span>
           <p className="mf-hero__lead">{t.thesis.lead}</p>
+          <p className="mf-hero__offer">{t.thesis.offer}</p>
         </div>
         <a
           href={lang === "en" ? CALENDLY_URL : WHATSAPP_URL}
@@ -389,6 +390,7 @@ html[data-skin="dark"] img.mf-intro__m--dark{display:block}
 @media (prefers-reduced-motion: reduce){.mf-hero__linepulse{animation:none;opacity:0}}
 .mf-hero__lead{margin:0.9rem 0 0;text-align:center;font-family:var(--font-body);font-size:clamp(0.95rem,1.35vw,1.12rem);
   line-height:1.5;color:var(--ink-dim);max-width:34ch;margin-inline:auto}
+.mf-hero__offer{font-family:var(--font-body);font-size:clamp(.75rem,1vw,.875rem);line-height:1.65;color:var(--color-text-secondary);text-align:center;margin:.65rem auto 0;max-width:42ch}
 .mf-hero__mark{
   width:clamp(34px,4.6vw,52px);height:auto;
   margin:0 auto 1.8rem;display:block;
