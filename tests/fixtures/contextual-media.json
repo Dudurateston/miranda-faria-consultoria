@@ -1,0 +1,162 @@
+[
+  {
+    "path": "/work/rota-forte/context-frota.webp",
+    "sha256": "9f5dddfe759fec56b721652c127eab64bffe55869a69a39c862d3c0c485178f5",
+    "bytes": 83266,
+    "width": 1440,
+    "height": 900,
+    "sourceUrl": "https://rota-forte.base44.app/"
+  },
+  {
+    "path": "/work/rota-forte/context-frota.mp4",
+    "sha256": "eb728f921e0a16d21956ea23520e159a8908985d355bdeda309558ddc09a77da",
+    "bytes": 1307131,
+    "width": 1280,
+    "height": 800,
+    "sourceUrl": "https://rota-forte.base44.app/",
+    "duration": 6.533333,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "fps": "30/1"
+  },
+  {
+    "path": "/work/rota-forte/context-frota-poster.webp",
+    "sha256": "01399546d022032a48a0aa7402ece7fdc5d34e8d83446a1e64e94de36a08fef8",
+    "bytes": 64108,
+    "width": 1280,
+    "height": 800,
+    "sourceUrl": "https://rota-forte.base44.app/"
+  },
+  {
+    "path": "/work/rota-forte/context-atendimento.webp",
+    "sha256": "a77934702490b7024b45ed1bb37ed3b56280a45a34459fccf3ed4ab2ac9922f1",
+    "bytes": 66264,
+    "width": 1440,
+    "height": 900,
+    "sourceUrl": "https://rota-forte.base44.app/"
+  },
+  {
+    "path": "/work/motormoura/context-atendimento.webp",
+    "sha256": "afe4bb745fd3a59716af366fdeaebb5f7aee5c5ffec332774e2ba28727e9f157",
+    "bytes": 50110,
+    "width": 1440,
+    "height": 900,
+    "sourceUrl": "https://motormouraequipamentos.com.br/"
+  },
+  {
+    "path": "/work/motormoura/context-quotation.mp4",
+    "sha256": "4bf2c62ffb109dc48ddf010c005274468c8b1d06e31233b101aaa8f54657f155",
+    "bytes": 561567,
+    "width": 1280,
+    "height": 800,
+    "sourceUrl": "https://motormouraequipamentos.com.br/",
+    "duration": 3.75,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "fps": "12/1",
+    "kind": "excerpt of real new capture",
+    "sourceFile": "work/motormoura/context-atendimento.mp4",
+    "startSeconds": 2.5,
+    "sourceSha256": "52c5940ddb2f38bd95df156504414617be65c2c9deb54998e51102537b8885cb"
+  },
+  {
+    "path": "/work/motormoura/context-quotation-poster.webp",
+    "sha256": "01c8dcc76c07bd9f3d44f694db3473f5578c1d85b4f5f10ab500a7d7fba54ecc",
+    "bytes": 30866,
+    "width": 1280,
+    "height": 800,
+    "sourceUrl": "https://motormouraequipamentos.com.br/",
+    "kind": "excerpt of real new capture",
+    "sourceFile": "work/motormoura/context-atendimento.mp4",
+    "startSeconds": 2.5,
+    "sourceSha256": "52c5940ddb2f38bd95df156504414617be65c2c9deb54998e51102537b8885cb"
+  },
+  {
+    "path": "/work/1000-pecas/context-categorias.webp",
+    "sha256": "55dcacd98ee74514ac29adc11673e51b0f3ac3a820c1a7fc6a3a2a3a0b2229e1",
+    "bytes": 73810,
+    "width": 1440,
+    "height": 900,
+    "sourceUrl": "https://100pecas.base44.app/"
+  },
+  {
+    "path": "/work/1000-pecas/context-pecas.webp",
+    "sha256": "73e379827d5839dde40ea677015b4c901e625e973617924d5911c2b2cc8e3cd2",
+    "bytes": 39712,
+    "width": 1440,
+    "height": 900,
+    "sourceUrl": "https://100pecas.base44.app/"
+  },
+  {
+    "path": "/work/1000-pecas/context-categorias.mp4",
+    "sha256": "62b7f4fc0e4bf46478b5409c957cf3370bcd060ed1c61ee469b642ea6acc091e",
+    "bytes": 1376863,
+    "width": 1280,
+    "height": 800,
+    "sourceUrl": "https://100pecas.base44.app/",
+    "duration": 7.033333,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "fps": "30/1"
+  },
+  {
+    "path": "/work/1000-pecas/context-categorias-poster.webp",
+    "sha256": "2822d9d7736dbcc4da8253a7084fef0cfcf80d82cf4b8005847681e8cee855a3",
+    "bytes": 63790,
+    "width": 1280,
+    "height": 800,
+    "sourceUrl": "https://100pecas.base44.app/"
+  },
+  {
+    "path": "/work/queijos-serra/context-stock.mp4",
+    "sha256": "9f8fcd8e7a46e4c5797ec6edad4abe17703ab96e4087792de36829468985056f",
+    "bytes": 450706,
+    "width": 1280,
+    "height": 720,
+    "sourceUrl": "https://mirandafaria.com.br/work/queijos-serra/video.mp4",
+    "duration": 7.0,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "fps": "30/1",
+    "kind": "excerpt of unchanged public original",
+    "startSeconds": 3,
+    "sourceSha256": "f38b9ac5b86df2f20a2c8e82a4c8eebc428587eb71485bd8089606a52d110875"
+  },
+  {
+    "path": "/work/queijos-serra/context-stock-poster.webp",
+    "sha256": "edd6129d26cf9b8a8c4c1a1b7138c94fa7474132b9c84b62666954692ec0772d",
+    "bytes": 36330,
+    "width": 1280,
+    "height": 720,
+    "sourceUrl": "https://mirandafaria.com.br/work/queijos-serra/video.mp4",
+    "kind": "excerpt of unchanged public original",
+    "startSeconds": 3,
+    "sourceSha256": "f38b9ac5b86df2f20a2c8e82a4c8eebc428587eb71485bd8089606a52d110875"
+  },
+  {
+    "path": "/work/paulo-henrique/context-tools.mp4",
+    "sha256": "b2b477c4a85ac84d0c0b4ea22a3089a709c31db54bca64d441de58f9c74316f2",
+    "bytes": 433914,
+    "width": 1280,
+    "height": 720,
+    "sourceUrl": "https://mirandafaria.com.br/work/paulo-henrique/video.mp4",
+    "duration": 7.0,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "fps": "30/1",
+    "kind": "excerpt of unchanged public original",
+    "startSeconds": 1,
+    "sourceSha256": "3c53fe0f3cdd0c24722a738173396a1ce8add1d0f0059272b32c131822703d1a"
+  },
+  {
+    "path": "/work/paulo-henrique/context-tools-poster.webp",
+    "sha256": "fe4182e6c2d2a117693f68e1b2771dc52715531052273f9b21974265609e2668",
+    "bytes": 31308,
+    "width": 1280,
+    "height": 720,
+    "sourceUrl": "https://mirandafaria.com.br/work/paulo-henrique/video.mp4",
+    "kind": "excerpt of unchanged public original",
+    "startSeconds": 1,
+    "sourceSha256": "3c53fe0f3cdd0c24722a738173396a1ce8add1d0f0059272b32c131822703d1a"
+  }
+]

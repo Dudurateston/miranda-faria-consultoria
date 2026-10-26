@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import gsap from "gsap";
-import { M_LOGO_BONE } from "@/lib/site";
 
 /**
  * Cortina de rota — rodízio determinístico de 2 variantes (Eduardo,
@@ -215,10 +214,12 @@ export default function TransitionCurtain() {
   }, [loc.pathname]);
 
   return (
-    <div ref={curtain} className="mf-curtain" data-theme="dark" data-v="copper" style={{ display: "none" }} aria-hidden="true">
-      {/* A — círculo de cobre + M osso */}
+    <div ref={curtain} className="mf-curtain" data-v="copper" style={{ display: "none" }} aria-hidden="true">
+      {/* Official reference, byte-identical: frame its symbol without tracing or recolouring. */}
       <div className="mf-curtain__circle" />
-      <img className="mf-curtain__m" src={M_LOGO_BONE} alt="" aria-hidden="true" />
+      <div className="mf-curtain__brand">
+        <div className="mf-curtain__m"><svg viewBox="36 36 306 350" width="306" height="350" aria-hidden="true"><image href="/art/mf-lockup-official.png" width="1568" height="420" /></svg></div>
+      </div>
       {/* B — painéis de papel + filete de cobre */}
       <div className="mf-curtain__panelL" />
       <div className="mf-curtain__panelR" />
@@ -241,25 +242,28 @@ export default function TransitionCurtain() {
   transform:scale(0);
   will-change:transform;
 }
+.mf-curtain__brand{
+  position:absolute;inset:0;z-index:1;display:grid;place-items:center;pointer-events:none;
+}
 .mf-curtain__m{
-  /* M OSSO oficial (25KB, alpha confirmado) sobre o cobre — sem
-     drop-shadow: sombra sobre o chapado virava mancha. */
-  width:clamp(110px,18vw,280px);opacity:1;position:absolute;z-index:1;
-  left:50%;top:50%;translate:-50% -52%;
+  /* Centering belongs to the grid; GSAP only animates this inner wrapper. */
+  width:clamp(190px,28vw,360px);aspect-ratio:1;opacity:1;
+  display:grid;place-items:center;background:#fff;border-radius:50%;
   will-change:transform,opacity;
 }
+.mf-curtain__m svg{display:block;width:64%;height:auto;overflow:hidden}
 /* cada variante renderiza SÓ as próprias camadas — o círculo nunca
    nasce escondido atrás dos painéis nem vice-versa */
 .mf-curtain[data-v="copper"] .mf-curtain__panelL,
 .mf-curtain[data-v="copper"] .mf-curtain__panelR,
 .mf-curtain[data-v="copper"] .mf-curtain__seam{display:none}
 .mf-curtain[data-v="split"] .mf-curtain__circle,
-.mf-curtain[data-v="split"] .mf-curtain__m{display:none}
+.mf-curtain[data-v="split"] .mf-curtain__brand{display:none}
 /* B — dois painéis de osso (a paleta do site: tinta sobre osso) que
    fecham/abrem partindo pelo filete. */
 .mf-curtain__panelL,.mf-curtain__panelR{
   position:absolute;top:0;bottom:0;width:calc(50% + 2px);
-  background:var(--bone, #F5F1EA);
+  background:var(--bg-light, #F5F1EA);
   will-change:transform;
 }
 .mf-curtain__panelL{left:0}

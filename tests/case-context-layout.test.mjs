@@ -35,3 +35,16 @@ test('decorative loops pause when offscreen, hidden or motion is reduced', () =>
   assert.match(s, /visibilitychange/);
   assert.match(s, /prefers-reduced-motion/);
 });
+
+test('mobile boards keep original files and dimensions, with a bounded presentation viewport', () => {
+  for (const slug of ['uaiso-travel', 'sevalho-controladoria', 'vaf-global', 'advogados-lco']) {
+    const p = getCasePresentation(slug);
+    const m = p.media.find(m => m.frame);
+    assert.ok(m, slug);
+    assert.ok(m.src.endsWith('/03.webp'));
+    assert.deepEqual([m.width, m.height], [1600, 900]);
+    assert.ok(m.frame.x >= 0 && m.frame.y >= 0);
+    assert.ok(m.frame.x + m.frame.width <= m.width);
+    assert.ok(m.frame.y + m.frame.height <= m.height);
+  }
+});

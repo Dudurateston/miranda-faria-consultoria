@@ -42,7 +42,7 @@ test('portrait artworks keep true dimensions and restrained display width', () =
 
 test('Rota video reserves its real aspect ratio and caps display to native width',()=>{
   const video=config.getCasePresentation('rota-forte','pt').media.find(m=>m.type==='video');
-  assert.deepEqual([video.width,video.height],[1440,900]);
+  assert.deepEqual([video.width,video.height],[1280,800]);
   const s=readFileSync(new URL('../src/components/CaseShowcase.jsx',import.meta.url),'utf8');
   assert.match(s,/mf-cs__video.*data-media-id=\{item.id\}.*shot-width/);
   assert.match(s,/aspectRatio/);

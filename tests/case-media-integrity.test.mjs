@@ -8,6 +8,7 @@ import { getCasePresentation } from '../src/content/casePresentation.js';
 
 const fixturePath = new URL('./fixtures/case-media-baseline.json',import.meta.url);
 const baseline = existsSync(fixturePath) ? JSON.parse(readFileSync(fixturePath,'utf8')) : null;
+const contextual = JSON.parse(readFileSync(new URL('./fixtures/contextual-media.json',import.meta.url),'utf8'));
 const root = process.env.CASE_ASSET_ROOT || fileURLToPath(new URL('../public',import.meta.url));
 const localPublic = fileURLToPath(new URL('../public',import.meta.url));
 const blobSha = data => createHash('sha1').update(`blob ${data.length}\0`).update(data).digest('hex');
@@ -27,6 +28,11 @@ test('every pilot image, poster and video has an identified source and exact has
     const p=getCasePresentation(slug,'pt');
     for(const m of p.media) for(const src of [m.src,m.poster].filter(Boolean)) {
       const path=src.replace(/^\//,'');
+      const selected = contextual.find(item => item.path === src);
+      if (selected) {
+        assert.equal(createHash('sha256').update(readFileSync(join(localPublic,path))).digest('hex'),selected.sha256,path);
+        continue;
+      }
       const sha=baseline.pilots[path] || baseline.derived?.[path]?.sha;
       assert.ok(sha,path);
       assert.equal(blobSha(readAsset(path)),sha,path);
@@ -54,9 +60,10 @@ test('current case media uses documented real captures and edited sources, with 
   for(const slug of ['rota-forte','motormoura','1000-pecas']) {
     const p=getCasePresentation(slug,'pt');
     assert.ok(p.editorial && p.delivery && p.headings);
-    assert.ok(p.media.every(m=>m.src.includes('/current-')));
+    assert.ok(p.media.every(m=>/\/(current|context)-/.test(m.src)));
     const video=p.media.find(m=>m.type==='video');
-    assert.equal(video.poster,`/work/${slug}/current-home.webp`);
-    assert.deepEqual([video.width,video.height],[1440,900]);
+    assert.ok(video.poster.includes('/context-') && video.poster.endsWith('-poster.webp'));
+    assert.ok(video.duration > 0 && video.duration <= 8);
+    assert.deepEqual([video.width,video.height],[1280,800]);
   }
 });

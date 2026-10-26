@@ -4,8 +4,15 @@ import CaseMediaViewer from '@/components/CaseMediaViewer';
 function CaseShot({ item, lang, priority, onOpen }) {
   const [failed, setFailed] = useState(false);
   const en = lang === 'en';
+  const frame = item.frame;
+  const framing = frame ? {
+    width: `${item.width / frame.width * 100}%`,
+    maxWidth: 'none', position: 'absolute',
+    left: `${-frame.x / frame.width * 100}%`,
+    top: `${-frame.y / frame.height * 100}%`,
+  } : undefined;
   return (
-    <figure className="mf-cs__figure" data-media-id={item.id} style={{ '--shot-width': `${item.displayWidth || item.width}px` }}>
+    <figure className="mf-cs__figure" data-media-id={item.id} style={{ '--shot-width': `${frame?.width || item.displayWidth || item.width}px` }}>
       {failed ? (
         <p className="mf-cs__error" role="status">
           {en ? 'The image could not load.' : 'Não foi possível carregar a imagem.'}{' '}
@@ -15,9 +22,11 @@ function CaseShot({ item, lang, priority, onOpen }) {
         <button className="mf-cs__image-button" type="button" aria-haspopup="dialog"
           aria-label={`${en ? 'Enlarge image' : 'Ampliar imagem'}: ${item.caption}`}
           onClick={event => onOpen(item.id, event.currentTarget)}>
-          <img src={item.src} width={item.width} height={item.height}
+          <span className={frame ? 'mf-cs__viewport' : undefined} style={frame ? { aspectRatio: `${frame.width} / ${frame.height}` } : undefined}>
+          <img src={item.src} width={item.width} height={item.height} style={framing}
             alt={item.alt} loading={priority ? 'eager' : 'lazy'} decoding="async"
             onError={() => setFailed(true)} />
+          </span>
           <span className="mf-cs__enlarge">{en ? 'Enlarge image' : 'Ampliar imagem'} <span aria-hidden="true">↗</span></span>
         </button>
       )}
@@ -148,6 +157,7 @@ const showcaseCss = `
 .mf-cs__figure{margin:0;min-width:0;width:100%;max-width:var(--shot-width,100%)}
 .mf-cs__image-button{display:block;width:100%;padding:0;border:0;background:transparent;color:inherit;text-align:left;cursor:zoom-in;font:inherit}
 .mf-cs__image-button img,.mf-cs__video img,.mf-cs__video video{display:block;width:100%;height:auto;max-width:100%;border:0;object-fit:contain}
+.mf-cs__viewport{display:block;position:relative;overflow:hidden;width:100%}
 .mf-cs__image-button:focus-visible{outline:2px solid var(--color-accent);outline-offset:6px}
 .mf-cs__enlarge{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:44px;font:400 .8125rem/1.5 var(--font-body);text-decoration:underline;text-underline-offset:.25em}
 .mf-cs figcaption{font:400 .875rem/1.65 var(--font-body);color:var(--color-text-secondary);max-width:75ch;margin-top:.25rem}

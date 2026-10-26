@@ -5,7 +5,7 @@ import { base44 } from "@/api/base44Client";
 import { useLang } from "@/lib/i18n";
 import { copy } from "@/content/copy";
 import { usePageTitle } from "@/lib/usePageTitle";
-import { WHATSAPP_URL, WHATSAPP_URL_EN, CALENDLY_URL, EMAIL, WHATSAPP_DISPLAY, WHATSAPP_URL_SELLER, WHATSAPP_URL_SELLER_EN, SELLERS_APP_URL } from "@/lib/site";
+import { WHATSAPP_URL, CALENDLY_URL, EMAIL, WHATSAPP_DISPLAY, WHATSAPP_URL_SELLER, WHATSAPP_URL_SELLER_EN, SELLERS_APP_URL } from "@/lib/site";
 
 /**
  * Contato — CTA direto no WhatsApp no topo e, abaixo, o formulario

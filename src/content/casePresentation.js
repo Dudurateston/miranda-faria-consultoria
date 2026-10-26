@@ -1,5 +1,6 @@
 import { remainingPresentations } from './remainingCasePresentation.js';
 import { contextualCase } from './contextualCase.js';
+import { updateCaseMedia } from './caseMediaUpdates.js';
 // Presentation metadata. New captures use distinct filenames; original media is retained.
 const shot = (id, src, width, height, pt, en, displayWidth) => ({
   id, type: 'image', src, width, height, displayWidth,
@@ -121,7 +122,7 @@ const presentations = {
 export function getCasePresentation(slug, lang = 'pt') {
   const original = presentations[slug] || remainingPresentations[slug];
   if (!original) return null;
-  const p = contextualCase(original);
+  const p = contextualCase(updateCaseMedia(slug, original));
   const locale = lang === 'en' ? 'en' : 'pt';
   return {
     ...p,
