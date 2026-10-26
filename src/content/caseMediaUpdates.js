@@ -38,6 +38,27 @@ const video = (id, slug, name, duration, pt, en) => ({ id, type: 'video', src: `
 const row = (id, section, media) => ({ id, sections: Array.isArray(section) ? section : [section], media: [media], layout: 'wide' });
 
 function freshPresentation(slug, p) {
+  if (slug === 'motormoura-marca') return {
+    ...p,
+    delivery: { pt: 'Identidade visual e materiais de marca', en: 'Visual identity and brand materials' },
+    media: p.media.map(m => m.id === 'motormoura-marca-2' ? {
+      ...m, src: '/work/motormoura-marca/logo-original.svg', width: 6611, height: 2537.469833119385,
+      ...labels('Logotipo da MotorMoura. Arquivo original em vetor.', 'MotorMoura logo. The original vector artwork.'),
+    } : m),
+  };
+  if (slug === 'roda-agro-marca') return {
+    ...p, social: {
+      ...p.social,
+      pt: { ...p.social.pt, label: 'Ver o Instagram da Roda', image: {
+        src: '/work/roda-agro-marca/instagram-programacao.jpg', width: 516, height: 640,
+        alt: 'Peça de contagem regressiva e programação publicada no Instagram da Roda de Agronegócios de Piumhi.',
+      } },
+      en: { ...p.social.en, label: 'Visit Roda’s Instagram', image: {
+        src: '/work/roda-agro-marca/instagram-programacao.jpg', width: 516, height: 640,
+        alt: 'A countdown and programme post from Roda de Agronegócios de Piumhi’s Instagram.',
+      } },
+    },
+  };
   const old = id => p.media.find(m => m.id === id);
   if (slug === 'rota-forte') return { ...p, media: [old('rota-home'), old('rota-operations'),
     image('rota-fleet', slug, 'context-frota.webp', 'Frota, equipamento selecionado e informações técnicas.', 'Fleet, selected equipment and technical information.'),

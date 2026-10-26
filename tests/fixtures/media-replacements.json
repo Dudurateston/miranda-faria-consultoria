@@ -1,0 +1,19 @@
+{
+  "baseCommit": "d840ec6107b6f9f4993b772fecb8ecc144981291",
+  "motorMoura": {
+    "source": "https://drive.google.com/file/d/11fhnFLRMUJY4Jp66uDzU5D3mNcTttUB8/view",
+    "file": "public/work/motormoura-marca/logo-original.svg",
+    "sha256": "867ec146edd75e94074a0dba5b2341a05778bf1202e8915d80ee34a5024fcf52",
+    "viewBox": "-43006.64953046988 -11915.428640545613 6611 2537.469833119385",
+    "scriptsHandlersAndExternalReferences": 0
+  },
+  "roda": {
+    "source": "https://www.instagram.com/rodaagropiumhi/p/DXDCXCnFpL7/",
+    "profile": "https://www.instagram.com/rodaagropiumhi/",
+    "file": "public/work/roda-agro-marca/instagram-programacao.jpg",
+    "sha256": "3e1b06347d7d99b36a021d8a5c1764895b3afae6b1efd847ca5d074941841153",
+    "width": 516,
+    "height": 640,
+    "authorization": "Eduardo afirmou autoria de todas as pe\u00e7as e autorizou uso de qualquer imagem publicada pelo perfil; somente imagem p\u00fablica foi obtida."
+  }
+}

@@ -139,10 +139,14 @@ export default function CaseShowcase({ presentation, item, labels, lang }) {
           {chapter.media.length > 0 && <div className="mf-cs__media-group">{chapter.media.map(id => renderMedia(id))}</div>}
         </div>
       ))}
-      {presentation.social && <aside className="mf-cs__social">
+      {presentation.social && <aside className={`mf-cs__social${presentation.social.image ? ' mf-cs__social--image' : ''}`}>
         <p>{presentation.social.credit}</p>
         <a href={presentation.social.href} target="_blank" rel="noopener noreferrer">
-          {presentation.social.label} <span>({lang === 'en' ? 'new tab' : 'nova aba'})</span>
+          {presentation.social.image && <img
+            src={presentation.social.image.src} alt={presentation.social.image.alt}
+            width={presentation.social.image.width} height={presentation.social.image.height}
+            loading="lazy" decoding="async" />}
+          <span className="mf-cs__social-copy">{presentation.social.label} <span>({lang === 'en' ? 'new tab' : 'nova aba'})</span></span>
         </a>
       </aside>}
       {activeId && <CaseMediaViewer items={presentation.media} activeId={activeId} lang={lang}
@@ -181,6 +185,11 @@ const showcaseCss = `
 .mf-cs__social{margin-top:clamp(2rem,5vw,4rem);padding:1.5rem 0;border-top:1px solid var(--color-divider);font:400 .9375rem/1.7 var(--font-body)}
 .mf-cs__social p{margin:0;color:var(--color-text-secondary)}
 .mf-cs__social a{display:inline-flex;align-items:center;flex-wrap:wrap;gap:.35rem;min-height:44px;padding:.5rem 0;color:var(--color-text-primary);text-underline-offset:.25em}
+.mf-cs__social--image a{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);align-items:center;gap:clamp(1.5rem,4vw,4rem);width:100%;margin-top:1.5rem}
+.mf-cs__social--image img{display:block;width:100%;max-width:320px;height:auto}
+.mf-cs__social--image a .mf-cs__social-copy{font:400 clamp(1.5rem,3vw,2.5rem)/1.15 var(--font-display);text-decoration:underline;text-underline-offset:.2em}
+.mf-cs__social--image .mf-cs__social-copy>span{display:block;margin-top:.75rem;font:400 .8125rem/1.5 var(--font-body);text-decoration:none}
+@media(max-width:700px){.mf-cs__social--image a{grid-template-columns:minmax(0,1fr);gap:1.25rem}}
 .mf-cs__social a:focus-visible{outline:2px solid var(--color-accent);outline-offset:4px}
 .mf-cs__social a span{font-size:.8125rem}
 @media(min-width:900px){
