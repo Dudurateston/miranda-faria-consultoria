@@ -1,0 +1,140 @@
+[
+ {
+  "file": "public/work/rota-forte/context-frota.mp4",
+  "poster": "public/work/rota-forte/context-frota-poster.webp",
+  "print": "public/work/rota-forte/context-frota.webp",
+  "source": "https://rota-forte.base44.app/",
+  "action": "Rolagem do hero até a seção de equipamentos (frota) com hover em card",
+  "width": 1280,
+  "height": 800,
+  "durationS": 6.53,
+  "fps": 30,
+  "frames": 196,
+  "bitrate": 1600405,
+  "faststart": true,
+  "sha256": {
+   "mp4": "eb728f921e0a16d21956ea23520e159a8908985d355bdeda309558ddc09a77da",
+   "poster": "01399546d022032a48a0aa7402ece7fdc5d34e8d83446a1e64e94de36a08fef8",
+   "print": "72b23622fb893c08425afe6dbce9a8b2cae1f465fcda1871ebb5f2c2c9fafb17"
+  },
+  "caption": {
+   "pt": "Site Rota Forte: seção de equipamentos — frota de munck e carretas para qualquer operação.",
+   "en": "Rota Forte site: the equipment section — munck fleet and trailers for any operation."
+  }
+ },
+ {
+  "file": "public/work/rota-forte/context-atendimento.mp4",
+  "poster": "public/work/rota-forte/context-atendimento-poster.webp",
+  "print": "public/work/rota-forte/context-atendimento.webp",
+  "source": "https://rota-forte.base44.app/",
+  "action": "Do mapa de atuação até o cadastro de frota e o bloco de orçamento",
+  "width": 1280,
+  "height": 800,
+  "durationS": 7.67,
+  "fps": 30,
+  "frames": 230,
+  "bitrate": 1533488,
+  "faststart": true,
+  "sha256": {
+   "mp4": "6df1a38d7343e0de9b9bb7809654d51de6991edaac82ed922b13863f7ca1c95d",
+   "poster": "0bafa8d1bf6c0febc172a219415b56021645bafcd3aa25b848dd98cda2e09346",
+   "print": "a77934702490b7024b45ed1bb37ed3b56280a45a34459fccf3ed4ab2ac9922f1"
+  },
+  "caption": {
+   "pt": "Site Rota Forte: do mapa de atuação ao cadastro de frota e orçamento direto.",
+   "en": "Rota Forte site: from the coverage map to fleet signup and a direct quote."
+  }
+ },
+ {
+  "file": "public/work/motormoura/context-categorias.mp4",
+  "poster": "public/work/motormoura/context-categorias-poster.webp",
+  "print": "public/work/motormoura/context-categorias.webp",
+  "source": "https://motormouraequipamentos.com.br/",
+  "action": "Rolagem até \"O que você procura?\" com hover em categoria",
+  "width": 1280,
+  "height": 800,
+  "durationS": 6.83,
+  "fps": 12,
+  "frames": 82,
+  "bitrate": 1308849,
+  "faststart": true,
+  "sha256": {
+   "mp4": "d7cfa422655a679e00e18da773f6fd8a719ada116c5612e98d22073331ebc276",
+   "poster": "a8f1aa4959b61a9dab0a0d53bc5998a9e60c3d066ddeceefbcc56e1c9277ed37",
+   "print": "440acf604b7da36352fa7e299e51d2a2f0807f993d340166d3315919d8825cbb"
+  },
+  "caption": {
+   "pt": "Site MotorMoura: home com categorias e linhas de produto (\"O que você procura?\").",
+   "en": "MotorMoura site: home with categories and product lines (\"What are you looking for?\")."
+  }
+ },
+ {
+  "file": "public/work/motormoura/context-atendimento.mp4",
+  "poster": "public/work/motormoura/context-atendimento-poster.webp",
+  "print": "public/work/motormoura/context-atendimento.webp",
+  "source": "https://motormouraequipamentos.com.br/",
+  "action": "Rolagem pelas vantagens até \"Como fazer uma cotação\"",
+  "width": 1280,
+  "height": 800,
+  "durationS": 6.25,
+  "fps": 12,
+  "frames": 75,
+  "bitrate": 1466353,
+  "faststart": true,
+  "sha256": {
+   "mp4": "52c5940ddb2f38bd95df156504414617be65c2c9deb54998e51102537b8885cb",
+   "poster": "e03c2c8931ee3f39234b876384eadaf8f78f4f3c74d9e061fc1105976148d9d8",
+   "print": "afe4bb745fd3a59716af366fdeaebb5f7aee5c5ffec332774e2ba28727e9f157"
+  },
+  "caption": {
+   "pt": "Site MotorMoura: vantagens e o passo a passo de cotação.",
+   "en": "MotorMoura site: advantages and the step-by-step quote request."
+  }
+ },
+ {
+  "file": "public/work/1000-pecas/context-categorias.mp4",
+  "poster": "public/work/1000-pecas/context-categorias-poster.webp",
+  "print": "public/work/1000-pecas/context-categorias.webp",
+  "source": "https://100pecas.base44.app/",
+  "action": "Rolagem do hero até as categorias de peças com hover",
+  "width": 1280,
+  "height": 800,
+  "durationS": 7.03,
+  "fps": 30,
+  "frames": 211,
+  "bitrate": 1565951,
+  "faststart": true,
+  "sha256": {
+   "mp4": "62b7f4fc0e4bf46478b5409c957cf3370bcd060ed1c61ee469b642ea6acc091e",
+   "poster": "2822d9d7736dbcc4da8253a7084fef0cfcf80d82cf4b8005847681e8cee855a3",
+   "print": "55dcacd98ee74514ac29adc11673e51b0f3ac3a820c1a7fc6a3a2a3a0b2229e1"
+  },
+  "caption": {
+   "pt": "Site 1000 Peças: categorias de peças para caminhões e pickups.",
+   "en": "1000 Peças site: parts categories for trucks and pickups."
+  }
+ },
+ {
+  "file": "public/work/1000-pecas/context-pecas.mp4",
+  "poster": "public/work/1000-pecas/context-pecas-poster.webp",
+  "print": "public/work/1000-pecas/context-pecas.webp",
+  "source": "https://100pecas.base44.app/",
+  "action": "Rolagem até \"Encontre a peça certa\" navegando os cards de peças",
+  "width": 1280,
+  "height": 800,
+  "durationS": 7.27,
+  "fps": 30,
+  "frames": 218,
+  "bitrate": 1498895,
+  "faststart": true,
+  "sha256": {
+   "mp4": "3b5b2485ef3ad516cc7e3ba5b04da1a930487844cc5f9e02f86d10f542ce9cfa",
+   "poster": "45b513aa2660863d2c5036f706fb4bf8e6b671de52e773758ad56749a1383573",
+   "print": "73e379827d5839dde40ea677015b4c901e625e973617924d5911c2b2cc8e3cd2"
+  },
+  "caption": {
+   "pt": "Site 1000 Peças: \"Encontre a peça certa\" — navegação dos cards de peças.",
+   "en": "1000 Peças site: \"Find the right part\" — browsing the parts cards."
+  }
+ }
+]
