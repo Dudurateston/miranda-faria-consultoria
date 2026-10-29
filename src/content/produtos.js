@@ -69,8 +69,37 @@ export const PULSO_RH = {
   ],
   screensTitle: "Telas do produto",
   screensNote:
-    "Telas da versão em uso, com os nomes das pessoas preservados fora das imagens.",
-  screens: [],
+    "Telas da versão em uso. Nomes de pessoas e de empresas aparecem desfocados.",
+  screens: [
+    {
+      src: "/work/pulso-rh/inicio.webp",
+      width: 1024,
+      height: 576,
+      alt: "Tela de início do Pulso RH com presentes, faltas, atrasos, batidas a tratar, saldo de banco e quadro ativo.",
+      caption: "Início: presentes, faltas, atrasos e o que resolver no dia.",
+    },
+    {
+      src: "/work/pulso-rh/folha.webp",
+      width: 1024,
+      height: 576,
+      alt: "Folha do dia com a situação de cada pessoa e a justificativa a um clique.",
+      caption: "Folha do dia: a situação de cada pessoa e a justificativa a um clique.",
+    },
+    {
+      src: "/work/pulso-rh/analise.webp",
+      width: 1024,
+      height: 576,
+      alt: "Painel de análise com absenteísmo, horas extras e faltantes, dias de falta e evolução diária.",
+      caption: "Análise: absenteísmo, horas extras e faltantes do mês.",
+    },
+    {
+      src: "/work/pulso-rh/importar.webp",
+      width: 1024,
+      height: 544,
+      alt: "Tela de importação recebendo folha de ponto, relatório de empregados e AFD do relógio.",
+      caption: "Importação: relógio e folha entram juntos, sem digitar nada.",
+    },
+  ],
   diagTitle: "Diagnóstico grátis do ponto",
   diagLead: "Antes de falar de preço, veja o que o seu próprio ponto mostra.",
   diagSteps: [
