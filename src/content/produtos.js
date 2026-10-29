@@ -2,7 +2,7 @@
  * Conteudo das paginas de produto (15/10/2026, agente site-seo).
  *
  * Paginas de UM idioma so, de proposito:
- * - Apontador: PT, para industrias no Brasil;
+ * - Pulso RH: PT, para industrias no Brasil;
  * - Eightyfive: EN, para escolas de ingles na Irlanda.
  * A outra lingua redireciona e o hreflang aponta so para a versao real
  * (SiteLayout le MONO_LANG_PAGES). O sitemap tambem le daqui, por isso
@@ -17,7 +17,7 @@ export const MONO_LANG_PAGES = { "pulso-rh": "pt", eightyfive: "en", apontador: 
 
 /* Produtos proprios nas listas de portfolio (Work, Home e menu — revisao
    Codex 21/10): UMA lista compartilhada por idioma, com lead fiel em cada
-   lingua (as rotas continuam monolinguas: Apontador fala PT, Eightyfive
+   lingua (as rotas continuam monolinguas: Pulso RH fala PT, Eightyfive
    fala EN). Nada de numero inventado nem screenshot de dados reais. */
 export const getPortfolioProducts = (lang) => {
   const pt = lang === "pt";
@@ -27,8 +27,8 @@ export const getPortfolioProducts = (lang) => {
       name: "Pulso RH",
       to: "/pt/pulso-rh",
       lead: pt
-        ? "Ponto, jornada e indicadores de RH da fábrica, sem planilha."
-        : "Clock-ins, working hours and factory HR indicators, no spreadsheets.",
+        ? "O ponto da fábrica vira decisão no mesmo dia."
+        : "Factory clock-ins turned into decisions the same day.",
       tag: pt ? "Produto próprio · Miranda Faria" : "In-house product · Miranda Faria",
       media: { img: "/art/m-logo-320.webp" },
     },
@@ -48,59 +48,58 @@ export const getPortfolioProducts = (lang) => {
 const ORIGIN = "https://mirandafaria.com.br";
 
 export const PULSO_RH = {
-  pageTitle: "Pulso RH: ponto, jornada e indicadores de RH da fábrica",
+  pageTitle: "Pulso RH: o ponto da fábrica vira decisão no mesmo dia",
   label: "Pulso RH · produto próprio para indústrias",
-  lead: "O ponto da fábrica vira indicador de RH no mesmo dia.",
+  lead: "O ponto da fábrica vira decisão no mesmo dia.",
   body:
-    "O Pulso RH lê o arquivo que o relógio de ponto já gera e a relação de empregados da folha. Em poucos minutos a folha do dia está montada, o absenteísmo aparece por setor e as horas extras ficam com o custo ao lado. Sem trocar relógio e sem digitar planilha.",
-  primary: "Pedir o diagnóstico grátis do ponto",
-  secondary: "Ver a demonstração",
+    "O Pulso RH lê o arquivo que o relógio já gera e devolve a semana inteira em painel: quem faltou, o que foi atestado, quanto a hora extra custou e onde a jornada saiu da regra. O RH para de montar planilha e passa a decidir com o número na frente.",
+  primary: "Ver o pulso da minha fábrica",
+  secondary: "Abrir a demonstração",
   whatsappNote: "WhatsApp",
-  featuresTitle: "O que ele faz",
+  featuresTitle: "O que muda na segunda-feira",
   features: [
-    "Importa o AFD da Portaria 671 e os relatórios do relógio em CSV, Excel, HTML ou PDF, além da Relação de Empregados da folha em PDF.",
-    "Monta a folha do dia com presentes, atrasos, faltas, folgas e batidas a tratar, e deixa a justificativa a um clique.",
-    "Mostra o absenteísmo por dia, setor e mês, separando atestado e abono de falta sem justificativa.",
-    "Soma as horas extras e as faltantes do mês, com o custo das extras ao lado do que vai para o banco de horas.",
-    "Abre alertas de RH: fim de experiência, férias vencendo, faltas seguidas e pontos de atenção da CLT.",
-    "Mantém o cadastro único, com jornada por vigência, revisão de cadastros repetidos e histórico de importações.",
-    "Leva os números para painéis por setor e por empresa, com evolução diária e os setores em atenção.",
-    "Guarda cultura e compliance no mesmo lugar: canal de manifestações, PDI e acesso por perfil de usuário.",
+    "A folha do dia já está pronta quando o RH abre o sistema: presentes, atrasos, faltas, folgas e batidas a tratar, com a justificativa a um clique.",
+    "O absenteísmo abre por dia, setor e mês, separando atestado e abono da falta sem justificativa, para a conversa ser sobre causa e não sobre planilha.",
+    "A hora extra chega com o custo ao lado, e o que vai para o banco de horas fica registrado com autor e data.",
+    "O alerta chega antes do problema: fim de experiência, férias vencendo, faltas seguidas e pontos de atenção da CLT.",
+    "A jornada tem vigência e versão, então a regra de hoje não reescreve o mês passado.",
+    "O cadastro passa por revisão de duplicados, e cada importação fica no histórico com linhas e período.",
+    "Os painéis mostram o setor em atenção e a evolução diária, comparando unidades quando a empresa tem mais de uma.",
+    "Cultura e compliance ficam no mesmo lugar: canal de manifestações com protocolo, PDI por ciclo e acesso por perfil.",
   ],
-  screensTitle: "Telas do produto",
-  screensNote:
-    "Telas da versão em uso. Nomes de pessoas e de empresas aparecem desfocados.",
+  screensTitle: "Por dentro do produto",
+  screensNote: "Telas da versão em uso. Nomes de pessoas e de empresas aparecem desfocados.",
   screens: [
     {
       src: "/work/pulso-rh/inicio.webp",
       width: 1024,
       height: 576,
       alt: "Tela de início do Pulso RH com presentes, faltas, atrasos, batidas a tratar, saldo de banco e quadro ativo.",
-      caption: "Início: presentes, faltas, atrasos e o que resolver no dia.",
+      caption: "Início: o dia inteiro em seis números.",
     },
     {
       src: "/work/pulso-rh/folha.webp",
       width: 1024,
       height: 576,
       alt: "Folha do dia com a situação de cada pessoa e a justificativa a um clique.",
-      caption: "Folha do dia: a situação de cada pessoa e a justificativa a um clique.",
+      caption: "Folha do dia: a ausência já com a justificativa.",
     },
     {
       src: "/work/pulso-rh/analise.webp",
       width: 1024,
       height: 576,
       alt: "Painel de análise com absenteísmo, horas extras e faltantes, dias de falta e evolução diária.",
-      caption: "Análise: absenteísmo, horas extras e faltantes do mês.",
+      caption: "Análise: o mês fechado, com setor em atenção.",
     },
     {
       src: "/work/pulso-rh/importar.webp",
       width: 1024,
       height: 544,
       alt: "Tela de importação recebendo folha de ponto, relatório de empregados e AFD do relógio.",
-      caption: "Importação: relógio e folha entram juntos, sem digitar nada.",
+      caption: "Importação: relógio e folha entram juntos.",
     },
   ],
-  diagTitle: "Diagnóstico grátis do ponto",
+  diagTitle: "O diagnóstico é grátis e leva um dia",
   diagLead: "Antes de falar de preço, veja o que o seu próprio ponto mostra.",
   diagSteps: [
     "Exporte o AFD do último mês no relógio ou no sistema de ponto.",
@@ -108,26 +107,22 @@ export const PULSO_RH = {
     "Receba um PDF com faltas, horas extras e pontos de atenção. No diagnóstico grátis, o arquivo é apagado depois do envio do PDF.",
   ],
   diagAlt:
-    "Prefere não mandar dados? Importe o arquivo na demonstração. Na demonstração, o arquivo é lido no seu navegador e não sai do seu computador.",
+    "Prefere não mandar dados? Importe na demonstração: o arquivo é lido no seu navegador e não sai do seu computador.",
   diagNote:
     "O diagnóstico é uma leitura dos números do ponto. Não substitui a análise do seu contador ou do advogado trabalhista.",
   faqTitle: "Perguntas frequentes",
   faq: [
     {
-      q: "O que mudou do Apontador para o Pulso RH?",
-      a: "O Pulso RH é a mesma base do Apontador, agora com folha do dia com justificativa a um clique, banco de horas, alertas de RH, jornada por vigência, painéis por setor e as áreas de cultura e compliance. O ponto de partida continua o mesmo: o arquivo que o relógio já gera.",
+      q: "Serve para fábrica com mais de uma unidade?",
+      a: "Serve. Cada unidade entra como empresa, os números aparecem separados e o painel compara as unidades quando faz sentido.",
     },
     {
       q: "Preciso trocar o relógio de ponto?",
-      a: "Não. O Pulso RH lê o arquivo que o relógio já gera, o AFD da Portaria 671, ou os relatórios que o sistema de ponto exporta em CSV, Excel, HTML ou PDF.",
+      a: "Não. O Pulso RH lê o AFD da Portaria 671 e os relatórios que o sistema de ponto exporta em CSV, Excel, HTML ou PDF, além da Relação de Empregados da folha em PDF.",
     },
     {
-      q: "O que é o AFD?",
-      a: "AFD é o Arquivo Fonte de Dados: o registro de todas as marcações do relógio de ponto, no formato definido pela Portaria MTP nº 671/2021. É o arquivo que a fiscalização do trabalho pode pedir.",
-    },
-    {
-      q: "Como funciona o diagnóstico grátis?",
-      a: "Você manda o AFD do último mês pelo WhatsApp e recebe um PDF com faltas, horas extras e pontos de atenção da CLT. No diagnóstico grátis, o arquivo serve só para isso e é apagado depois do envio do PDF.",
+      q: "O AFD serve para quê?",
+      a: "O AFD é o Arquivo Fonte de Dados: o registro de todas as marcações do relógio, no formato da Portaria MTP nº 671/2021. É o arquivo que a fiscalização pode pedir, e é dele que sai o painel.",
     },
     {
       q: "Onde ficam os dados dos funcionários e quem acessa?",
@@ -136,6 +131,10 @@ export const PULSO_RH = {
     {
       q: "Quanto custa?",
       a: "Depende do tamanho da equipe: há uma implantação única e uma mensalidade por faixa de funcionários. O Eduardo passa o valor exato depois de ver o seu caso.",
+    },
+    {
+      q: "Quanto tempo leva para começar a usar?",
+      a: "A primeira leitura sai no mesmo dia em que o arquivo chega. A implantação completa vai de uma a três semanas, conforme o número de unidades e de pessoas.",
     },
   ],
   closing: "Fale direto com quem faz o sistema.",
