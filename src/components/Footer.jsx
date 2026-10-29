@@ -64,8 +64,8 @@ export default function Footer() {
             </Link>
             {/* 15/10 (site-seo): produto do mercado de cada idioma. */}
             {lang === "pt" ? (
-              <Link to="/pt/apontador" data-cursor="link" className="mf-foot__link">
-                Apontador
+              <Link to="/pt/pulso-rh" data-cursor="link" className="mf-foot__link">
+                Pulso RH
               </Link>
             ) : (
               <Link to="/en/eightyfive" data-cursor="link" className="mf-foot__link">

@@ -13,7 +13,7 @@
  * resultados/2026-10-15-site-correcoes.md.
  */
 
-export const MONO_LANG_PAGES = { apontador: "pt", eightyfive: "en" };
+export const MONO_LANG_PAGES = { "pulso-rh": "pt", eightyfive: "en", apontador: "pt" };
 
 /* Produtos proprios nas listas de portfolio (Work, Home e menu — revisao
    Codex 21/10): UMA lista compartilhada por idioma, com lead fiel em cada
@@ -23,12 +23,12 @@ export const getPortfolioProducts = (lang) => {
   const pt = lang === "pt";
   return [
     {
-      slug: "apontador",
-      name: "Apontador",
-      to: "/pt/apontador",
+      slug: "pulso-rh",
+      name: "Pulso RH",
+      to: "/pt/pulso-rh",
       lead: pt
-        ? "Ponto, faltas e horas extras da fábrica, sem planilha."
-        : "Clock-ins, absences and factory overtime, no spreadsheets.",
+        ? "Ponto, jornada e indicadores de RH da fábrica, sem planilha."
+        : "Clock-ins, working hours and factory HR indicators, no spreadsheets.",
       tag: pt ? "Produto próprio · Miranda Faria" : "In-house product · Miranda Faria",
       media: { img: "/art/m-logo-320.webp" },
     },
@@ -47,25 +47,31 @@ export const getPortfolioProducts = (lang) => {
 
 const ORIGIN = "https://mirandafaria.com.br";
 
-export const APONTADOR = {
-  pageTitle: "Apontador: ponto e absenteísmo sem planilha",
-  label: "Apontador · para indústrias",
-  lead: "Ponto, faltas e horas extras da fábrica, sem planilha.",
+export const PULSO_RH = {
+  pageTitle: "Pulso RH: ponto, jornada e indicadores de RH da fábrica",
+  label: "Pulso RH · produto próprio para indústrias",
+  lead: "O ponto da fábrica vira indicador de RH no mesmo dia.",
   body:
-    "O Apontador lê o arquivo que o seu relógio de ponto já gera e mostra o absenteísmo por dia, setor e mês, as horas extras e quanto elas custam. Não precisa trocar o relógio nem instalar nada.",
-  primary: "Pedir o diagnóstico grátis do AFD",
+    "O Pulso RH lê o arquivo que o relógio de ponto já gera e a relação de empregados da folha. Em poucos minutos a folha do dia está montada, o absenteísmo aparece por setor e as horas extras ficam com o custo ao lado. Sem trocar relógio e sem digitar planilha.",
+  primary: "Pedir o diagnóstico grátis do ponto",
   secondary: "Ver a demonstração",
   whatsappNote: "WhatsApp",
   featuresTitle: "O que ele faz",
   features: [
-    "Lê o AFD da Portaria 671 (e o leiaute da antiga Portaria 1510) e os relatórios que o sistema de ponto exporta em CSV, Excel, HTML ou PDF.",
+    "Importa o AFD da Portaria 671 e os relatórios do relógio em CSV, Excel, HTML ou PDF, além da Relação de Empregados da folha em PDF.",
+    "Monta a folha do dia com presentes, atrasos, faltas, folgas e batidas a tratar, e deixa a justificativa a um clique.",
     "Mostra o absenteísmo por dia, setor e mês, separando atestado e abono de falta sem justificativa.",
-    "Calcula horas extras e faltantes por dia e por mês, o custo das extras pagas e o que vai para o banco de horas.",
-    "Deixa pronta a folha de ausentes do dia e o relatório do mês para o Excel.",
-    "Não conta férias e afastamentos como falta, e separa batida repetida ou ímpar para conferência.",
-    "Aponta pontos de atenção da CLT, como sete dias seguidos sem folga.",
+    "Soma as horas extras e as faltantes do mês, com o custo das extras ao lado do que vai para o banco de horas.",
+    "Abre alertas de RH: fim de experiência, férias vencendo, faltas seguidas e pontos de atenção da CLT.",
+    "Mantém o cadastro único, com jornada por vigência, revisão de cadastros repetidos e histórico de importações.",
+    "Leva os números para painéis por setor e por empresa, com evolução diária e os setores em atenção.",
+    "Guarda cultura e compliance no mesmo lugar: canal de manifestações, PDI e acesso por perfil de usuário.",
   ],
-  diagTitle: "Diagnóstico grátis do AFD",
+  screensTitle: "Telas do produto",
+  screensNote:
+    "Telas da versão em uso, com os nomes das pessoas preservados fora das imagens.",
+  screens: [],
+  diagTitle: "Diagnóstico grátis do ponto",
   diagLead: "Antes de falar de preço, veja o que o seu próprio ponto mostra.",
   diagSteps: [
     "Exporte o AFD do último mês no relógio ou no sistema de ponto.",
@@ -79,8 +85,12 @@ export const APONTADOR = {
   faqTitle: "Perguntas frequentes",
   faq: [
     {
+      q: "O que mudou do Apontador para o Pulso RH?",
+      a: "O Pulso RH é a mesma base do Apontador, agora com folha do dia com justificativa a um clique, banco de horas, alertas de RH, jornada por vigência, painéis por setor e as áreas de cultura e compliance. O ponto de partida continua o mesmo: o arquivo que o relógio já gera.",
+    },
+    {
       q: "Preciso trocar o relógio de ponto?",
-      a: "Não. O Apontador lê o arquivo que o relógio já gera, o AFD da Portaria 671, ou os relatórios que o sistema de ponto exporta em CSV, Excel, HTML ou PDF.",
+      a: "Não. O Pulso RH lê o arquivo que o relógio já gera, o AFD da Portaria 671, ou os relatórios que o sistema de ponto exporta em CSV, Excel, HTML ou PDF.",
     },
     {
       q: "O que é o AFD?",
@@ -91,8 +101,8 @@ export const APONTADOR = {
       a: "Você manda o AFD do último mês pelo WhatsApp e recebe um PDF com faltas, horas extras e pontos de atenção da CLT. No diagnóstico grátis, o arquivo serve só para isso e é apagado depois do envio do PDF.",
     },
     {
-      q: "Onde ficam os dados dos funcionários?",
-      a: "Na demonstração, os dados ficam no navegador do seu computador, e CPF, PIS e CTPS não são guardados. Na versão contratada, onde os dados ficam e quem acessa é explicado antes da implantação.",
+      q: "Onde ficam os dados dos funcionários e quem acessa?",
+      a: "Na demonstração, os dados ficam no navegador do seu computador, e CPF, PIS e CTPS não são guardados. Na versão contratada, o acesso é por perfil, com administração, RH e leitura definidos antes da implantação.",
     },
     {
       q: "Quanto custa?",
@@ -165,7 +175,7 @@ const faqLd = (faq, url, lang) => ({
   })),
 });
 
-export const APONTADOR_URL = `${ORIGIN}/pt/apontador`;
+export const PULSO_RH_URL = `${ORIGIN}/pt/pulso-rh`;
 export const EIGHTYFIVE_URL = `${ORIGIN}/en/eightyfive`;
-export const APONTADOR_FAQ_LD = faqLd(APONTADOR.faq, APONTADOR_URL, "pt-BR");
+export const PULSO_RH_FAQ_LD = faqLd(PULSO_RH.faq, PULSO_RH_URL, "pt-BR");
 export const EIGHTYFIVE_FAQ_LD = faqLd(EIGHTYFIVE.faq, EIGHTYFIVE_URL, "en");
